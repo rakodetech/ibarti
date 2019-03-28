@@ -1,0 +1,44 @@
+<!-- 
+	Pagina de ejemplo de utilizacion de calendarioJS
+	
+	Autor: Oscar Hernandez Caballero
+	Fecha: Febrero 2010
+	Descripcion: 
+		funciones javascript para mostrar una ventana de seleccion de fechas, o una ventana de calendario
+ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
+<HEAD>
+	<TITLE>Ejemplo de calendarioJS</TITLE>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<link rel="stylesheet" href="./css/calendario.css" type="text/css">
+	<script type="text/javascript" src="./js/calendario.js"></script>
+	<script type="text/javascript" src="./js/fechas.js"></script>
+
+</HEAD>
+
+
+<BODY leftmargin="0" rightmargin="0" topmargin="0" marginheight="0" marginwidth="0" scroll="yes">
+	<!--////CAPA DE VENTANA DE SELECCION DE FECHAS---> 
+	<div id="ventanaSeleccionFechas"></div>
+	<!--////CAPA DE CALENDARIO ---> 
+	<DIV id="ventanaCalendario"></DIV>
+
+	<h1>calendarioJS</h1>
+	<h3>Ejemplo de implementaci&oacute;n</h3>
+	
+	<form name="formEjemplo" id="formEjemplo">
+		Seleccione intervalo de fechas:&nbsp;<input type="text" id="intervalo_fechas_ejemplo" size="20" onclick="javascript:showVentanaSeleccionFechas('intervalo_fechas_ejemplo', 'Intervalo de fechas de ejemplo');">&nbsp;<img src="images/calendario.gif" onclick="javascript:showVentanaSeleccionFechas('intervalo_fechas_ejemplo', 'Intervalo de fechas de ejemplo');" border="0">
+		<br><br>
+		Seleccione una fecha:&nbsp;<input type="text" id="fecha_ejemplo" size="10" onclick="javascript:muestraCalendario('formEjemplo', 'fecha_ejemplo');">&nbsp;<img src="images/icono-calendario.gif" onclick="javascript:muestraCalendario('formEjemplo', 'fecha_ejemplo');" border="0" width="17px">
+	</form>
+ 
+ 	<br>
+ 	<br>
+ 	
+ 	<h3>Descarga el c&oacute;digo</h3>
+	<a href="http://www.parentesys.com/RESOURCES/calendarioJS.rar">calendarioJS.rar</a>
+ 	
+ 	
+</BODY>
+</HTML>

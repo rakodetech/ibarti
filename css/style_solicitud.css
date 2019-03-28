@@ -1,0 +1,74 @@
+.rep_tabla {
+	border:ridge #000066;
+	width:800px;	
+}
+.rep_title, 
+.rep_membreteTitle,
+.rep_membreteDesc,
+.rep_membreteCenter,
+.rep_tableTitle,
+.rep_tableTitle2,
+.rep_tablaDesc
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	line-height: normal;
+	text-decoration: none;
+	vertical-align: middle;
+}
+   
+   /*   TITLE*/
+.rep_Title,
+.rep_Sub_Title{
+	color: #003399;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	text-align:center
+}
+
+.rep_Title{
+	font-size: 16px;		
+}
+.rep_Sub_Title{
+	font-size: 14px;
+}	
+
+   /*   TABLE*/
+.rep_Table_Title,
+.rep_Table_Sub_Title,
+.rep_Tabla_Desc,
+.rep_Tabla_Monto,
+.rep_Tabla_DescL{
+	color: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	}
+	
+.rep_Table_Title{
+	font-size: 11px;
+	text-align:center;
+	font-weight: bolder;
+	background-color:#CCCCCC	
+	
+}
+.rep_Table_Sub_Title{
+	font-size: 10px;
+	color: #000000;
+	text-align:center;
+	font-weight: bolder;
+}
+
+.rep_Tabla_Desc{	
+	font-size: 9px;
+	text-align:center;
+}
+.rep_Tabla_DescL{	
+	font-size: 9px;
+	text-align:left
+}
+.rep_Tabla_Monto{	
+	font-size: 9px;
+	text-align:left
+	
+}

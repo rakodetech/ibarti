@@ -1,0 +1,91 @@
+[30-May-2011 07:37:31] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 07:37:34] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 07:37:36] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 07:38:26] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 07:39:33] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 07:49:26] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 08:25:29] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 08:35:05] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 09:23:32] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 09:29:28] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 09:30:32] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 09:31:28] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 09:34:00] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 09:46:46] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 09:52:16] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 09:55:35] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 10:52:30] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 10:59:25] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 11:04:26] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 11:06:40] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:10:02] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[30-May-2011 12:23:58] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:24:22] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:24:39] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:25:54] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:26:48] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:27:06] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:28:00] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:06:53] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'root'@'localhost' (using password: NO) in /home/oesvica/public_html/sistema_sistema/autentificacion/aut_config.inc.php on line 10
+[30-May-2011 12:45:33] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:47:38] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:47:59] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 12:51:24] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 13:27:26] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 13:31:18] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 14:00:17] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 14:01:44] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 14:22:25] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 14:23:51] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 14:43:49] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 15:07:37] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 15:40:31] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 15:59:41] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 16:00:53] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 16:03:00] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 16:06:28] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 16:17:03] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 16:20:58] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 17:32:47] PHP Warning:  mysql_fetch_array() expects parameter 1 to be resource, boolean given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[30-May-2011 22:17:36] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 08:04:39] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 08:12:17] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 08:42:43] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 08:43:29] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 08:43:49] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 08:49:17] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 08:54:48] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 08:55:02] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 09:13:12] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 09:31:48] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 11:04:12] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 11:18:18] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 11:22:49] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 11:35:58] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 11:50:02] PHP Warning:  mysql_fetch_array(): supplied argument is not a valid MySQL result resource in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 116
+[31-May-2011 13:51:36] PHP Warning:  Invalid argument supplied for foreach() in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia_Mod.php on line 27
+[31-May-2011 14:24:31] PHP Warning:  Invalid argument supplied for foreach() in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia_Mod.php on line 27
+[01-Jun-2011 10:59:18] PHP Warning:  mktime() expects parameter 4 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Cumplimiento_Servicio.php on line 35
+[01-Jun-2011 10:59:30] PHP Warning:  mktime() expects parameter 4 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Cumplimiento_Servicio.php on line 35
+[02-Jun-2011 09:57:49] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 09:58:35] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:00:02] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:06:21] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:09:03] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:10:29] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:12:29] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:28:16] PHP Warning:  Missing argument 2 for Errror_Ms(), called in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 256 and defined in /home/oesvica/public_html/sistema_sistema/funciones/mensaje_error.php on line 2
+[02-Jun-2011 10:31:45] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:31:45] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:36:38] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:38:00] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:41:15] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:45:32] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 10:45:32] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 14:13:05] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 14:25:24] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 14:25:56] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 14:27:25] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 14:42:19] PHP Warning:  Missing argument 2 for Errror_Ms(), called in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 256 and defined in /home/oesvica/public_html/sistema_sistema/funciones/mensaje_error.php on line 2
+[02-Jun-2011 14:54:25] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35
+[02-Jun-2011 14:54:37] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/oesvica/public_html/sistema_sistema/scripts/sc_Asistencia.php on line 35

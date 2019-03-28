@@ -1,0 +1,11 @@
+.loaderAjax{
+	display: none;
+}
+
+#contenedorImagen .fotografia{
+	margin: 20px auto;
+	border: 1px solid #ccc;
+	-moz-border-radius: 8px 8px 8px 8px;
+	-webkit-border-radius: 8px 8px 8px 8px;
+	border-radius: 8px 8px 8px 8px;
+}

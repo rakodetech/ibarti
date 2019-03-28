@@ -1,0 +1,106 @@
+<script language="javascript">
+  $("#add_ajuste_form").on('submit', function(evt){
+    evt.preventDefault();
+    save_ajuste();
+  });
+</script>
+
+<?php
+require "../modelo/ajuste_modelo.php";
+require "../../../../".Leng;
+$ajuste = new Ajuste;
+$metodo = $_POST['metodo'];
+
+if($metodo == 'modificar')
+{
+  $anulado   = $_POST['anulado'];
+	$codigo   = $_POST['codigo'];
+	$titulo   = "Modificar Ajuste";
+	$ped      =  $ajuste->editar("$codigo");
+}else{
+ $titulo    = "Agregar Ajuste";
+ $ped       = $ajuste->inicio();
+ $anulado   = "F";
+ $codigo    = 0;
+ $tipo       = $ajuste->get_tipo($ped["cod_tipo"]);
+}
+?>
+
+<div id="add_ajustes">
+  <span class="etiqueta_title"><?php echo $titulo;?></span>
+
+  <form name="add_ajuste" id="add_ajuste_form">
+
+    <div style="float: right;" align="center">
+      <img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" id="borrar_ajuste" onclick="Borrar_ajuste()" />
+      <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" id="agregar_ajuste" title="Agregar Registro" onclick="Agregarajuste()" />
+    </div>
+    <table width="95%" align="center">
+      <tr>
+        <td height="8" colspan="4" align="center"><hr></td>
+      </tr>
+      <tr>
+        <td width="15%" class="etiqueta">N. Ajuste:</td>
+        <td width="25%" class="etiqueta">Tipo de Ajuste:</td>
+        <td width="40%" class="etiqueta">Descripcion</td>
+        <td width="20%" class="etiqueta">Fecha</td>
+      </tr>
+      <tr>
+        <td> 
+          <input type="text" id="ped_codigo" placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
+        </td>
+        <td>          
+          <select id="ped_tipo" required  style="width:200px" onchange="Selec_tipo(this.value)">
+            <option value="<?php echo $ped['cod_tipo'];?>"><?php echo $ped['tipo'];?></option>
+            <?php
+            foreach ($tipo as  $datos) {
+              echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
+            }?>
+          </select>
+        </td>
+        <td>       
+          <textarea id="ped_descripcion"  cols="60" rows="2"><?php echo $ped['motivo'];?></textarea>
+        </td>
+        <td>   
+          <input type="date" id="ped_fecha" value="<?php echo $ped['fecha'];?>" placeholder="Fecha de Emisión"
+          required>
+        </td>
+      </tr>
+      <tr>
+        <td height="8" colspan="4" align="center"><hr></td>
+      </tr>
+    </table>
+    <div id="ajuste_det"></div>
+    <br>
+    <div align="center">
+      <?php if($metodo == "agregar"){
+       echo '<span class="art-button-wrapper">
+       <span class="art-button-l"> </span>
+       <span class="art-button-r"> </span>
+       <input  type="submit" title="Guardar Registro" class="readon art-button" value="Guardar" />
+       </span>
+
+       <span class="art-button-wrapper">
+       <span class="art-button-l"> </span>
+       <span class="art-button-r"> </span>
+       <input type="reset" title="Restaurar Valores" class="readon art-button"  value="Restaurar" />
+       </span>';
+     }else{
+      if($anulado == "F"){
+        echo '<span class="art-button-wrapper">
+        <span class="art-button-l"> </span>
+        <span class="art-button-r"> </span>
+        <input type="button" title="Anular Ajuste" class="readon art-button"  value="Anular" onclick="anular_ajuste()" />
+        </span>';
+      }
+    }?>
+    <span class="art-button-wrapper">
+      <span class="art-button-l"> </span>
+      <span class="art-button-r"> </span>
+      <input type="button"  title="Volver a la página anterior" onclick="Cons_ajuste()" class="readon art-button"  value="Volver" />
+      <input id="ped_metodo" type="text" value="<?php echo $metodo;?>" hidden>
+    </span>
+  </div>
+
+</form>
+</div>

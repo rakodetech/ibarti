@@ -1,0 +1,90 @@
+
+.tab {
+
+  margin: 0px;
+  padding: 0px;
+  float: left;
+  clear: none;
+  width: 100%;
+
+  /*
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    */
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  position: relative;
+	top: 1px;
+	float: left;
+	padding: 4px 10px;
+	margin: 0px 4px 0px 0px;
+	font: bold 0.7em sans-serif;
+	background-color: #F1F8F1;
+	list-style: none;
+	border-left: solid 1px #CCC;
+	border-bottom: solid 1px #999;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	cursor: pointer;
+  /*
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    transition: 0.3s;
+    font-size: 12px;
+    */
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #C7EBCA;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #99CB7A; /* #EEE    #C7EBCA; */
+	border-bottom: 1px solid #EEE;
+}
+
+/* Style the tab content */
+.tabcontent {
+  overflow::scroll;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  height:95%;
+/*  white-space: nowrap; */
+
+  clear: both;
+	border-left: solid 1px #CCC;
+	border-bottom: solid 1px #CCC;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	background-color:#F1F8F1;
+
+/*
+    display: none;
+    padding: 6px 12px;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+
+    */
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}

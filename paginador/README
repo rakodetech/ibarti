@@ -1,0 +1,32 @@
+
+================================================================
+                        PHPPaging README                        
+================================================================
+
+PHPPaging - Paginación de Resultados
+Versión 2.1
+Copyright (C) 2008 Marco A. Madueño Mejía (mmadueno@phperu.net)
+
+Licencia
+---------------------------------------------------------------- 
+Esta librería es liberada bajo una licencia GNU GPL. Ver el 
+archivo COPYING para mayor información
+
+Instalación
+----------------------------------------------------------------
+Requerimientos del sistema:
+ - Servidor web o una cuenta con un proveedor de hosting.
+ - PHP4.x, recomendado PHP5 o >
+ - MySQL (version minima necesaria indeterminada)
+ 
+Archivos
+ El único archivo necesario es PHPPaging.lib.php, que debe ser
+ subido al servidor, bien al directorio raiz, bien a una 
+ subcarpeta   
+
+Página web
+----------------------------------------------------------------
+ Para un completo tutorial acerca de su uso, personalización y 
+ ejemplos visite la página web http://phppaging.phperu.net/
+ 
+================================================================

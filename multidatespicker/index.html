@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="shortcut icon" href="favicon.ico">
+		<title>MultiDatesPicker for jQuery UI</title>
+		
+		
+		<!-- loads jquery and jquery ui -->
+		<!-- -->
+		<script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.11.1.js"></script>
+		<!-->
+		<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.11.1.js"></script>
+		<!-- -->
+		
+		<!-- loads mdp -->
+		<script type="text/javascript" src="jquery-ui.multidatespicker.js"></script>
+		
+		<!-- mdp demo code -->
+		<script type="text/javascript">
+			$(function() {
+				// Run Demos
+				$('.demo .code').each(function() {
+					eval($(this).attr('title','NEW: edit this code and test it!').text());
+					this.contentEditable = true;
+				}).focus(function() {
+					if(!$(this).next().hasClass('test'))
+						$(this)
+							.after('<button class="test">test</button>')
+							.next('.test').click(function() {
+								$(this).closest('.demo').find('.hasDatepicker').multiDatesPicker('destroy');
+								eval($(this).prev().text());
+								$(this).remove();
+							});
+				});
+			});
+		</script>
+		
+		<!-- loads some utilities (not needed for your developments) -->
+		<link rel="stylesheet" type="text/css" href="css/mdp.css">
+		<!--
+		<script type="text/javascript" src="js/lang-css.js"></script>
+        -->
+		
+	</head>
+	<body>
+<div id="demos">
+				<ul id="demos-list">
+				<li class="demo full-row">
+						<div id="full-year" class="box"></div>
+						<div class="code-box"></div>
+					</li>
+				</ul>
+				<div class="clear"></div>
+		</div>
+	</body>
+</html>
+
+<script language="javascript">
+var today = new Date();
+var y = today.getFullYear();
+$('#full-year').multiDatesPicker({
+
+	addDates: ['01/03/2015', "02/02/2015"],
+	numberOfMonths: [3,4],
+	defaultDate: '1/1/'+y
+});
+		
+/*
+dateFormat:"Y/m/d",
+var today = new Date();
+var y = today.getFullYear();
+//	addDates: ['10/14/'+y, '02/24/'+y, '02/19/'+y, '01/14/'+y, '11/16/'+y],
+$('#full-year').multiDatesPicker({
+	dateFormat: "Y/m/d",
+	addDates: [ '2015/01/15/',+'2015/02/16/' ],
+	numberOfMonths: [3,4],
+	defaultDate: '1/1/'+y
+});
+
+*/
+</script>

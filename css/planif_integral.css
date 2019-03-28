@@ -1,0 +1,450 @@
+#mydiv {
+    position: absolute;
+    z-index: 9;
+    background-color: #f1f1f1;
+    text-align: center;
+    border: 1px solid #d3d3d3;
+}
+
+#mydivheader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+}
+
+.circulo {
+    width: 35px;
+    height: 35px;
+	margin:10px;
+
+	float:left;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+/* FIN Caja de código */
+
+#listar2,  .listar2 {
+
+  overflow-x: scroll;
+  white-space: nowrap;
+  height:340px;
+
+  border-style: inset;
+  border-color:  #99CC99;
+  border-width: 5px;
+
+}
+
+#listar2:hover, .listar2:hover {
+ border-style: inset;
+ border-color:#009900;
+ border-width: 5px;
+	}
+
+
+  .rowBuscar {
+    display: flex;
+    justify-content: flex-start;
+
+  }
+
+  .rowBuscar > div {
+      margin: 0px;
+
+  }
+  .rowBuscar > div > input {
+      margin: 0px;
+
+  }
+  .rowBuscar > div > img {
+
+    margin: 0px;
+    cursor:pointer;
+
+  }
+
+
+
+
+
+  .tabla_planif table 		 {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background:white;
+    border-radius:6px;
+    overflow:hidden;
+    max-width:800px;
+    width:100%;
+    margin:0 auto;
+    position:relative;
+
+  }
+
+.tabla_planif .td_width,.tabla_planif th, .tabla_planif td {
+
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.05rem;
+  border: 0.12rem solid;
+  border-color: black;
+}
+
+
+.tabla_planif .t_titulo{
+  font-size: 12px;
+  font-style: normal;
+  font-weight: bold;
+}
+.tabla_planif .t_sub_titulo{
+  font-size: 9px;
+  font-style: normal;
+}
+.tabla_planif .t_contenido{
+  font-size: 11px;
+  font-style: normal;
+}
+
+
+/*  ALTURA Y ANCHURA   */
+.tabla_planif .td_width {
+  width: 6000px;
+}
+
+
+  .tabla_planif th, .tabla_planif td {
+    width: 100px; /*Aquí va el ancho de la Celda*/
+    height: 10px; /*Aquí el Alto*/
+
+  }
+
+/*  FONDOS  */
+.tabla_planif .f_titulo {
+
+  background-color:#CAFFCA;
+  color:  #030;
+}
+
+.tabla_planif .f_sub_titulo {
+
+  background-color:#CAFFCA;
+  color:  #030;
+}
+
+
+.tabla_planif .b_mas{
+
+    font-weight: bold;
+    -webkit-box-shadow: inset 0 0 0 0.19rem #FF2F2F;
+    -moz-box-shadow: inset 0 0 0 0.19rem #FF2F2F;
+    box-shadow: inset 0 0 0 0.19rem #FF2F2F;
+
+}
+.tabla_planif .b_menos{
+
+    font-weight: bold;
+    -webkit-box-shadow: inset 0 0 0 0.19rem #42FF42;
+    -moz-box-shadow: inset 0 0 0 0.19rem #42FF42;
+    box-shadow: inset 0 0 0 0.19rem #42FF42;
+}
+
+ .tabla_planif tr:hover {
+  background: yellow;
+}
+
+/*
+.tabla_planif tr[title]:hover:after {
+  content: attr(title);
+  padding: 4px 8px;
+  color: blue;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 20;
+  white-space: nowrap;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0px 0px 4px #222;
+  -webkit-box-shadow: 0px 0px 4px #222;
+  box-shadow: 0px 0px 4px #222;
+  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));
+  background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+  background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+}
+*/
+/*
+cebrado
+.tabla_planif tr:nth-child(even) {
+    background-color: blue;
+}
+
+.tabla_planif tr:nth-child(odd) {
+    background-color: red;
+}
+*/
+
+
+/*
+  .tabla_planif th, .tabla_planif td {
+    padding: 0.25rem;
+    border: 1px solid #ccc;
+  }
+
+*/
+/*
+  .tabla_planif tbody tr:nth-child(odd) {
+    background: #eee;
+  }
+*/
+
+  .rwd-table {
+    background: #34495E;
+    color: #fff;
+    border-radius: .4em;
+    overflow: hidden;
+
+    tr {
+      border-color: lighten(#34495E, 10%);
+    }
+    th, td {
+      margin: .5em 1em;
+      @media (min-width: $breakpoint-alpha) {
+        padding: 1em !important;
+      }
+    }
+    th, td:before {
+      color: #dd5;
+    }
+  }
+
+.rowPlanif {
+  display: flex;
+  justify-content: flex-start;
+  width: 4000px;
+}
+
+.rowPlanif:hover,
+.rowPlanif:focus {
+    background-color: yellow;
+    text-decoration: none;
+    cursor: pointer;
+}
+.row_title {
+
+ background-color:#CAFFCA;
+ border: solid 0.08em;
+
+ width: 120px;
+ border-color: black;
+ color:  #030;
+
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 12px;
+ font-style: normal;
+ font-weight: bold;
+
+}
+
+.row_sub_title {
+
+   border: solid 1px;
+   width: 120px;
+   border-color: black;
+   color:  #030;
+
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   font-style: normal;
+}
+
+.row_sub_title2 {
+
+  border:solid  1px;
+  width: 59px;
+
+  border-color: black;
+  color:#000000;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 8px;
+  font-style: normal;
+
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 150; /* Sit on top */
+    padding-top: 10px; /* Location of the box */
+    left: 0;
+    top: -50;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+.modal-header {
+
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: bold;
+  padding: 10px 16px;
+  background-color: #242f1c;
+  color: white;
+}
+
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+
+.tab {
+
+  margin: 0px;
+  padding: 0px;
+  float: left;
+  clear: none;
+  width: 100%;
+
+  /*
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+
+    */
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+
+  position: relative;
+	top: 1px;
+	float: left;
+	padding: 4px 10px;
+	margin: 0px 4px 0px 0px;
+	font: bold 0.7em sans-serif;
+	background-color: #F1F8F1;
+	list-style: none;
+	border-left: solid 1px #CCC;
+	border-bottom: solid 1px #999;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	cursor: pointer;
+  /*
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    transition: 0.3s;
+    font-size: 12px;
+
+    */
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #C7EBCA;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #99CB7A; /* #EEE    #C7EBCA; */
+	border-bottom: 1px solid #EEE;
+}
+
+/* Style the tab content */
+.tabcontent {
+
+  overflow::scroll;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  height:280px;
+/*  white-space: nowrap; */
+
+  clear: both;
+	border-left: solid 1px #CCC;
+	border-bottom: solid 1px #CCC;
+	border-top: solid 1px #999;
+	border-right: solid 1px #999;
+	background-color:#F1F8F1;
+
+/*
+    display: none;
+    padding: 6px 12px;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+
+    */
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}

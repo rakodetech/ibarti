@@ -1,0 +1,314 @@
+.fondo
+{
+    MARGIN: 0px;
+    SCROLLBAR-HIGHLIGHT-COLOR: #144a6e;
+    SCROLLBAR-SHADOW-COLOR: #144a6e;
+    SCROLLBAR-3DLIGHT-COLOR: #ffffff;
+    SCROLLBAR-ARROW-COLOR: #144a6e;
+    SCROLLBAR-TRACK-COLOR: #ffffff;
+    SCROLLBAR-DARKSHADOW-COLOR: #ffffff;
+    SCROLLBAR-BASE-COLOR: #ffffff;
+    BACKGROUND-COLOR: #ffffff
+}
+.scrollrosa
+{
+    SCROLLBAR-HIGHLIGHT-COLOR: #ffffff;
+    SCROLLBAR-SHADOW-COLOR: #c15475;
+    SCROLLBAR-3DLIGHT-COLOR: #c15475;
+    SCROLLBAR-ARROW-COLOR: #c15475;
+    SCROLLBAR-TRACK-COLOR: #ffffff;
+    SCROLLBAR-DARKSHADOW-COLOR: #ffffff;
+    SCROLLBAR-BASE-COLOR: #ffffff
+}
+.CrCerrado
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: #0000ff;
+    FONT-FAMILY: Arial, Helvetica, Verdana
+}
+.CrAbierto
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: #ff8080;
+    FONT-FAMILY: Arial, Helvetica, Verdana
+}
+.ntitulos
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: #871e3c;
+    FONT-FAMILY: Arial, Helvetica, Verdana
+}
+.titulos
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 10px;
+    COLOR: #084162;
+    FONT-FAMILY: Verdana, Arial, Helvetica;
+    LETTER-SPACING: -1px
+}
+.txtnegro
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: #000000;
+    FONT-FAMILY: Arial, helvetica, Verdana;
+    TEXT-DECORATION: none
+}
+#neg
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    COLOR: #000000;
+    FONT-FAMILY: Arial, helvetica, Verdana
+}
+#blanco
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: #ffffff;
+    FONT-FAMILY: Arial, helvetica, Verdana
+}
+#azul
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 10px;
+    COLOR: #165a7c;
+    FONT-FAMILY: Verdana, Arial, Helvetica
+}
+#fecha
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    COLOR: #c15475;
+    FONT-FAMILY: Arial, helvetica, Verdana
+}
+.txtbuscador
+{
+    BORDER-RIGHT: #144a6e 1px solid;
+    BORDER-TOP: #144a6e 1px solid;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    BORDER-LEFT: #144a6e 1px solid;
+    COLOR: #000000;
+    BORDER-BOTTOM: #144a6e 1px solid;
+    FONT-FAMILY: Arial, helvetica, Verdana
+}
+.numeros
+{
+    FONT-SIZE: 11px;
+    COLOR: #000000;
+    FONT-FAMILY: georgia, tahoma, verdana
+}
+SELECT
+{
+    BORDER-RIGHT: #cbcaca 1px solid;
+    BORDER-TOP: #cbcaca 1px solid;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    BORDER-LEFT: #cbcaca 1px solid;
+    COLOR: #000000;
+    BORDER-BOTTOM: #cbcaca 1px solid;
+    FONT-FAMILY: Arial, Helvetica, Verdana
+}
+TEXTAREA
+{
+    BORDER-RIGHT: #c15475 1px solid;
+    BORDER-TOP: #c15475 1px solid;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    SCROLLBAR-HIGHLIGHT-COLOR: #c15475;
+    BORDER-LEFT: #c15475 1px solid;
+    SCROLLBAR-SHADOW-COLOR: #c15475;
+    COLOR: #000000;
+    SCROLLBAR-3DLIGHT-COLOR: #ffffff;
+    SCROLLBAR-ARROW-COLOR: #c15475;
+    SCROLLBAR-TRACK-COLOR: #ffffff;
+    BORDER-BOTTOM: #c15475 1px solid;
+    FONT-FAMILY: Arial,Helvetica,Verdana;
+    SCROLLBAR-DARKSHADOW-COLOR: #ffffff;
+    SCROLLBAR-BASE-COLOR: #ffffff;
+    BACKGROUND-COLOR: #ffffff
+}
+#areazul
+{
+    BORDER-RIGHT: #144a6e 1px solid;
+    BORDER-TOP: #144a6e 1px solid;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 11px;
+    SCROLLBAR-HIGHLIGHT-COLOR: #144a6e;
+    BORDER-LEFT: #144a6e 1px solid;
+    SCROLLBAR-SHADOW-COLOR: #144a6e;
+    COLOR: #000000;
+    SCROLLBAR-3DLIGHT-COLOR: #ffffff;
+    SCROLLBAR-ARROW-COLOR: #144a6e;
+    SCROLLBAR-TRACK-COLOR: #ffffff;
+    BORDER-BOTTOM: #144a6e 1px solid;
+    FONT-FAMILY: Arial,Helvetica,Verdana;
+    SCROLLBAR-DARKSHADOW-COLOR: #ffffff;
+    SCROLLBAR-BASE-COLOR: #ffffff
+}
+#areabuscador
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 11px;
+    SCROLLBAR-HIGHLIGHT-COLOR: #ffffff;
+    SCROLLBAR-SHADOW-COLOR: #144a6e;
+    COLOR: #235b81;
+    SCROLLBAR-3DLIGHT-COLOR: #144a6e;
+    BORDER-TOP-STYLE: none;
+    SCROLLBAR-ARROW-COLOR: #144a6e;
+    SCROLLBAR-TRACK-COLOR: #ffffff;
+    FONT-FAMILY: Verdana, Arial, Helvetica;
+    BORDER-RIGHT-STYLE: none;
+    SCROLLBAR-DARKSHADOW-COLOR: #ffffff;
+    SCROLLBAR-BASE-COLOR: #ffffff;
+    BORDER-LEFT-STYLE: none;
+    BACKGROUND-COLOR: #ffffff;
+    BORDER-BOTTOM-STYLE: none
+}
+.blanco
+{
+    BACKGROUND-COLOR: #ffffff;
+    layer-background-color: #ffffff
+}
+.black
+{
+    BACKGROUND-COLOR: #000000;
+    layer-background-color: #000000
+}
+.rosa
+{
+    BACKGROUND-COLOR: #c15475;
+    layer-background-color: #C15475
+}
+.rosaosc
+{
+    BACKGROUND-COLOR: #871e3c;
+    layer-background-color: #871E3C
+}
+.azul
+{
+    BACKGROUND-COLOR: #235b81;
+    layer-background-color: #235B81
+}
+.azulosc
+{
+    BACKGROUND-COLOR: #235b81;
+    layer-background-color: #235B81
+}
+.azulclaro
+{
+    BACKGROUND-COLOR: #708ca4;
+    layer-background-color: #708CA4
+}
+.azulclaro2
+{
+    BACKGROUND-COLOR: #9bb2c2;
+    layer-background-color: #9BB2C2
+}
+.marron
+{
+    BACKGROUND-COLOR: #708ca4;
+    layer-background-color: #708CA4
+}
+#ventanaMotivoAdmision
+{
+    Z-INDEX: 1;
+    LEFT: 300px;
+    VISIBILITY: hidden;
+    WIDTH: 230px;
+    POSITION: absolute;
+    TOP: 150px;
+    HEIGHT: 230px
+}
+#ventanaValores
+{
+    Z-INDEX: 1;
+    LEFT: 90px;
+    VISIBILITY: hidden;
+    WIDTH: 100px;
+    POSITION: absolute;
+    TOP: 82px;
+    HEIGHT: 100px
+}
+#ventanaValores2
+{
+    Z-INDEX: 1;
+    LEFT: 10px;
+    VISIBILITY: hidden;
+    WIDTH: 100px;
+    POSITION: absolute;
+    TOP: 82px;
+    HEIGHT: 100px
+}
+#ventanaCalendario
+{
+    Z-INDEX: 1;
+    LEFT: 285px;
+    VISIBILITY: hidden;
+    WIDTH: 200px;
+    POSITION: absolute;
+    TOP: 285px
+}
+#ventanaBuscador
+{
+    Z-INDEX: 1;
+    LEFT: 0px;
+    VISIBILITY: visible;
+    WIDTH: 40px;
+    POSITION: absolute;
+    TOP: 0px
+}
+#ventanaDiagnostico
+{
+    Z-INDEX: 1;
+    LEFT: 300px;
+    VISIBILITY: hidden;
+    WIDTH: 230px;
+    POSITION: absolute;
+    TOP: 170px;
+    HEIGHT: 230px
+}
+#ventanaProcedimiento
+{
+    Z-INDEX: 1;
+    LEFT: 300px;
+    VISIBILITY: hidden;
+    WIDTH: 100px;
+    POSITION: absolute;
+    TOP: 170px;
+    HEIGHT: 100px
+}
+#ventanaInfeccion
+{
+    Z-INDEX: 1;
+    LEFT: 285px;
+    VISIBILITY: hidden;
+    WIDTH: 100px;
+    POSITION: absolute;
+    TOP: 158px;
+    HEIGHT: 100px
+}
+#fecha
+{
+    Z-INDEX: 1;
+    LEFT: 590px;
+    VISIBILITY: visible;
+    WIDTH: 200px;
+    POSITION: absolute;
+    TOP: 14px;
+    HEIGHT: 15px
+}
+#ventanaSeleccionFechas {
+		position:absolute;
+		display:none;
+		z-index:100;
+}
+#ventanaCalendario {
+		position:absolute;
+		display:none;
+		z-index:110;
+}
