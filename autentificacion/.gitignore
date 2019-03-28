@@ -1,0 +1,12 @@
+# excluye todos los jpg
+*.jpg
+
+#excluye archivos de configuracion a la bd aut_config_inc
+/autentificacion/aut.config.inc.php
+/bd/class_mysql.php
+
+#excluye carpeta documentos,fotos,temp y cedulas
+/imagenes/fotos/*
+/imagenes/cedula/*
+/imagenes/documentos/*
+/imagenes/temp/*

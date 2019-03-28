@@ -1,0 +1,207 @@
+.calendario {
+    background: #e0e0e0;
+    width:600px;
+    height: auto;
+}
+
+.calendar {
+    margin:50px auto;
+    font: 16px/1.5 "Helvetica Neue", Helvatica, Arial, san-serif;
+    display:table;
+    width: 100%;
+}
+
+.cal_title {
+    background: #005005;
+    background: -moz-linear-gradient(top, #005005, #2e7d32);
+    background: -webkit-gradient(linear, left top, left bottom, from(#005005), to(#2e7d32));
+    height: 30px;
+    position: relative;
+    color:#fff;
+    -webkit-border-top-left-radius: 7px;
+    -webkit-border-top-right-radius: 7px;
+    -moz-border-radius-topleft: 7px;
+    -moz-border-radius-topright: 7px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    font-weight:bold;
+    text-shadow:0px -1px 0 #87260C;
+    text-transform: uppercase;
+    width: 100%;
+    border: solid 0.08em;
+    font-style: normal;
+    text-align: center;
+}
+
+.cal_title span {
+    display:inline-block;
+    line-height:34px;
+}
+
+.cal_title .fecha {
+    width: 100%;
+    font-size: 120%;
+}
+
+.calendar table {
+    background:#fff;
+    border-collapse:collapse;
+}
+
+.calendar td {
+    color:#2b2b2b;
+    line-height:30px;
+    text-align:center;
+    vertical-align: middle;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.cal_semana {
+    width: 100%;
+}
+
+.cal_semana td {
+    line-height: 26px;
+    text-transform:uppercase;
+    font-size:90%;
+    width: 14.15%;
+    color:  #030;
+    font-style: normal;
+    font-weight: bold;
+    height: auto;
+    justify-content:flex-start;
+    line-height:30px;
+}
+
+.cal_semana td:not(:last-child) {
+    border-right:1px solid rgba(255, 255, 255, 0.027);
+}
+
+.cal_dia .dias{
+    width: 100%;
+}
+
+.cal_dia td:not(.nulo):hover {
+    color:#fff;
+    /*text-shadow: rgb(83, 21, 7) 0px -1px; */
+    background:#0378e5be;
+    background: -moz-linear-gradient(top, #0378e5be, #51794b7c);
+    background: -webkit-gradient(linear, left top, left bottom, from(#0378e5be), to(#51794b7c));
+    -moz-box-shadow:0px 0px 0px;
+    -webkit-box-shadow:0px 0px 0px;
+}
+
+.cal_dia td:not(.nulo):hover .cal_dia_text {
+    color:#fff;
+    font-size:85%;
+    opacity: 1;
+}
+
+.cal_dia td:not(.nulo):hover{
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+}
+
+.cal_dia td:not(.nulo):hover .cal_dia_valor{
+    background-color: transparent;
+    text-shadow:3px 2px 4px rgb(59, 20, 9);
+    color:#fff;
+}
+
+.cal_dia td:not(.nulo):hover .cal_dia_valor_nulo{
+    font-size: 170%;
+    background-color: transparent;
+    text-shadow:3px 2px 4px rgb(59, 20, 9);
+    color:#fff;
+}
+
+.cal_dia td:not(.nulo):hover .cal_dia_valor .corto {
+    font-size: 240%;
+    top: 10px;
+}
+
+.cal_dia td:not(.nulo):hover .cal_dia_valor .mediano {
+    font-size: 170%;
+    top: 10px;
+}
+
+
+.cal_dia td:not(.nulo):hover .cal_dia_valor .largo {
+    font-size: 100%;
+}
+
+
+.cal_dia td span {
+    font-size:80%;
+    position:relative;
+}
+
+.cal_dia td{
+    width: 14.15%;
+    height: 16.6%;
+    background-color:#CAFFCA;
+    border: solid 0.08em;
+    justify-content:flex-start;
+    color:#2b2b2b;
+    line-height:30px;
+    text-align:center;
+    vertical-align: top;
+    border:1px solid #e6e6e6;
+}
+
+.cal_dia td .cal_dia_text{
+    opacity: 0.4;
+    color:  #030;
+    font-size: 350%;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.cal_dia td .cal_dia_text_nulo{
+    opacity: 0.4;
+    color:  #030;
+    font-size: 180%;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.cal_dia td .cal_dia_valor {
+    background-color:#498b476b;
+    width: 100%;
+    height: 100%;
+    color:  rgb(0, 0, 0);
+    font-size: 115%;
+    font-style: normal;
+    font-weight: bold;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    position: absolute;
+    top: 0px;
+  }
+
+  .cal_dia td .cal_dia_valor_nulo {
+    background-color: #d42d2d8c;
+    width: 100%;
+    height: 100%;
+    color:  rgb(1, 27, 1);
+    font-size: 170%;
+    font-style: normal;
+    font-weight: bold;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    position: absolute;
+    top: 0px;
+  }
+
+.cal_dia td{
+    vertical-align: middle;
+    position: relative;
+    height: 60px;
+}
+
+.cal_dia td.nulo .cal_dia_text{
+    opacity: 0.4;
+}

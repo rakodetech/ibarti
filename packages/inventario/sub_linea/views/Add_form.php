@@ -1,0 +1,95 @@
+<script language="javascript">
+  $("#add").on('submit', function(evt){
+    evt.preventDefault();
+    save();
+  });
+</script>
+<?php
+require "../modelo/sub_linea_modelo.php";
+require "../../../../".Leng;
+$codigo   = $_POST['codigo'];
+$metodo   = $_POST['metodo'];
+$modelo = new ProductoSubLinea;
+
+if($metodo == 'modificar'){
+  $titulo    = " MODIFICAR SUB LINEA (".$codigo.")";
+  $prod        = $modelo->editar($codigo);
+  $lineas   = $modelo->get_lineas();
+}else{
+  $prod   = $modelo->inicio();
+  $lineas   = $modelo->get_lineas();
+  $titulo    = "AGREGAR SUB LINEA";
+}
+$prop   = $modelo->get_propiedades(null);
+$activo = $prod['status'];
+?>
+
+<form name="add" id="add"> 
+
+  <fieldset class="fieldset">
+   <span style="float: right;" align="center" >
+    <img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" onclick="borrarModelo()" id="borrar_modelo" />
+    <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" alt="Agregar" onclick="irAAgregarModelo()" title="Agregar Registro" id="agregar_modelo" />
+    <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="B_modelos()" />
+  </span>
+  <legend> <?php echo $titulo;?> </legend>
+  <table width="80%" align="center">
+    <tr>
+      <td class="etiqueta">C&oacute;digo:</td>
+      <td><input type="text" name="codigo" id="codigo" maxlength="11" style="width:120px" value="<?php echo $codigo;?>" required/>
+        Activo: <input name="activo" id="activo" type="checkbox"  <?php echo statusCheck("$activo"); ?> value="T" /><br />
+      </td>
+    </tr>
+    <tr>
+      <td class="etiqueta">Linea:</td>
+      <td>
+        <select name="linea" id="linea" style="width:250px" required>
+          <?php
+          if($metodo == "agregar"){
+            echo '<option value="">Seleccione...</option>';
+          }
+          foreach ($lineas as  $datos) {
+            echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
+          }
+          ?>
+        </select></td>
+      </tr>
+      <tr>
+        <td class="etiqueta">Descripcion: </td>
+        <td><input type="text" name="descripcion" id="descripcion" maxlength="60" style="width:350px" value="<?php echo $prod['descripcion'];?>" required/>
+        </td>
+      </tr>   
+      <tr>
+        <td class="etiqueta">Propiedades: </td>
+        <td id="prop">
+          <?php
+           foreach ($prop as  $datos) {
+            echo $datos[1].'<input name="propiedades[]" id="prop'.$datos[0].'" type="checkbox" '.statusCheck($datos[0]). ' value="'.$datos[0].'" />    ';
+          }
+          ?>
+        </td>
+      </tr>   
+      <tr>
+        <tr> 
+         <td height="8" colspan="2" align="center"><hr></td>
+       </tr>	
+       <tr> 
+         <td colspan="2" >
+          <input type="hidden" name="metodo" id="metodo" value="<?php echo $metodo;?>">
+        </td>
+      </tr>
+    </table>      
+  </fieldset>
+  <div align="center">
+   <span class="art-button-wrapper">
+    <span class="art-button-l"> </span>
+    <span class="art-button-r"> </span>
+    <input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />  
+  </span>&nbsp;
+  <span class="art-button-wrapper">
+    <span class="art-button-l"> </span>
+    <span class="art-button-r"> </span>
+    <input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />  
+  </span>
+</div>
+</form>

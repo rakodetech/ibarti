@@ -1,0 +1,754 @@
+<?xml version = "1.0" encoding="Windows-1252" standalone="yes"?>
+<VFPData>
+	<xsd:schema id="VFPData" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="VFPData" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="ccargo" minOccurs="0" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="co_cargo">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="8"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="des_cargo" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="60"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="campo1" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="30"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="campo2" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="30"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="campo3" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="30"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="campo4" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="30"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="co_us_in" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="4"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="fe_us_in" type="xsd:dateTime"/>
+								<xsd:element name="co_us_mo" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="4"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="fe_us_mo" type="xsd:dateTime"/>
+								<xsd:element name="co_us_el" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="4"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="fe_us_el" type="xsd:dateTime"/>
+								<xsd:element name="trasnfe" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="1"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="revisado" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="1"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+				<xsd:anyAttribute namespace="http://www.w3.org/XML/1998/namespace" processContents="lax"/>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<ccargo>
+		<co_cargo>001</co_cargo>
+		<des_cargo>Oficial de Seguridad</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:14</fe_us_in>
+		<co_us_mo>002</co_us_mo>
+		<fe_us_mo>2011-03-15T16:36:47</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:14</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>002</co_cargo>
+		<des_cargo>COORDINADOR REGIONAL</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:16</fe_us_in>
+		<co_us_mo>OC</co_us_mo>
+		<fe_us_mo>2008-08-12T11:41:12</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:16</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>003</co_cargo>
+		<des_cargo>GERENTE GENERAL</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:18</fe_us_in>
+		<co_us_mo>OC</co_us_mo>
+		<fe_us_mo>2008-08-12T11:41:34</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:18</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>004</co_cargo>
+		<des_cargo>GERENTE NACIONAL DE OPERACIONES</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:20</fe_us_in>
+		<co_us_mo>OC</co_us_mo>
+		<fe_us_mo>2008-08-12T11:42:02</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:20</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>005</co_cargo>
+		<des_cargo>Supervisor</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:22</fe_us_in>
+		<co_us_mo>OC</co_us_mo>
+		<fe_us_mo>2008-05-06T16:29:54</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:22</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>006</co_cargo>
+		<des_cargo>ASISTENTE ADMINISTRATIVO DE OPERACIONES</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:24</fe_us_in>
+		<co_us_mo>OC</co_us_mo>
+		<fe_us_mo>2008-08-12T11:42:55</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:24</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>007</co_cargo>
+		<des_cargo>ANALISTA  DE NOMINA</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:27</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2009-12-10T13:34:05</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:27</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>008</co_cargo>
+		<des_cargo>ASITENTE ADMINISTRATIVO</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:29</fe_us_in>
+		<co_us_mo>OC</co_us_mo>
+		<fe_us_mo>2008-08-12T11:43:15</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:29</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>009</co_cargo>
+		<des_cargo>PRESIDENTE</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:31</fe_us_in>
+		<co_us_mo>007</co_us_mo>
+		<fe_us_mo>2010-07-29T12:46:05</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:31</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>010</co_cargo>
+		<des_cargo>Administrador</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:34</fe_us_in>
+		<co_us_mo>001</co_us_mo>
+		<fe_us_mo>2008-03-10T16:19:10</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:34</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>011</co_cargo>
+		<des_cargo>GERENTE DE ASUNTOS LEGALES</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:40</fe_us_in>
+		<co_us_mo>OC</co_us_mo>
+		<fe_us_mo>2008-08-12T11:46:47</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:40</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>012</co_cargo>
+		<des_cargo>JEFE DE GRUPO</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:43</fe_us_in>
+		<co_us_mo>OC</co_us_mo>
+		<fe_us_mo>2008-08-12T11:51:08</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:43</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>013</co_cargo>
+		<des_cargo>CORDINADOR DE LOGISTICA</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:44</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2010-01-13T15:27:09</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:44</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>014</co_cargo>
+		<des_cargo>CENTRALISTA NOCTURNO</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:46</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2008-10-28T16:18:22</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:46</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>015</co_cargo>
+		<des_cargo>GERENTE DE RECURSOS HUMANOS</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:49</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2009-03-04T16:05:07</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:49</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>016</co_cargo>
+		<des_cargo>SECRETARIA</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:51</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2009-04-13T09:39:22</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:51</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>017</co_cargo>
+		<des_cargo>ASISTENTE DEL COORDINADOR</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:53</fe_us_in>
+		<co_us_mo>002</co_us_mo>
+		<fe_us_mo>2010-11-30T11:59:55</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:53</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>018</co_cargo>
+		<des_cargo>CONTADOR</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:56</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2009-05-15T09:16:54</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:56</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>019</co_cargo>
+		<des_cargo>INSPECTORES DE SEGURIDAD</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:14:59</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2009-05-15T09:17:12</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:14:59</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>020</co_cargo>
+		<des_cargo>BICENTENARIO BANCO CENTRAL UNIVERSAL</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2008-03-10T16:15:02</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2010-01-14T13:52:21</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2008-03-10T16:15:02</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>021</co_cargo>
+		<des_cargo>CUENTAS POR PAGAR</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>CV</co_us_in>
+		<fe_us_in>2009-09-28T15:43:47</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2009-09-28T15:43:47</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2009-09-28T15:43:47</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>022</co_cargo>
+		<des_cargo>MANTENIMIENTO</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>CV</co_us_in>
+		<fe_us_in>2009-09-28T16:03:42</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2009-10-07T08:11:42</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2009-09-28T16:03:42</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>023</co_cargo>
+		<des_cargo>ABOGADO</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>CV</co_us_in>
+		<fe_us_in>2009-09-28T16:13:01</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2009-09-28T16:13:01</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2009-09-28T16:13:01</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>024</co_cargo>
+		<des_cargo>SEGURIDAD  INTERNA MAKRO TACHIRA</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>CV</co_us_in>
+		<fe_us_in>2009-12-10T13:35:38</fe_us_in>
+		<co_us_mo>CV</co_us_mo>
+		<fe_us_mo>2009-12-10T13:36:33</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2009-12-10T13:35:38</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>025</co_cargo>
+		<des_cargo>SEGURIDAD INTERNA MAKRO CARABOBO</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>CV</co_us_in>
+		<fe_us_in>2009-12-10T13:36:15</fe_us_in>
+		<co_us_mo>002</co_us_mo>
+		<fe_us_mo>2011-01-04T10:43:49</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2009-12-10T13:36:15</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>026</co_cargo>
+		<des_cargo>OFICIAL DE SEGURIDAD DE CORPOELEC</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2010-07-28T15:28:36</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2010-07-28T15:28:36</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2010-07-28T15:28:36</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>027</co_cargo>
+		<des_cargo>RECEPCIONISTA</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2010-11-13T01:25:54</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2010-11-13T01:25:54</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2010-11-13T01:25:54</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>028</co_cargo>
+		<des_cargo>EMPLEADO DE OPERACIONES</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2010-11-30T11:43:02</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2010-11-30T11:43:02</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2010-11-30T11:43:02</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>029</co_cargo>
+		<des_cargo>ASISTENTE DE RRHH</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2010-11-30T12:09:06</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2010-11-30T12:09:06</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2010-11-30T12:09:06</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>030</co_cargo>
+		<des_cargo>ASISTENTE DE OPERACIONES</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2010-11-30T12:13:10</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2010-11-30T12:13:10</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2010-11-30T12:13:10</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>031</co_cargo>
+		<des_cargo>Técnico Electrónico</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2010-12-06T15:48:38</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2010-12-06T15:48:38</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2010-12-06T15:48:38</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>032</co_cargo>
+		<des_cargo>MERCADEO Y VENTAS</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2011-01-20T15:40:04</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-01-20T15:40:04</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-01-20T15:40:04</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>033</co_cargo>
+		<des_cargo>Gte Nac. de Operaciones</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2011-03-15T16:37:12</fe_us_in>
+		<co_us_mo>002</co_us_mo>
+		<fe_us_mo>2011-03-15T16:40:34</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-03-15T16:37:12</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>0034</co_cargo>
+		<des_cargo>Oficial de Seguridad  DEFORSA</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>002</co_us_in>
+		<fe_us_in>2011-04-12T09:15:28</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-04-12T09:15:28</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-04-12T09:15:28</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>034</co_cargo>
+		<des_cargo>COORDINADOR DE SISTEMA</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>003</co_us_in>
+		<fe_us_in>2011-05-24T14:56:49</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-05-24T14:56:49</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-05-24T14:56:49</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>035</co_cargo>
+		<des_cargo>Gerente de Administracion</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>007</co_us_in>
+		<fe_us_in>2011-05-30T17:43:32</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-05-30T17:43:32</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-05-30T17:43:32</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>036</co_cargo>
+		<des_cargo>Monitorista</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>003</co_us_in>
+		<fe_us_in>2011-08-05T09:51:48</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-08-05T09:51:48</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-08-05T09:51:48</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>037</co_cargo>
+		<des_cargo>Servicio Tecnico</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>001</co_us_in>
+		<fe_us_in>2011-12-01T14:30:51</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-12-01T14:30:51</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-12-01T14:30:51</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>038</co_cargo>
+		<des_cargo>DISEÑADOR  GRAFICO</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>003</co_us_in>
+		<fe_us_in>2011-12-01T15:08:51</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-12-01T15:08:51</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-12-01T15:08:51</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>039</co_cargo>
+		<des_cargo>COORDINADOR DE MERCADEO Y VENTAS</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>003</co_us_in>
+		<fe_us_in>2011-12-14T14:46:23</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-12-14T14:46:23</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-12-14T14:46:23</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+	<ccargo>
+		<co_cargo>040</co_cargo>
+		<des_cargo>ASESOR DE MERCADEO</des_cargo>
+		<campo1/>
+		<campo2/>
+		<campo3/>
+		<campo4/>
+		<co_us_in>003</co_us_in>
+		<fe_us_in>2011-12-14T14:46:38</fe_us_in>
+		<co_us_mo/>
+		<fe_us_mo>2011-12-14T14:46:38</fe_us_mo>
+		<co_us_el/>
+		<fe_us_el>2011-12-14T14:46:38</fe_us_el>
+		<trasnfe/>
+		<revisado/>
+	</ccargo>
+</VFPData>
