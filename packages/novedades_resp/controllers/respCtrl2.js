@@ -2,12 +2,34 @@ var grafica_1;
 var datos_grafica1 = [];
 var datos_grafica2 = [];
 var datos;
+var inicial = false;
+$(function () {
+    
+    var fecha = new Date()
+    var mes_actual = fecha.getMonth() + 1;
+    var año_actual = fecha.getFullYear();
+    var meses  = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']
+    for (i = (Math.round(año_actual / 2)); i < año_actual; i++) {
+        
+        $('#a_d').append(`<option value="${i + 1}" ${(i + 1) == (año_actual) ? 'selected="selected"' : ''}>${i + 1}</option>`);
+        $('#a_h').append(`<option value="${i + 1}" ${(i + 1) == (año_actual) ? 'selected="selected"' : ''}>${i + 1}</option>`);
+    }
+    for (i = 0; i < 12; i++) {
+
+        $('#m_d').append(`<option value="${i + 1}" ${(i + 1) == (mes_actual) ? 'selected="selected"' : ''} >${meses[i]}</option>`);
+        $('#m_h').append(`<option value="${i + 1}" ${(i + 1) == (mes_actual) ? 'selected="selected"' : ''}>${meses[i]}</option>`);
+
+    }
+
+
+});
+
 
 //#region funciones adicionales
 
-function desplazar(id){
+function desplazar(id) {
     $('html,body').animate({
-        scrollTop: $("#"+id).offset().top
+        scrollTop: $("#" + id).offset().top
     }, 1000);
 }
 
@@ -24,8 +46,15 @@ function obtener_data() {
 
     $('#contenedor2').hide();
     $('#detalles').hide();
-    var fecha_desde = $('#f_d').val();
-    var fecha_hasta = $('#f_h').val();
+    if(inicial){
+        var fecha_desde = `${$('#a_d').val()}-${$('#m_d').val()}-01`;
+        var fecha_hasta = `${$('#a_h').val()}-${$('#m_h').val()}-31`;
+    }else{
+        var fecha_desde = "";
+        var fecha_hasta = "";
+        
+    }
+    inicial =true;
     var parametros = { "f_d": fecha_desde, "f_h": fecha_hasta };
 
     $.ajax({
@@ -39,9 +68,14 @@ function obtener_data() {
                 $('#inicial').show();
                 $('#con_data').show();
                 $('#cargando').hide();
-                $('#f_d').val(datos[0].desde);
-                $('#f_h').val(datos[0].hasta);
-                
+
+                var fecha_d = datos[0].desde.split('-')
+                $('#a_d').val(Number(fecha_d[0]))
+                $('#m_d').val(Number(fecha_d[1]))
+                var fecha_h = datos[0].hasta.split("-")
+                $('#a_h').val(Number(fecha_h[0]))
+                $('#m_h').val(Number(fecha_h[1]))
+
                 formatear_data(datos);
 
 
@@ -82,7 +116,7 @@ function formatear_data(info) {
 
     var num_novedades = d3.nest().key((d) => d.codigo_perfil).sortKeys(d3.ascending).key((d) => d.cod_nov).sortKeys(d3.ascending).entries(datos);
 
-//obtencion de arreglo de dias ideales por perfil
+    //obtencion de arreglo de dias ideales por perfil
     num_novedades.forEach((res, i) => {
         var suma = 0;
         res.values.forEach((novedad) => {
@@ -93,9 +127,9 @@ function formatear_data(info) {
         dias_pro.push(Math.round(suma / res.values.length));
 
     });
-// obtener nombres de los codigos por perfil
-// llenar grupos entre dias promedio y exceso por perfil
-// llenar data de dias promedio(sin exceso)
+    // obtener nombres de los codigos por perfil
+    // llenar grupos entre dias promedio y exceso por perfil
+    // llenar data de dias promedio(sin exceso)
     nueva.forEach((res, j) => {
         json_name.push(res.values[0].values[0].perfil.trim());
         res.values.forEach((ras, i) => {
@@ -125,7 +159,7 @@ function formatear_data(info) {
         suma_clasif = 0;
 
     });
-// llenar json de nombres para cada codigo de perfil
+    // llenar json de nombres para cada codigo de perfil
     var nombres = "{";
 
     datos_grafica1.forEach((res, i) => {
@@ -138,15 +172,15 @@ function formatear_data(info) {
         }
     });
     nombres += "}";
-//llenar data de dias promedios(solo excesos)
+    //llenar data de dias promedios(solo excesos)
     nueva.forEach((res, i) => {
         if ((dias_pro[i] <= json_prom[i]) && (json_prom[i] > 0)) {
             datos_grafica1.push([`cod_${res.values[0].values[0].codigo_perfil}_vec`, ((json_prom[i] - dias_pro[i]) > 0 ? (json_prom[i] - dias_pro[i]) * (-1) : (json_prom[i] - dias_pro[i]))]);
         }
 
     });
-//creacion de la grafica
-    crear_grafica(datos_grafica1,JSON.parse(nombres), grup);
+    //creacion de la grafica
+    crear_grafica(datos_grafica1, JSON.parse(nombres), grup);
 
 }
 
@@ -161,17 +195,17 @@ function formatear_data2(cod, info, selec) {
 
         }
     });
-    
+
     datos_grafica2 = d3.nest()
         .key((d) => d[selec]).entries(nueva_Data);
-        
+
     return datos_grafica2;
 }
 
 //#region Creacion de grafica
 //grafica 1
-function crear_grafica(data,name, agrupaciones) {
-    
+function crear_grafica(data, name, agrupaciones) {
+
     var invisible = [];
     agrupaciones.forEach((res) => {
         invisible.push(res[0]);
@@ -193,9 +227,9 @@ function crear_grafica(data,name, agrupaciones) {
 
                         var exceso = id.split('_vec');
                         if (exceso.length > 1) {
-                            return '';
+                            return v * (-1);
                         } else {
-                            return name[id]
+                            return `${v}   //${name[id].trim()}`
                         }
 
                     }
@@ -216,49 +250,49 @@ function crear_grafica(data,name, agrupaciones) {
                 var prom_clasif_i = [];
                 var agrup = [];
                 facmento = formatear_data2(String(d.id).replace('_vec', ''), datos, 'cod_clasif');
-                
+
                 facmento.forEach((res, i) => {
 
                     //////Estado experimental
-                    var nov_clasif = d3.nest().key((d)=>d.cod_nov).entries(res.values)
+                    var nov_clasif = d3.nest().key((d) => d.cod_nov).entries(res.values)
                     var prom_clasif = 0;
                     var suma_clasif = 0;
 
-                    nov_clasif.forEach((ras)=>{
-                        suma_clasif+=Number(ras.values[0].dias_vencimiento)
+                    nov_clasif.forEach((ras) => {
+                        suma_clasif += Number(ras.values[0].dias_vencimiento)
                     })
-                    prom_clasif = Math.round(suma_clasif/nov_clasif.length);
+                    prom_clasif = Math.round(suma_clasif / nov_clasif.length);
                     prom_clasif_i.push(prom_clasif)
                     //////////////////////////////
-                    
+
                     res.values.forEach((res2) => {
                         suma += Number(res2.dias_respuesta);
                     });
-                    
-                    if(prom_clasif<(Math.round(suma / res.values.length))){
+
+                    if (prom_clasif < (Math.round(suma / res.values.length))) {
                         now.push([`cod_${res.key}`, (Math.round(prom_clasif))]);
-                        now.push([`cod_${res.key}_vec`, ((Math.round(suma / res.values.length)- Math.round(prom_clasif))>=0)?(Math.round(suma / res.values.length)- Math.round(prom_clasif))*(-1):(Math.round(suma / res.values.length)- Math.round(prom_clasif))]);
+                        now.push([`cod_${res.key}_vec`, ((Math.round(suma / res.values.length) - Math.round(prom_clasif)) >= 0) ? (Math.round(suma / res.values.length) - Math.round(prom_clasif)) * (-1) : (Math.round(suma / res.values.length) - Math.round(prom_clasif))]);
                         name += `"cod_${res.key}":"${res.values[0].descripcion_clasif} (${(Math.round(suma / res.values.length))} DIAS PROMEDIO)",`;
                         name += `"cod_${res.key}_vec":"${(res.values[0].descripcion_clasif)} EXCESO"`;
-                        agrup.push(['cod_'+res.key,'cod_'+res.key+"_vec"]);
-                    }else{
+                        agrup.push(['cod_' + res.key, 'cod_' + res.key + "_vec"]);
+                    } else {
                         now.push([`cod_${res.key}`, (Math.round(suma / res.values.length))]);
                         name += `"cod_${res.key}":"${res.values[0].descripcion_clasif} (${(Math.round(suma / res.values.length))} DIAS PROMEDIO)"`;
                     }
-                    
-                    
 
-                    
+
+
+
                     if (!(i == (facmento.length - 1))) {
                         name += ","
                     }
                     suma = 0;
 
                 });
-                
+
                 name += "}";
 
-                crear_grafica2(now, JSON.parse(name),agrup);
+                crear_grafica2(now, JSON.parse(name), agrup);
             },
             color: function (color, d) {
                 if (!(typeof d.id === 'undefined')) {
@@ -329,7 +363,7 @@ function crear_grafica(data,name, agrupaciones) {
     });
 }
 //grafica 2 EXPERIMENTAL
-function crear_grafica2(data, nombres,agrupaciones) {
+function crear_grafica2(data, nombres, agrupaciones) {
     console.log(data)
     desplazar('p_clasif');
     grafica_1 = c3.generate({
@@ -341,7 +375,7 @@ function crear_grafica2(data, nombres,agrupaciones) {
             columns: data,
             onclick: function (d) {
                 $('#p_nov').html(`PROMEDIO POR CLASIFICACION (${String(d.name).replace(' EXCESO', '')})`);
-                
+
                 $('#contenedor2').show();
                 var suma = 0;
                 var nuevos = [];
@@ -349,54 +383,54 @@ function crear_grafica2(data, nombres,agrupaciones) {
                 var name = "{";
                 var grup = [];
                 datos_grafica2.forEach((a) => {
-                    
-                    
-                    if (a.key == d.id.replace('cod_', '').replace('_vec','')) {
+
+
+                    if (a.key == d.id.replace('cod_', '').replace('_vec', '')) {
                         old_data.push(a.values)
-                        
+
 
                         var nuevo2 = d3.nest()
 
                             .key((d) => d['cod_nov']).entries(a.values);
 
-                            var sum = 0;
-                            var dias_ideal  =0;
-                           
-                            
+                        var sum = 0;
+                        var dias_ideal = 0;
+
+
                         nuevo2.forEach((res, i) => {
-                            
-                           
+
+
                             res.values.forEach((res2) => {
                                 suma += Number(res2.dias_respuesta);
                             });
 
-                            if(Number(res.values[0].dias_vencimiento)<Math.round(suma / res.values.length) && Math.round(suma / res.values.length)>0 ){
+                            if (Number(res.values[0].dias_vencimiento) < Math.round(suma / res.values.length) && Math.round(suma / res.values.length) > 0) {
                                 nuevos.push([`cod_${res.key}`, Number(res.values[0].dias_vencimiento)])
                                 name += `"cod_${res.key}":"${res.values[0].novedad.trim()} (${Math.round(suma / res.values.length)} DIAS PROMEDIO)",`;
 
-                                nuevos.push([`cod_${res.key}_vec`, ((Math.round(suma / res.values.length)-Number(res.values[0].dias_vencimiento))>0)?(Math.round(suma / res.values.length)-Number(res.values[0].dias_vencimiento))*(-1):(Math.round(suma / res.values.length)-Number(res.values[0].dias_vencimiento))])
+                                nuevos.push([`cod_${res.key}_vec`, ((Math.round(suma / res.values.length) - Number(res.values[0].dias_vencimiento)) > 0) ? (Math.round(suma / res.values.length) - Number(res.values[0].dias_vencimiento)) * (-1) : (Math.round(suma / res.values.length) - Number(res.values[0].dias_vencimiento))])
                                 name += `"cod_${res.key}_vec":"${res.values[0].novedad.trim()} EXCESO"`;
 
-                                grup.push(["cod_"+res.key,"cod_"+res.key+"_vec"]);
-                            }else{
+                                grup.push(["cod_" + res.key, "cod_" + res.key + "_vec"]);
+                            } else {
                                 nuevos.push([`cod_${res.key}`, Math.round(suma / res.values.length)])
                                 name += `"cod_${res.key}":"${res.values[0].novedad.trim()} "`;
                             }
-                           
+
                             suma = 0;
 
 
-                            
+
                             if (!(i == (nuevo2.length - 1))) {
                                 name += ","
                             }
                         });
-                        console.log(sum/nuevo2.length)
+                        console.log(sum / nuevo2.length)
                         name += "}";
                     }
                 });
-               // console.log(nuevos, JSON.parse(name), old_data)
-                crear_grafica3(nuevos, JSON.parse(name), old_data,grup)
+                // console.log(nuevos, JSON.parse(name), old_data)
+                crear_grafica3(nuevos, JSON.parse(name), old_data, grup)
             },
             color: function (color, d) {
                 if (!(typeof d.id === 'undefined')) {
@@ -437,7 +471,7 @@ function crear_grafica2(data, nombres,agrupaciones) {
                 lines: [{ value: 0, class: 'grid800' }]
             }
         }
-        
+
         ,
         bar: {
             format: function (a) {
@@ -446,7 +480,7 @@ function crear_grafica2(data, nombres,agrupaciones) {
             width: {
                 ratio: 1
             }
-        },legend: {
+        }, legend: {
             hide: true,
             position: 'right',
 
@@ -482,12 +516,12 @@ function crear_grafica2(data, nombres,agrupaciones) {
                 label: 'PERFILES'
             }
         }
-        
+
     })
 
 }
 //Grafica 3
-function crear_grafica3(dat, name, old_data,agrupaciones) {
+function crear_grafica3(dat, name, old_data, agrupaciones) {
     desplazar('p_nov');
     grafica = c3.generate({
         bindto: "#contenedor2",
@@ -533,24 +567,24 @@ function crear_grafica3(dat, name, old_data,agrupaciones) {
                 $('#p_proc').html(`LISTADO DE DIAS POR PROCESO (${String(d.name).replace(' EXCESO', '')})`)
                 var tabla = [];
                 old_data[0].forEach((a) => {
-                    
-                    if (a.cod_nov == d.id.replace('cod_', '').replace('_vec','')) {
+
+                    if (a.cod_nov == d.id.replace('cod_', '').replace('_vec', '')) {
                         tabla.push(a)
                     }
                 });
                 crear_detalle(tabla)
             }
-        },grid: {
+        }, grid: {
             y: {
                 lines: [{ value: 0, class: 'grid800' }]
             }
 
         }
-        ,legend: {
+        , legend: {
             hide: true,
             position: 'right',
 
-        },axis: {
+        }, axis: {
             rotated: true,
             y: {
                 label: 'DIAS PROMEDIO',
@@ -568,7 +602,7 @@ function crear_grafica3(dat, name, old_data,agrupaciones) {
                 label: 'PERFILES'
             }
         },
-        
+
         tooltip: {
             show: true,
             grouped: false,
@@ -594,13 +628,13 @@ function crear_detalle(data) {
 
     $('#detalles').html('');
     var contenedor = d3.select('#detalles');
-    var tabla = contenedor.append('table').attr('id', 'listar').attr('width', '100%').attr('border', '1').style('font-size', '12px');
+    var tabla = contenedor.append('table').attr('id', 'lista').attr('width', '100%').attr('border', '1').style('font-size', '12px');
     var head = tabla.append('thead').append('tr').attr('align', 'center').attr('class', 'fondo00');
     head.append('td').text('Codigo').attr('width', '10%').style("text-align", "center");
-    head.append('td').text('Descripcion').attr('width', '30%').style("text-align", "center");
-    head.append('td').text('Fecha Inicial').attr('width', '15%').style("text-align", "center");
-    head.append('td').text('Fecha Final').attr('width', '15%').style("text-align", "center");
-    head.append('td').text('Dias Respuesta').attr('width', '30%').style("text-align", "center");
+    head.append('td').text('Descripcion').attr('width', '50%').style("text-align", "left");
+    head.append('td').text('Fecha Inicial').attr('width', '10%').style("text-align", "center");
+    head.append('td').text('Fecha Final').attr('width', '10%').style("text-align", "center");
+    head.append('td').text('Dias Respuesta').attr('width', '10%').style("text-align", "center");
     var tbody = tabla.append('tbody');
     var tr = tbody.selectAll("tr").data(data).enter()
         .append("tr").attr('class', (d, i) => {
@@ -609,7 +643,7 @@ function crear_detalle(data) {
             } else {
                 return "fondo02";
             }
-        })
+        }).attr('border','1');
     tr.append("td").text((d, i) => d.codigo_proceso).style("text-align", "center");
     tr.append("td").text((d, i) => d.problematica.trim()).style("text-align", "center");
     tr.append("td").text((d, i) => d.fec_us_ing).style("text-align", "center");
@@ -619,7 +653,7 @@ function crear_detalle(data) {
 
 
 ////////UNICO DE CONTROL DE FECHA/////////////////////////////////////////////////////////////////
-/*
+
 function crear_control(contenedor) {
 
     if ($('#fecha_ingreso').length > 0) {
@@ -654,5 +688,5 @@ function destruir(s) {
     $('#' + s).remove();
 
 }
-*/
+
 ///////////////////////////////////////////////////////////////////////////

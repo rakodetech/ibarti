@@ -4,7 +4,9 @@
 /* ********************* */
 
 define("Sitio", "http://localhost");
-define("Carpeta", "ibxxx");
+//	define("Carpeta", "asistencia");
+//	define("Sitio", "http://c122.gconex.com");
+define("Carpeta", "ib_oesvica");
 define("Leng", "autentificacion/leng/index.php");
 define("Funcion", "funciones/funciones.php");
 //	define("Time_Sistema", 600);
@@ -16,14 +18,17 @@ define("Time_Alerta", $x_time);
 
 define('host','localhost');
 define('user','root');
+//	define('pass','yth86smg9ual1fcj');
 define('pass','');
-define('database','ibxxx');
+define('database','ib2_oesvica');
+//define('port','5432');
 define('port','3306');
 define('db_charset','utf8');
 
 define('LogoIbarti','dompdf/img/logo.jpg');
-//Imagen requerida para generar el reporte Formato Check List de Novedades
+//Logo de Cliente para formato de novedades checklist debe tener una dimencion minima de 500x100
 define('LogoCliente','dompdf/img/cliente.png');
+
 define('PlantillaDOM','dompdf/plantillas');
 define('ConfigDomPdf','dompdf/dompdf_config.inc.php');
 define('pagDomPdf','dompdf/pag');

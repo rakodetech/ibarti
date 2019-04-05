@@ -17,7 +17,8 @@
     
     <div id="inicial" style="display:none;text-aling:left;" >
     <div id="sin_data" style="display:none;text-aling:center;font-size:20px">SIN DATA</div>
-    <p style="float:right">Desde: <input type="date" id="f_d" >  Hasta: <input type="date" id="f_h"> <input type="button" value="Cargar" onclick="obtener_data()"></p>
+    <p style="float:right"><input type="hidden"  id="f_d" ><input type="hidden" id="f_h">Desde: <select name="" id="m_d"></select> <select name="" id="a_d" ></select> Hasta: <select name="" id="m_h"></select> <select name="" id="a_h"></select> <input type="button" value="Cargar" onclick="obtener_data()">
+    
     <div id="con_data" style="display:none;">
     <div><p aling="center" style="font-size:14px"><b>CONTROL DE DIAS PROMEDIO</b></p></div>
     <p aling="center" style="float:left;" id="p_perfil"><b>PROMEDIO POR PERFIL</b></p><br><br>
@@ -43,7 +44,8 @@
     
     text-align: center;"></div><br>
     <p aling="center" style="float:left;" id="p_proc"><b>LISTADO DE DIAS POR PROCESO</b></p><br><br>
-    <div id="detalles" class="listar" style="display:none;"></div>
+    <div id="detalles" class="lista" style="display:none;max-height:300px;
+overflow-y:scroll;"></div>
     </div>
     </div>
    

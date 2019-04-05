@@ -11,8 +11,8 @@ class DataBase {
 		  private $cnn;                //emsamblamos el string de conexion
           //constructor en el constructor colocamos los datos por defecto, a fin de recibir de manera opcional
 
- 
-     function __construct($host='localhost', $bd='ib2xxx', $user='root', $pass='', $port='3306'){
+     function __construct($host='localhost', $bd='ib2_oesvica', $user='root', $pass='', $port='3306'){
+      //   function __construct($host='localhost', $bd='ib_demo', $user='ip_pedido', $pass='$$334x6rZaGXNree', $port='5432'){
        
 		       //asigno valores para ensamblar el string de conexion
        $this->host=$host;
