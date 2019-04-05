@@ -138,7 +138,6 @@ function Ver_log(){
 			url:   'packages_mant/inicio/modelo/inicio.php',
 			type:  'post',
 			success:  function (response) {
-				console.log(response);
 				var resp = JSON.parse(response);
 				if((resp.error == true) && (resp.error== "VENC")) {
 					captcha();
