@@ -4,6 +4,7 @@
 <!--<link rel="stylesheet" type="text/css" href="packages/grafica/css/grafica.css">-->
 
 <link rel="stylesheet" href="packages/novedades_resp/libs/c3.css">
+<link rel="stylesheet" href="packages/novedades_resp/libs/fechas.css">
 
 <form name="form_reportes" id="form_reportes" action="<?php echo $archivo;?>"  method="post" target="_blank">
 
@@ -13,9 +14,12 @@
 
     
     <div id="cargando">Cargando..<img src="imagenes/carga.gif" width="20px"alt=""></div>
-
+    
     <div id="inicial" style="display:none;text-aling:left;" >
-    <div><p aling="center" style="float:center"><b>CONTROL DE DIAS PROMEDIO</b></p><p style="float:right">Desde: <input type="date" id="f_d">  Hasta: <input type="date" id="f_h"> <input type="button" value="Cargar" onclick="obtener_data()"></p></div>
+    <div id="sin_data" style="display:none;text-aling:center;font-size:20px">SIN DATA</div>
+    <p style="float:right">Desde: <input type="date" id="f_d" >  Hasta: <input type="date" id="f_h"> <input type="button" value="Cargar" onclick="obtener_data()"></p>
+    <div id="con_data" style="display:none;">
+    <div><p aling="center" style="font-size:14px"><b>CONTROL DE DIAS PROMEDIO</b></p></div>
     <p aling="center" style="float:left;" id="p_perfil"><b>PROMEDIO POR PERFIL</b></p><br><br>
     <div id="contenedor" style="width: 100%;
     height: 512px;
@@ -30,6 +34,7 @@
     display:none;
     
     text-align: center;"><p aling="center" style=""></div><br>
+    
         <p aling="center" style="float:left;" id="p_nov"><b>PROMEDIO POR NOVEDAD</b></p><br><br>
       <div id="contenedor2" style="width: 100%;
     height: 512px;
@@ -40,6 +45,9 @@
     <p aling="center" style="float:left;" id="p_proc"><b>LISTADO DE DIAS POR PROCESO</b></p><br><br>
     <div id="detalles" class="listar" style="display:none;"></div>
     </div>
+    </div>
+   
+    
     
      <input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu;?>" />
      <input type="hidden" name="mod" id="mod" value="<?php echo $mod;?>" />
@@ -50,8 +58,10 @@
 
 <!--<script type="text/javascript" src="packages/grafica/js/ib-graficas.js"></script>-->
 <script src="packages/novedades_resp/libs/c3.js"></script>
-<script type="text/javascript" src="packages/novedades_resp/libs/d3.min.js"></script>
+
 <script src="packages/novedades_resp/controllers/respCtrl2.js"></script>
+
+
 
 <script>
     obtener_data();

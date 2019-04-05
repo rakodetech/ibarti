@@ -19,11 +19,11 @@ $href     = $_POST['href'];
 $usuario  = $_POST['usuario']; 
 $proced   = $_POST['proced'];
 $metodo   = $_POST['metodo'];
-
+$dias_vencimiento  =$_POST['dias_v'];
 	if(isset($_POST['proced'])){
 
 	$sql    = "$SELECT $proced('$metodo', '$codigo', '$orden', '$clasif', 
-	                           '$tipo', '$descripcion', '$usuario', '$activo')";						 		
+	                           '$tipo', '$descripcion', '$usuario', '$activo',$dias_vencimiento)";						 		
 
 	$query = $bd->consultar($sql);	
 	
@@ -40,5 +40,6 @@ $metodo   = $_POST['metodo'];
 		    $query = $bd->consultar($sql);			 
 		 }		   	
 	}
+	
 require_once('../funciones/sc_direccionar.php');  
 ?>

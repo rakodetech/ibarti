@@ -12,7 +12,7 @@ if($metodo == 'modificar'){
 	                novedades.descripcion,
                     novedades.cod_nov_clasif, nov_clasif.descripcion AS clasif,
                     novedades.cod_nov_tipo,  nov_tipo.descripcion AS tipo,                   
-                    novedades.`status` , novedades.orden
+                    novedades.`status` , novedades.orden, novedades.dias_vencimiento
                FROM novedades , nov_clasif, nov_tipo 
               WHERE novedades.cod_nov_clasif = nov_clasif.codigo	
                 AND novedades.cod_nov_tipo = nov_tipo.codigo 			    
@@ -29,6 +29,7 @@ if($metodo == 'modificar'){
 	$cod_tipo       = $result["cod_nov_tipo"];
 	$tipo           = $result["tipo"];
 	$activo         = $result["status"];
+	$dias_v					= $result["dias_vencimiento"];
 
 	}else{
 
@@ -40,6 +41,7 @@ if($metodo == 'modificar'){
 	$clasif       = " Seleccione... ";
 	$cod_tipo     = "";
 	$tipo         = " Seleccione... ";	
+	$dias_v				= 0;
 	$activo       = 'T';
 	}
 ?>
@@ -75,14 +77,18 @@ function llenar_nov_tipo(clasificacion){
       </td>
 	 </tr>
     <tr>
-      <td class="etiqueta">orden:</td>
+      <td class="etiqueta">Orden:</td>
       <td id="input02"><input type="text" name="orden" maxlength="11" style="width:120px" value="<?php echo $orden;?>" />
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>           
       </td>
-	 </tr>     
+	 </tr>   
+	 <tr>
+		 <td class="etiqueta">Dias Vencimiento:</td>  
+		 <td class="etiqueta"><input  type="number" name="dias_v" min="1" required="required" id="dias_v" value="<?php echo $dias_v?>"></td>  
+	 </tr>
     <tr>
       <td class="etiqueta">Clasificaci&oacute;n:</td>
-      	<td id="select01"><select name="clasif" style="width:250px" >
+      	<td id="select01"><select name="clasif" style="width:250px" onchange="llenar_nov_tipo(this.value)">
 							<option value="<?php echo $cod_clasif;?>"><?php echo $clasif;?></option>
           <?php  	$sql = " SELECT codigo, descripcion FROM nov_clasif WHERE `status` = 'T' 
 		                        AND codigo <> '$cod_clasif' ORDER BY 2 ASC ";
