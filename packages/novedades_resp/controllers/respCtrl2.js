@@ -4,13 +4,13 @@ var datos_grafica2 = [];
 var datos;
 var inicial = false;
 $(function () {
-    
+
     var fecha = new Date()
     var mes_actual = fecha.getMonth() + 1;
     var año_actual = fecha.getFullYear();
-    var meses  = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE']
+    var meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
     for (i = (Math.round(año_actual / 2)); i < año_actual; i++) {
-        
+
         $('#a_d').append(`<option value="${i + 1}" ${(i + 1) == (año_actual) ? 'selected="selected"' : ''}>${i + 1}</option>`);
         $('#a_h').append(`<option value="${i + 1}" ${(i + 1) == (año_actual) ? 'selected="selected"' : ''}>${i + 1}</option>`);
     }
@@ -46,15 +46,15 @@ function obtener_data() {
 
     $('#contenedor2').hide();
     $('#detalles').hide();
-    if(inicial){
+    if (inicial) {
         var fecha_desde = `${$('#a_d').val()}-${$('#m_d').val()}-01`;
         var fecha_hasta = `${$('#a_h').val()}-${$('#m_h').val()}-31`;
-    }else{
+    } else {
         var fecha_desde = "";
         var fecha_hasta = "";
-        
+
     }
-    inicial =true;
+    inicial = true;
     var parametros = { "f_d": fecha_desde, "f_h": fecha_hasta };
 
     $.ajax({
@@ -364,7 +364,7 @@ function crear_grafica(data, name, agrupaciones) {
 }
 //grafica 2 EXPERIMENTAL
 function crear_grafica2(data, nombres, agrupaciones) {
-    console.log(data)
+    
     desplazar('p_clasif');
     grafica_1 = c3.generate({
         bindto: "#contenedor1",
@@ -456,9 +456,9 @@ function crear_grafica2(data, nombres, agrupaciones) {
 
                         var exceso = id.split('_vec');
                         if (exceso.length > 1) {
-                            return '';
+                            return v * (-1);
                         } else {
-                            return nombres[id]
+                            return `${v}   //${nombres[id].trim()}`
                         }
 
                     }
@@ -553,9 +553,9 @@ function crear_grafica3(dat, name, old_data, agrupaciones) {
 
                         var exceso = id.split('_vec');
                         if (exceso.length > 1) {
-                            return '';
+                            return v * (-1);
                         } else {
-                            return name[id]
+                            return `${v}   //${name[id].trim()}`
                         }
 
                     }
@@ -643,7 +643,7 @@ function crear_detalle(data) {
             } else {
                 return "fondo02";
             }
-        }).attr('border','1');
+        }).attr('border', '1');
     tr.append("td").text((d, i) => d.codigo_proceso).style("text-align", "center");
     tr.append("td").text((d, i) => d.problematica.trim()).style("text-align", "center");
     tr.append("td").text((d, i) => d.fec_us_ing).style("text-align", "center");
@@ -657,24 +657,32 @@ function crear_detalle(data) {
 function crear_control(contenedor) {
 
     if ($('#fecha_ingreso').length > 0) {
+        
         destruir('fecha_ingreso');
+
     } else {
-        $('html').append(`
+        $('html').append(/*html*/ `
            <div id="fecha_ingreso" class="contenedor"style="">
-           <div id="box" class="contenido">
-           <table class="agrupadas">
-           <tr>
-           <td class="texto">AÑOS</td>
-           <td class="texto">MESES</td>
-           <td class="texto">SEMANAS</td>
-           <td class="texto">FECHA</td>
-           </tr>
-           </table>
-           <div class="base">
-           <input type="radio">sassass</input>
-           </div>
-           <table class="agrupadas" style="border-bottom: none;"><tr><td id="colaps">28/03/2019</td></tr></table>
-           </div>
+            <div id="box" class="contenido">
+                <table class="agrupadas">
+                <tr>
+                    <td class="texto">AÑOS  </td>
+                    <td class="texto">MESES </td>
+                    <td class="texto">SEMANAS</td>
+                    <td class="texto">FECHA</td>
+                </tr>
+                </table>
+                <div class="base">
+                    <ul>
+                        <li>hola</li>
+                    </ul>
+                </div>
+                <table class="agrupadas" style="border-bottom: none;">
+                    <tr>
+                        <td id="colaps"></td>
+                    </tr>
+                </table>
+                </div>
            </div>`);
 
         $('#fecha_ingreso').offset({ top: ($('#' + contenedor).offset().top + 5 + $('#' + contenedor).height()), left: ($('#' + contenedor).offset().left - ($('#fecha_ingreso').width() / 2)) });
