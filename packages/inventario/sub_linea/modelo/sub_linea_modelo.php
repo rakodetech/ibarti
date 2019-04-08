@@ -21,16 +21,15 @@ class ProductoSubLinea
 
   public function inicio()
   {
-
     $this->datos = array('codigo' => '',  'descripcion' => '',
-      'color' => 'F', 'talla' => 'F','peso' => 'F','piecubico' => 'F','status' => 'T','json' => []);
+      'color' => 'F', 'talla' => 'F','peso' => 'F','piecubico' => 'F','status' => 'T');
     return $this->datos;
   }
 
   public function editar($cod)
   {
     $sql = " SELECT prod_sub_lineas.codigo, prod_sub_lineas.cod_linea, prod_sub_lineas.descripcion,
-    prod_sub_lineas.status,prod_sub_lineas.json
+    prod_sub_lineas.status,prod_sub_lineas.color,prod_sub_lineas.talla,prod_sub_lineas.peso,prod_sub_lineas.piecubico
     FROM prod_lineas, prod_sub_lineas WHERE prod_lineas.codigo = prod_sub_lineas.cod_linea AND prod_sub_lineas.codigo = '$cod'";
 
     $query = $this->bd->consultar($sql);
@@ -47,22 +46,6 @@ class ProductoSubLinea
       $this->lineas[] = $datos;
     }
     return $this->lineas;
-  } 
-
-
-  public function get_propiedades($cod){
-    $WHERE = " WHERE  status = 'T'";
-    if($cod != null){
-      $WHERE .= " AND codigo = '$cod' ";
-    }
-    $sql = "SELECT codigo, descripcion FROM prod_propiedades
-    $WHERE
-    ORDER BY descripcion ASC";
-    $query = $this->bd->consultar($sql);
-    while ($datos= $this->bd->obtener_fila($query)) {
-      $this->propiedades[] = $datos;
-    }
-    return $this->propiedades;
   } 
 
   public function buscar($data){

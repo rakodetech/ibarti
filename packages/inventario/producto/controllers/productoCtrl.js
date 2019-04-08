@@ -135,7 +135,7 @@ function get_sub_lineas(linea){
 	});
 }
 
-function get_modelos(sub_linea){
+function get_propiedades(sub_linea){
 	var parametros = {
 		"codigo": sub_linea
 	};

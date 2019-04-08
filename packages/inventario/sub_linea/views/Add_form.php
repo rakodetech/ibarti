@@ -20,7 +20,7 @@ if($metodo == 'modificar'){
   $lineas   = $modelo->get_lineas();
   $titulo    = "AGREGAR SUB LINEA";
 }
-$prop   = $modelo->get_propiedades(null);
+
 $activo = $prod['status'];
 ?>
 
@@ -63,9 +63,13 @@ $activo = $prod['status'];
         <td class="etiqueta">Propiedades: </td>
         <td id="prop">
           <?php
-           foreach ($prop as  $datos) {
-            echo $datos[1].'<input name="propiedades[]" id="prop'.$datos[0].'" type="checkbox" '.statusCheck($datos[0]). ' value="'.$datos[0].'" />    ';
-          }
+          echo 'Color: <input name="color" id="color" type="checkbox" '.statusCheck($prod['color']). ' value="T" /> 
+
+          Talla: <input name="talla" id="talla" type="checkbox" '.statusCheck($prod['talla']). ' value="T" /> 
+
+          Peso: <input name="peso" id="peso" type="checkbox" '.statusCheck($prod['peso']). ' value="T" /> 
+          
+          Piecubico: <input name="piecubico" id="piecubico" type="checkbox" '.statusCheck($prod['piecubico']). ' value="T" />      ';
           ?>
         </td>
       </tr>   

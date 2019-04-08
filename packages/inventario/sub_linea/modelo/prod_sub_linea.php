@@ -8,18 +8,15 @@ $bd = new DataBase();
 $result = array();
 
 foreach($_POST as $nombre_campo => $valor){
-	if(!is_array($valor)){
 		$variables = "\$".$nombre_campo."='".$valor."';";
 		eval($variables);
-	}
 }
 
-$json = json_encode($_POST["json"]);
 
 if(isset($_POST['proced'])){
 	try {
 
-		$sql    = "$SELECT $proced('$metodo', '$codigo','$linea', '$descripcion', '$usuario', '$activo','$json')";
+		$sql    = "$SELECT $proced('$metodo', '$codigo','$linea', '$descripcion', '$usuario', '$activo','$color','$talla','$peso','$piecubico')";
 
 		$query   = $bd->consultar($sql);
 		$result['sql'] = $sql;
@@ -32,7 +29,7 @@ if(isset($_POST['proced'])){
 		$bd->log_error("Aplicacion", "sc_prod_sub_linea.php",  "$usuario", "$error", "$sql");
 	}
 }
-
+$result['sql'] = $sql;
 print_r(json_encode($result));
 return json_encode($result);
 ?>

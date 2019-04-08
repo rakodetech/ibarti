@@ -35,6 +35,30 @@
 			</select></td>      	        	    
 		</tr> 
 		<tr>
+			<td class="etiqueta">Linea: </td>
+			<td id="select01"><select name="linea" id="p_linea" onchange="get_sub_lineas(this.value)" style="width:250px">
+				<option value="<?php echo $prod['cod_linea'];?>"><?php echo $prod['linea'];?></option>
+				<?php  
+				$lineas  =  $producto->get_lineas();
+				foreach ($lineas as  $datos) {
+					echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
+				}
+				?>		  	  
+			</select></td>       	        	    
+		</tr>
+		<tr>
+			<td class="etiqueta">Sub Linea:</td>
+			<td id="sub_linea"><select name="sub_linea" id="p_sub_linea" onchange="get_propiedades(this.value)" style="width:250px">
+				<option value="<?php echo $prod['cod_sub_linea'];?>"><?php echo $prod['sub_linea'];?></option>
+				<?php  
+				$sub_lineas  =  $producto->get_sub_lineas($prod['cod_linea']);
+				foreach ($sub_lineas as  $datos) {
+					echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
+				}
+				?>			  	  
+			</select></td>
+		</tr> 
+		<tr>
 			<td class="etiqueta">Unidad:</td>
 			<td id="select05"><select name="unidad" id="p_unidad" style="width:250px">
 				<option value="<?php echo $prod['cod_unidad'];?>"><?php echo $prod['unidad'];?></option>
@@ -83,46 +107,22 @@
 					<option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
 				<?php }?>		  	  
 			</select></td>       	        	    
-		</tr>
+		</tr>  
 		<tr>
-			<td class="etiqueta">Linea: </td>
-			<td id="select01"><select name="linea" id="p_linea" onchange="get_sub_lineas(this.value)" style="width:250px">
-				<option value="<?php echo $prod['cod_linea'];?>"><?php echo $prod['linea'];?></option>
-				<?php  
-				$lineas  =  $producto->get_lineas();
-				foreach ($lineas as  $datos) {
-					echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
-				}
-				?>		  	  
-			</select></td>       	        	    
+			<td class="etiqueta">Colores:</td>
+			<td id="td_colores"></td>
 		</tr>
-		<tr>
-			<td class="etiqueta">Sub Linea:</td>
-			<td id="sub_linea"><select name="sub_linea" id="p_sub_linea" onchange="get_modelos(this.value)" style="width:250px">
-				<option value="<?php echo $prod['cod_sub_linea'];?>"><?php echo $prod['sub_linea'];?></option>
-				<?php  
-				$sub_lineas  =  $producto->get_sub_lineas($prod['cod_linea']);
-				foreach ($sub_lineas as  $datos) {
-					echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
-				}
-				?>			  	  
-			</select></td>
-		</tr>   
-		 <tr>
-      <td class="etiqueta">Colores:</td>
-      	<td id="td_colores"></td>
-    </tr>
-</table>
-<div align="center">
-	<span class="art-button-wrapper">
-		<span class="art-button-l"> </span>
-		<span class="art-button-r"> </span>
-		<input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />	
-	</span>&nbsp;
-	<span class="art-button-wrapper">
-		<span class="art-button-l"> </span>
-		<span class="art-button-r"> </span>
-		<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />	
-	</span> 	
-</div>
+	</table>
+	<div align="center">
+		<span class="art-button-wrapper">
+			<span class="art-button-l"> </span>
+			<span class="art-button-r"> </span>
+			<input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />	
+		</span>&nbsp;
+		<span class="art-button-wrapper">
+			<span class="art-button-l"> </span>
+			<span class="art-button-r"> </span>
+			<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />	
+		</span> 	
+	</div>
 </fieldset>

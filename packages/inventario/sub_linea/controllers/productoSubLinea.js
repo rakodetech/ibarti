@@ -50,25 +50,26 @@ function save(){
     var descripcion     = $("#descripcion").val();
 
     var activo          = Status($("#activo:checked").val());
+    var color          = Status($("#color:checked").val());
+    var talla          = Status($("#talla:checked").val());
+    var peso          = Status($("#peso:checked").val());
+    var piecubico          = Status($("#piecubico:checked").val());
 
     var usuario         = $("#usuario").val();
     var metodo          = $("#metodo").val();
     var proced          = "p_prod_sub_lineas";
-    var json = {propiedades: []};
+
 
     if(error == 0){
-     $('[name="propiedades[]"]:checked').each(function(index,obj){
-        json.propiedades.push(obj.value);
-    });
 
-     var parametros = {"codigo": codigo,"linea": linea,"descripcion": descripcion, "activo": activo,
-     "json": json, "usuario": usuario, "metodo":metodo, "proced": proced };
-
-     $.ajax({
+       var parametros = {"codigo": codigo,"linea": linea,"descripcion": descripcion, "activo": activo,
+       "color": color,"peso": peso,"talla": talla,"piecubico": piecubico,'proced':proced,'metodo':metodo,'usuario':usuario};
+       $.ajax({
         data:  parametros,
         url:   'packages/inventario/sub_linea/modelo/prod_sub_linea.php',
         type:  'post',
         success:  function (response) {
+            console.log(response);
             resp = JSON.parse(response);
             if(resp.error){
                 toastr.error(resp.mensaje);
@@ -86,7 +87,7 @@ function save(){
         error: function (xhr, ajaxOptions, thrownError) {
             toastr.error(xhr.status+" "+thrownError);}
         });
- }else{
+   }else{
     toastr.warning(errorMessage);
 }
 }
@@ -101,6 +102,7 @@ function B_modelos(){
         $("#contenido_tabla").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px">');
     },
     success:  function (response) {
+        $("#filtro").val("");
         $("#modal_titulo").text("Buscar Producto Modelo");
         $("#contenido_tabla" ).html(response);
     },
