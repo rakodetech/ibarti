@@ -9,29 +9,27 @@
         <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>
-    <!--
     <tr>
       <td class="etiqueta">Talla: </td>
       <td id="input11"><input type="text" name="talla" id="talla" maxlength="60" style="width:150px"
-        value="<?php // echo $prod['talla'];?>"/><br />
+        value="<?php echo $prod['talla'];?>"/><br />
         <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>
     <tr>
       <td class="etiqueta">Peso: </td>
       <td id="input12"><input type="text" name="peso" id="peso" maxlength="60" style="width:150px"
-        value="<?php // echo $prod['peso'];?>"/><br />
+        value="<?php echo $prod['peso'];?>"/><br />
         <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>
     <tr>
       <td class="etiqueta">Piecubico: </td>
       <td id="input13"><input type="text" name="piecubico" id="piecubico" maxlength="60" style="width:150px"
-        value="<?php // echo $prod['piecubico'];?>"/><br />
+        value="<?php echo $prod['piecubico'];?>"/><br />
         <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>
-  -->
     <tr>
       <td class="etiqueta">Vencimiento: </td>
       <td id="radio11" class="texto">SI

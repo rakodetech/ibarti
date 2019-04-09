@@ -109,7 +109,7 @@
 			</select></td>       	        	    
 		</tr>  
 		<tr>
-			<td class="etiqueta">Colores:</td>
+			<td class="etiqueta">Color:</td>
 			<td id="td_colores"></td>
 		</tr>
 	</table>
