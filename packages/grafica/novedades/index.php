@@ -1,7 +1,7 @@
-<link rel="stylesheet" type="text/css" href="packages/grafica/css/grafica.css">
+<!--<link rel="stylesheet" type="text/css" href="packages/grafica/css/grafica.css">
 <script type="text/javascript" src="packages/grafica/js/d3.js"></script>
 <script type="text/javascript" src="packages/grafica/js/ib-graficasES5.js"></script>
-<script type="text/javascript" src="packages/grafica/novedades/controllers/gNovedadesCtrl.js"></script>
+<link rel="stylesheet" type="text/css" href="libs/highcharts/highcharts.css">-->
 
 <?php
 $Nmenu = '456';
@@ -15,3 +15,7 @@ if(isset($_SESSION['usuario_cod'])){
 
 <div id="Cont_gNovedades"></div>
 <input name="usuario" id="usuario" type="hidden" value="<?php echo $us;?>" />
+
+<!--<script type="text/javascript" src="libs/highcharts/highcharts.js"></script>-->
+<script type="text/javascript" src="libs/chartjs/Chart.min.js"></script>
+<script type="text/javascript" src="packages/grafica/novedades/controllers/gNovedadesCtrl.js"></script>

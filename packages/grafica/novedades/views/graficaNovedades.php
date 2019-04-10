@@ -21,9 +21,13 @@
 	</form>
 	<label style="display: none;" id="sin_data" class="etiqueta">No hay Resultados</label>
 	<div class="col-xs-12">
-	<div id="grafica"></div>
+	<div id="grafica">
+		<canvas id="chart-area"></canvas>
+	</div>
 	<div style="display: none;" class="barra_vertical" id="division"></div>
-	<div id="grafica2"></div>
+	<div id="grafica2">
+		<canvas id="chart-area2"></canvas>
+	</div>
 	<br class="brs">
 	<br>
 	</div>

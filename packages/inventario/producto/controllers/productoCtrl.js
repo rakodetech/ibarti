@@ -163,7 +163,6 @@ function get_modelos_det(modelo){
 		type: 'post',
 		success: function (response) {
 			var resp = JSON.parse(response);
-			console.log(resp.data);
 			$("#modelo_det").html("");
 			
 			if(resp.data['color'] == 'T'){
