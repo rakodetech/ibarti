@@ -1,10 +1,12 @@
 /*var g = new GraficasD3();
 var g2 = new GraficasD3(d3.schemePaired);*/
+var g = new Grafica();
 var f = new Date();
 var fec_desde = f.getFullYear() + "-" + /*pad((f.getMonth() + 1), 2) +*/ "01-01";
 var fec_hasta = f.getFullYear() + "-" + pad((f.getMonth() + 1), 2) + "-" + pad(f.getDate(), 2);
-var chartColors = ['rgb(255, 99, 132)','rgb(255, 159, 64)','rgb(255, 205, 86)','rgb(75, 192, 192)',
-'rgb(54, 162, 235)','rgb(153, 102, 255)','rgb(201, 203, 207)'];
+var chartColors = ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)',
+    'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'
+];
 //Se geneara automaticamente al cargar el script
 $(function () {
     iniciar();
@@ -15,7 +17,7 @@ function generar() {
     fec_desde = $('#fec_desde').val();
     fec_hasta = $('#fec_hasta').val();
     var error = 0,
-    errorMessage = ' ';
+        errorMessage = ' ';
     if (error == 0) {
         var parametros = {
             "fec_desde": fec_desde,
@@ -28,118 +30,85 @@ function generar() {
             type: 'post',
             success: function (response) {
                 var resp = JSON.parse(response);
-                console.log(resp);
-                var respFormat = [];
-                var datos = [];
-                var labels = [];
-                var codigos = [];
-                resp.forEach(function(d){
-                    respFormat.push({name: d.titulo, y: Number(d.valor), codigo: d.codigo});
-                    datos.push(Number(d.valor));
-                    labels.push(d.titulo);
-                    codigos.push(d.codigo);
-                });
-
                 if (resp.length > 0) {
                     $('.brs').show();
                     $('#sin_data').hide();
                     $('#grafica').show();
                     $('#division').show();
 
-                    var config = {
-                        type: 'pie',
-                        data: {
-                            datasets: [{
-                                data: datos,
-                                backgroundColor: chartColors,
-                            }],
-                            labels: labels
-                        },
-                        options: {
-                            responsive: true,
-                            title: {
-                                display: true,
-                                text: 'Novedades por Status'
-                            }
-                        }
-                    };
+                    g.Torta('chart-area', resp,'Novetades por Status');
+                    /*
+                                        var canvas = document.getElementById('chart-area');
 
+                                        canvas.onclick = function (evt) {
+                                            var activePoints = myPie.getElementsAtEvent(evt);
+                                            var firstPoint = activePoints[0];
+                                            var cod = codigos[firstPoint._index];
+                                            var label = myPie.data.labels[firstPoint._index];
+                                            var value = myPie.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
 
-                    var ctx = document.getElementById('chart-area').getContext('2d');
-                    window.myPie = new Chart(ctx, config);
+                                            var parametros = {
+                                                "fec_desde": fec_desde,
+                                                "fec_hasta": fec_hasta,
+                                                "status": cod
+                                            };
+                                            $.ajax({
+                                                data: parametros,
+                                                url: 'packages/grafica/novedades/modelo/getGraficaStatusDet.php',
+                                                type: 'post',
+                                                success: function (response) {
+                                                    var resp = JSON.parse(response);
+                                                    var datos = [];
+                                                    var labels = [];
+                                                    var codigos = [];
 
-                    var canvas = document.getElementById('chart-area');
+                                                    resp.forEach(function (d) {
+                                                        datos.push(Number(d.valor));
+                                                        labels.push(d.titulo);
+                                                        codigos.push(d.codigo);
+                                                    });
 
-                    canvas.onclick = function (evt) {
-                        var activePoints = myPie.getElementsAtEvent(evt);
-                        var firstPoint = activePoints[0];
-                        console.log(firstPoint);
-                        var cod = codigos[firstPoint._index];
-                        var label = myPie.data.labels[firstPoint._index];
-                        var value = myPie.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+                                                    if (window.myPie2) {
+                                                        myPie2.data.datasets.forEach((dataset) => {
+                                                            dataset.data.pop();
+                                                        });
+                                                        myPie2.data.labels.pop();
+                                                        myPie2.data.datasets[0].data = datos;
+                                                        myPie2.data.labels = labels;
+                                                        myPie2.options.title.text = label;
+                                                        myPie2.update();
 
-                        var parametros = {
-                            "fec_desde": fec_desde,
-                            "fec_hasta": fec_hasta,
-                            "status": cod
-                        };
-                        $.ajax({
-                            data: parametros,
-                            url: 'packages/grafica/novedades/modelo/getGraficaStatusDet.php',
-                            type: 'post',
-                            success: function (response) {
-                                var resp = JSON.parse(response);
-                                var datos = [];
-                                var labels = [];
-                                var codigos = [];
+                                                    } else {
+                                                        var config = {
+                                                            type: 'doughnut',
+                                                            data: {
+                                                                datasets: [{
+                                                                    data: datos,
+                                                                    backgroundColor: chartColors,
+                                                                }],
+                                                                labels: labels
+                                                            },
+                                                            options: {
+                                                                responsive: true,
+                                                                title: {
+                                                                    display: true,
+                                                                    text: label
+                                                                }
+                                                            }
+                                                        };
 
-                                resp.forEach(function(d){
-                                    datos.push(Number(d.valor));
-                                    labels.push(d.titulo);
-                                    codigos.push(d.codigo);
-                                });
+                                                        var ctx = document.getElementById('chart-area2').getContext('2d');
+                                                        window.myPie2 = new Chart(ctx, config);
+                                                    }
 
-                                if(window.myPie2){
-                                    myPie2.data.datasets.forEach((dataset) => {
-                                        dataset.data.pop();
-                                    });
-                                    myPie2.data.labels.pop();
-                                    myPie2.data.datasets[0].data = datos;
-                                    myPie2.data.labels = labels;
-                                    myPie2.options.title.text = label;
-                                    myPie2.update();
-                                    
-                                }else{
-                                    var config = {
-                                        type: 'pie',
-                                        data: {
-                                            datasets: [{
-                                                data: datos,
-                                                backgroundColor: chartColors,
-                                            }],
-                                            labels: labels
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            title: {
-                                                display: true,
-                                                text: label
-                                            }
-                                        }
-                                    };
+                                                },
+                                                error: function (xhr, ajaxOptions, thrownError) {
+                                                    alert(xhr.status);
+                                                    alert(thrownError);
+                                                }
+                                            });
 
-                                    var ctx = document.getElementById('chart-area2').getContext('2d');
-                                    window.myPie2 = new Chart(ctx, config);
-                                }
-
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {
-                                alert(xhr.status);
-                                alert(thrownError);
-                            }
-                        });
-
-                    };
+                                        };*/
                     // Build the chart
                     /*Highcharts.chart('grafica', {
                         chart: {
@@ -261,9 +230,9 @@ function generar() {
             }
         });
 
-} else {
-    alert(errorMessage);
-}
+    } else {
+        alert(errorMessage);
+    }
 }
 
 function iniciar() {
@@ -348,7 +317,7 @@ function novStatusDet_inic(status, titulo) {
                 if (resp.length > 5) {
                     g2.crearGraficaBarra(resp, 450, 'grafica', 'nov2', false, false, 'top', 'col-xs-6', 'Status: ' + titulo);
                 } else
-                g2.crearGraficaTorta(resp, 450, 'grafica', 'nov2', true, true, 'top', 'col-xs-6', 'Status: ' + titulo);
+                    g2.crearGraficaTorta(resp, 450, 'grafica', 'nov2', true, true, 'top', 'col-xs-6', 'Status: ' + titulo);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);

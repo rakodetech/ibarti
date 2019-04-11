@@ -43,7 +43,7 @@ class gNovedades
     nov_procesos AS NP
     INNER JOIN nov_status AS NS ON NP.cod_nov_status = NS.codigo
     WHERE NP.fec_us_ing BETWEEN \"$fecha_desde\" AND \"$fecha_hasta\"
-    GROUP BY titulo ASC";
+    GROUP BY codigo ASC";
     $query = $this->bd->consultar($sql);
     while ($datos= $this->bd-> obtener_fila($query)) {
       $this->datos[] = $datos;

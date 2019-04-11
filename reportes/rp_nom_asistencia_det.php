@@ -86,10 +86,12 @@ if(isset($reporte)){
                       $where
 			        ORDER BY 1 ASC ";
 	if($reporte== 'excel'){
-		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
-		header("Content-type: application/vnd.ms-excel");
-		header("Content-Disposition:  filename=\"$archivo.xls\";");
+		//echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
+		//header("Content-type: application/vnd.ms-excel");
+		//header("Content-Disposition:  filename=\"$archivo.xls\";");
 
+		echo $sql;
+		/*
 		$query01  = $bd->consultar($sql);
 
 	 echo "<table border=1>";
@@ -108,7 +110,7 @@ if(isset($reporte)){
 
 		}
 		 echo "</table>";
-
+*/
 	}
 
 	if($reporte == 'pdf'){
