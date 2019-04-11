@@ -214,8 +214,9 @@ function crear_grafica(data, name, agrupaciones) {
     $('#inicial').show();
     grafica_1 = c3.generate({
         bindto: "#contenedor",
+        
         data: {
-
+           
             type: 'bar',
 
             groups: agrupaciones
@@ -319,9 +320,7 @@ function crear_grafica(data, name, agrupaciones) {
 
         bar: {
             zerobased: false,
-            width: {
-                ratio: 1
-            }
+            width:40
         }
         ,
         legend: {
@@ -344,12 +343,14 @@ function crear_grafica(data, name, agrupaciones) {
         },
         axis: {
             rotated: true,
+           
             y: {
                 label: 'DIAS PROMEDIO',
                 padding: {
                     top: 900,
                     bottom: 300
-                },
+                }, min:-100,
+                max:100,
             },
             x: {
                 padding: {
@@ -374,7 +375,7 @@ function crear_grafica2(data, nombres, agrupaciones) {
             groups: agrupaciones,
             columns: data,
             onclick: function (d) {
-                $('#p_nov').html(`PROMEDIO POR CLASIFICACION (${String(d.name).replace(' EXCESO', '')})`);
+                $('#p_nov').html(`PROMEDIO POR NOVEDAD (${String(d.name).replace(' EXCESO', '')})`);
 
                 $('#contenedor2').show();
                 var suma = 0;
@@ -425,11 +426,11 @@ function crear_grafica2(data, nombres, agrupaciones) {
                                 name += ","
                             }
                         });
-                        console.log(sum / nuevo2.length)
+                        //console.log(sum / nuevo2.length)
                         name += "}";
                     }
                 });
-                // console.log(nuevos, JSON.parse(name), old_data)
+                // //console.log(nuevos, JSON.parse(name), old_data)
                 crear_grafica3(nuevos, JSON.parse(name), old_data, grup)
             },
             color: function (color, d) {
@@ -458,6 +459,7 @@ function crear_grafica2(data, nombres, agrupaciones) {
                         if (exceso.length > 1) {
                             return v * (-1);
                         } else {
+                            //console.log(`${v}   //${nombres[id].trim()}`)
                             return `${v}   //${nombres[id].trim()}`
                         }
 
@@ -474,12 +476,8 @@ function crear_grafica2(data, nombres, agrupaciones) {
 
         ,
         bar: {
-            format: function (a) {
-                return a
-            },
-            width: {
-                ratio: 1
-            }
+            
+            width:40
         }, legend: {
             hide: true,
             position: 'right',
@@ -500,12 +498,14 @@ function crear_grafica2(data, nombres, agrupaciones) {
 
         axis: {
             rotated: true,
+            
             y: {
                 label: 'DIAS PROMEDIO',
                 padding: {
                     top: 900,
                     bottom: 300
-                },
+                },min:-100,
+                max:100,
             },
             x: {
                 padding: {
@@ -525,6 +525,7 @@ function crear_grafica3(dat, name, old_data, agrupaciones) {
     desplazar('p_nov');
     grafica = c3.generate({
         bindto: "#contenedor2",
+       
         data: {
             type: 'bar',
             columns: dat,
@@ -591,7 +592,8 @@ function crear_grafica3(dat, name, old_data, agrupaciones) {
                 padding: {
                     top: 900,
                     bottom: 300
-                },
+                },min:-100,
+                max:100,
             },
             x: {
                 padding: {
@@ -602,7 +604,9 @@ function crear_grafica3(dat, name, old_data, agrupaciones) {
                 label: 'PERFILES'
             }
         },
-
+        bar:{
+            width:40
+        },
         tooltip: {
             show: true,
             grouped: false,
