@@ -36,8 +36,12 @@ function generar() {
                     $('#sin_data').hide();
                     $('#grafica').show();
                     $('#division').show();
-
-                    torta1 = g.Torta('chart-area', resp, 'Novetades por Status');
+                    if (torta1) {
+                        console.log('actualizar');
+                        torta1 = g.actualizarTorta(torta1, resp, 'Novetades por Status')
+                    } else {
+                        torta1 = g.Torta('chart-area', resp, 'Novetades por Status');
+                    }
 
                     torta1.canvas.onclick = function (evt) {
                         var activePoints = torta1.getElementsAtEvent(evt);
@@ -55,7 +59,11 @@ function generar() {
                             type: 'post',
                             success: function (response) {
                                 var resp = JSON.parse(response);
-                                torta2 = g.Torta('chart-area2', resp, titulo);
+                                if (torta2) {
+                                    torta2 = g.actualizarTorta(torta2, resp, titulo);
+                                } else {
+                                    torta2 = g.Torta('chart-area2', resp, titulo);
+                                }
 
                             },
                             error: function (xhr, ajaxOptions, thrownError) {

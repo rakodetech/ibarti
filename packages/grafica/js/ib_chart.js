@@ -82,4 +82,27 @@ class Grafica {
         }
         return this.torta;
     }
+
+    actualizarTorta(obj, data, titulo) {
+        this.datos = [];
+        this.labels = [];
+        this.codigos = [];
+
+        data.forEach((d) => {
+            this.datos.push(Number(d.valor));
+            this.labels.push(d.titulo);
+            this.codigos.push(d.codigo);
+        });
+
+        obj.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+        });
+        obj.data.labels.pop();
+        obj.data.datasets[0].data = this.datos;
+        obj.data.labels = this.labels;
+        obj.options.title.text = titulo;
+        obj.update();
+        obj.codigos = this.codigos;
+        return obj;
+    }
 }
