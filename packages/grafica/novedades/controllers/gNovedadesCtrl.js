@@ -7,6 +7,7 @@ var fec_hasta = f.getFullYear() + "-" + pad((f.getMonth() + 1), 2) + "-" + pad(f
 var chartColors = ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)',
     'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'
 ];
+var torta1, torta2;
 //Se geneara automaticamente al cargar el script
 $(function () {
     iniciar();
@@ -36,79 +37,34 @@ function generar() {
                     $('#grafica').show();
                     $('#division').show();
 
-                    g.Torta('chart-area', resp,'Novetades por Status');
-                    /*
-                                        var canvas = document.getElementById('chart-area');
+                    torta1 = g.Torta('chart-area', resp, 'Novetades por Status');
 
-                                        canvas.onclick = function (evt) {
-                                            var activePoints = myPie.getElementsAtEvent(evt);
-                                            var firstPoint = activePoints[0];
-                                            var cod = codigos[firstPoint._index];
-                                            var label = myPie.data.labels[firstPoint._index];
-                                            var value = myPie.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+                    torta1.canvas.onclick = function (evt) {
+                        var activePoints = torta1.getElementsAtEvent(evt);
+                        var firstPoint = activePoints[0];
+                        var cod = torta1.codigos[firstPoint._index];
+                        var titulo = torta1.data.labels[firstPoint._index];
+                        var parametros = {
+                            "fec_desde": fec_desde,
+                            "fec_hasta": fec_hasta,
+                            "status": cod
+                        };
+                        $.ajax({
+                            data: parametros,
+                            url: 'packages/grafica/novedades/modelo/getGraficaStatusDet.php',
+                            type: 'post',
+                            success: function (response) {
+                                var resp = JSON.parse(response);
+                                torta2 = g.Torta('chart-area2', resp, titulo);
 
-                                            var parametros = {
-                                                "fec_desde": fec_desde,
-                                                "fec_hasta": fec_hasta,
-                                                "status": cod
-                                            };
-                                            $.ajax({
-                                                data: parametros,
-                                                url: 'packages/grafica/novedades/modelo/getGraficaStatusDet.php',
-                                                type: 'post',
-                                                success: function (response) {
-                                                    var resp = JSON.parse(response);
-                                                    var datos = [];
-                                                    var labels = [];
-                                                    var codigos = [];
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert(xhr.status);
+                                alert(thrownError);
+                            }
+                        });
 
-                                                    resp.forEach(function (d) {
-                                                        datos.push(Number(d.valor));
-                                                        labels.push(d.titulo);
-                                                        codigos.push(d.codigo);
-                                                    });
-
-                                                    if (window.myPie2) {
-                                                        myPie2.data.datasets.forEach((dataset) => {
-                                                            dataset.data.pop();
-                                                        });
-                                                        myPie2.data.labels.pop();
-                                                        myPie2.data.datasets[0].data = datos;
-                                                        myPie2.data.labels = labels;
-                                                        myPie2.options.title.text = label;
-                                                        myPie2.update();
-
-                                                    } else {
-                                                        var config = {
-                                                            type: 'doughnut',
-                                                            data: {
-                                                                datasets: [{
-                                                                    data: datos,
-                                                                    backgroundColor: chartColors,
-                                                                }],
-                                                                labels: labels
-                                                            },
-                                                            options: {
-                                                                responsive: true,
-                                                                title: {
-                                                                    display: true,
-                                                                    text: label
-                                                                }
-                                                            }
-                                                        };
-
-                                                        var ctx = document.getElementById('chart-area2').getContext('2d');
-                                                        window.myPie2 = new Chart(ctx, config);
-                                                    }
-
-                                                },
-                                                error: function (xhr, ajaxOptions, thrownError) {
-                                                    alert(xhr.status);
-                                                    alert(thrownError);
-                                                }
-                                            });
-
-                                        };*/
+                    };
                     // Build the chart
                     /*Highcharts.chart('grafica', {
                         chart: {

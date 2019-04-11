@@ -36,60 +36,50 @@ class Grafica {
         });
 
         if (data.length > 0) {
-            if (this.torta) {
-                this.torta.data.datasets.forEach((dataset) => {
-                    dataset.data.pop();
-                });
-                this.torta.data.labels.pop();
-                this.torta.data.datasets[0].data = this.datos;
-                this.torta.data.labels = this.labels;
-                this.torta.options.title.text = titulo;
-                this.torta.update();
-            } else {
-                this.configTorta = {
-                    type: 'pie',
-                    data: {
-                        datasets: [{
-                            data: this.datos,
-                            backgroundColor: this.chartColors,
-                        }],
-                        labels: this.labels
+            this.configTorta = {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: this.datos,
+                        backgroundColor: this.chartColors,
+                    }],
+                    labels: this.labels
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: titulo
                     },
-                    options: {
-                        responsive: true,
-                        title: {
-                            display: true,
-                            text: titulo
-                        },
-                        tooltips: {
-                            callbacks: {
-                                label: function (tooltipItem, data) {
-                                    console.log(data);
-                                    var label = data.labels[tooltipItem.index] || '';
-                                    var total = 0;
-                                    data.datasets[tooltipItem.datasetIndex].data.forEach((d) => {
-                                        total += d
-                                    });
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                var label = data.labels[tooltipItem.index] || '';
+                                var total = 0;
+                                data.datasets[tooltipItem.datasetIndex].data.forEach((d) => {
+                                    total += d
+                                });
 
-                                    if (label) {
-                                        label += ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + ' : \n';
-                                    }
-                                    label += parseFloat((data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]*100) / total).toFixed(2);
-                                    label += ' %';
-                                    return label;
+                                if (label) {
+                                    label += ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + ' : \n';
                                 }
+                                label += parseFloat((data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] * 100) / total).toFixed(2);
+                                label += ' %';
+                                return label;
                             }
-                        },
-                        angleLines: {
-                            display: true
                         }
-
+                    },
+                    angleLines: {
+                        display: true
                     }
-                };
 
-                this.ctx = document.getElementById(id_contenedor).getContext('2d');
-                this.torta = new Chart(this.ctx, this.configTorta);
-            }
+                }
+            };
+
+            this.ctx = document.getElementById(id_contenedor).getContext('2d');
+            this.torta = new Chart(this.ctx, this.configTorta);
+            this.torta.codigos = this.codigos;
         }
+        return this.torta;
     }
 }
