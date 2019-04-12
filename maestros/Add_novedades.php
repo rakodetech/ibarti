@@ -84,11 +84,11 @@ function llenar_nov_tipo(clasificacion){
 	 </tr>   
 	 <tr>
 		 <td class="etiqueta">Dias Vencimiento:</td>  
-		 <td class="etiqueta"><input  type="number" name="dias_v" min="1" required="required" id="dias_v" value="<?php echo $dias_v?>"></td>  
+		 <td class="etiqueta"><input  type="number" name="dias_v" min="1"  id="dias_v" value="<?php echo $dias_v?>"></td>  
 	 </tr>
     <tr>
       <td class="etiqueta">Clasificaci&oacute;n:</td>
-      	<td id="select01"><select name="clasif" style="width:250px" onchange="llenar_nov_tipo(this.value)">
+      	<td id="select01"><select name="clasif" style="width:250px" >
 							<option value="<?php echo $cod_clasif;?>"><?php echo $clasif;?></option>
           <?php  	$sql = " SELECT codigo, descripcion FROM nov_clasif WHERE `status` = 'T' 
 		                        AND codigo <> '$cod_clasif' ORDER BY 2 ASC ";
