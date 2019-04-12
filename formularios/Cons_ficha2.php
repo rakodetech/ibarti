@@ -45,7 +45,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
 	var b_add    = $("#b_add").val();
 	var b_mod    = $("#b_mod").val();
 	var b_eli    = $("#b_eli").val();
-
+	r_cliente = $("#r_cliente").val();
 	var error = 0;
     var errorMessage = ' ';
 
@@ -67,7 +67,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("Nmenu="+Nmenu+"&mod="+mod+"&r_rol="+r_rol+"&rol="+rol+"&status="+status+"&usuario="+usuario+"&filtro="+filtro+"&ficha="+ficha+"&b_cons="+b_cons+"&b_add="+b_add+"&b_mod="+b_mod+"&b_eli="+b_eli+"");
+			ajax.send("Nmenu="+Nmenu+"&mod="+mod+"&r_rol="+r_rol+"&rol="+rol+"&r_cliente="+r_cliente+"&status="+status+"&usuario="+usuario+"&filtro="+filtro+"&ficha="+ficha+"&b_cons="+b_cons+"&b_add="+b_add+"&b_mod="+b_mod+"&b_eli="+b_eli+"");
 
 	}else{
 		 	 alert(errorMessage);

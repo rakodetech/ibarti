@@ -78,7 +78,7 @@ if($estado != "TODOS"){
 	FROM v_ficha
 	$where
 	ORDER BY 2 ASC";
-
+	
 	?><table width="100%" border="0" align="center">
 		<tr class="fondo00">
 			<th width="15%" class="etiqueta"><?php echo $leng['rol']?></th>

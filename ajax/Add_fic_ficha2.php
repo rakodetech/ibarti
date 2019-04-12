@@ -17,7 +17,7 @@ $status     = $_POST['status'];
 $usuario    = $_POST['usuario'];
 $filtro     = $_POST['filtro'];
 $ficha      = $_POST['ficha'];
-
+$r_cliente  = $_POST['r_cliente'];
 $b_cons     = $_POST['b_cons'];
 $b_add      = $_POST['b_add'];
 $b_mod      = $_POST['b_mod'];
@@ -47,7 +47,10 @@ $r_eli      = " ";
 	if(($filtro != "TODOS") and ($ficha) != ""){
 		$WHERE .= "  AND ficha.cod_ficha = '$ficha' ";
 	}
-
+	if($r_cliente  == "T"){
+		$WHERE  .= "AND ficha.cod_ubicacion IN (SELECT cod_ubicacion FROM usuario_clientes WHERE
+		cod_usuario = '$usuario' AND usuario_clientes.cod_ubicacion = ficha.cod_ubicacion)";
+	}
 	if($r_rol == "T"){
 	$FROM = 	" , usuario_roles ";
 	$AND  = " 	AND usuario_roles.cod_usuario = '$usuario' AND trab_roles.cod_rol = usuario_roles.cod_rol ";

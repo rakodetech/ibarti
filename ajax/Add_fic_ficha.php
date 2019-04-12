@@ -59,8 +59,8 @@ $r_eli      = " ";
 	}
 
 	if($r_cliente  == "T"){
-		$FROM   .= " ,usuario_clientes ";
-		$WHERE  .= "   AND usuario_clientes.cod_usuario =  '$usuario' AND ficha.cod_ubicacion  = usuario_clientes.cod_ubicacion ";
+		$WHERE  .= "AND ficha.cod_ubicacion IN (SELECT cod_ubicacion FROM usuario_clientes WHERE
+		cod_usuario = '$usuario' AND usuario_clientes.cod_ubicacion = ficha.cod_ubicacion)";
 	}
 
 	$sql = " SELECT ficha.cod_ficha, ficha.cedula, CONCAT(ficha.apellidos, ' ',ficha.nombres) AS nombres,

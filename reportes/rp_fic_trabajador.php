@@ -22,7 +22,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	var contrato    = $( "#contrato").val();
 	var status      = $( "#status").val();
 	var trabajador  = $( "#stdID").val();
-
+	var r_cliente = $("#r_cliente").val();
 	var fecha_desde = $( "#fecha_desde").val();
 	var fecha_hasta = $( "#fecha_hasta").val();
 	var Nmenu       = $( "#Nmenu").val();
@@ -58,7 +58,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 			"contrato" : contrato,
 			"status":status,
 			"trabajador":trabajador,
-
+			"r_cliente":r_cliente,
 			"fecha_desde" : fecha_desde,
 			"fecha_hasta" : fecha_hasta,
 			"Nmenu" : Nmenu,
@@ -199,6 +199,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 															<input type="hidden" name="mod" id="mod" value="<?php echo $mod;?>" />
 															<input type="hidden" name="archivo" id="archivo" value="<?php echo $archivo;?>" />
 															<input type="hidden" name="r_rol" id="r_rol" value="<?php echo $_SESSION['r_rol'];?>"/>
+															
 															<input type="hidden" name="r_cliente" id="r_cliente" valuee="<?php echo $_SESSION['r_cliente'];?>"/>
 															<input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION['usuario_cod'];?>"/></td>
 														</tr>
