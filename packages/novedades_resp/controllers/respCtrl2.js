@@ -3,27 +3,6 @@ var datos_grafica1 = [];
 var datos_grafica2 = [];
 var datos;
 var inicial = false;
-$(function () {
-
-    var fecha = new Date()
-    var mes_actual = fecha.getMonth() + 1;
-    var año_actual = fecha.getFullYear();
-    var meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE']
-    for (i = (Math.round(año_actual / 2)); i < año_actual; i++) {
-
-        $('#a_d').append(`<option value="${i + 1}" ${(i + 1) == (año_actual) ? 'selected="selected"' : ''}>${i + 1}</option>`);
-        $('#a_h').append(`<option value="${i + 1}" ${(i + 1) == (año_actual) ? 'selected="selected"' : ''}>${i + 1}</option>`);
-    }
-    for (i = 0; i < 12; i++) {
-
-        $('#m_d').append(`<option value="${i + 1}" ${(i + 1) == (mes_actual) ? 'selected="selected"' : ''} >${meses[i]}</option>`);
-        $('#m_h').append(`<option value="${i + 1}" ${(i + 1) == (mes_actual) ? 'selected="selected"' : ''}>${meses[i]}</option>`);
-
-    }
-
-
-});
-
 
 //#region funciones adicionales
 
@@ -47,8 +26,8 @@ function obtener_data() {
     $('#contenedor2').hide();
     $('#detalles').hide();
     if (inicial) {
-        var fecha_desde = `${$('#a_d').val()}-${$('#m_d').val()}-01`;
-        var fecha_hasta = `${$('#a_h').val()}-${$('#m_h').val()}-31`;
+        var fecha_desde = $('#f_d').val();
+        var fecha_hasta = $('#f_h').val();
     } else {
         var fecha_desde = "";
         var fecha_hasta = "";
@@ -68,13 +47,9 @@ function obtener_data() {
                 $('#inicial').show();
                 $('#con_data').show();
                 $('#cargando').hide();
-
-                var fecha_d = datos[0].desde.split('-')
-                $('#a_d').val(Number(fecha_d[0]))
-                $('#m_d').val(Number(fecha_d[1]))
-                var fecha_h = datos[0].hasta.split("-")
-                $('#a_h').val(Number(fecha_h[0]))
-                $('#m_h').val(Number(fecha_h[1]))
+                $('#f_d').val(datos[0].desde);
+                $('#f_h').val(datos[0].hasta);
+                
 
                 formatear_data(datos);
 
@@ -365,7 +340,8 @@ function crear_grafica(data, name, agrupaciones) {
 }
 //grafica 2 EXPERIMENTAL
 function crear_grafica2(data, nombres, agrupaciones) {
-    
+    var contenedor = document.getElementById('p_clasif').classList ;
+    console.log(contenedor)
     desplazar('p_clasif');
     grafica_1 = c3.generate({
         bindto: "#contenedor1",
@@ -655,50 +631,3 @@ function crear_detalle(data) {
     tr.append("td").text((d, i) => { return d.dias_respuesta + " dias" }).style("text-align", "center");
 }
 
-
-////////UNICO DE CONTROL DE FECHA/////////////////////////////////////////////////////////////////
-
-function crear_control(contenedor) {
-
-    if ($('#fecha_ingreso').length > 0) {
-        
-        destruir('fecha_ingreso');
-
-    } else {
-        $('html').append(/*html*/ `
-           <div id="fecha_ingreso" class="contenedor"style="">
-            <div id="box" class="contenido">
-                <table class="agrupadas">
-                <tr>
-                    <td class="texto">AÑOS  </td>
-                    <td class="texto">MESES </td>
-                    <td class="texto">SEMANAS</td>
-                    <td class="texto">FECHA</td>
-                </tr>
-                </table>
-                <div class="base">
-                    <ul>
-                        <li>hola</li>
-                    </ul>
-                </div>
-                <table class="agrupadas" style="border-bottom: none;">
-                    <tr>
-                        <td id="colaps"></td>
-                    </tr>
-                </table>
-                </div>
-           </div>`);
-
-        $('#fecha_ingreso').offset({ top: ($('#' + contenedor).offset().top + 5 + $('#' + contenedor).height()), left: ($('#' + contenedor).offset().left - ($('#fecha_ingreso').width() / 2)) });
-    }
-
-
-
-}
-function destruir(s) {
-
-    $('#' + s).remove();
-
-}
-
-///////////////////////////////////////////////////////////////////////////

@@ -4,7 +4,7 @@
 <!--<link rel="stylesheet" type="text/css" href="packages/grafica/css/grafica.css">-->
 
 <link rel="stylesheet" href="packages/novedades_resp/libs/c3.css">
-<link rel="stylesheet" href="packages/novedades_resp/libs/fechas.css">
+
 
 <form name="form_reportes" id="form_reportes" action="<?php echo $archivo;?>"  method="post" target="_blank">
 
@@ -17,7 +17,7 @@
     
     <div id="inicial" style="display:none;text-aling:left;" >
     <div id="sin_data" style="display:none;text-aling:center;font-size:20px">SIN DATA</div>
-    <p style="float:right"><input type="hidden"  id="f_d" ><input type="hidden" id="f_h">Desde: <select name="" id="m_d"></select> <select name="" id="a_d" ></select> Hasta: <select name="" id="m_h"></select> <select name="" id="a_h"></select> <input type="button" value="Cargar" onclick="obtener_data()">
+    <p style="float:right"><input type="hidden"  id="f_d" ><input type="hidden" id="f_h"><input type="button" id="gestor_fecha" value="Desde:|Hasta:" onclick="crear_control(this.id,'f_d','f_h',()=>obtener_data())"></p>
     
     <div id="con_data" style="display:none;">
     <div><p aling="center" style="font-size:14px"><b>CONTROL DE DIAS PROMEDIO</b></p></div>
@@ -28,7 +28,7 @@
     
     
     text-align: center;" ></div><br>
-    <p style="float:left;" id="p_clasif"><b>PROMEDIO POR CLASIFICACION</b></p><br><br>
+    <p style="float:left;" id="p_clasif" class="dom"><b>PROMEDIO POR CLASIFICACION</b></p><br><br>
     <div id="contenedor1" style="width: 100%;
     height: 512px;
     border:1px solid;
@@ -59,6 +59,7 @@ overflow-y:scroll;"></div>
 </form>
 
 <!--<script type="text/javascript" src="packages/grafica/js/ib-graficas.js"></script>-->
+
 <script src="packages/novedades_resp/libs/c3.js"></script>
 
 <script src="packages/novedades_resp/controllers/respCtrl2.js"></script>

@@ -62,6 +62,8 @@ require Leng;
 <link href="spry/widgets/radiovalidation/SpryValidationRadio.css" rel="stylesheet" type="text/css" />
 
 <link rel="stylesheet" type="text/css" href="css/calendario.css"/>
+<!--CSS PARA CONTROL DE FECHAS BY LUIS-->
+<link rel="stylesheet" href="libs/control_fecha/fechas.css">
 <!-- CSS PARA LAS NOTIFICACIONES -->
 <link rel="stylesheet" type="text/css" href="libs/toastr.css">
 <link rel="stylesheet" type="text/css" href="css/animaciones_notif.css">
@@ -84,6 +86,8 @@ require Leng;
 
 <script type="text/javascript" src="calendarioJS/fechas.js"></script>
 <script type="text/javascript" src="calendarioJS/calendario.js"></script>
+<!--SCRIPT DE CONTROL DE FECHAS BY:LUIS-->
+<script src="libs/control_fecha/fecha.js"></script>
 
 
 <script src="jquery-2.1.1.min.js" type="text/javascript"></script>
