@@ -84,6 +84,7 @@ class Grafica {
     }
 
     actualizarTorta(obj, data, titulo) {
+        console.log('actualizarTorta');
         this.datos = [];
         this.labels = [];
         this.codigos = [];
@@ -93,7 +94,7 @@ class Grafica {
             this.labels.push(d.titulo);
             this.codigos.push(d.codigo);
         });
-
+        
         obj.data.datasets.forEach((dataset) => {
             dataset.data.pop();
         });
