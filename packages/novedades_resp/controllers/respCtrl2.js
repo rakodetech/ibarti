@@ -49,7 +49,7 @@ function obtener_data() {
                 $('#cargando').hide();
                 $('#f_d').val(datos[0].desde);
                 $('#f_h').val(datos[0].hasta);
-                
+                $('#gestor_fecha').val(`Desde: ${datos[0].desde.split('-').reverse().join('/')}| Hasta: ${datos[0].hasta.split('-').reverse().join('/')}`)
 
                 formatear_data(datos);
 

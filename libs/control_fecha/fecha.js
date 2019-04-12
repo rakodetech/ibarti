@@ -13,9 +13,12 @@ function crear_control(contenedor, cont_desde, cont_hasta,callback) {
 
         if (activa) {
             $('#fecha_ingreso').hide();
-
+            $('#fecha_ingreso').offset({ top: ($('#' + contenedor).offset().top + 5 + $('#' + contenedor).height()), left: ($('#' + contenedor).offset().left - ($('#fecha_ingreso').width() / 2)) });
         } else {
+            
             $('#fecha_ingreso').show();
+            $('#fecha_ingreso').offset({ top: ($('#' + contenedor).offset().top + 5 + $('#' + contenedor).height()), left: ($('#' + contenedor).offset().left - ($('#fecha_ingreso').width() / 2)) });
+
         }
 
     } else {
