@@ -51,7 +51,7 @@ if($metodo == 'modificar'){
 	 </tr>
     <tr>
       <td class="etiqueta">Abreviatura:</td>
-      <td id="input02"><input type="text" name="abrev" maxlength="2" size="12" value="<?php echo $abrev;?>" /><br />
+      <td id="input02"><input type="text" name="abrev" maxlength="6" size="12" value="<?php echo $abrev;?>" /><br />
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>
