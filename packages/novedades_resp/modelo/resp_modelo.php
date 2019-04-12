@@ -20,8 +20,8 @@ class novedades_promedio
     public function obtener_dias_perfil($fecha_desde,$fecha_hasta){
         $where="";
         if($fecha_desde=="" || $fecha_hasta==""){
-            $select = "DATE_SUB(CURDATE(),INTERVAL 6 MONTH) desde, CURDATE() hasta";
-            $where.= "and nov_procesos.fec_us_mod >= DATE_SUB(CURDATE(),INTERVAL 6 MONTH)";
+            $select = "DATE_SUB(CURDATE(),INTERVAL 1 MONTH) desde, CURDATE() hasta";
+            $where.= "and nov_procesos.fec_us_mod >= DATE_SUB(CURDATE(),INTERVAL 1 MONTH)";
         }else{
             $select =  $select = "'".$fecha_desde."' desde, '".$fecha_hasta."' hasta";
             $where.= "and nov_procesos.fec_us_mod BETWEEN '".$fecha_desde."' and '".$fecha_hasta."'";
@@ -37,6 +37,7 @@ class novedades_promedio
         and nov_perfiles.respuesta = 'T'
         and nov_perfiles.cod_perfil = men_perfiles.codigo
         and men_perfiles.`status` ='T'
+        and nov_clasif.campo04 = 'F'
         and novedades.`status` = 'T'
         and nov_status.control_notificaciones_res = 'T'
         
