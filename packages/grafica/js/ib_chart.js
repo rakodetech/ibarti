@@ -40,10 +40,10 @@ class Grafica {
             this.labels.push(d.titulo);
             this.codigos.push(d.codigo);
         });
-
+        console.log(dona)
         if (data.length > 0) {
             this.configTorta = {
-                type: dona?'doughnut':'pie',
+                type: dona?'doughnut':'doughnut',
                 data: {
                     datasets: [{
                         data: this.datos,
@@ -104,8 +104,7 @@ class Grafica {
         obj.data.datasets.forEach((dataset) => {
             dataset.data.pop();
         });
-        console.log(obj.width)
-        obj.type=dona?'doughnut':'pie';
+        ;
         obj.data.labels.pop();
         obj.data.datasets[0].data = this.datos;
         obj.data.labels = this.labels;
