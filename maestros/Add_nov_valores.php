@@ -15,7 +15,8 @@ if($metodo == 'modificar'){
                     nov_valores.campo03, nov_valores.campo04,
                     nov_valores.cod_us_ing, nov_valores.fec_us_ing,
                     nov_valores.cod_us_mod, nov_valores.fec_us_mod,
-                    nov_valores.`status`
+                    nov_valores.`status`,
+                    nov_valores.cod_clasif_val clasificacion
                FROM nov_valores		    
               WHERE nov_valores.codigo = '$codigo'";
 
@@ -27,7 +28,8 @@ if($metodo == 'modificar'){
 	$abrev          = $result["abrev"];
 	$descripcion    = $result["descripcion"];
 	$factor         = $result["factor"];
-	$activo         = $result["status"];
+  $activo         = $result["status"];
+  $cod_clasif     = $result['clasificacion'];
 
 	}else{
 
@@ -36,7 +38,8 @@ if($metodo == 'modificar'){
 	$abrev        = "";
 	$descripcion  = "";
 	$factor       = "";
-	$activo       = 'T';
+  $activo       = 'T';
+  $cod_clasif   = "";
 	}
 ?><form action="sc_maestros/sc_<?php echo $archivo;?>.php" method="post" name="add" id="add"> 
   <fieldset class="fieldset">
@@ -61,10 +64,25 @@ if($metodo == 'modificar'){
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>
+    <tr>
       <td class="etiqueta">Factor:</td>
       <td id="radio01" class="texto">Positivo (+) <input type="radio" name="factor"  value="+" style="width:auto"  <?php echo CheckX($factor, '+');?> />Negativo (-) <input type="radio" name="factor" value="-" style="width:auto"  <?php echo CheckX($factor, '-');?> />
             <br/><span class="radioRequiredMsg">Debe Seleccionar Un Campo.</span>
         </td>
+    </tr>
+    <tr>
+      <td class="etiqueta">Clasificacion:</td>
+      <td id="clasif01" class="texto">
+        <select name="clasif" id="clasif"><?php
+          $sql="SELECT nov_valores_clasif.codigo,nov_valores_clasif.descripcion from nov_valores_clasif order by nov_valores_clasif.codigo ASC";
+          $query01 = $bd->consultar($sql);
+         
+          while($row01=$bd->obtener_fila($query01,0)){
+           $selec = $row01[0]==$cod_clasif?"selected='selected'":'';
+            echo '<option value="'.$row01[0].'"'.$selec.'>'.$row01[1].'</option>';
+          }
+        ?></select>
+      </td>
     </tr>
 	 <tr> 
          <td height="8" colspan="2" align="center"><hr></td>

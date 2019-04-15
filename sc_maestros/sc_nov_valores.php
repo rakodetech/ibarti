@@ -18,7 +18,7 @@ $abrev        = htmlspecialchars($_POST["abrev"]);
 $descripcion  = htmlspecialchars($_POST["descripcion"]);			
 $factor       = $_POST["factor"];
 $activo       = statusbd($_POST['activo']);
-
+$cod_clasif	  = $_POST['clasif'];
 $cp01         = "";
 $cp02         = "";
 $cp03         = "";
@@ -31,7 +31,7 @@ $metodo       = $_POST['metodo'];
 
 	$sql      = "$SELECT $proced('$metodo', '$codigo', '$abrev', '$descripcion',
 	                             '$factor', '$cp01', '$cp02', '$cp03', '$cp04',
-							     '$usuario', '$activo')";						 		
+							     '$usuario', '$activo','$cod_clasif')";						 		
 	$query    = $bd->consultar($sql);	  			   	
  require_once('../funciones/sc_direccionar.php');  
 ?>

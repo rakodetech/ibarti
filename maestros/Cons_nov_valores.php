@@ -12,10 +12,12 @@
 <div id="listar"><table width="100%" border="0" align="center">
 		<tr class="fondo00">
 			<th width="10%" class="etiqueta">Codigo</th>
-			<th width="22%" class="etiqueta">Abreviatura</th>
-            <th width="30%" class="etiqueta">Descripci&oacute;n</th>			
+			<th width="15%" class="etiqueta">Abreviatura</th>
+			<th width="15%" class="etiqueta">Descripci&oacute;n</th>	
+			<th width="15%" class="etiqueta">Clasificacion</th>		
             <th width="15%" class="etiqueta">Factor</th>
-            <th width="15%" class="etiqueta">Activo</th>
+			<th width="15%" class="etiqueta">Activo</th>
+			
 		    <th width="8%" align="center"><a href="<?php echo $vinculo."&codigo=''&metodo=agregar";?>"><img src="imagenes/nuevo.bmp" alt="Agregar" title="Agregar Registro" width="30px" height="30px" border="null"/></a></th> 
 		</tr>
     <?php       
@@ -27,8 +29,9 @@
                     nov_valores.campo03, nov_valores.campo04,
                     nov_valores.cod_us_ing, nov_valores.fec_us_ing,
                     nov_valores.cod_us_mod, nov_valores.fec_us_mod,
-                    nov_valores.`status`
-               FROM nov_valores
+                    nov_valores.`status`,nov_valores_clasif.descripcion clasificacion
+               FROM nov_valores,nov_valores_clasif
+			   WHERE nov_valores.cod_clasif_val = nov_valores_clasif.codigo
               ORDER BY 1 DESC ";
 
    $query = $bd->consultar($sql);
@@ -47,7 +50,8 @@
         echo '<tr class="'.$fondo.'"> 
                   <td class="texto">'.$datos["codigo"].'</td>  
 				  <td class="texto">'.$datos["abrev"].'</td> 
-                  <td class="texto">'.longitudMax($datos["descripcion"]).'</td>
+				  <td class="texto">'.longitudMax($datos["descripcion"]).'</td>
+				  <td class="texto">'.longitudMax($datos["clasificacion"]).'</td>
                   <td class="texto">'.longitud($datos["factor"]).'</td>
 				  <td class="texto">'.statuscal($datos["status"]).'</td>
 				  <td align="center"><a href="'.$vinculo.'&codigo='.$datos[0].'&metodo=modificar"><img src="imagenes/actualizar.bmp" alt="Modificar" title="Modificar Registro" width="20" height="20" border="null"/></a>&nbsp;<img src="imagenes/borrar.bmp"  width="20px" height="20px" title="Borrar Registro" border="null" onclick="'.$Borrar.'" class="imgLink"/></td> 
