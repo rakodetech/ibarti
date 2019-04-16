@@ -125,9 +125,6 @@ if ($metodo == 'modificar') {
 					<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 300.</span></td>
 			</tr>
 			<tr>
-				<td><input type="button" value="agregar_db" onclick="agregar_db()"></td>
-			</tr>
-			<tr>
 				<td height="8" colspan="2" align="center">
 					<hr>
 				</td>
@@ -187,12 +184,12 @@ if ($metodo == 'modificar') {
 								</td>
 								
 								<td>
-									<select id="valor" style="width:150px;">
+									<select id="valora" style="width:150px;">
 									</select>
 								</td>
 								
 								<td><input type="number" min="0" id="cantidad" value="0"></td>
-								<td><input type="button" value="Agregar" id="boton_agregar" onclick="agregar_arreglo(`valor`,`clasifica`,`cantidad`,`tabla_add`)"></td>
+								<td><input type="button" value="Agregar" id="boton_agregar" onclick="agregar_arreglo(`valora`,`clasifica`,`cantidad`,`tabla_add`)"></td>
 							</tr>
 
 							<tr>
@@ -394,16 +391,18 @@ if ($metodo == 'modificar') {
 			case 'modificar':
 				$('#boton_agregar').val('modificar');
 				$('#clasifica').val(arreglo_valores[pos].id_clasif);
-				llenar_valores(arreglo_valores[pos].id_clasif);
-				$('#valor').val(arreglo_valores[pos].id);
+				llenar_valores(arreglo_valores[pos].id_clasif,()=>{
+					$('#valora').val(arreglo_valores[pos].id);
 				$('#cantidad').val(arreglo_valores[pos].cantidad);
+				});
+			
 				modificar = true;
 				pos_modificar = pos;
 		}
 		update_table('tabla_add', arreglo_valores);
 	}
 
-	function llenar_valores(clasif) {
+	function llenar_valores(clasif,call) {
 		var parametros = {
 			"clasif": clasif
 		};
@@ -412,7 +411,10 @@ if ($metodo == 'modificar') {
 			url: 'ajax/Add_nov_valores.php',
 			type: 'post',
 			success: function(response) {
-				$('#valor').html(response)
+				$('#valora').html(response)
+				if(typeof call==='function'){
+					call()
+				}
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);
