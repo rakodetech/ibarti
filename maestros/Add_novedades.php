@@ -56,8 +56,6 @@ if ($metodo == 'modificar') {
 			url: 'ajax/Add_novedades_tipo.php',
 			type: 'post',
 			success: function(response) {
-
-				console.log(response);
 				$('#tipo').html(response);
 
 
@@ -69,30 +67,30 @@ if ($metodo == 'modificar') {
 		});
 	}
 </script>
-<form action="sc_maestros/sc_<?php echo $archivo; ?>.php" method="post" name="add" id="add">
+<form method="post" name="add" id="add">
 	<fieldset class="fieldset">
 		<legend> <?php echo $titulo; ?> </legend>
 		<table width="80%" align="center">
 			<tr>
 				<td class="etiqueta">C&oacute;digo:</td>
-				<td id="input01"><input type="text" name="codigo" maxlength="11" style="width:120px" value="<?php echo $codigo; ?>" />
-					Activo: <input name="activo" type="checkbox" <?php echo statusCheck("$activo"); ?> value="T" /><br />
+				<td id="input01"><input type="text" name="codigo" id="codigo" maxlength="11" style="width:120px" value="<?php echo $codigo; ?>" />
+					Activo: <input name="activo" id="activo" type="checkbox" <?php echo statusCheck("$activo"); ?> value="T" /><br />
 					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Orden:</td>
-				<td id="input02"><input type="text" name="orden" maxlength="11" style="width:120px" value="<?php echo $orden; ?>" />
+				<td id="input02"><input type="text" name="orden" id="orden" maxlength="11" style="width:120px" value="<?php echo $orden; ?>" />
 					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Dias Vencimiento:</td>
-				<td class="etiqueta"><input type="number" name="dias_v" min="1" id="dias_v" value="<?php echo $dias_v ?>"></td>
+				<td class="etiqueta"><input type="number" name="dias_v" id="dias_v" min="1" id="dias_v" value="<?php echo $dias_v ?>"></td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Clasificaci&oacute;n:</td>
-				<td id="select01"><select name="clasif" style="width:250px">
+				<td id="select01"><select name="clasif" id="clasif" style="width:250px">
 						<option value="<?php echo $cod_clasif; ?>"><?php echo $clasif; ?></option>
 						<?php $sql = " SELECT codigo, descripcion FROM nov_clasif WHERE `status` = 'T' 
 		                        AND codigo <> '$cod_clasif' ORDER BY 2 ASC ";
@@ -120,13 +118,15 @@ if ($metodo == 'modificar') {
 			</tr>
 			<tr>
 				<td class="etiqueta">Descripcion:</td>
-				<td id="textarea01"><textarea name="descripcion" cols="60" rows="3"><?php echo $descripcion; ?></textarea>
+				<td id="textarea01"><textarea name="descripcion" id="descripcion" cols="60" rows="3"><?php echo $descripcion; ?></textarea>
 					<span id="Counterror_mess2" class="texto">&nbsp;</span><br />
 					<span class="textareaRequiredMsg">El Campo es Requerido.</span>
 					<span class="textareaMinCharsMsg">Debe Escribir mas de 4 caracteres.</span>
 					<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 300.</span></td>
 			</tr>
-
+			<tr>
+				<td><input type="button" value="agregar_db" onclick="agregar_db()"></td>
+			</tr>
 			<tr>
 				<td height="8" colspan="2" align="center">
 					<hr>
@@ -135,6 +135,34 @@ if ($metodo == 'modificar') {
 			<tr>
 				<td colspan="2">
 					<?php
+
+
+					$sql = " SELECT nov_valores.codigo AS cod, nov_valores.abrev,
+					nov_valores.descripcion, IFNULL(nov_valores_det.cod_novedades, 'N') AS factor,
+					nov_valores_det.valor ,nov_valores_clasif.codigo,nov_valores_clasif.descripcion
+					FROM nov_valores INNER JOIN nov_valores_det ON nov_valores_det.cod_novedades = '$codigo' 
+																			AND nov_valores.codigo = nov_valores_det.cod_valores ,nov_valores_clasif
+					WHERE nov_valores.`status` = 'T' 
+					and nov_valores.cod_clasif_val = nov_valores_clasif.codigo";
+					$query = $bd->consultar($sql);
+					$valores = '';
+					$i = 0;
+					while ($datos = $bd->obtener_fila($query, 0)) {
+						if ($i == 0) {
+							$valores .= '{"id":"' . $datos[0] . '","id_clasif":"' . $datos[5] . '","descripcion":"' . $datos[2] . '","clasificacion":"' . $datos[6] . '","cantidad":"' . $datos[4] . '"}';
+						} else {
+							$valores .= ',{"id":"' . $datos[0] . '","id_clasif":"' . $datos[5] . '","descripcion":"' . $datos[2] . '","clasificacion":"' . $datos[6] . '","cantidad":"' . $datos[4] . '"}';
+						}
+						$i++;
+					}
+					echo '
+					<script>
+					var arreglo_valores = [];
+					var data = `[' . $valores . ']`;
+					arreglo_valores			= JSON.parse(data);
+					
+					</script>
+					';
 
 					$clasifi = '';
 					$sql = "SELECT codigo,descripcion FROM nov_valores_clasif";
@@ -153,7 +181,7 @@ if ($metodo == 'modificar') {
 							</tr>
 							<tr>
 								<td>
-									<select id="clasif" style="width:150px;" onchange="llenar_valores(this.value)">
+									<select id="clasifica" style="width:150px;" onchange="llenar_valores(this.value)">
 									' . $clasifi . '
 									</select>
 								</td>
@@ -164,25 +192,27 @@ if ($metodo == 'modificar') {
 								</td>
 								
 								<td><input type="number" min="0" id="cantidad" value="0"></td>
-								<td><input type="button" value="Agregar" onclick="agregar_arreglo(`valor`,`clasif`,`cantidad`,`tabla_add`)"></td>
+								<td><input type="button" value="Agregar" id="boton_agregar" onclick="agregar_arreglo(`valor`,`clasifica`,`cantidad`,`tabla_add`)"></td>
 							</tr>
 
 							<tr>
 								<td colspan="7">
+								<div class="tabla_sistema">
 									<table id="tabla_add" width="100%" border="1">
 										<thead>
 											<tr>
-												<td class="etiqueta" style="align-content: center;" width="10%">Codigo</td>
-												<td class="etiqueta" style="align-content: center;" width="20%">Valor</td>
-												<td class="etiqueta" style="align-content: center;" width="20%">Clasificacion</td>
-												<td class="etiqueta" style="align-content: center;" width="20%">Cantidad</td>
-												<td class="etiqueta" style="align-content: center;" width="20%"></td>
+												<th class="etiqueta" style="align-content: center;" width="10%">Codigo</td>
+												<th class="etiqueta" style="align-content: center;" width="20%">Valor</td>
+												<th class="etiqueta" style="align-content: center;" width="20%">Clasificacion</td>
+												<th class="etiqueta" style="align-content: center;" width="20%">Cantidad</td>
+												<th class="etiqueta" style="align-content: center;" width="20%"></td>
 											</tr>
 										</thead>
 										<tbody>
 										
 										</tbody>
-									</table>								
+									</table>
+									</div>								
 								</td>
 							</tr>
 					</table>
@@ -236,7 +266,7 @@ if ($metodo == 'modificar') {
 		<span class="art-button-wrapper">
 			<span class="art-button-l"> </span>
 			<span class="art-button-r"> </span>
-			<input type="submit" name="salvar" id="salvar" value="Guardar" class="readon art-button" />
+			<input type="button" name="salvar" id="salvar" onclick="agregar_db()" value="Guardar" class="readon art-button" />
 		</span>&nbsp;
 		<span class="art-button-wrapper">
 			<span class="art-button-l"> </span>
@@ -246,12 +276,12 @@ if ($metodo == 'modificar') {
 		<span class="art-button-wrapper">
 			<span class="art-button-l"> </span>
 			<span class="art-button-r"> </span>
-			<input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
+			<input type="submit" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
 		</span>
 		<input name="metodo" id="metodo" type="hidden" value="<?php echo $metodo; ?>" />
 		<input name="proced" id="proced" type="hidden" value="<?php echo $proced; ?>" />
 		<input name="usuario" id="usuario" type="hidden" value="<?php echo $usuario; ?>" />
-		<input name="href" type="hidden" value="<?php echo $archivo2; ?>" />
+		<input name="href" id="href" type="hidden" value="<?php echo $archivo2; ?>" />
 	</div>
 </form>
 
@@ -288,7 +318,6 @@ if ($metodo == 'modificar') {
 </script>
 
 <script>
-	var arreglo_valores = [];
 	var modificar = false;
 	var pos_modificar;
 
@@ -317,7 +346,8 @@ if ($metodo == 'modificar') {
 					clasificacion: clasificacion,
 					cantidad: cantidad
 				}
-				modificar=false;
+				$('#boton_agregar').val('agregar');
+				modificar = false;
 			} else {
 				if (aparicion == false) {
 					arreglo_valores.push({
@@ -338,7 +368,7 @@ if ($metodo == 'modificar') {
 		$('#' + id_tabla + ' tbody').html('');
 		if (arreglo.length > 0) {
 
-			console.log(arreglo)
+
 
 			arreglo.forEach((res, i) => {
 				$('#' + id_tabla + ' tbody').append(`
@@ -347,7 +377,7 @@ if ($metodo == 'modificar') {
 				<td>${res.descripcion}</td>
 				<td>${res.clasificacion}</td>
 				<td>${res.cantidad}</td>
-				<td><input type="button" value="modificar" onclick="accionar(${i},'modificar')"><input type="button" value="eliminar" onclick="accionar(${i},'eliminar')"></td>
+				<td align="center"><img src="imagenes/actualizar.bmp" alt="Modificar" onclick="accionar(${i},'modificar')" title="Modificar Registro" width="20" height="20" border="null"/><img src="imagenes/borrar.bmp"  width="20px" height="20px" title="Borrar Registro" border="null" onclick="accionar(${i},'eliminar')" /></td> 
 			</tr>
 			`)
 			});
@@ -362,12 +392,13 @@ if ($metodo == 'modificar') {
 				arreglo_valores.splice(pos, 1);
 				break;
 			case 'modificar':
-				$('#clasif').val(arreglo_valores[pos].id_clasif);
+				$('#boton_agregar').val('modificar');
+				$('#clasifica').val(arreglo_valores[pos].id_clasif);
 				llenar_valores(arreglo_valores[pos].id_clasif);
 				$('#valor').val(arreglo_valores[pos].id);
 				$('#cantidad').val(arreglo_valores[pos].cantidad);
-				modificar=true;
-				pos_modificar=pos;
+				modificar = true;
+				pos_modificar = pos;
 		}
 		update_table('tabla_add', arreglo_valores);
 	}
@@ -389,4 +420,61 @@ if ($metodo == 'modificar') {
 			}
 		});
 	}
+
+	function agregar_db() {
+
+		var codigo_novedad = $('#codigo').val();
+		var orden = $('#orden').val();
+		var clasif = $('#clasif').val();
+		var tipo = $('#tipo').val();
+		var descripcion = $('#descripcion').val();
+		var activo = $('#activo').prop('checked') ? 'T' : 'F';
+		var href = $('#href').val();
+		var proced = $('#proced').val();
+		var dias_v = $('#dias_v').val();
+		var usuario = $('#usuario').val();
+		var metodo = $('#metodo').val();
+		var array_valores = [];
+		var array_cantidades = [];
+
+		if (codigo_novedad != '' && orden != '' && clasif != '' && tipo != '' && descripcion != '' && activo != '' && proced != '' && dias_v != '' && usuario != '' && metodo != '' && arreglo_valores.length >0) {
+
+
+			arreglo_valores.forEach((res) => {
+				array_valores.push(res.id);
+				array_cantidades.push(res.cantidad);
+			});
+
+			var parametros = {
+				"codigo": codigo_novedad,
+				"orden": orden,
+				"clasif": clasif,
+				"tipo": tipo,
+				"descripcion": descripcion,
+				"activo": activo,
+				"href": href,
+				"proced": proced,
+				"dias_v": dias_v,
+				"usuario": usuario,
+				"metodo": metodo,
+				"valor": array_valores,
+				"cantidad": array_cantidades
+			}
+			$.ajax({
+				data: parametros,
+				url: 'sc_maestros/sc_novedades.php',
+				type: 'post',
+				success: function(response) {
+					location.href = href.replace('../', '');
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+				}
+			});
+		}
+
+		update_table('tabla_add', arreglo_valores);
+	}
+	update_table('tabla_add', arreglo_valores);
 </script>
