@@ -60,9 +60,9 @@ function generar() {
                             success: function (response) {
                                 var resp = JSON.parse(response);
                                 if (torta2) {
-                                    torta2 = g.actualizarTorta(torta2, resp, titulo,true);
+                                    torta2 = g.actualizarTorta(torta2, resp, titulo);
                                 } else {
-                                    torta2 = g.Torta('chart-area2', resp, titulo,true);
+                                    torta2 = g.Torta('chart-area2', resp, titulo);
                                 }
 
                             },

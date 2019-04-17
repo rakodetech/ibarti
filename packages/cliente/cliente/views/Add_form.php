@@ -21,10 +21,13 @@ if($metodo == 'modificar')
   $titulo    = "".$leng['cliente']." : ".  $cl_nombre[0]."(".$codigo.")";
   $cl        = $cliente->editar("$codigo");
   $readonly = "readonly";
+  $vistas='';
+
 }else{
 	$cl   = $cliente->inicio();
   $readonly = "";
   $titulo    = "Agregar ".$leng['cliente'];
+  $vistas='display:none;';
 }
 ?>
 <div id="myModal" class="modal">
@@ -51,14 +54,16 @@ if($metodo == 'modificar')
   <div class="TabbedPanels" id="tp1">
     <ul class="TabbedPanelsTabGroup">
       <li class="TabbedPanelsTab"><?php echo $leng['cliente'];?></li>
-      <li class="TabbedPanelsTab">Datos Adiccionales <?php echo $leng['cliente'];?></li>
-      <li class="TabbedPanelsTab"><?php echo $leng['ubicacion'];?></li>
-      <li class="TabbedPanelsTab"><?php echo $leng['contratacion'];?></li>
-      <li class="TabbedPanelsTab">Vetados</li>
+      <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> ><?php echo "Contactos ".$leng['cliente'];?></li>
+      <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> >Datos Adiccionales <?php echo $leng['cliente'];?></li>
+      <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> ><?php echo $leng['ubicacion'];?></li>
+      <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> ><?php echo $leng['contratacion'];?></li>
+      <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> >Vetados</li>
     </ul>
 
     <div class="TabbedPanelsContentGroup">
      <div class="TabbedPanelsContent"><?php include('p_cliente.php');?></div>
+     <div class="TabbedPanelsContent"><?php include('p_cliente_contactos.php');?></div>
      <div class="TabbedPanelsContent"><?php include('p_cliente_ad.php');?></div>
      <div class="TabbedPanelsContent"><?php include('../../cl_ubicacion/index.php');?></div>
      <div class="TabbedPanelsContent"><?php include('../../cl_contratacion/index.php');?></div>
@@ -122,6 +127,12 @@ if($metodo == 'modificar')
 
 <script language="JavaScript" type="text/javascript">
   var tp1 = new Spry.Widget.TabbedPanels("tp1", { defaultTab:<?php echo $pag;?>});
+  
+  if($('#c_metodo').val()=="modificar"){
+    consultar_contactos();
+  }
+
+
   //Comente esta linea porque genera un error que no entiendo
   //var TabbedPanels = new Spry.Widget.TabbedPanels("TabbedPanels");
 </script>

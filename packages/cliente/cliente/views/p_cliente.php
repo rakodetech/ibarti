@@ -2,6 +2,7 @@
   $("#add_cliente_form").on('submit', function(evt){
     evt.preventDefault();
     save_cliente();
+    
   });
 
   $("#add_cliente_form input, select").change(function (evt) { 
@@ -78,8 +79,7 @@
             <option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
             <?php }?>
           </select></td>
-          <td class="etiqueta">Contacto:</td>
-          <td><input type="text" id="c_contacto" maxlength="60" style="width:250px" value="<?php echo $cl['contacto'];?>"/></td>
+         
         </tr>
         <tr>
           <td class="etiqueta">Email: </td>
