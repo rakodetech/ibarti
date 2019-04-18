@@ -37,7 +37,7 @@
 <span class="art-button-wrapper">
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span>
-                <input type="button" name="salvar"  id="salvar" value="Guardar" onclick="guardar_registro()" class="readon art-button" /> 
+                <input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" /> 
                 </span>&nbsp;
              <span class="art-button-wrapper">
                     <span class="art-button-l"> </span>

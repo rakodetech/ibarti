@@ -138,9 +138,9 @@ function save_cliente(){
 					$('#limpiar_cliente').prop('type', 'button');
 					$("#limpiar_cliente").click(function(){ Cons_cliente(codigo, 'modificar'); });
 					//Paso a false el input que almacena el valor que indica si el formulario a sufrido cambios
-					$("#c_cambios").val('false');
+					//$("#c_cambios").val('false');
 					//Desabilito el boton guardar hasta que el formulario sufra cambios
-					$('#salvar_cliente').attr('disabled',true);
+					//$('#salvar_cliente').attr('disabled',true);
 					//Actualizo la tabla de busqueda para que se muestre con la modificacion, 
 					//con el parametro en true para no cambiar de vista.
 					buscar_cliente(true);

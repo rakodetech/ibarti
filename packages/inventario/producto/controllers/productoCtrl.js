@@ -135,16 +135,14 @@ function get_sub_lineas(linea){
 	});
 }
 
-function get_propiedades(sub_linea){
-	var parametros = {
-		"codigo": sub_linea
-	};
+
+function cargar_colores(){
 	$.ajax({
-		data: parametros,
-		url: 'packages/inventario/producto/views/Add_modelo.php',
-		type: 'post',
+		url: 'packages/inventario/producto/views/Add_colores.php',
+		type: 'get',
 		success: function (response) {
-			$("#modelo").html(response);
+			$("#td_color").html(response);
+			$("#tr_color").show();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -153,30 +151,57 @@ function get_propiedades(sub_linea){
 	});
 }
 
-function get_modelos_det(modelo){
+function cargar_tallas(){
+	$.ajax({
+		url: 'packages/inventario/producto/views/Add_colores.php',
+		type: 'get',
+		success: function (response) {
+			$("#td_talla").html(response);
+			$("#tr_talla").show();
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}
+
+function get_propiedades(sub_linea){
 	var parametros = {
-		"codigo": modelo
+		"codigo": sub_linea
 	};
 	$.ajax({
 		data: parametros,
-		url: 'packages/inventario/producto/views/Add_modelo_det.php',
+		url: 'packages/inventario/producto/views/Add_propiedades.php',
 		type: 'post',
 		success: function (response) {
 			var resp = JSON.parse(response);
-			$("#modelo_det").html("");
-			
-			if(resp.data['color'] == 'T'){
-				var tr = ('<tr><td class="etiqueta">Color: </td><td><select name="color" id="color" style="width:250px" required></select></td></tr>');
-				$('#prod_tabla').append(tr);
-				resp.colores.forEach(d=>{
-					$("#color").append('<option value="'+d.codigo+'">'+d.descripcion+'</option>');
-				});
+			if(resp[0].talla == 'T'){
+				cargar_tallas();
+				$("#tr_talla").show();
+			}else{
+				$("#td_talla").html("");
+				$("#tr_talla").hide();
 			}
-
-			if(resp.data['talla'] == 'T'){
-				var tr = ('<tr><td class="etiqueta">Talla: </td><td><input type="text" name="talla" maxlength="20" size="20" value="" /></td></tr>');
-				$('#prod_tabla').append(tr);
+			if(resp[0].color == 'T'){
+				cargar_colores();
+			}else{
+				$("#td_color").html("");
+				$("#tr_color").hide();
 			}
+			if(resp[0].peso == 'T'){
+				$("#p_peso").show();
+			}else{
+				$("#p_peso").val("");
+				$("#p_peso").hide();
+			}
+			if(resp[0].piecubico == 'T'){
+				$("#p_piecubico").show();
+			}else{
+				$("#p_piecubico").val("");
+				$("#p_piecubico").hide();
+			}
+			console.log(response);
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);

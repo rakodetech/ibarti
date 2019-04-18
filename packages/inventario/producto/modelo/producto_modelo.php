@@ -166,22 +166,14 @@ class Producto
     return $this->colores;
   }
 
-  public function get_modelos($sub_linea){
-    $sql = "SELECT codigo, descripcion FROM prod_modelo WHERE cod_sub_linea = '$sub_linea' AND `status` = 'T' 
-    ORDER BY 2 ";
+  public function get_propiedades($sub_linea){
+    $sql = "SELECT color,talla,peso,piecubico FROM prod_sub_lineas WHERE codigo = '$sub_linea' AND `status` = 'T' ORDER BY 2 ";
     $query = $this->bd->consultar($sql);
     while ($datos = $this->bd->obtener_fila($query)) {
       $this->modelo[] = $datos;
     }
     return $this->modelo;
   }
-
-  public function get_modelo_det($modelo){
-    $sql = "SELECT prod_modelo.color, prod_modelo.talla, prod_modelo.peso, prod_modelo.piecubico
-    FROM prod_modelo WHERE prod_modelo.codigo = '$modelo'";
-    $query = $this->bd->consultar($sql);
-    return $this->modelo = $this->bd->obtener_fila($query);
-  } 
 
   public function get_tipos(){
     $sql = "SELECT codigo, descripcion FROM prod_tipos WHERE `status` = 'T' ORDER BY 2 ASC";

@@ -1,11 +1,7 @@
-
-
 <?php 
 $metodo = $_POST['metodo'];
 $titulo = $_POST['titulo'];
 $tabla   = $_POST['tb'];
-
-
 
 if($metodo == 'modificar'){
 	$codigo = $_POST['codigo'];
@@ -44,15 +40,15 @@ if($metodo == 'modificar'){
     <tr>
       <td class="etiqueta">C&oacute;digo:</td>
       <td id="input01"><input type="text" name="codigo" id="codigo" maxlength="11" style="width:120px"
-                              value="<?php echo $codigo;?>" onblur="<?php echo $codigo_onblur;?>"/>
+                              value="<?php echo $codigo;?>" onblur="<?php echo $codigo_onblur;?>" required="required"/>
         Activo: <input name="activo" id="activo" type="checkbox"  <?php echo statusCheck("$status");?> value="T"/><br />
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
 	 </tr>
     <tr>
       <td class="etiqueta">Descripci&oacute;n: </td>
-      <td id="input02"><input type="text" name="descripcion" id = "descripcion" maxlength="60" style="width:250px" 
-                              value="<?php echo $descripcion;?>"/><br />
+      <td id="input02"><input type="text" name="descripcion" id = "descripcion" maxlength="60" style="width:250px"
+                              value="<?php echo $descripcion;?>" required="required"/><br />
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>	
@@ -63,7 +59,7 @@ if($metodo == 'modificar'){
   <div align="center"><span class="art-button-wrapper">
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span>
-                <input type="button" name="salvar"  id="salvar" value="Guardar" onclick="guardar_registro()" class="readon art-button" />	
+                <input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />	
                 </span>&nbsp;
              <span class="art-button-wrapper">
                     <span class="art-button-l"> </span>

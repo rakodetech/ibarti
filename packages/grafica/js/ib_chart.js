@@ -41,7 +41,7 @@ class Grafica {
                 data: {
                     datasets: [{
                         data: this.datos,
-                        backgroundColor: this.chartColors,
+                        backgroundColor: this.chartColors
                     }],
                     labels: this.labels
                 },
@@ -68,11 +68,7 @@ class Grafica {
                                 return label;
                             }
                         }
-                    },
-                    angleLines: {
-                        display: true
                     }
-
                 }
             };
 

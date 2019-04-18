@@ -108,9 +108,13 @@
 				<?php }?>		  	  
 			</select></td>       	        	    
 		</tr>  
-		<tr>
+		<tr id='tr_color' style="display: none;">
 			<td class="etiqueta">Color:</td>
-			<td id="td_colores"></td>
+			<td id="td_color"></td>
+		</tr>
+		<tr id='tr_talla' style="display: none;">
+			<td class="etiqueta">Talla:</td>
+			<td id="td_talla"></td>
 		</tr>
 	</table>
 	<div align="center">

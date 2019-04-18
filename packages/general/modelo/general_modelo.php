@@ -1,4 +1,8 @@
 <?php
+define("SPECIALCONSTANT", true);
+include_once('../../../funciones/funciones.php');
+require("../../../autentificacion/aut_config.inc.php");
+require_once("../../../".class_bdI);
 
 class General
 {
@@ -88,6 +92,25 @@ class General
 		}
 		return $this->datos;
 	}
+
+
+  public function buscar($tb,$data){
+    $where = " ";
+    if($data != null || $data != ""){
+      $where .= "  WHERE $tb.codigo LIKE '%$data%' OR  $tb.descripcion LIKE '%$data%' ";
+    }
+    $sql = "SELECT $tb.codigo,$tb.descripcion,$tb.`status` 
+    FROM $tb
+    $where ";
+
+    $query = $this->bd->consultar($sql);
+
+    while ($datos= $this->bd->obtener_fila($query)) {
+      $this->datos[] = $datos;
+    }
+    return $this->datos;
+  }
+
 }
 
 ?>
