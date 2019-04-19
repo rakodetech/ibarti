@@ -9,15 +9,15 @@ class Producto
   private $datos;
   private $bd;
   private $sub_linea;
-  private $modelo;
   private $colores;
+  private $tallas;
 
   function __construct()
   {
     $this->datos     = array();
     $this->bd        = new Database;
     $this->sub_linea     = array();
-    $this->modelo     = array();
+    $this->tallas     = array();
     $this->colores     = array();
   }
 
@@ -46,7 +46,7 @@ class Producto
       $where .= "  AND productos.codigo = '$producto' ";
     }
 
-    $sql = "SELECT productos.codigo, prod_lineas.descripcion AS linea,
+    $sql = "SELECT productos.codigo,productos.item, prod_lineas.descripcion AS linea,
     prod_sub_lineas.descripcion AS sub_linea, prod_tipos.descripcion AS prod_tipo,
     productos.descripcion, IFNULL(v_prod_ultimo_mov.mov_tipo , 'SIN MOVIMIENTO') AS mov_tipo,
     productos.status
@@ -70,9 +70,10 @@ class Producto
       'cod_sub_linea' => '','sub_linea' => 'Seleccione...', 
       'cod_prod_tipo' => '','prod_tipo' => 'Seleccione...',
       'cod_unidad' => '','unidad' => 'Seleccione...', 
-      'cod_color' => '','modelo' => 'Seleccione...', 'item' => '',
+      'cod_color' => '','color' => 'Seleccione...','item' => '',
       'cod_proveedor' => '','proveedor' => 'Seleccione...',
       'cod_procedencia' => '','procedencia' => 'Seleccione...',
+      'cod_almacen' => '','almacen' => 'Seleccione...',
       'cod_iva' => '','iva' => 'Seleccione...','descripcion' => '',
       'cos_actual' => '','fec_cos_actual' => '','cos_promedio' => '','fec_cos_prom' => '',
       'cos_ultimo' => '','fec_cos_ultimo' => '','stock_actual' => '','stock_comp' => '',
@@ -96,17 +97,20 @@ class Producto
   public function editar($cod)
   {
     $sql = " SELECT productos.codigo, productos.cod_linea, prod_lineas.descripcion AS linea, productos.cod_sub_linea,
-    prod_sub_lineas.descripcion AS sub_linea, productos.cod_modelo, modelo.descripcion AS modelo,
+    prod_sub_lineas.descripcion AS sub_linea,
     productos.cod_prod_tipo, prod_tipos.descripcion AS prod_tipo, productos.cod_unidad,
     unidades.descripcion AS unidad,
     productos.cod_proveedor, proveedores.nombre AS proveedor, productos.cod_procedencia, 
-    prod_procedencia.descripcion AS procedencia,  productos.cod_iva,
-    iva.descripcion AS iva, productos.descripcion,
+    prod_procedencia.descripcion AS procedencia,productos.item, productos.cod_iva,
+    iva.descripcion AS iva, productos.descripcion,productos.cod_almacen, 
+    almacenes.descripcion AS almacen,productos.cod_color, 
+    colores.descripcion AS color,productos.cod_talla, 
+    tallas.descripcion AS talla,
     productos.cos_actual, productos.fec_cos_actual, productos.cos_promedio,
     productos.fec_cos_prom, productos.cos_ultimo, productos.fec_cos_ultimo,
     productos.stock_actual, productos.stock_comp, productos.stock_llegar,
     productos.punto_pedido, productos.stock_maximo, productos.stock_minimo,
-    productos.garantia, productos.talla, productos.peso,
+    productos.garantia, productos.peso,
     productos.vencimiento, productos.fec_vencimiento,
     productos.fec_prec_v1, productos.prec_vta1,
     productos.fec_prec_v2, productos.prec_vta2,
@@ -116,15 +120,17 @@ class Producto
     productos.piecubico, productos.campo01,
     productos.campo02, productos.campo03,
     productos.campo04, productos.`status`
-    FROM productos , prod_lineas , prod_sub_lineas , colores , prod_tipos ,
-    unidades , proveedores , iva, prod_procedencia
+    FROM productos , prod_lineas , prod_sub_lineas , colores , tallas, prod_tipos ,
+    unidades , proveedores , iva, prod_procedencia,almacenes
     WHERE productos.cod_linea = prod_lineas.codigo 
     AND productos.cod_sub_linea = prod_sub_lineas.codigo 
-    AND productos.cod_color = colores.codigo 
+    AND productos.cod_talla= tallas.codigo 
+     AND productos.cod_color = colores.codigo 
     AND productos.cod_prod_tipo = prod_tipos.codigo 
     AND productos.cod_unidad = unidades.codigo 
     AND productos.cod_proveedor = proveedores.codigo 
     AND productos.cod_procedencia = prod_procedencia.codigo
+    AND productos.cod_almacen = almacenes.codigo
     AND productos.cod_iva = iva.codigo
     AND productos.codigo = '$cod'";
 
@@ -207,7 +213,7 @@ class Producto
   }
 
   public function buscar($data){
-    $sql = "SELECT productos.codigo, prod_lineas.descripcion AS linea, 
+    $sql = "SELECT productos.codigo,productos.item, prod_lineas.descripcion AS linea, 
     prod_sub_lineas.descripcion AS sub_linea,  prod_tipos.descripcion AS prod_tipo, 
     productos.descripcion,  IFNULL(v_prod_ultimo_mov.mov_tipo , 'SIN MOVIMIENTO') AS mov_tipo,
     productos.status
@@ -236,6 +242,18 @@ class Producto
       $this->datos[] = $datos;
     }
     return $this->datos;
+  }
+
+  public function get_tallas(){
+    $sql = "SELECT codigo, descripcion FROM tallas
+    WHERE status = 'T'
+    ORDER BY descripcion ASC";
+    $query = $this->bd->consultar($sql);
+    while ($datos= $this->bd->obtener_fila($query)) {
+      $this->tallas[] = $datos;
+    }
+    return $this->tallas;
+  
   }
   
 }

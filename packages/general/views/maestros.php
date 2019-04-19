@@ -19,10 +19,10 @@ if(isset($_GET['pagina'])){
 ?> 
 
 <script language="javascript">
-  $("#form_maestro").on('submit', function(evt){
-    evt.preventDefault();
-    guardar_registro();
-  });
+	$("#form_maestro").on('submit', function(evt){
+		evt.preventDefault();
+		guardar_registro();
+	});
 </script>
 
 <div id="myModal" class="modal">
@@ -36,7 +36,7 @@ if(isset($_GET['pagina'])){
 				<br> 
 				<span style="float: right; padding-left: 10px;" align="center" >
 					<?php
-					echo ' Filtro: <input  id="filtro" type="text" style="width:180px" onkeyup="buscar(this.value,\''.$tabla.'\',\''.$titulo.'\')" />';
+					echo ' Filtro: <input  id="filtro" type="text" style="width:180px" onkeyup="buscar(this.value)" />';
 					?>
 				</span> 
 				<br> 
@@ -59,24 +59,29 @@ if(isset($_GET['pagina'])){
 	</div>
 </div>
 <div id="Cont_maestro">
-<div align="center" class="etiqueta_title"> 
-	<?php echo $titulo.'  	   <span style="float: right;" align="center" >
-	<img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="B_maestros(\''.$tabla.'\',\''.$titulo.'\')" />
-</span>';?>
+	<div align="center" class="etiqueta_title"> 
+		<?php echo $titulo; ?>
 
-</div>
-<form id="form_maestro">
-<div class="TabbedPanels" id="tp1">	
-	<ul class="TabbedPanelsTabGroup">	 
-		<li class="TabbedPanelsTab"><?php echo $titulo;?></li>
-		<li class="TabbedPanelsTab">ADICIONALES</li>
-	</ul>				
-	<div class="TabbedPanelsContentGroup"> 
-		<div class="TabbedPanelsContent"><?php include('./Add_maestros.php');?></div>
-		<div class="TabbedPanelsContent"><?php include('./Add_adicionales.php');?></div>
 	</div>
-</div> 
-</div>
+	<form id="form_maestro">
+		<span style="float: right;" align="center" >
+			<img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" onclick="borrarMaestro()" id="borrar_maestro" />
+			<img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" alt="Agregar" onclick="irAAgregarMaestro()" title="Agregar Registro" id="agregar_maestro" />
+			<span style="float: right;" align="center" >
+			<img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="B_maestros()" />
+			</span>'
+		</span>
+		<div class="TabbedPanels" id="tp1">	
+			<ul class="TabbedPanelsTabGroup">	 
+				<li class="TabbedPanelsTab"><?php echo $titulo;?></li>
+				<li class="TabbedPanelsTab">ADICIONALES</li>
+			</ul>				
+			<div class="TabbedPanelsContentGroup"> 
+				<div class="TabbedPanelsContent"><?php include('./Add_maestros.php');?></div>
+				<div class="TabbedPanelsContent"><?php include('./Add_adicionales.php');?></div>
+			</div>
+		</div> 
+	</div>
 </form>
 
 <script type="text/javascript" src ="packages/general/controllers/generalCtrl.js"></script>

@@ -81,7 +81,7 @@ $activo = $prod['status'];
             <td width="10%" id="cont_img"><img class="imgLink" id="img_actualizar" src="imagenes/actualizar.png" border="0" onclick=" buscar()"/></td>
           </tr>
           <tr>
-            <td>Movimiento: </td>
+            <td>Ult. Movimiento: </td>
             <td ><select name="tipo_mov" id="tipo_mov" style="width:120px;">
               <option value="TODOS">TODOS</option> 
               <?php 
@@ -111,10 +111,11 @@ $activo = $prod['status'];
                 <thead>
                   <tr class="fondo00">
                     <th width="10%" class="etiqueta">Codigo</th>
+                    <th width="10%" class="etiqueta">Serial</th>
                     <th width="26%" class="etiqueta">Producto</th>
                     <th width="16%" class="etiqueta">Linea</th>
                     <th width="16%" class="etiqueta">Sub Linea</th>
-                    <th width="16%" class="etiqueta">Movimiento</th>
+                    <th width="16%" class="etiqueta">Ult. Movimiento</th>
                     <th width="10%" class="etiqueta">Status</th>
                   </tr>
                 </thead>

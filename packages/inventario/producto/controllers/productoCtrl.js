@@ -18,6 +18,8 @@ function Cons_producto(cod, metodo){
 					$("#p_codigo").attr('disabled',true);
 					$('#borrar_producto').show();
 					$('#agregar_producto').show();
+					var sub_linea       = $("#p_sub_linea").val();
+					get_propiedades(sub_linea);
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
@@ -45,22 +47,23 @@ function save_producto(){
 	var iva     		= $("#p_iva").val();
 	var descripcion     = $("#p_descripcion").val();
 	var procedencia     = $("#p_procedencia").val();
+	var almacen     = $("#p_almacen").val();
 	/*var cost_actual     = $("#cos_actual").val();
 	var cost_promedio   = $("#cos_promedio").val();
-	var cost_ultimo     = $("#cos_ultimo").val();*/
+	var cost_ultimo     = $("#cos_ultimo").val();
 	var stock_actual    = $("#stock_actual").val();
 	var stock_comp     	= $("#stock_comp").val();
 	var stock_llegar    = $("#stock_llegar").val();
 	var punto_pedido   	= $("#punto_pedido").val();
 	var stock_maximo    = $("#stock_maximo").val();
-	var stock_minimo    = $("#stock_minimo").val();
+	var stock_minimo    = $("#stock_minimo").val();*/
 	var prec_vta1     	= $("#prec_vta1").val();
 	var prec_vta2     	= $("#prec_vta2").val();
 	var prec_vta3     	= $("#prec_vta3").val();
 	var prec_vta4     	= $("#prec_vta4").val();
 	var prec_vta5     	= $("#prec_vta5").val();
 	var garantia     	= $("#garantia").val();
-	var talla     		= $("#talla").val();
+	var talla     		= $("#p_talla").val();
 	var peso     		= $("#peso").val();
 	var piecubico     	= $("#piecubico").val();
 	var venc     		= $('input:radio[name=venc]:checked').val();
@@ -74,16 +77,14 @@ function save_producto(){
 	var usuario      	= $("#usuario").val();
 	var metodo       	= $("#p_metodo").val();
 
+	var item = codigo+"-"+linea+"-"+sub_linea;
 	if(error == 0){
 		var parametros = {"codigo": codigo, "activo": activo, "linea": linea,         
 		"sub_linea" : sub_linea, "color": color,         "prod_tipo": prod_tipo ,
-		"unidad": unidad , "proveedor": proveedor , "iva": iva , "descripcion": descripcion ,
-		"procedencia": procedencia, "cos_actual":"100", "cos_promedio":"100","cos_ultimo":"100",
-		"stock_actual":stock_actual,"stock_comp":stock_comp,"stock_llegar":stock_llegar,
-		"punto_pedido":punto_pedido,"stock_maximo": stock_maximo,"stock_minimo": stock_minimo,
-		"prec_vta1":prec_vta1, "prec_vta2":prec_vta2,"prec_vta3":prec_vta3, "prec_vta4":prec_vta4,
-		"prec_vta5":prec_vta5,"garantia": garantia, "talla":talla, "peso": peso,"piecubico":piecubico,
-		"venc": venc, "fec_venc":fec_venc,
+		"unidad": unidad , "proveedor": proveedor , "iva": iva , "item":item, "descripcion": descripcion ,
+		"procedencia": procedencia,"almacen":almacen, "prec_vta1":prec_vta1, "prec_vta2":prec_vta2,"prec_vta3":prec_vta3,
+		 "prec_vta4":prec_vta4,"prec_vta5":prec_vta5,"garantia": garantia, "talla":talla, 
+		 "peso": peso,"piecubico":piecubico,"venc": venc, "fec_venc":fec_venc,
 		"campo01":campo01,"campo02":campo02,"campo03":campo03,"campo04":campo04,
 		"proced": proced, "usuario": usuario, "metodo":metodo };
 
@@ -92,7 +93,9 @@ function save_producto(){
 			url:   'packages/inventario/producto/modelo/producto.php',
 			type:  'post',
 			success:  function (response) {
+			console.log(response);
 				var resp = JSON.parse(response);
+						console.log(resp);
 				if(resp.error){
 					alert(resp.mensaje);
 				}else{
@@ -153,7 +156,7 @@ function cargar_colores(){
 
 function cargar_tallas(){
 	$.ajax({
-		url: 'packages/inventario/producto/views/Add_colores.php',
+		url: 'packages/inventario/producto/views/Add_tallas.php',
 		type: 'get',
 		success: function (response) {
 			$("#td_talla").html(response);

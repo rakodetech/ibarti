@@ -4,6 +4,7 @@ $titulo = $_POST['titulo'];
 $tabla   = $_POST['tb'];
 
 if($metodo == 'modificar'){
+  $disabled = "disabled=\"disabled\"";
 	$codigo = $_POST['codigo'];
 	$bd = new DataBase();
 	$sql = " SELECT $tabla.codigo, $tabla.descripcion,
@@ -22,7 +23,7 @@ if($metodo == 'modificar'){
 	$campo04     = $result['campo04'];
 	$status      = $result['status'];
 	}else{
-
+$disabled = "";
 	$codigo      = '';	
 	$codigo_onblur = "Add_ajax_maestros(this.value, 'ajax/validar_maestros.php', 'Contenedor', '$tabla')";
 	$descripcion = '';
@@ -40,7 +41,7 @@ if($metodo == 'modificar'){
     <tr>
       <td class="etiqueta">C&oacute;digo:</td>
       <td id="input01"><input type="text" name="codigo" id="codigo" maxlength="11" style="width:120px"
-                              value="<?php echo $codigo;?>" onblur="<?php echo $codigo_onblur;?>" required="required"/>
+                              value="<?php echo $codigo;?>" onblur="<?php echo $codigo_onblur;?>" <?php echo $disabled; ?> required="required"/>
         Activo: <input name="activo" id="activo" type="checkbox"  <?php echo statusCheck("$status");?> value="T"/><br />
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
@@ -75,6 +76,7 @@ if($metodo == 'modificar'){
   
   		    <input name="metodo" id="metodo" type="hidden"  value="<?php echo $metodo;?>" />
             <input name="tabla" id="tabla" type="hidden"  value="<?php echo $tabla;?>" />            
+            <input name="titulo" id="titulo" type="hidden"  value="<?php echo $titulo;?>" />  
             <input name="usuario" id="usuario" type="hidden"  value="<?php echo $usuario;?>" />            
 	           			
   </fieldset>

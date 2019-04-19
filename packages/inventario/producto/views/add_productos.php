@@ -5,7 +5,7 @@
 		<tr>
 			<td class="etiqueta">C&oacute;digo:</td>
 			<td id="input01">
-				<input type="text" name="codigo" maxlength="11" disabled="disabled" id="p_codigo" size="15" value="<?php echo $prod['codigo']; ?>"/>
+				<input type="text" name="codigo" maxlength="11" id="p_codigo" size="15" value="<?php echo $prod['codigo']; ?>"/>
 				Activo: <input name="activo" id="p_activo" type="checkbox"  <?php echo statusCheck("$activo");?> value="T" /><br />
 				<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 			</td>
@@ -86,8 +86,21 @@
 		<tr>
 			<td class="etiqueta">Procedencia:</td>
 			<td id="select07"><select name="procedencia" id="p_procedencia" style="width:250px">
-				<option value="<?php echo $prod['cod_procedencia'];?>"><?php echo $prod['procedencia'];;?></option>
+				<option value="<?php echo $prod['cod_procedencia'];?>"><?php echo $prod['procedencia'];?></option>
 				<?php  	$sql = " SELECT codigo, descripcion FROM prod_procedencia WHERE `status` = 'T' ORDER BY 2 ASC ";
+				$query = $bd->consultar($sql);
+				while($datos=$bd->obtener_fila($query,0)){	
+					?>
+					<option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
+				<?php }?>		  	  
+			</select>
+			<br /><span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>       	        	    
+		</tr>
+		<tr>
+			<td class="etiqueta">Almacen Por Defecto:</td>
+			<td id="select07"><select name="almacen" id="p_almacen" style="width:250px">
+				<option value="<?php echo $prod['cod_almacen'];?>"><?php echo $prod['almacen'];?></option>
+				<?php  	$sql = " SELECT codigo, descripcion FROM almacenes WHERE `status` = 'T' ORDER BY 2 ASC ";
 				$query = $bd->consultar($sql);
 				while($datos=$bd->obtener_fila($query,0)){	
 					?>
