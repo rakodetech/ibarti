@@ -28,9 +28,9 @@ $activo = $prod['status'];
 
   <fieldset class="fieldset">
    <span style="float: right;" align="center" >
-    <img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" onclick="borrarModelo()" id="borrar_modelo" />
-    <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" alt="Agregar" onclick="irAAgregarModelo()" title="Agregar Registro" id="agregar_modelo" />
-    <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="B_modelos()" />
+    <img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" onclick="borrarSubLinea()" id="borrar_modelo" />
+    <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" alt="Agregar" onclick="irAAgregarSubLinea()" title="Agregar Registro" id="agregar_modelo" />
+    <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="B_sub_lineas()" />
   </span>
   <legend> <?php echo $titulo;?> </legend>
   <table width="80%" align="center">

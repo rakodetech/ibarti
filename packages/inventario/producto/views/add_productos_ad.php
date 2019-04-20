@@ -16,17 +16,17 @@
         <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>-->
-    <tr>
+    <tr id="tr_peso">
       <td class="etiqueta">Peso: </td>
       <td id="input12"><input type="text" name="peso" id="peso" maxlength="60" style="width:150px"
-        value="<?php echo $prod['peso'];?>"/><br />
+        value="<?php echo $prod['peso'];?>" required/><br />
         <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>
-    <tr>
+    <tr id="tr_piecubico">
       <td class="etiqueta">Piecubico: </td>
       <td id="input13"><input type="text" name="piecubico" id="piecubico" maxlength="60" style="width:150px"
-        value="<?php echo $prod['piecubico'];?>"/><br />
+        value="<?php echo $prod['piecubico'];?>" required/><br />
         <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>

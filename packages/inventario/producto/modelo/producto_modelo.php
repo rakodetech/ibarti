@@ -125,7 +125,7 @@ class Producto
     WHERE productos.cod_linea = prod_lineas.codigo 
     AND productos.cod_sub_linea = prod_sub_lineas.codigo 
     AND productos.cod_talla= tallas.codigo 
-     AND productos.cod_color = colores.codigo 
+    AND productos.cod_color = colores.codigo 
     AND productos.cod_prod_tipo = prod_tipos.codigo 
     AND productos.cod_unidad = unidades.codigo 
     AND productos.cod_proveedor = proveedores.codigo 
@@ -161,9 +161,9 @@ class Producto
     return $this->sub_linea;
   }
 
-   public function get_colores(){
+  public function get_colores(){
     $sql = "SELECT codigo, descripcion FROM colores
-    WHERE status = 'T'
+    WHERE status = 'T' AND codigo != '0000'
     ORDER BY descripcion ASC";
     $query = $this->bd->consultar($sql);
     while ($datos= $this->bd->obtener_fila($query)) {
@@ -212,10 +212,10 @@ class Producto
     return $this->datos;
   }
 
-  public function buscar($data){
-    $sql = "SELECT productos.codigo,productos.item, prod_lineas.descripcion AS linea, 
-    prod_sub_lineas.descripcion AS sub_linea,  prod_tipos.descripcion AS prod_tipo, 
-    productos.descripcion,  IFNULL(v_prod_ultimo_mov.mov_tipo , 'SIN MOVIMIENTO') AS mov_tipo,
+  public function inicio_buscar(){
+    $sql = " SELECT productos.codigo, prod_lineas.descripcion AS linea, 
+    prod_sub_lineas.descripcion AS sub_linea,  prod_tipos.descripcion AS prod_tipo,  
+    productos.item, productos.descripcion,  IFNULL(v_prod_ultimo_mov.mov_tipo , 'SIN MOVIMIENTO') AS mov_tipo,
     productos.status
     FROM productos LEFT JOIN v_prod_ultimo_mov ON productos.codigo = v_prod_ultimo_mov.cod_producto , prod_lineas , prod_sub_lineas , prod_tipos ,  control
     WHERE productos.cod_linea = prod_lineas.codigo 
@@ -246,14 +246,32 @@ class Producto
 
   public function get_tallas(){
     $sql = "SELECT codigo, descripcion FROM tallas
-    WHERE status = 'T'
+    WHERE status = 'T' AND codigo != '0000'
     ORDER BY descripcion ASC";
     $query = $this->bd->consultar($sql);
     while ($datos= $this->bd->obtener_fila($query)) {
       $this->tallas[] = $datos;
     }
     return $this->tallas;
-  
+    
+  }
+
+  public function get_talla($serial){
+    $sql = "SELECT tallas.codigo, tallas.descripcion FROM productos, tallas
+    WHERE productos.item = '$serial' AND productos.cod_talla = tallas.codigo";
+    $query = $this->bd->consultar($sql);
+
+    return $this->datos= $this->bd->obtener_fila($query);
+    
+  }
+
+  public function get_color($serial){
+    $sql = "SELECT colores.codigo, colores.descripcion FROM productos, colores
+    WHERE productos.item = '$serial' AND productos.cod_color = colores.codigo";
+    $query = $this->bd->consultar($sql);
+
+    return $this->datos= $this->bd->obtener_fila($query);
+    
   }
   
 }

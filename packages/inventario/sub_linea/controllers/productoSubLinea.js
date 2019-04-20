@@ -1,10 +1,10 @@
 $(function() {
-	Form_prod_modelo("", "agregar");
+	Form_prod_sub_linea("", "agregar");
     //Form_prod_modelo(1, "modificar");
 
 });
 
-function Form_prod_modelo(cod, metodo) {
+function Form_prod_sub_linea(cod, metodo) {
     CloseModal();
     var error = 0;
     var errorMessage = ' ';
@@ -77,9 +77,9 @@ function save(){
                 toastr.success("Actualización Exitosa!..");
                 if(metodo == "agregar") {
                     if(confirm("Desea AGREGAR un NUEVO REGISTRO?.")){
-                        Form_prod_modelo("", "agregar");
+                        Form_prod_sub_linea("", "agregar");
                     }else{
-                        Form_prod_modelo(codigo, "modificar");
+                        Form_prod_sub_linea(codigo, "modificar");
                     }
                 }
             }
@@ -92,7 +92,7 @@ function save(){
 }
 }
 
-function B_modelos(){
+function B_sub_lineas(){
   ModalOpen();
   $.ajax({
     data: {"data": null},
@@ -130,12 +130,12 @@ function buscar(data){
         });
 }
 
-function borrarModelo(){
+function borrarSubLinea(){
     if(confirm('Esta seguro que desea BORRAR este Registro?..')){
         var usuario = $("#usuario").val();
         var cod = $("#codigo").val();
         var parametros = {
-            "codigo": cod, "tabla": "prod_modelo",
+            "codigo": cod, "tabla": "prod_sub_lineas",
             "usuario": usuario
         };
         $.ajax({
@@ -148,7 +148,7 @@ function borrarModelo(){
                     toastr.error(resp.mensaje);
                 } else {
                     toastr.success('Registro Eliminado con exito!..');
-                    Form_prod_modelo('', 'agregar');
+                    Form_prod_sub_linea('', 'agregar');
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -158,9 +158,9 @@ function borrarModelo(){
     }
 }
 //Funcion para ir a la vista Agregar, cuanto se esta en Modificar X
-function irAAgregarModelo(){
+function irAAgregarSubLinea(){
     var msg = "Desea Agregar un NUEVO REGISTRO?.. ";
-    if(confirm(msg)) Form_prod_modelo("", "agregar");
+    if(confirm(msg)) Form_prod_sub_linea("", "agregar");
 }
 
 function get_sub_lineas(linea){

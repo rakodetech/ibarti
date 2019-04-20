@@ -13,13 +13,13 @@ $metodo   = $_POST['metodo'];
 $pag = 0;
 $producto = new Producto;
 $proced   = "p_productos";
-if($metodo == 'modificar')
+if($metodo == 'MODIFICAR' || ($metodo == "AGREGAR" && $codigo != ""))
 {
-  $titulo    = " MODIFICAR PRODUCTO (".$codigo.")";
+  $titulo    = $metodo." PRODUCTO (".$codigo.")";
   $prod        = $producto->editar($codigo);
 }else{
   $prod   = $producto->inicio();
-  $titulo    = "AGREGAR PRODUCTO";
+  $titulo    = $metodo." PRODUCTO";
 }
 $activo = $prod['status'];
 ?>
@@ -145,4 +145,12 @@ $activo = $prod['status'];
           if (this.isModified) this.setValue("");
           if (this.value.length < 1) return ;
           return "autocompletar/tb/producto.php?q="+this.text.value +"&filtro="+filtroValue+""});
+
+          new Autocomplete("p_codigo", function() { 
+            this.setValue = function(id) {
+              document.getElementById("stdID").value = id; // document.getElementsByName("stdID")[0].value = id;
+              Cons_producto(id,'AGREGAR');
+          }
+          if (this.value.length < 1) return ;
+          return "autocompletar/tb/producto_base.php?q="+this.text.value +"&filtro=codigo"});
         </script>

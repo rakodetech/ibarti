@@ -1,10 +1,12 @@
+var metodo = "AGREGAR";
 $(function() {
-	Cons_producto('', 'agregar');
+	Cons_producto('', 'AGREGAR');
 });
 
-function Cons_producto(cod, metodo){
+function Cons_producto(cod, met){
 	var error        = 0;
 	var errorMessage = ' ';
+	metodo = met;
 	if(error == 0){
 		var parametros = { "codigo" : cod, "metodo": metodo};
 		$.ajax({
@@ -14,12 +16,18 @@ function Cons_producto(cod, metodo){
 			success:  function (response) {
 				$("#Cont_producto").html(response);
 				$('#p_metodo').val(metodo);
-				if(metodo == "modificar"){
-					$("#p_codigo").attr('disabled',true);
+				if(metodo == "MODIFICAR"){
+					$("#p_codigo").attr('readonly',true);
+					$("#peso").attr('readonly',true);
+					$("#piecubico").attr('readonly',true);
 					$('#borrar_producto').show();
 					$('#agregar_producto').show();
 					var sub_linea       = $("#p_sub_linea").val();
 					get_propiedades(sub_linea);
+				}else if(metodo=="AGREGAR" && cod != ""){
+					var sub_linea       = $("#p_sub_linea").val();
+					get_propiedades(sub_linea);
+					$('#agregar_producto').show();
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
@@ -76,8 +84,30 @@ function save_producto(){
 	var activo       	= Status($("#p_activo:checked").val());
 	var usuario      	= $("#usuario").val();
 	var metodo       	= $("#p_metodo").val();
-
 	var item = codigo+"-"+linea+"-"+sub_linea;
+
+	if(color){
+		item= item + "-"+color;
+	}else{
+		color = "0000";
+	}
+	if(talla){
+		item= item + "-"+talla;
+	}else{
+		talla = "0000";
+	}
+	if(peso){
+		item= item + "-"+peso;
+	}else{
+		peso = "";
+	}
+	if(piecubico){
+		item= item + "-"+piecubico;
+	}else{
+		piecubico = "";
+	}
+	console.log(item);
+
 	if(error == 0){
 		var parametros = {"codigo": codigo, "activo": activo, "linea": linea,         
 		"sub_linea" : sub_linea, "color": color,         "prod_tipo": prod_tipo ,
@@ -93,19 +123,18 @@ function save_producto(){
 			url:   'packages/inventario/producto/modelo/producto.php',
 			type:  'post',
 			success:  function (response) {
-			console.log(response);
+				console.log(response);
 				var resp = JSON.parse(response);
-						console.log(resp);
 				if(resp.error){
 					alert(resp.mensaje);
 				}else{
-					if(metodo == "agregar") {
+					if(metodo == "AGREGAR") {
 						if(confirm("Actualización Exitosa!.. \n Desea AGREGAR un NUEVO REGISTRO?")){
-							Cons_producto("", "agregar");
+							Cons_producto("", "AGREGAR");
 						}else{
-							Cons_producto(codigo, "modificar");
+							Cons_producto(codigo, "MODIFICAR");
 						}
-					}else if(metodo == "modificar"){
+					}else if(metodo == "MODIFICAR"){
 						alert("Actualización Exitosa!..");
 					}
 				}
@@ -118,6 +147,7 @@ function save_producto(){
 	}else{
 		alert(errorMessage);
 	}
+	
 }
 
 function get_sub_lineas(linea){
@@ -140,9 +170,11 @@ function get_sub_lineas(linea){
 
 
 function cargar_colores(){
+	var serial = $("#p_item").val();
 	$.ajax({
+		data: {"metodo":metodo,"serial":serial},
 		url: 'packages/inventario/producto/views/Add_colores.php',
-		type: 'get',
+		type: 'post',
 		success: function (response) {
 			$("#td_color").html(response);
 			$("#tr_color").show();
@@ -155,9 +187,11 @@ function cargar_colores(){
 }
 
 function cargar_tallas(){
+	var serial = $("#p_item").val();
 	$.ajax({
+		data: {"metodo":metodo,"serial":serial},
 		url: 'packages/inventario/producto/views/Add_tallas.php',
-		type: 'get',
+		type: 'post',
 		success: function (response) {
 			$("#td_talla").html(response);
 			$("#tr_talla").show();
@@ -193,18 +227,19 @@ function get_propiedades(sub_linea){
 				$("#tr_color").hide();
 			}
 			if(resp[0].peso == 'T'){
-				$("#p_peso").show();
+				$("#tr_peso").show();
 			}else{
-				$("#p_peso").val("");
-				$("#p_peso").hide();
+				$("#peso").val("");
+				$("#peso").attr("required",false);
+				$("#tr_peso").hide();
 			}
 			if(resp[0].piecubico == 'T'){
-				$("#p_piecubico").show();
+				$("#tr_piecubico").show();
 			}else{
-				$("#p_piecubico").val("");
-				$("#p_piecubico").hide();
+				$("#piecubico").val("");
+				$("#piecubico").attr("required",false);
+				$("#tr_piecubico").hide();
 			}
-			console.log(response);
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -216,14 +251,14 @@ function get_propiedades(sub_linea){
 function Borrar_producto(){
 	if(confirm('Esta seguro que desea BORRAR este Registro?..')){
 		var usuario = $("#usuario").val();
-		var cod = $("#p_codigo").val();
+		var serial = $("#p_item").val();
 		var parametros = {
-			"codigo": cod, "tabla": "productos",
+			"serial": serial,
 			"usuario": usuario
 		};
 		$.ajax({
 			data: parametros,
-			url: 'packages/general/controllers/sc_borrar.php',
+			url: 'packages/inventario/producto/modelo/sc_borrar.php',
 			type: 'post',
 			success: function (response) {
 				var resp = JSON.parse(response);
@@ -231,7 +266,7 @@ function Borrar_producto(){
 					alert(resp.mensaje);
 				} else {
 					alert('Registro Eliminado con exito!..');
-					Cons_producto('', 'agregar');
+					Cons_producto('', 'AGREGAR');
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
@@ -258,25 +293,6 @@ function B_productos(){
 			alert(thrownError);}
 		});
 }
-
-function B_linea(){
-	var usuario      	= $("#usuario").val();
-	var parametros = {"usuario":usuario};
-	$.ajax({
-		data:  parametros,
-		url:   'packages/inventario/linea/index.php',
-		type:  'post',
-		success:  function (response) {
-			ModalOpen();
-			$("#modal_titulo").text("Agregar Linea");
-			$( "#modal_contenido" ).html(response);
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);}
-		});
-}
-
 
 function buscar(){						
 	var linea     = $("#linea").val(); 						
@@ -312,7 +328,7 @@ function buscar(){
 //Funcion para ir a la vista Agregar, cuanto se esta en Modificar X
 function irAAgregarProducto(){
 	var msg = "Desea Agregar un NUEVO REGISTRO?.. ";
-	if(confirm(msg)) Cons_producto('', 'agregar');
+	if(confirm(msg)) Cons_producto('', 'AGREGAR');
 }
 
 function volver(){

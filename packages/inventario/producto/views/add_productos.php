@@ -5,20 +5,22 @@
 		<tr>
 			<td class="etiqueta">C&oacute;digo:</td>
 			<td id="input01">
-				<input type="text" name="codigo" maxlength="11" id="p_codigo" size="15" value="<?php echo $prod['codigo']; ?>"/>
+				<input type="text" name="codigo" maxlength="11" id="p_codigo" size="20" value="<?php echo $prod['codigo']; ?>"/>
 				Activo: <input name="activo" id="p_activo" type="checkbox"  <?php echo statusCheck("$activo");?> value="T" /><br />
 				<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 			</td>
 		</tr>
-		<!--<tr>
-			<td class="etiqueta">Item (Serial):</td>
-			<td id="input02"><input type="text" name="item" maxlength="20" size="20" value="<?php // echo $prod['item'];?>" /><br />
-				<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
-			</td>
-		</tr>--> 
+		<?php if($metodo == "MODIFICAR"){ ?>
+			<tr>
+				<td class="etiqueta">Item (Serial):</td>
+				<td id="input02"><input type="text" name="item" id="p_item" maxlength="100" size="39" value="<?php echo $prod['item'];?>" readonly="readonly"/><br />
+					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
+				</td>
+			</tr>
+		<?php } ?>
 		<tr>
 			<td class="etiqueta">Producto: </td>
-			<td id="input03"><input type="text" name="descripcion" id="p_descripcion" maxlength="60" size="40" value="<?php echo $prod['descripcion'];?>"/><br />
+			<td id="input03"><input type="text" name="descripcion" id="p_descripcion" maxlength="60" size="39" value="<?php echo $prod['descripcion'];?>"/><br />
 				<span class="textfieldRequiredMsg">El Campo es Requerido... </span>
 			</td>
 		</tr>
@@ -39,9 +41,11 @@
 			<td id="select01"><select name="linea" id="p_linea" onchange="get_sub_lineas(this.value)" style="width:250px">
 				<option value="<?php echo $prod['cod_linea'];?>"><?php echo $prod['linea'];?></option>
 				<?php  
-				$lineas  =  $producto->get_lineas();
-				foreach ($lineas as  $datos) {
-					echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
+				if($metodo == "AGREGAR" && $codigo == ""){
+					$lineas  =  $producto->get_lineas();
+					foreach ($lineas as  $datos) {
+						echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
+					}
 				}
 				?>		  	  
 			</select></td>       	        	    
@@ -50,12 +54,6 @@
 			<td class="etiqueta">Sub Linea:</td>
 			<td id="sub_linea"><select name="sub_linea" id="p_sub_linea" onchange="get_propiedades(this.value)" style="width:250px">
 				<option value="<?php echo $prod['cod_sub_linea'];?>"><?php echo $prod['sub_linea'];?></option>
-				<?php  
-				$sub_lineas  =  $producto->get_sub_lineas($prod['cod_linea']);
-				foreach ($sub_lineas as  $datos) {
-					echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
-				}
-				?>			  	  
 			</select></td>
 		</tr> 
 		<tr>
