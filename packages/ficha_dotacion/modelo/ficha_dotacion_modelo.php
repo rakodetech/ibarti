@@ -41,8 +41,21 @@ class FichaDotacion
 		return $this->lineas;
 	} 
 
+	public function get_dot_reng($ficha){
+		$sql = "SELECT productos.item, productos.descripcion,ficha_dotacion.cantidad, ficha_dotacion.cod_ficha
+		FROM ficha_dotacion, productos
+		WHERE ficha_dotacion.cod_ficha = '$ficha' 
+		AND productos.item = ficha_dotacion.cod_item
+		ORDER BY ficha_dotacion.fec_us_mod ASC";
+		$query = $this->bd->consultar($sql);
+		while ($datos= $this->bd->obtener_fila($query)) {
+			$this->datos[] = $datos;
+		}
+		return $this->datos;
+	}
+
 	public function get_productos($linea,$sub_linea){
-		$sql = "SELECT codigo, descripcion FROM productos
+		$sql = "SELECT item, descripcion FROM productos
 		WHERE  status = 'T' AND cod_linea = '$linea' 
 		AND cod_sub_linea = '$sub_linea'
 		ORDER BY descripcion ASC";

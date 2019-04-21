@@ -263,15 +263,15 @@ function Borrar_producto(){
 			success: function (response) {
 				var resp = JSON.parse(response);
 				if (resp.error) {
-					alert(resp.mensaje);
+					toastr.error(resp.mensaje);
 				} else {
-					alert('Registro Eliminado con exito!..');
+					toastr.success('Registro Eliminado con exito!..');
 					Cons_producto('', 'AGREGAR');
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
+				toastr.error(xhr.status);
+				toastr.error(thrownError);
 			}
 		});
 	}
@@ -289,8 +289,8 @@ function B_productos(){
 			$("#lista_productos").html( response);
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);}
+			toastr.error(xhr.status);
+			toastr.error(thrownError);}
 		});
 }
 
@@ -316,11 +316,11 @@ function buscar(){
 				$("#lista_productos").html(response);
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);}
+				toastr.error(xhr.status);
+				toastr.error(thrownError);}
 			});
 	}else{
-		alert(errorMessage);
+		toastr.error(errorMessage);
 	}
 
 }

@@ -20,7 +20,7 @@ $lineas  =  $ficha_dot->get_lineas();
   </tr>
   <tr>
     <td>
-      <select id="dot_linea" onchange="get_sub_lineas(this.value)" style="width:250px">
+      <select id="dot_linea" onchange="get_sub_lineas(this.value)" style="width:210px">
         <option value="">Seleccione...</option>
          <?php 
         foreach ($lineas as  $datos) {
@@ -30,12 +30,12 @@ $lineas  =  $ficha_dot->get_lineas();
       </select>
     </td>
     <td id="sub_lineas">
-      <select id="dot_sub_linea" style="width:250px" >
+      <select id="dot_sub_linea" style="width:210px" >
         <option value="">Seleccione...</option>
       </select>
     </td>
     <td id="productos">
-      <select id="dot_producto" style="width:250px" >
+      <select id="dot_producto" style="width:210px" >
         <option value="">Seleccione...</option>
       </select>
     </td>
@@ -43,7 +43,18 @@ $lineas  =  $ficha_dot->get_lineas();
      <input type="number" id="dot_cantidad" style="width:75px" value="0" min="1" placeholder="">
    </td>
     <td align="center">
-      <img  border="null" width="20px" height="20px" src="imagenes/ico_agregar.ico" id="add_renglon" onclick="agregar_producto()" disabled title="Agregar renglon" />
+      <img  border="null" width="20px" height="20px" src="imagenes/ico_agregar.ico" id="add_renglon" onclick="agregar_renglon()" disabled title="Agregar renglon" />
     </td>
   </tr>
+</table>
+<table class="tabla_sistema"  width="95%">
+  <thead>
+    <tr class="fondo00">
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="ficha_dotacion_det">
+  </tbody>
 </table>

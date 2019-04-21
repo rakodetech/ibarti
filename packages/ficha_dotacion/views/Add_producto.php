@@ -5,7 +5,7 @@ $sub_linea   = $_POST['sub_linea'];
 $modelo      = new FichaDotacion;
 $productos = $modelo->get_productos($linea,$sub_linea);
 
-echo '<select name="productos" id="dot_producto" style="width:250px" required>
+echo '<select name="productos" id="dot_producto" style="width:210px" required>
 <option value="">Seleccione...</option>';
 foreach ($productos as  $datos)
 {
