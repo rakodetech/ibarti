@@ -72,11 +72,11 @@ function Form_ajuste(cod, metodo, tipo,anulado) {
                     $("#add_renglon_etiqueta").hide();
                     $("#add_renglon").hide();
                     if(typeof tipo != "undefined"){
-                       Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
-                   }
-               }
-           },
-           error: function(xhr, ajaxOptions, thrownError) {
+                     Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
+                 }
+             }
+         },
+         error: function(xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);
         }
@@ -164,9 +164,9 @@ function save_ajuste() {
         url: 'packages/inventario/ajuste/modelo/ajuste.php',
         type: 'post',
         success: function(response) {
-         console.log(response);
-         var resp = JSON.parse(response);
-         if (resp.error) {
+           console.log(response);
+           var resp = JSON.parse(response);
+           if (resp.error) {
             alert(resp.mensaje);
         } else {
             if (metodo == "agregar") {
@@ -211,7 +211,6 @@ function anular(){
             var tipo = '9999';
             var fecha = $("#ped_fecha").val();
             var total = $("#ped_total").val();
-            var moneda = $("#ped_moneda").val();
             var metodo = 'anular';
             var aplicar = "";
             if($("#ped_aplicar").val() == "IN"){
@@ -220,7 +219,7 @@ function anular(){
               aplicar = 'IN';  
           }
           var ped_reng = JSON.stringify(Ped_detalle);
-          console.log(ped_reng);
+        
           var us = $("#usuario").val();
           if (reng_num == 0) {
             error = 1;
@@ -235,22 +234,20 @@ function anular(){
                 fecha: fecha,
                 descripcion: descripcion,
                 total: total,
-                moneda: moneda,
                 ped_reng: ped_reng,
                 proced: proced,
                 us: us,
                 metodo: metodo,
                 aplicar: aplicar
             };
-       // console.log(parametros);
-       $.ajax({
+        $.ajax({
         data: parametros,
         url: 'packages/inventario/ajuste/modelo/ajuste.php',
         type: 'post',
         success: function(response) {
-         console.log(response);
-         var resp = JSON.parse(response);
-         if (resp.error) {
+           console.log(response);
+           var resp = JSON.parse(response);
+           if (resp.error) {
             alert(resp.mensaje);
         } else {
             alert("Actualización Exitosa!..");
@@ -336,12 +333,12 @@ function mostrar_costo_promedio(codigo,cod_almacen) {
         url: 'packages/inventario/producto/views/Get_costo_prom.php',
         type: 'post',
         success: function(response) {
-           console.log(response);
-           var resp = JSON.parse(response);
-           costo = resp[0];
-           $("#ped_costo").val(resp[0]);
-       },
-       error: function(xhr, ajaxOptions, thrownError) {
+         console.log(response);
+         var resp = JSON.parse(response);
+         costo = resp[0];
+         $("#ped_costo").val(resp[0]);
+     },
+     error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
     }
@@ -745,9 +742,9 @@ function Add_productos(almacen){
     url: 'ajax/Add_stock_productos.php',
     type: 'post',
     success: function(response) {
-       $("#productos").html(response);
-   },
-   error: function(xhr, ajaxOptions, thrownError) {
+     $("#productos").html(response);
+ },
+ error: function(xhr, ajaxOptions, thrownError) {
     alert(xhr.status);
     alert(thrownError);
 }

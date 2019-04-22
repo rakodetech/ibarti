@@ -91,7 +91,7 @@ $titulo  = " MOVIMIENTO DE INVENTARIO ";
     <select name="tipo" id="tipo" style="width:120px;" required>
       <option value="TODOS">TODOS</option>
       <?php
-      $query01 = $bd->consultar($sql_tipo_ajuste);
+      $query01 = $bd->consultar($sql_tipo_mov);
       while($row01=$bd->obtener_fila($query01,0)){
        echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
      }?></select>

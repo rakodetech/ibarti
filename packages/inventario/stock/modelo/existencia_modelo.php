@@ -119,5 +119,25 @@ class Existencia
     return $this->datos;
   }
 
+    public function buscar_inicio(){
+    $sql = "SELECT c.descripcion almacen, b.item serial, b.descripcion producto, a.stock_actual, 
+      IFNULL((SELECT d.costo FROM ajuste_reng d
+    WHERE  d.cod_almacen = a.cod_almacen 
+    AND d.cod_producto = a.cod_producto
+    ORDER BY d.cod_ajuste DESC, d.reng_num DESC LIMIT 1),'SIN DATA') cos_actual,
+    IFNULL((SELECT e.cos_promedio FROM ajuste_reng e
+    WHERE e.cod_almacen = a.cod_almacen 
+    AND e.cod_producto = a.cod_producto
+    ORDER BY e.cod_ajuste DESC, e.reng_num DESC LIMIT 1),'SIN DATA') cos_prom_actual
+    FROM stock a, productos b, almacenes c 
+    WHERE a.cod_producto = b.item AND a.cod_almacen = c.codigo  
+    ORDER BY 1,2 ASC LIMIT 100";
+    $query        = $this->bd->consultar($sql);
+    while ($datos = $this->bd->obtener_fila($query)){
+      $this->datos[] = $datos;
+    }
+    return $this->datos;
+  }
+
 }
 ?>

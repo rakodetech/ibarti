@@ -3,7 +3,8 @@ require "../modelo/existencia_modelo.php";
 require "../../../../".Leng;
 $producto         = new Existencia;
 $titulo           = "Existencia";
-$archivo      = "packages/inventario/stock/views/reporte_det.php";
+//$archivo      = "packages/inventario/stock/views/reporte_det.php";
+$archivo      = "reportes/rp_existencia_det.php";
 
 $prod_linea     = $producto->get_prod_linea();
 $prod_sub_linea     = $producto->get_prod_sub_linea("TODOS");

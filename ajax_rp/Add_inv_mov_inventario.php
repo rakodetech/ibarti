@@ -13,8 +13,8 @@ $producto  = $_POST['producto'];
 $tipo      = $_POST['tipo'];
 $result = array();
 
-$where = " WHERE ajuste_reng.cod_almacen = almacenes.codigo AND ajuste_reng.cod_producto = productos.codigo
-AND ajuste.codigo = ajuste_reng.cod_ajuste AND ajuste.cod_tipo = ajuste_tipo.codigo 
+$where = " WHERE ajuste_reng.cod_almacen = almacenes.codigo AND ajuste_reng.cod_producto = productos.item
+AND ajuste.codigo = ajuste_reng.cod_ajuste AND ajuste.cod_tipo = prod_mov_tipo.codigo 
 AND ajuste.fecha BETWEEN '$fecha_D' AND '$fecha_H' ";
 
 if($almacen != "TODOS"){
@@ -29,11 +29,11 @@ if($tipo != "TODOS"){
 	$where .= " AND ajuste.cod_tipo= '$tipo' ";
 }
 
-$sql = " SELECT ajuste.fecha,ajuste_tipo.descripcion ajuste,ajuste_tipo.tipo,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.codigo cod_producto, productos.descripcion producto,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
+$sql = " SELECT ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, productos.descripcion producto,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
 ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio 
-FROM ajuste,ajuste_reng,ajuste_tipo,almacenes,productos
+FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos
 $where
-ORDER BY 1,ajuste.codigo ASC ";
+ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 
 $query = $bd->consultar($sql);
 while($rows=$bd->obtener_name($query)){
@@ -44,10 +44,10 @@ while($rows=$bd->obtener_name($query)){
 // return json_encode($result);
 
 ?>
-<table width="100%" border="0" align="center">
-	<tr class="fondo00">
+<table class="tabla_sistema" width="100%" border="0" align="center">
+	<tr>
 		<th width="8%" class="etiqueta">Fecha Hora</th>
-		<th width="13%" class="etiqueta">Ajuste</th>
+		<th width="13%" class="etiqueta">Tipo Movimiento</th>
 		<th width="13%" class="etiqueta">Almacen</th>
 		<th width="18%" class="etiqueta"><?php echo $leng['producto']?></th>
 		<th width="8%" class="etiqueta">Cantidad</th>
@@ -62,14 +62,8 @@ while($rows=$bd->obtener_name($query)){
 	$query = $bd->consultar($sql);
 
 	while ($datos=$bd->obtener_fila($query,0)){
-		if ($valor == 0){
-			$fondo = 'fondo01';
-			$valor = 1;
-		}else{
-			$fondo = 'fondo02';
-			$valor = 0;
-		}
-		echo '<tr class="'.$fondo.'">
+
+		echo '<tr>
 		<td class="texto">'.$datos["fecha"].'</td>
 		<td class="texto">'.longitud($datos["ajuste"]).'</td>
 		<td class="texto">'.longitud($datos["almacen"]).'</td>

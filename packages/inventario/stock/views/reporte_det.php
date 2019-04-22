@@ -19,7 +19,7 @@ $titulo          = " Reporte De Existencia Fecha: ".$fecha."\n";
 
 if(isset($generar_tipo)){
 
-  $where = " WHERE a.cod_producto = b.codigo AND a.cod_almacen = c.codigo
+  $where = " WHERE a.cod_producto = b.item AND a.cod_almacen = c.codigo
             AND b.cod_linea = d.codigo AND b.cod_sub_linea = e.codigo  ";
 
   if($linea != "TODOS"){
@@ -58,7 +58,7 @@ if(isset($generar_tipo)){
     $query  = $bd->consultar($sql);
     echo "<table border=1>
     <tr><th colspan='8'>".$titulo."</th></tr>
-    <tr><th> Codigo </th><th>".$leng["producto"]." <th>Linea</th><th> Sub Linea</th><th>Almacen</th><th>Ultimo Costo</th><th>Ultimo Costo Promedio</th> <th>Stock</th> </tr>";
+    <tr><th> Serial </th><th>".$leng["producto"]." <th>Linea</th><th> Sub Linea</th><th>Almacen</th><th>Ultimo Costo</th><th>Ultimo Costo Promedio</th> <th>Stock</th> </tr>";
 
     while ($dato = $bd->obtener_fila($query)){
      echo "<tr><td>".$dato[0]."</td><td>".$dato[1]."</td><td>".$dato[2]."</td><td>".$dato[3]."</td>
@@ -80,7 +80,7 @@ if(isset($generar_tipo)){
   <table width='100%'>
   <tbody>
   <tr style='background-color: #4CAF50;'>
-  <th width:'10%'>Codigo</th>
+  <th width:'10%'>Serial</th>
   <th width:'30%'>".$leng['producto']."</th>
   <th width:'15%'>Linea</th>
   <th width:'15%'>Sub Linea</th>

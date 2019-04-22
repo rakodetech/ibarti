@@ -49,7 +49,7 @@ if(isset($_POST['metodo'])){
         $sql = " DELETE FROM ajuste_reng WHERE cod_ajuste =  '$nro_ajuste' ;";
         $bd->consultar($sql);
       }elseif ($metodo == "anular") {
-        $anulado = "T";
+       $anulado = "T";
         $sql = " SELECT a.n_ajuste FROM control a ";
         $query = $bd->consultar($sql);
         $data =$bd->obtener_fila($query);

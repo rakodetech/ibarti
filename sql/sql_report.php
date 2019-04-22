@@ -1,8 +1,4 @@
 <?php
-$sql_tipo_ajuste = "SELECT ajuste_tipo.codigo, ajuste_tipo.descripcion 
-                FROM ajuste_tipo WHERE ajuste_tipo.status = 'T'
-                ORDER BY ajuste_tipo.descripcion ASC";
-
 $sql_almacen = "SELECT almacenes.codigo, almacenes.descripcion 
                 FROM almacenes 
                 WHERE almacenes.status = 'T'

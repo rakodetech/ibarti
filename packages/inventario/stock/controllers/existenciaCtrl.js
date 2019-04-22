@@ -10,6 +10,7 @@ function Cons_existencia() {
 		type:  'post',
 		success:  function (response) {
 			$("#Cont_existencia").html(response);
+			buscar_existencia_inicio();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -74,6 +75,23 @@ function buscar_existencia(){
 		data:  parametros,
 		url:   'packages/inventario/stock/views/Buscar_existencia.php',
 		type:  'post',
+		beforeSend: function(){
+			$("#listar_stock").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px">');
+		},
+		success:  function (response) {
+			$("#listar_stock").html(response);
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);}
+		});
+}
+
+function buscar_existencia_inicio(){
+
+	$.ajax({
+		url:   'packages/inventario/stock/views/Buscar_existencia_inicio.php',
+		type:  'get',
 		beforeSend: function(){
 			$("#listar_stock").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px">');
 		},

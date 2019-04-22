@@ -1,17 +1,18 @@
 <?php
+define("SPECIALCONSTANT", true);
 require "../autentificacion/aut_config.inc.php";
-require "../".class_bd;
+require "../".class_bdI;
 $bd = new DataBase();
 
 $codigo        = $_POST['codigo'];
 
-$where = " WHERE b.cod_producto = a.codigo ";
+$where = " WHERE b.cod_producto = a.item ";
 
 if($codigo != "TODOS"){
 	$where .= " AND b.cod_almacen= '$codigo' ";
 }
 
-$sql = " SELECT a.codigo, a.descripcion FROM productos a ,stock b 
+$sql = " SELECT a.item, a.descripcion FROM productos a ,stock b 
 $where  ORDER BY 2 ASC ";
 
 $query = $bd->consultar($sql);
