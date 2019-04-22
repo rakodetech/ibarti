@@ -148,7 +148,7 @@ function Selec_producto(codigo) {
 	Limpiar_producto();
 	if((codigo != "" ) && (codigo != "undefined")) {
 		producto_cod = codigo;
-		producto_des = $("#ped_producto option:selected").text();
+		producto_des = $("#ped_producto").val();
 		cantidad_maxima(alm_origen,codigo);
 	}else{
 		alert("debe seleccionar un porducto");
@@ -318,7 +318,6 @@ function Agregar_renglon(){
         		$('#tr_' + reng_num + '').append(td04);
 // console.log(Ped_detalleX);
 // console.log(Ped_detalle);
-buscar_producto();
 Cal_total();
 } else {
 	alert(errorMessage);

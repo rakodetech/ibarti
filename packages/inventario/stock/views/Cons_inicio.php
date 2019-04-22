@@ -71,11 +71,12 @@ $prod_producto     = $producto->get_prod_productos("TODOS");
   <table width="95%" class="tabla_sistema">
     <thead>
       <tr>
-        <th width="32%" align="center">Almacen</th>
-        <th width="32%" align="center">Producto</th>
-        <th width="12%" align="center">Stock</th>
-        <th width="12%" align="center">Costo Actual</th>
-        <th width="12%" align="center">Costo Promedio</th>
+        <th width="25%" align="center">Almacen</th>
+        <th width="25%" align="center">Producto</th>
+        <th width="20%" align="center">Serial</th>
+        <th width="10%" align="center">Stock</th>
+        <th width="10%" align="center">Costo Actual</th>
+        <th width="10%" align="center">Costo Promedio</th>
       </tr>
     </thead>
     <tbody id="listar_stock">

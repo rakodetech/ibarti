@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="css/modal_planif.css" type="text/css" media="screen" />
+<link rel="stylesheet" type="text/css" href="latest/stylesheets/autocomplete.css" />
 
 <?php
 	$Nmenu = '472';
@@ -15,3 +16,4 @@
 
 <script type="text/javascript" src="packages/inventario/movimiento/controllers/movimientoCtrl.js"></script>
 <script type="text/javascript" src="funciones/modal.js"></script>
+<script type="text/javascript" src="latest/scripts/autocomplete.js"></script>

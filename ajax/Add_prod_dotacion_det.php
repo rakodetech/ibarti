@@ -6,7 +6,7 @@ $bd = new DataBase();
 $rel   = $_POST['codigo'];
 ?>
     <table width="100%" align="center">
-	<tr class="text" >
+	<tr class="text" id="tr_1_<?php echo $rel;?>">
      <td width="25%" id="select_1_<?php echo $rel;?>"><select name="linea_<?php echo $rel;?>"
                      id="linea_<?php echo $rel;?>" style="width:200px;"
                      onchange="Activar01(this.value, '<?php echo $rel;?>', 'select_2_<?php echo $rel;?>')" required="required">

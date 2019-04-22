@@ -20,25 +20,14 @@ $reng       = $movimiento->get_mov_reng($codigo);
       <td height="8" colspan="6" align="center"><hr></td>
     </tr>
      <tr>
-      <td width="25%" class="etiqueta">Buscar <?php echo $leng['producto'];?></td>
-      <td width="5%"></td>
       <td width="40%" class="etiqueta"><?php echo $leng['producto'];?></td>
       <td width="20%" class="etiqueta">Cantidad</td>
       <td width="10%" class="etiqueta" id="add_renglon_etiqueta">Agregar</td>
     </tr>
     <tr>
-      <td>       
-        <input type="text"id="ped_filtro_producto" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" style="width:220px"/>
-      </td>
-      <td>
-        <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" onclick="buscar_producto();" id="buscarProducto" title="Buscar Producto"/>
-        <input type="submit"  hidden="">
-      </td>
-    </td>
     <td>
-      <select id="ped_producto" onchange="Selec_producto(this.value)" style="width:300px">
-        <option value="">Seleccione...</option>
-      </select>
+      <input type="text"id="ped_producto" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" style="width:300px">
+      <input type="hidden" name="producto" id="stdID" value=""/>
     </td>
     <td>
      <input type="number" id="ped_cantidad" style="width:100px"  disabled  value="0" min="0"   placeholder="">
@@ -102,3 +91,13 @@ $reng       = $movimiento->get_mov_reng($codigo);
       <input type="button"  title="Volver a la página anterior" onclick="Cons_ajuste()" class="readon art-button"  value="Volver" />
     </span>-->
   </div>
+
+  <script language="JavaScript" type="text/javascript">
+  new Autocomplete("ped_producto", function() { 
+    this.setValue = function(id) {
+      $("#stdID").value = id;
+      Selec_producto(id);
+    }
+    if (this.value.length < 1) return ;
+    return "autocompletar/tb/producto_base_serial.php?q="+this.text.value +"&filtro=codigo"});
+</script>

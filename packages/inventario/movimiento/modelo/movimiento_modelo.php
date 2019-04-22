@@ -67,7 +67,7 @@ class Movimiento
     WHERE (a.codigo LIKE '%$dato%'
     OR a.item LIKE '%$dato%'
     OR a.descripcion LIKE '%$dato%')
-    AND a.codigo = b.cod_producto
+    AND a.item = b.cod_producto
     AND b.cod_almacen = '$almacen'
     ORDER BY a.codigo ASC";
     $query         = $this->bd->consultar($sql);
@@ -82,7 +82,7 @@ class Movimiento
     $sql = " SELECT a.*, b.descripcion producto
     FROM ajuste_reng a , productos b
     WHERE a.cod_ajuste = $cod
-    AND a.cod_producto = b.codigo
+    AND a.cod_producto = b.item
     ORDER BY a.reng_num ASC";
     $query = $this->bd->consultar($sql);
 

@@ -10,8 +10,8 @@ $("#bus_ajuste").on('submit', function(evt){
 });
 
 $(function() {
-    Cons_ajuste();
-    //Form_ajuste("", "agregar");
+    //Cons_ajuste();
+    Form_ajuste("", "agregar");
 });
 
 var lote = "19830906";
@@ -307,7 +307,7 @@ function buscar_ajuste(isBuscar) {
     var data = $('#data_buscar_ajuste').val() || '';
     $.ajax({
         data: { 'data': data },
-        url: 'packages/inventario/ajuste/views/Buscar_ajuste.php',
+        url: 'packages/inventario/ajuste/views/Buscar_movimiento.php',
         type: 'post',
         beforeSend: function() {
             $('#buscarajuste').attr('disabled', true);
@@ -330,12 +330,13 @@ function Agregarajuste() {
 
 
 function mostrar_costo_promedio(codigo,cod_almacen) {
+    console.log(codigo,cod_almacen);
     $.ajax({
-        data: { 'serial': codigo, 'almacen': cod_almacen },
+        data: { 'codigo': codigo, 'almacen': cod_almacen },
         url: 'packages/inventario/producto/views/Get_costo_prom.php',
         type: 'post',
         success: function(response) {
-           // console.log(response);
+           console.log(response);
            var resp = JSON.parse(response);
            costo = resp[0];
            $("#ped_costo").val(resp[0]);
@@ -552,8 +553,9 @@ function Agregar_renglon() {
         $('#tr_' + reng_num + '').append(td07);
         //// console.log(Ped_detalleX);
         //// console.log(Ped_detalle);
-        buscar_producto();
         Cal_total();
+        $("#ped_producto").val("");
+        $("#ped_almacen").val("");
     } else {
         alert(errorMessage);
     }
@@ -601,7 +603,6 @@ function Cancelar_renglon() {
     $("#add_renglon").prop('hidden', false);
     $("#canc_renglon").prop('hidden', true);
     $("#update_renglon").prop('hidden', true);
-    buscar_producto();
     //var prod_option  = '<option value="">Seleccione...</option>';
     //$("#ped_producto").html(prod_option);
 }

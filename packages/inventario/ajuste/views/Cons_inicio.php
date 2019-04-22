@@ -3,7 +3,7 @@ session_start();
 require_once('../../../../sql/sql_report_t.php');
 require "../modelo/ajuste_modelo.php";
 require "../../../../".Leng;
-$titulo     = "Movimiento";
+$titulo     = "MOVIMIENTO";
 $ajuste  = new Ajuste;
 $listar  =  $ajuste->get();
 ?>
@@ -42,7 +42,7 @@ $listar  =  $ajuste->get();
          echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
        }?></select></td>
        <td width="4%" id="cont_img"><img class="imgLink" id="img_actualizar" src="imagenes/actualizar.png" border="0"
-        onclick=" Add_filtroX()"  /></td>
+        onclick="buscar_ajuste(true)"  /></td>
         <td><input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu;?>" />
          <input type="hidden" name="mod" id="mod" value="<?php echo $mod;?>" />
          <input type="hidden" name="archivo" id="archivo" value="<?php echo $archivo;?>" />
@@ -64,30 +64,17 @@ $listar  =  $ajuste->get();
           </tr>
         </table>
       </fieldset>
-      <div align="center" class="etiqueta_title"><?php echo $titulo;?></div>
-
-      <form name="bus_ajuste" id="bus_ajuste" style="float: right;">
-        <label>Buscar ajuste </label>
-        <input type="text"id="data_buscar_ajuste" class="form-control"  placeholder="Ingrese dato del ajuste" />
-        <input type="submit" name="buscarHorario" id="buscarHorario" hidden="">
-        <span class="art-button-wrapper">
-         <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" onclick="buscar_ajuste(true);"/> 
-       </span>
-       <span class="art-button-wrapper">
-         <img border="null" width="25px" height="25px" src="imagenes/ico_agregar.ico" id="agregar_mascota" onclick="Form_ajuste('','agregar')" title="Agregar Registro"/>
-       </span>
-     </form>
-
      <div class="tabla_sistema listar">
       <table  width="100%" border="0" align="center">
         <thead>
           <tr>
-            <th>N. Ajuste</th>
-            <th>Fecha</th>
-            <th>Tipo</th>
+            <th>N. Movimiento</th>
+            <th>Fecha</th>          
+            <th>Tipo Movimiento</th>
             <th>Descripcion</th>
             <th>Monto</th>
-          </tr>
+        <th align="center"><img src="imagenes/nuevo.bmp" alt="Agregar Registro" title="Agregar Registro" width="20px" height="20px" border="null"onclick="Form_ajuste('','agregar')" title="Agregar Registro"/></th>
+    </tr>
         </thead>
         <tbody id="listar_ajuste">
           <?php
@@ -99,7 +86,7 @@ $listar  =  $ajuste->get();
             <td>'.$datos["fecha"].'</td>
             <td>'.$datos["tipo"].'</td>
             <td>'.$datos["motivo"].'</td>
-            <td>'.$datos["total"].'</td>
+            <td colspan="2">'.$datos["total"].'</td>
             </tr>';
           } ?>
 

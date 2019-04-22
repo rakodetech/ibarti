@@ -15,10 +15,10 @@ if($metodo == 'modificar')
 {
   $anulado   = $_POST['anulado'];
   $codigo   = $_POST['codigo'];
-  $titulo   = "Modificar Ajuste";
+  $titulo   = "Modificar Movimiento";
   $ped      =  $ajuste->editar("$codigo");
 }else{
- $titulo    = "Agregar Ajuste";
+ $titulo    = "Agregar Movimiento";
  $ped       = $ajuste->inicio();
  $anulado   = "F";
  $codigo    = 0;
@@ -34,6 +34,7 @@ if($metodo == 'modificar')
     <div style="float: right;" align="center">
       <img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" id="borrar_ajuste" onclick="Borrar_ajuste()" />
       <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" id="agregar_ajuste" title="Agregar Registro" onclick="Agregarajuste()" />
+       <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="Cons_ajuste()" />
     </div>
     <table width="95%" align="center">
       <tr>

@@ -17,7 +17,7 @@ class Existencia
 
   public function get_prod_linea(){
     $this->datos   = array();
-    $sql = " SELECT * FROM prod_lineas a
+    $sql = " SELECT a.codigo, a.descripcion FROM prod_lineas a
     WHERE a.`status` = 'T'
     ORDER BY 2 ASC ";
     $query = $this->bd->consultar($sql);
@@ -46,7 +46,7 @@ class Existencia
 
   public function get_prod_productos($sub_linea){
     $this->datos   = array();
-    $sql = " SELECT a.codigo, a.descripcion FROM productos a
+    $sql = " SELECT a.item, a.descripcion FROM productos a
     WHERE a.`status` = 'T'";
     if($sub_linea != "TODOS"){
       $sql .= " AND a.cod_sub_linea = '$sub_linea'";
@@ -77,7 +77,7 @@ class Existencia
     $this->datos   = array();
     $sql = " SELECT a.codigo, a.descripcion FROM almacenes a ,stock b
     WHERE b.cod_almacen = a.codigo 
-    AND b.cod_producto = '$producto' ORDER BY 2 ASC ";
+    AND b.item = '$producto' ORDER BY 2 ASC ";
     $query = $this->bd->consultar($sql);
 
     while ($datos= $this->bd->  obtener_fila($query)) {
@@ -87,7 +87,7 @@ class Existencia
   }
 
   public function buscar($linea,$sub_linea,$producto,$almacen){
-    $sql = "SELECT c.descripcion almacen, b.descripcion producto, a.stock_actual, 
+    $sql = "SELECT c.descripcion almacen, b.item serial, b.descripcion producto, a.stock_actual, 
       IFNULL((SELECT d.costo FROM ajuste_reng d
     WHERE  d.cod_almacen = a.cod_almacen 
     AND d.cod_producto = a.cod_producto
@@ -97,7 +97,7 @@ class Existencia
     AND e.cod_producto = a.cod_producto
     ORDER BY e.cod_ajuste DESC, e.reng_num DESC LIMIT 1),'SIN DATA') cos_prom_actual
     FROM stock a, productos b, almacenes c 
-    WHERE a.cod_producto = b.codigo AND a.cod_almacen = c.codigo  
+    WHERE a.cod_producto = b.item AND a.cod_almacen = c.codigo  
     ";
     if($linea != "TODOS"){
       $sql .= " AND b.cod_linea = '$linea'";

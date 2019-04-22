@@ -66,9 +66,11 @@ function borrar2(num) {
 }
 
 function validarCamp(metodo){
-
-	var valido     = 1;
 	var numX     = parseInt(document.getElementById('incremento').value);
+	if(metodo == 'eliminar'){
+		document.getElementById('tr_1_'+numX).remove();
+	}else{
+		var valido     = 1;
 //	alert(metodo);
 var mensaje   = " ";
 mensaje01 = " Debe Seleccionar La Linea \n";
@@ -107,28 +109,30 @@ if(input01 > input01Max){
      	alert(mensaje);
      }
  }
+}
 
- function prod_dotacion_det(numX){
- 	var num     = numX+1;
- 	if(numX != ''){
- 		var valor = "ajax/Add_prod_dotacion_det.php";
- 		var contenido = "Contenedor01_"+numX+"";
- 		ajax=nuevoAjax();
- 		ajax.open("POST", valor, true);
- 		ajax.onreadystatechange=function()
- 		{
- 			if (ajax.readyState==4){
- 				document.getElementById(contenido).innerHTML = ajax.responseText;
- 				document.getElementById('incremento').value = num;
- 				spryN(num);
- 			}
- 		}
- 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
- 		ajax.send("codigo="+num+"");
- 	}else{
- 		alert("Falta Codificacion ");
- 	}
- }
+
+function prod_dotacion_det(numX){
+	var num     = numX+1;
+	if(numX != ''){
+		var valor = "ajax/Add_prod_dotacion_det.php";
+		var contenido = "Contenedor01_"+numX+"";
+		ajax=nuevoAjax();
+		ajax.open("POST", valor, true);
+		ajax.onreadystatechange=function()
+		{
+			if (ajax.readyState==4){
+				document.getElementById(contenido).innerHTML = ajax.responseText;
+				document.getElementById('incremento').value = num;
+				spryN(num);
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("codigo="+num+"");
+	}else{
+		alert("Falta Codificacion ");
+	}
+}
 
 function  dotacion_ref(codigo){  // LINEA //
 	if(codigo!=''){
@@ -255,7 +259,10 @@ $proced      = "p_prod_dotacion";
 										<td class="etiqueta" width="25">Almacen</td>
 									<?php }?>
 									<td class="etiqueta" width="17%">Cantidad:</td>
-									<td class="etiqueta" width="8%"><?php if($metodo == "agregar"){ ?><img src="imagenes/ico_agregar.ico" class="imgLink" title="Agregar Item" onclick="validarCamp('Agregar')" /><?php } ?></td>
+									<td class="etiqueta" width="25%"><?php if($metodo == "agregar"){ ?>
+										 <span style="float: right;" align="center" ><img src="imagenes/ico_agregar.ico" class="imgLink" title="Agregar Item" onclick="validarCamp('Agregar')" />
+										<img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" title="Borrar Registro" id="borrar_dot" onclick="validarCamp('eliminar')" /></span><?php } ?>
+									</td>
 								</tr>
 								<?php if($metodo == "agregar"){ ?>
 									<tr class="text" >
@@ -383,9 +390,9 @@ $proced      = "p_prod_dotacion";
 
 										new Autocomplete("stdName", function() {
 											this.setValue = function(id) {
-            document.getElementById("stdID").value = id; 
-            toastr.clear(toastr.getLastToast);
-            mostrar_tallas(id);
+												document.getElementById("stdID").value = id; 
+												toastr.clear(toastr.getLastToast);
+												mostrar_tallas(id);
             // document.getElementsByName("stdID")[0].value = id;
         }
         if (this.isModified) this.setValue("");
