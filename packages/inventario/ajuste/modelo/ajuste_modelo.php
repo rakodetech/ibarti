@@ -17,7 +17,7 @@ class Ajuste
 
   public function get(){
     $sql = " SELECT a.*, b.codigo cod_tipo, b.descripcion tipo
-    FROM ajuste a, ajuste_tipo b
+    FROM ajuste a, prod_mov_tipo b
     WHERE a.cod_tipo = b.codigo
     ORDER BY a.codigo ASC";
     $query = $this->bd->consultar($sql);
@@ -67,7 +67,7 @@ class Ajuste
   public function editar($cod){
     $this->datos   = array();
     $sql = "  SELECT a.*, b.descripcion tipo
-    FROM ajuste a, ajuste_tipo b
+    FROM ajuste a, prod_mov_tipo b
     WHERE a.codigo = $cod
     AND a.cod_tipo = b.codigo
     ORDER BY a.codigo DESC";
@@ -100,7 +100,7 @@ class Ajuste
 
   public function buscar($dato){
     $sql = "SELECT a.*, b.codigo cod_tipo, b.descripcion tipo
-    FROM ajuste a, ajuste_tipo b
+    FROM ajuste a, prod_mov_tipo b
     WHERE a.cod_tipo = b.codigo
     AND (a.codigo LIKE '%$dato%'
     OR a.motivo LIKE '%$dato%'
@@ -116,7 +116,7 @@ class Ajuste
 
   public function get_tipo($cod){
     $this->datos   = array();
-    $sql = " SELECT * FROM ajuste_tipo a
+    $sql = " SELECT * FROM prod_mov_tipo a
     WHERE a.`status` = 'T' AND a.codigo <> '$cod'
     AND a.codigo <> '9999'
     ORDER BY 2 ASC ";
@@ -130,7 +130,7 @@ class Ajuste
 
   public function get_tipo_aplicar($cod){
     $this->datos   = array();
-    $sql = " SELECT tipo FROM ajuste_tipo WHERE codigo = '$cod'";
+    $sql = " SELECT tipo_movimiento FROM prod_mov_tipo WHERE codigo = '$cod'";
     $query = $this->bd->consultar($sql);
     return  $this->datos = $this->bd->obtener_fila($query);
   }
@@ -140,7 +140,7 @@ class Ajuste
     $sql = " SELECT a.*, b.descripcion producto,c.descripcion almacen
     FROM ajuste_reng a , productos b,almacenes c
     WHERE a.cod_ajuste = $cod
-    AND a.cod_producto = b.codigo
+    AND a.cod_producto = b.item
     AND a.cod_almacen = c.codigo
     ORDER BY a.reng_num ASC";
     $query = $this->bd->consultar($sql);

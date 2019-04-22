@@ -273,6 +273,14 @@ class Producto
     return $this->datos= $this->bd->obtener_fila($query);
     
   }
+
+  public function get_costo_prom($serial){
+    $sql = "SELECT productos.cos_promedio FROM productos
+    WHERE productos.item = '$serial'";
+    $query = $this->bd->consultar($sql);
+
+    return $this->datos= $this->bd->obtener_fila($query);
+  }
   
 }
 ?>

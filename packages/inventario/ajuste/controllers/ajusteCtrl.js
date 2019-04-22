@@ -4,10 +4,10 @@ $("#anular_form").on('submit', function(evt){
     anular();
 });
 
-  $("#bus_ajuste").on('submit', function(evt){
+$("#bus_ajuste").on('submit', function(evt){
     evt.preventDefault();
     buscar_ajuste(true);
-  });
+});
 
 $(function() {
     Cons_ajuste();
@@ -72,11 +72,11 @@ function Form_ajuste(cod, metodo, tipo,anulado) {
                     $("#add_renglon_etiqueta").hide();
                     $("#add_renglon").hide();
                     if(typeof tipo != "undefined"){
-                     Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
-                 }
-             }
-         },
-         error: function(xhr, ajaxOptions, thrownError) {
+                       Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
+                   }
+               }
+           },
+           error: function(xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);
         }
@@ -164,27 +164,27 @@ function save_ajuste() {
         url: 'packages/inventario/ajuste/modelo/ajuste.php',
         type: 'post',
         success: function(response) {
-               console.log(response);
-               var resp = JSON.parse(response);
-               if (resp.error) {
-                alert(resp.mensaje);
-            } else {
-                if (metodo == "agregar") {
-                    if (confirm("Actualización Exitosa!.. \n Desea AGREGAR un NUEVO REGISTRO?")) {
-                        Form_ajuste("", "agregar");
-                    } else {
-                        Cons_ajuste();
-                    }
-                } else if (metodo == "modificar") {
-                    alert("Actualización Exitosa!..");
+         console.log(response);
+         var resp = JSON.parse(response);
+         if (resp.error) {
+            alert(resp.mensaje);
+        } else {
+            if (metodo == "agregar") {
+                if (confirm("Actualización Exitosa!.. \n Desea AGREGAR un NUEVO REGISTRO?")) {
+                    Form_ajuste("", "agregar");
+                } else {
+                    Cons_ajuste();
                 }
+            } else if (metodo == "modificar") {
+                alert("Actualización Exitosa!..");
             }
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
         }
-    });
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+    }
+});
    } else {
     alert(errorMessage);
 }
@@ -248,21 +248,21 @@ function anular(){
         url: 'packages/inventario/ajuste/modelo/ajuste.php',
         type: 'post',
         success: function(response) {
-               console.log(response);
-               var resp = JSON.parse(response);
-               if (resp.error) {
-                alert(resp.mensaje);
-            } else {
-                alert("Actualización Exitosa!..");
-                CloseModal();
-            }
-            $("#ped_descripcion_anular").val("");
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
+         console.log(response);
+         var resp = JSON.parse(response);
+         if (resp.error) {
+            alert(resp.mensaje);
+        } else {
+            alert("Actualización Exitosa!..");
+            CloseModal();
         }
-    });
+        $("#ped_descripcion_anular").val("");
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+    }
+});
    } else {
     alert(errorMessage);
 }
@@ -328,54 +328,10 @@ function Agregarajuste() {
     if (confirm(msg)) Form_ajuste('', 'agregar');
 }
 
-function buscar_producto() {
-    var buscar = $('#ped_filtro_producto').val() || '';
-    if($("#ped_aplicar").val() == 'IN'){
-        $.ajax({
-            data: { 'buscar': buscar },
-            url: 'packages/inventario/producto/views/Buscar_prod.php',
-            type: 'post',
-            beforeSend: function() {
-                $('#buscarProducto').attr('disabled', true);
-            },
-            success: function(response) {
-                $("#ped_producto").html(response);
-                $('#buscarProducto').attr('disabled', false);
-                Limpiar_producto();
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-                $('#buscarProducto').attr('disabled', false);
-                Limpiar_producto();
-            }
-        });
-    }else{
-        $.ajax({
-            data: { 'buscar': buscar },
-            url: 'packages/inventario/producto/views/Buscar_prod_alm.php',
-            type: 'post',
-            beforeSend: function() {
-                $('#buscarProducto').attr('disabled', true);
-            },
-            success: function(response) {
-                $("#ped_producto").html(response);
-                $('#buscarProducto').attr('disabled', false);
-                Limpiar_producto();
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-                $('#buscarProducto').attr('disabled', false);
-                Limpiar_producto();
-            }
-        });
-    }
-}
 
 function mostrar_costo_promedio(codigo,cod_almacen) {
     $.ajax({
-        data: { 'producto': codigo, 'almacen': cod_almacen },
+        data: { 'serial': codigo, 'almacen': cod_almacen },
         url: 'packages/inventario/producto/views/Get_costo_prom.php',
         type: 'post',
         success: function(response) {
@@ -414,10 +370,12 @@ function Selec_producto(codigo) {
     Limpiar_producto();
     if ((codigo != "") && (codigo != "undefined")) {
         producto_cod = codigo;
-        producto_des = $("#ped_producto option:selected").text();
+        producto_des = $("#ped_producto").val();
         $("#ped_cantidad").prop('disabled', false);
         if($("#ped_aplicar").val() == 'IN'){
-            get_almacenes(() => get_almacen_default(codigo));
+            get_almacenes(() => {}
+                //get_almacen_default(codigo)
+                );
             $("#ped_costo").prop('disabled', false);
         }else{
             get_almacenes_stock(codigo);
@@ -482,7 +440,7 @@ function get_almacenes(callback) {
 
 function get_almacenes_stock(codigo) {
     $.ajax({
-        data: {'producto':codigo},
+        data: {'serial':codigo},
         url: 'packages/inventario/ajuste/views/Add_almacenes_stock.php',
         type: 'post',
         success: function(response) {
@@ -495,24 +453,6 @@ function get_almacenes_stock(codigo) {
     });
 }
 
-function get_almacen_default(codigo) {
-    $.ajax({
-        data: { 'producto': codigo },
-        url: 'packages/inventario/producto/views/Get_alm_default.php',
-        type: 'post',
-        success: function(response) {
-            var resp = JSON.parse(response);
-            almacen = resp[0];
-            ////console.log(almacen);
-            $("#ped_almacen > option[value=" + almacen + "]").attr("selected", true);
-            Selec_almacen(almacen);
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-        }
-    });
-}
 
 function Cal_prod_neto(evento, valor) {
     if ((valor == "") && (valor == "undefined")) {
@@ -804,9 +744,9 @@ function Add_productos(almacen){
     url: 'ajax/Add_stock_productos.php',
     type: 'post',
     success: function(response) {
-     $("#productos").html(response);
- },
- error: function(xhr, ajaxOptions, thrownError) {
+       $("#productos").html(response);
+   },
+   error: function(xhr, ajaxOptions, thrownError) {
     alert(xhr.status);
     alert(thrownError);
 }

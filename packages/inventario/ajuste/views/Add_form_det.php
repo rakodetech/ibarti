@@ -20,31 +20,21 @@ if($metodo == "agregar"){
 
   <table width="95%" align="center">
     <tr>
-      <td width="10%" class="etiqueta">Buscar <?php echo $leng['producto'];?></td>
-      <td width="5%"></td>
-      <td width="15%" class="etiqueta"><?php echo $leng['producto'];?></td>
-      <td width="15%" class="etiqueta">Almacen</td>
+      <td width="30%" class="etiqueta"><?php echo $leng['producto'];?>
+       <input type="hidden" name="trabajador" id="stdID" value=""/></td>
+      <td width="30%" class="etiqueta">Almacen</td>
       <td width="10%" class="etiqueta">Cantidad</td>
       <td width="10%" class="etiqueta">Costo</td>
-      <td width="15%" class="etiqueta">Neto</td>
-      <td width="20%" class="etiqueta" id="add_renglon_etiqueta">Agregar</td>
+      <td width="10%" class="etiqueta">Neto</td>
+      <td width="10%" class="etiqueta" id="add_renglon_etiqueta">Agregar</td>
     </tr>
     <tr>
       <td>       
-        <input type="text"id="ped_filtro_producto" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" style="width:120px"/>
+        <input type="text"id="ped_producto" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" style="width:250px"/>
       </td>
-      <td>
-        <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" onclick="buscar_producto();" id="buscarProducto" title="Buscar Producto"/>
-        <input type="submit"  hidden="">
-      </td>
-    </td>
+
     <td>
-      <select id="ped_producto" onchange="Selec_producto(this.value)" style="width:150px">
-        <option value="">Seleccione...</option>
-      </select>
-    </td>
-    <td>
-      <select id="ped_almacen" onchange="Selec_almacen(this.value)"  style="width:150px" >
+      <select id="ped_almacen" onchange="Selec_almacen(this.value)"  style="width:250px" >
         <option value="">Seleccione...</option>
       </select>
     </td>
@@ -102,3 +92,14 @@ if($metodo == "agregar"){
   <input id="ped_total" type="text" value="<?php echo $ped['total'];?>" class="text-right" readonly>
 </div>
 <input id="ped_aplicar" type="hidden" value="<?php echo $aplicar[0];?>" class="text-right">
+
+
+<script language="JavaScript" type="text/javascript">
+  new Autocomplete("ped_producto", function() { 
+    this.setValue = function(id) {
+      $("#stdID").value = id;
+      Selec_producto(id);
+    }
+    if (this.value.length < 1) return ;
+    return "autocompletar/tb/producto_base_serial.php?q="+this.text.value +"&filtro=codigo"});
+</script>

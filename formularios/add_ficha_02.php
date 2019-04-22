@@ -55,6 +55,13 @@ ORDER BY 3 DESC ";
    </tr>'; 
  }?>
 </table>
+<div align="center">
+  <span class="art-button-wrapper">
+    <span class="art-button-l"> </span>
+    <span class="art-button-r"> </span>
+    <input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
+  </span>
+</div>
 </fieldset>
 <input type="hidden" name="codigo" value="<?php echo $codigo;?>" />
 <input type="hidden" name="proced" value="<?php echo $proced;?>" />

@@ -2,7 +2,7 @@
 require "../modelo/ajuste_modelo.php";
 require "../../../../".Leng;
 
-$codigo = $_POST['producto'];
+$codigo = $_POST['serial'];
 $ajuste      = new Ajuste;
 $almacenes = $ajuste->get_almacenes_stock($codigo);
 

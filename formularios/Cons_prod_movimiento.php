@@ -2,7 +2,7 @@
 <script type="text/javascript" src="latest/scripts/autocomplete.js"></script>
 <?php
 	$Nmenu = '452';
-	require_once('autentificacion/aut_verifica_menu.php');
+	require_once('autentificacion/aut_verifica_menu.php'); 
 	require_once('sql/sql_report_t.php');
 	$tabla = "control_armamento";
 	$bd = new DataBase();

@@ -14,9 +14,9 @@ $metodo = $_POST['metodo'];
 if($metodo == 'modificar')
 {
   $anulado   = $_POST['anulado'];
-	$codigo   = $_POST['codigo'];
-	$titulo   = "Modificar Ajuste";
-	$ped      =  $ajuste->editar("$codigo");
+  $codigo   = $_POST['codigo'];
+  $titulo   = "Modificar Ajuste";
+  $ped      =  $ajuste->editar("$codigo");
 }else{
  $titulo    = "Agregar Ajuste";
  $ped       = $ajuste->inicio();
