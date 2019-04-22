@@ -56,7 +56,7 @@ $activo = $prod['status'];
     <table width="100%">
       <tr><td width="12%">Linea: </td>
         <td width="18%">
-          <select name="linea" id="linea" onchange="get_sub_lineas(this.value)" style="width:120px">
+          <select name="linea" id="linea" onchange="Add_Sub_Linea(this.value, 'contenido_sub_linea', 'T', '120')" style="width:120px">
             <option value="TODOS">TODOS</option> 
             <?php  
             $lineas  =  $producto->get_lineas();
@@ -67,7 +67,7 @@ $activo = $prod['status'];
           </select>
         </td>
         <td width="12%">Sub Linea: </td>
-        <td width="18%" id="contenido_sub_linea"><select name="sub_linea" id="p_sub_linea" style="width:120px;">
+        <td width="18%" id="contenido_sub_linea"><select name="sub_linea" id="sub_linea" style="width:120px;">
           <option value="TODOS">TODOS</option></select></td>
           <td width="12%">Producto Tipo: </td>
           <td width="18%"><select  name="prod_tipo" id="prod_tipo" style="width:120px;">

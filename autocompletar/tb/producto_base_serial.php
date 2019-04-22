@@ -8,8 +8,7 @@ $where  = "  ";
 
 $sql = "SELECT productos.codigo, productos.descripcion, productos.item              
 FROM productos 
-WHERE productos.codigo = productos.codigo
-AND (LOCATE('$typing', productos.codigo) OR LOCATE('$typing', productos.descripcion))         
+WHERE (LOCATE('$typing', productos.codigo) OR LOCATE('$typing', productos.descripcion))         
 ORDER BY 2 DESC";
 $query = $bd->consultar($sql);
 while ($datos=$bd->obtener_fila($query,0)){

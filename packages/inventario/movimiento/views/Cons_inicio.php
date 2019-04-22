@@ -20,27 +20,33 @@ $alm       = $movimiento->get_almacenes();
 
    <table width="95%" align="center">
     <tr>
-        <td height="8" colspan="4" align="center"><hr></td>
-      </tr>
+      <td height="8" colspan="4" align="center"><hr></td>
+    </tr>
     <tr>
-      <td width="15%" class="etiqueta">Almacen Origen:</td>
-      <td width="35%"> <select id="alm_origen" class="form-control" required onchange="habilitar_destino(this.value)">
-        <option value="">Seleccione...</option>
-        <?php
-        foreach ($alm as  $datos) {
-          echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
-        }?>
-      </select>
-    </td>
-    <td width="15%" class="etiqueta">Almacen Destino:</td>
-    <td width="35%"> <select id="alm_destino" class="form-control" onchange="cargar_detalle(this.value);" required>
+     <td width="30%" class="etiqueta">Almacen Origen:</td>
+     <td width="30%" class="etiqueta">Almacen Destino:</td>
+     <td width="40%" class="etiqueta">Descripcion:</td>
+   </tr>
+   <tr>
+    <tr>
+    <td> <select id="alm_origen" class="form-control" required onchange="habilitar_destino(this.value)">
       <option value="">Seleccione...</option>
       <?php
       foreach ($alm as  $datos) {
         echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
       }?>
-    </select></td>
-  </tr>
+    </select>
+  </td>
+
+  <td> <select id="alm_destino" class="form-control" onchange="cargar_detalle(this.value);" required>
+    <option value="">Seleccione...</option>
+    <?php
+    foreach ($alm as  $datos) {
+      echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
+    }?>
+  </select></td>
+  <td>  <textarea id="ped_descripcion"  cols="60" rows="2"></textarea></td>
+</tr>
 
 </table>
 

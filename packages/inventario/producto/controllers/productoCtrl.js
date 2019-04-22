@@ -28,6 +28,7 @@ function Cons_producto(cod, met){
 					var sub_linea       = $("#p_sub_linea").val();
 					get_propiedades(sub_linea);
 					$('#agregar_producto').show();
+					$("#p_codigo").attr("disabled",true);
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
@@ -113,8 +114,8 @@ function save_producto(){
 		"sub_linea" : sub_linea, "color": color,         "prod_tipo": prod_tipo ,
 		"unidad": unidad , "proveedor": proveedor , "iva": iva , "item":item, "descripcion": descripcion ,
 		"procedencia": procedencia,"almacen":almacen, "prec_vta1":prec_vta1, "prec_vta2":prec_vta2,"prec_vta3":prec_vta3,
-		 "prec_vta4":prec_vta4,"prec_vta5":prec_vta5,"garantia": garantia, "talla":talla, 
-		 "peso": peso,"piecubico":piecubico,"venc": venc, "fec_venc":fec_venc,
+		"prec_vta4":prec_vta4,"prec_vta5":prec_vta5,"garantia": garantia, "talla":talla, 
+		"peso": peso,"piecubico":piecubico,"venc": venc, "fec_venc":fec_venc,
 		"campo01":campo01,"campo02":campo02,"campo03":campo03,"campo04":campo04,
 		"proced": proced, "usuario": usuario, "metodo":metodo };
 
@@ -150,7 +151,7 @@ function save_producto(){
 	
 }
 
-function get_sub_lineas(linea){
+function get_sub_lineas(linea,id){
 	var parametros = {
 		"codigo": linea
 	};
@@ -159,7 +160,7 @@ function get_sub_lineas(linea){
 		url: 'packages/inventario/producto/views/Add_sub_linea.php',
 		type: 'post',
 		success: function (response) {
-			$("#sub_linea").html(response);
+			$("#td_sub_linea").html(response);
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);

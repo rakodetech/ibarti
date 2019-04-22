@@ -13,7 +13,7 @@ $codigo   = $_POST['codigo'];
 
    $query = $bd->consultar($sql);
 
-	echo'<select name="sub_linea" style="width:250px" required>
+	echo'<select name="sub_linea" id="sub_linea" style="width:250px" required>
 			     <option value="">Seleccione...</option>';
 			  	 while($datos=$bd->obtener_fila($query,0)){
 

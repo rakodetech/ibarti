@@ -6,7 +6,7 @@
 		$('#pdf').attr('action', "reportes/rp_inv_prod_dotacion.php");
 		$('#pdf').submit();
 	}
-
+$("#detalle").hide();
 function Activar01(codigo, relacion, contenido){  // LINEA //
 	if(codigo!=''){
 		var valor = "ajax/Add_prod_linea.php";
@@ -249,7 +249,7 @@ $proced      = "p_prod_dotacion";
 								</tr>
 							</table>
 						</fieldset>
-						<fieldset class="fieldset">
+						<fieldset class="fieldset" id="detalle">
 							<legend>Detalle: </legend>
 							<table width="100%" align="center">
 								<tr>
@@ -260,139 +260,139 @@ $proced      = "p_prod_dotacion";
 									<?php }?>
 									<td class="etiqueta" width="17%">Cantidad:</td>
 									<td class="etiqueta" width="25%"><?php if($metodo == "agregar"){ ?>
-										 <span style="float: right;" align="center" ><img src="imagenes/ico_agregar.ico" class="imgLink" title="Agregar Item" onclick="validarCamp('Agregar')" />
-										<img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" title="Borrar Registro" id="borrar_dot" onclick="validarCamp('eliminar')" /></span><?php } ?>
-									</td>
-								</tr>
-								<?php if($metodo == "agregar"){ ?>
-									<tr class="text" >
-										<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:200px;"
-											onchange="Activar01(this.value, '1', 'select_2_1')">
-											<option value="">Seleccione... </option>
-											<?php  	$sql = " SELECT codigo, descripcion FROM prod_lineas WHERE `status` = 'T' ORDER BY 2 ASC ";
-											$query = $bd->consultar($sql);
-											while($datos=$bd->obtener_fila($query,0)){
-												?>
-												<option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
-											<?php }?>
-										</select></td>
-										<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:200px;" disabled="disabled">
-											<option value="">Seleccione... </option>
-										</select></td>
-										<td id="select_3_1"><select name="almacen_1" id="almacen_1" style="width:200px;" disabled="disabled">
-											<option value="">Seleccione... </option>
-										</select></td>
-										<td id="input04"><input type="number" name="cantida_1" id="cantida_1" min="1"/></td>
-										<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
+										<span style="float: right;" align="center" ><img src="imagenes/ico_agregar.ico" class="imgLink" title="Agregar Item" onclick="validarCamp('Agregar')" />
+											<img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" title="Borrar Registro" id="borrar_dot" onclick="validarCamp('eliminar')" /></span><?php } ?>
+										</td>
 									</tr>
-								<?php }else{
-									$sql = " SELECT productos.cod_linea,  prod_lineas.descripcion AS linea,
-									prod_dotacion_det.cod_producto, productos.descripcion AS producto,
-									prod_dotacion_det.cantidad
-									FROM prod_dotacion_det , productos , prod_lineas
-									WHERE prod_dotacion_det.cod_dotacion = '$codigo'
-									AND prod_dotacion_det.cod_producto = productos.codigo
-									AND productos.cod_linea = prod_lineas.codigo ";
-									$query = $bd->consultar($sql);
-									while($datos=$bd->obtener_fila($query,0)){
-										$cod_linea    = $datos["cod_linea"];
-										$linea        = $datos["linea"];
-										$cod_producto = $datos["cod_producto"];
-										$producto     = $datos["producto"];
-										$cantidad     = $datos["cantidad"];
-										?>
-										<tr class="text">
-											<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:180px;" disabled="disabled"
+									<?php if($metodo == "agregar"){ ?>
+										<tr class="text" >
+											<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:200px;"
 												onchange="Activar01(this.value, '1', 'select_2_1')">
-												<option value="<?php echo $cod_linea;?>"><?php echo $linea;?></option>
+												<option value="">Seleccione... </option>
 												<?php  	$sql = " SELECT codigo, descripcion FROM prod_lineas WHERE `status` = 'T' ORDER BY 2 ASC ";
-												$query2 = $bd->consultar($sql);
-												while($datos2=$bd->obtener_fila($query2,0)){
+												$query = $bd->consultar($sql);
+												while($datos=$bd->obtener_fila($query,0)){
 													?>
-													<option value="<?php echo $datos2[0];?>"><?php echo $datos2[1];?></option>
+													<option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
 												<?php }?>
 											</select></td>
-											<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:250px;" disabled="disabled">
-												<option value="<?php echo $cod_producto;?>"><?php echo $producto;?></option>
+											<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:200px;" disabled="disabled">
+												<option value="">Seleccione... </option>
 											</select></td>
-											<td id="input04"><input type="text" name="cantida_1" id="cantida_1" maxlength="15" size="15" readonly="readonly"
-												value="<?php echo $cantidad;?>"/></td>
-												<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
-											</tr>
+											<td id="select_3_1"><select name="almacen_1" id="almacen_1" style="width:200px;" disabled="disabled">
+												<option value="">Seleccione... </option>
+											</select></td>
+											<td id="input04"><input type="number" name="cantida_1" id="cantida_1" min="1"/></td>
+											<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
+										</tr>
+									<?php }else{
+										$sql = " SELECT productos.cod_linea,  prod_lineas.descripcion AS linea,
+										prod_dotacion_det.cod_producto, productos.descripcion AS producto,
+										prod_dotacion_det.cantidad
+										FROM prod_dotacion_det , productos , prod_lineas
+										WHERE prod_dotacion_det.cod_dotacion = '$codigo'
+										AND prod_dotacion_det.cod_producto = productos.codigo
+										AND productos.cod_linea = prod_lineas.codigo ";
+										$query = $bd->consultar($sql);
+										while($datos=$bd->obtener_fila($query,0)){
+											$cod_linea    = $datos["cod_linea"];
+											$linea        = $datos["linea"];
+											$cod_producto = $datos["cod_producto"];
+											$producto     = $datos["producto"];
+											$cantidad     = $datos["cantidad"];
+											?>
+											<tr class="text">
+												<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:180px;" disabled="disabled"
+													onchange="Activar01(this.value, '1', 'select_2_1')">
+													<option value="<?php echo $cod_linea;?>"><?php echo $linea;?></option>
+													<?php  	$sql = " SELECT codigo, descripcion FROM prod_lineas WHERE `status` = 'T' ORDER BY 2 ASC ";
+													$query2 = $bd->consultar($sql);
+													while($datos2=$bd->obtener_fila($query2,0)){
+														?>
+														<option value="<?php echo $datos2[0];?>"><?php echo $datos2[1];?></option>
+													<?php }?>
+												</select></td>
+												<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:250px;" disabled="disabled">
+													<option value="<?php echo $cod_producto;?>"><?php echo $producto;?></option>
+												</select></td>
+												<td id="input04"><input type="text" name="cantida_1" id="cantida_1" maxlength="15" size="15" readonly="readonly"
+													value="<?php echo $cantidad;?>"/></td>
+													<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
+												</tr>
 
-										<?php }}?>
-									</table>
-									<div id="Contenedor01_1"></div>
-									<div align="center">
-										<?php if ($metodo == "agregar"){ ?>
-											<span class="art-button-wrapper">
-												<span class="art-button-l"> </span>
-												<span class="art-button-r"> </span>
-												<input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />
-											</span>&nbsp;
-											<span class="art-button-wrapper">
-												<span class="art-button-l"> </span>
-												<span class="art-button-r"> </span>
-												<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />
-												</span>&nbsp;  <?php }else{ ?>
-
-													<span class="art-button-wrapper">
-														<span class="art-button-l"> </span>
-														<span class="art-button-r"> </span>
-														<input type="button" name="pdf" onClick="Pdf()" value="Imprimir" class="readon art-button" />
-													</span>&nbsp;
-													<span class="art-button-wrapper">
-														<span class="art-button-l"> </span>
-														<span class="art-button-r"> </span>
-														<input type="button" name="anular" id="anular" onclick="Anular()" value="Anular" class="readon art-button" />
-													</span>&nbsp;
-
-												<?php } ?>
+											<?php }}?>
+										</table>
+										<div id="Contenedor01_1"></div>
+										<div align="center">
+											<?php if ($metodo == "agregar"){ ?>
 												<span class="art-button-wrapper">
 													<span class="art-button-l"> </span>
 													<span class="art-button-r"> </span>
-													<input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
-												</span>
-												<input type="hidden" name="metodo" id="metodo" value="<?php echo $metodo;?>" />
-												<input type="hidden" name="proced" value="<?php echo $proced;?>" />
-												<input type="hidden" name="usuario" value="<?php echo $usuario;?>" />
-												<input type="hidden" name="href" value="<?php echo $archivo2;?>"/>
-												<input type="hidden" name="incremento" id="incremento" value="1" />
-												<input type="hidden" name="r_rol" id="r_rol" value="<?php echo $_SESSION['r_rol'];?>"/>
-												<input type="hidden" name="r_cliente" id="r_cliente" valuee="<?php echo $_SESSION['r_cliente'];?>"/>
-												<input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION['usuario_cod'];?>"/>
-											</div>
-										</fieldset>
-									</form>
-									<hr />
-									<div id="Contenedor02"></div>
+													<input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />
+												</span>&nbsp;
+												<span class="art-button-wrapper">
+													<span class="art-button-l"> </span>
+													<span class="art-button-r"> </span>
+													<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />
+													</span>&nbsp;  <?php }else{ ?>
 
-									<script type="text/javascript">
-										var fecha01 = new Spry.Widget.ValidationTextField("fecha01", "date", {format:"dd-mm-yyyy", hint:"DD-MM-AAAA",
-											validateOn:["blur", "change"], useCharacterMasking:true, isRequired:false});
+														<span class="art-button-wrapper">
+															<span class="art-button-l"> </span>
+															<span class="art-button-r"> </span>
+															<input type="button" name="pdf" onClick="Pdf()" value="Imprimir" class="readon art-button" />
+														</span>&nbsp;
+														<span class="art-button-wrapper">
+															<span class="art-button-l"> </span>
+															<span class="art-button-r"> </span>
+															<input type="button" name="anular" id="anular" onclick="Anular()" value="Anular" class="readon art-button" />
+														</span>&nbsp;
 
-										var input02  = new Spry.Widget.ValidationTextField("input02", "none", {validateOn:["blur", "change"]});
-										var input03  = new Spry.Widget.ValidationTextField("input03", "none", {validateOn:["blur", "change"]});
-										var input04 = new Spry.Widget.ValidationTextField("input04", "real", {validateOn:["blur", "change"], useCharacterMasking:true});
+													<?php } ?>
+													<span class="art-button-wrapper">
+														<span class="art-button-l"> </span>
+														<span class="art-button-r"> </span>
+														<input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
+													</span>
+													<input type="hidden" name="metodo" id="metodo" value="<?php echo $metodo;?>" />
+													<input type="hidden" name="proced" value="<?php echo $proced;?>" />
+													<input type="hidden" name="usuario" value="<?php echo $usuario;?>" />
+													<input type="hidden" name="href" value="<?php echo $archivo2;?>"/>
+													<input type="hidden" name="incremento" id="incremento" value="1" />
+													<input type="hidden" name="r_rol" id="r_rol" value="<?php echo $_SESSION['r_rol'];?>"/>
+													<input type="hidden" name="r_cliente" id="r_cliente" valuee="<?php echo $_SESSION['r_cliente'];?>"/>
+													<input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION['usuario_cod'];?>"/>
+												</div>
+											</fieldset>
+										</form>
+										<hr />
+										<div id="Contenedor02"></div>
 
-										var select01  = new Spry.Widget.ValidationSelect("select01", {validateOn:["blur", "change"]});
-										var select_1_1 = new Spry.Widget.ValidationSelect("select_1_1", {validateOn:["blur", "change"]});
+										<script type="text/javascript">
+											var fecha01 = new Spry.Widget.ValidationTextField("fecha01", "date", {format:"dd-mm-yyyy", hint:"DD-MM-AAAA",
+												validateOn:["blur", "change"], useCharacterMasking:true, isRequired:false});
+
+											var input02  = new Spry.Widget.ValidationTextField("input02", "none", {validateOn:["blur", "change"]});
+											var input03  = new Spry.Widget.ValidationTextField("input03", "none", {validateOn:["blur", "change"]});
+											var input04 = new Spry.Widget.ValidationTextField("input04", "real", {validateOn:["blur", "change"], useCharacterMasking:true});
+
+											var select01  = new Spry.Widget.ValidationSelect("select01", {validateOn:["blur", "change"]});
+											var select_1_1 = new Spry.Widget.ValidationSelect("select_1_1", {validateOn:["blur", "change"]});
 
 
-										function spryN(num){
-											var input04 = new Spry.Widget.ValidationTextField("input04_"+num+"", "real", {validateOn:["blur", "change"], useCharacterMasking:true , isRequired:false});
-										}
+											function spryN(num){
+												var input04 = new Spry.Widget.ValidationTextField("input04_"+num+"", "real", {validateOn:["blur", "change"], useCharacterMasking:true , isRequired:false});
+											}
 
-										r_cliente = $("#r_cliente").val();
-										r_rol     = $("#r_rol").val();
-										usuario   = $("#usuario").val();
-										filtroValue = $("#paciFiltro").val();
+											r_cliente = $("#r_cliente").val();
+											r_rol     = $("#r_rol").val();
+											usuario   = $("#usuario").val();
+											filtroValue = $("#paciFiltro").val();
 
-										new Autocomplete("stdName", function() {
-											this.setValue = function(id) {
-												document.getElementById("stdID").value = id; 
-												toastr.clear(toastr.getLastToast);
-												mostrar_tallas(id);
+											new Autocomplete("stdName", function() {
+												this.setValue = function(id) {
+													document.getElementById("stdID").value = id; 
+													toastr.clear(toastr.getLastToast);
+													mostrar_tallas(id);
             // document.getElementsByName("stdID")[0].value = id;
         }
         if (this.isModified) this.setValue("");
