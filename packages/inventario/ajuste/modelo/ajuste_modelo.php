@@ -56,7 +56,7 @@ class Ajuste
 //  'fecha' => Date,
   public function inicio(){
     $this->datos   = array();
-    $this->datos = array('codigo' => 1,        'motivo' => '',
+    $this->datos = array('codigo' => '',        'motivo' => '',
      'cod_tipo' =>'',               'tipo' => 'Seleccione...',
      'descripcion' => '',           'fecha' => date("d-m-Y"),
      'total' => 0                   );

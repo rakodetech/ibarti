@@ -28,10 +28,10 @@ if(isset($_POST['metodo'])){
         $query = $bd->consultar($sql);
         $data =$bd->obtener_fila($query);
         $nro_ajuste   =  $data[0];
-
+        $cod_ajuste = $nro_ajuste + 1;
         $sql = " INSERT INTO ajuste(codigo, cod_tipo, fecha,  motivo,
         total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
-        VALUES ($nro_ajuste, '$tipo', '$fecha', '$descripcion',
+        VALUES ($cod_ajuste, '$tipo', '$fecha', '$descripcion',
         '$total',
         '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP); ";
         $bd->consultar($sql);
@@ -50,43 +50,41 @@ if(isset($_POST['metodo'])){
         $bd->consultar($sql);
       }elseif ($metodo == "anular") {
        $anulado = "T";
-        $sql = " SELECT a.n_ajuste FROM control a ";
-        $query = $bd->consultar($sql);
-        $data =$bd->obtener_fila($query);
-        $nro_ajuste_c   =  $data[0];
-        $sql = " UPDATE control SET n_ajuste = $nro_ajuste_c+1; ";
-        $bd->consultar($sql);
-        $cod_ajuste = $nro_ajuste_c + 1;
-        $sql = "UPDATE ajuste SET anulado = 'T'
-        WHERE codigo          = $nro_ajuste;";
-        $bd->consultar($sql);
-         $sql = " INSERT INTO ajuste(codigo, cod_tipo, fecha,  motivo,
-        total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod,anulado)
-        VALUES ($nro_ajuste_c, '$tipo', '$fecha', '$descripcion',
-        '$total', '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP,'T'); ";
-        $bd->consultar($sql);
-      }
+       $sql = " SELECT a.n_ajuste FROM control a ";
+       $query = $bd->consultar($sql);
+       $data =$bd->obtener_fila($query);
+       $nro  =  $data[0];
+       $cod_ajuste = $nro + 1;
+       $nro_ajuste_c = $nro_ajuste;
+       $sql = " UPDATE control SET n_ajuste = $cod_ajuste; ";
+       $bd->consultar($sql);
+       $sql = "UPDATE ajuste SET anulado = 'T'
+       WHERE codigo          = $nro_ajuste;";
+       $bd->consultar($sql);
+       $sql = " INSERT INTO ajuste(codigo, cod_tipo, fecha,  motivo,
+       total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod,anulado)
+       VALUES ($cod_ajuste, '$tipo', '$fecha', '$descripcion',
+       '$total', '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP,'T'); ";
+       $bd->consultar($sql);
+     }
 
-      foreach($ped_reng as $obj) {
-        $sql = " INSERT INTO ajuste_reng (cod_ajuste, reng_num, cod_almacen,
-        cod_producto,fec_vencimiento,lote, cantidad,  costo,  neto, aplicar,anulado,cod_anulado) VALUES
-        ($nro_ajuste, '$obj->reng_num', '$obj->cod_almacen', '$obj->cod_producto', 
-        '','$obj->lote',$obj->cantidad, $obj->costo, $obj->neto, '$aplicar','$anulado','$nro_ajuste_c') ";
-
-        $bd->consultar($sql);
-      }
-
+     foreach($ped_reng as $obj) {
+      $sql = " INSERT INTO ajuste_reng (cod_ajuste, reng_num, cod_almacen,
+      cod_producto,fec_vencimiento,lote, cantidad,  costo,  neto, aplicar,anulado,cod_anulado) VALUES
+      ($cod_ajuste, '$obj->reng_num', '$obj->cod_almacen', '$obj->cod_producto', 
+      '','$obj->lote',$obj->cantidad, $obj->costo, $obj->neto, '$aplicar','$anulado','$nro_ajuste_c') ";
+      $bd->consultar($sql);
     }
+    $result["sql"] = $sql;
 
+  }
 
-    $result['sql'] = $sql;
-
-  }catch (Exception $e) {
-   $error =  $e->getMessage();
-   $result['error'] = true;
-   $result['mensaje'] = $error;
-   $bd->log_error("Aplicacion", "sistema/sc_ajuste.php",  "$us", "$error", "$sql");
- }
+}catch (Exception $e) {
+ $error =  $e->getMessage();
+ $result['error'] = true;
+ $result['mensaje'] = $error;
+ $bd->log_error("Aplicacion", "sistema/sc_ajuste.php",  "$us", "$error", "$sql");
+}
 }
 print_r(json_encode($result));
 return json_encode($result);

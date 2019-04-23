@@ -48,10 +48,10 @@ if($metodo == 'modificar')
       </tr>
       <tr>
         <td> 
-          <input type="text" id="ped_codigo" placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
+          <input type="text" id="ped_codigo" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
         </td>
         <td>          
-          <select id="ped_tipo" required  style="width:200px" onchange="Selec_tipo(this.value)">
+          <select id="ped_tipo" required style="width:200px" onchange="Selec_tipo(this.value)">
             <option value="<?php echo $ped['cod_tipo'];?>"><?php echo $ped['tipo'];?></option>
             <?php
             foreach ($tipo as  $datos) {

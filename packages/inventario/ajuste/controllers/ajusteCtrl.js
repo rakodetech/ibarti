@@ -158,7 +158,7 @@ function save_ajuste() {
             metodo: metodo,
             aplicar: aplicar
         };
-       // console.log(parametros);
+       console.log(parametros);
        $.ajax({
         data: parametros,
         url: 'packages/inventario/ajuste/modelo/ajuste.php',
@@ -240,6 +240,8 @@ function anular(){
                 metodo: metodo,
                 aplicar: aplicar
             };
+
+                console.log(parametros);
         $.ajax({
         data: parametros,
         url: 'packages/inventario/ajuste/modelo/ajuste.php',
