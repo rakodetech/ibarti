@@ -81,12 +81,12 @@ function mostrar_dotacion_ficha(cod_ficha){
 
 					$("#datos_dotacion_detalle").append(nuevafila);
 				});
-				$("#detalle").show();
+				//$("#detalle").show();
 			}else{
 				nuevafila= '<tr><td colspan="3">Sin Configuracion</td></tr>';
 				$("#datos_dotacion_detalle").append(nuevafila);
 			}
-			$("#datos_dotacion").show();
+			//$("#datos_dotacion").show();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			toastr.error(xhr.status);
@@ -221,6 +221,17 @@ if($metodo == 'modificar'){
 	$anulado       = $result["anulado"];
 	$activo        = $result["status"];
 
+	$sql = "SELECT  CONCAT(productos.descripcion,' (',productos.item,') ') producto, ficha_dotacion.cantidad,
+	IFNULL(MAX(prod_dotacion.fec_us_mod),'SIN DOTACION') ult_dotacion
+	FROM ficha_dotacion LEFT JOIN prod_dotacion on prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha
+	LEFT JOIN prod_dotacion_det on prod_dotacion.codigo = prod_dotacion_det.cod_dotacion AND prod_dotacion_det.cod_producto = ficha_dotacion.cod_item,
+	productos
+	WHERE
+	ficha_dotacion.cod_ficha = '$ficha'
+	AND ficha_dotacion.cod_item = productos.item
+	";
+	$query_dot         = $bd->consultar($sql);
+
 }else{
 	$codigo        = "";
 	$fec_dotacion  = conversion($date);
@@ -282,7 +293,7 @@ $proced      = "p_prod_dotacion";
 								</tr>
 							</table>
 						</fieldset>
-						<fieldset class="fieldset" id="datos_dotacion" style="display: none">
+						<fieldset class="fieldset" id="datos_dotacion">
 							<legend>Datos Dotacion: </legend>
 							<table width="100%" align="center" class="tabla_sistema">
 								<thead>
@@ -293,11 +304,17 @@ $proced      = "p_prod_dotacion";
 									</tr>
 								</thead>
 								<tbody id="datos_dotacion_detalle">
-									
+									<?php 
+									if($metodo == "modificar"){
+										while ($datos= $bd->obtener_fila($query_dot,0)) {
+											echo "<tr><td>" .$datos[0]."</td><td>"  .$datos[1]."</td><td>"  .$datos[2]. "</td></tr>";
+										}	
+									}
+									?>
 								</tbody>
 							</table>
 						</fieldset>
-						<fieldset class="fieldset" id="detalle" style="display: none;">
+						<fieldset class="fieldset" id="detalle">
 							<legend>Detalle: </legend>
 							<table width="100%" align="center">
 								<tr>
@@ -339,7 +356,7 @@ $proced      = "p_prod_dotacion";
 										prod_dotacion_det.cantidad
 										FROM prod_dotacion_det , productos , prod_lineas
 										WHERE prod_dotacion_det.cod_dotacion = '$codigo'
-										AND prod_dotacion_det.cod_producto = productos.codigo
+										AND prod_dotacion_det.cod_producto = productos.item
 										AND productos.cod_linea = prod_lineas.codigo ";
 										$query = $bd->consultar($sql);
 										while($datos=$bd->obtener_fila($query,0)){

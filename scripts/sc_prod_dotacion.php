@@ -51,6 +51,7 @@ if($metodo == "agregar"){
 	 $query = $bd->consultar($sql);
 	 $datos = $bd->obtener_fila($query,0);
 	 $codigo = $datos[0];
+
 }
 
 	for ($i = 1; $i <= $incr; $i++) {
@@ -69,6 +70,7 @@ if($metodo == "agregar"){
 
 			$sql = "$SELECT p_prod_dotacion_det('$metodo', '$codigo', '$producto', '$producto_old', '$almacen', '$cantidad')";
 			$query = $bd->consultar($sql);
+
 			}
 
 			if($incr > $i){
