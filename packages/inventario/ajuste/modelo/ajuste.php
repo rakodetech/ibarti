@@ -35,7 +35,7 @@ if(isset($_POST['metodo'])){
         '$total',
         '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP); ";
         $bd->consultar($sql);
-        $sql = " UPDATE control SET n_ajuste = $nro_ajuste+1; ";
+        $sql = " UPDATE control SET n_ajuste = $cod_ajuste; ";
         $bd->consultar($sql);
       }elseif ($metodo == "modificar") {
 

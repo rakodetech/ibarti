@@ -6,7 +6,7 @@
 		$('#pdf').attr('action', "reportes/rp_inv_prod_dotacion.php");
 		$('#pdf').submit();
 	}
-$("#detalle").hide();
+
 function Activar01(codigo, relacion, contenido){  // LINEA //
 	if(codigo!=''){
 		var valor = "ajax/Add_prod_linea.php";
@@ -59,6 +59,39 @@ function Activar_almacen(codigo, relacion, contenido){  // LINEA //
 	}else{
 		alert("Debe de Seleccionar Un Producto ");
 	}
+}
+
+function mostrar_dotacion_ficha(cod_ficha){
+	var parametros = {'cod_ficha':cod_ficha};
+	$.ajax({
+		data:  parametros,
+		url:   'ajax/Add_dotacion_ficha.php',
+		type:  'post',
+		success:  function (response) {
+			console.log(response);
+			var nuevafila= "";
+			var resp = JSON.parse(response);
+			$("#datos_dotacion_detalle").html("");
+			if(resp.length > 0){
+				resp.forEach(()=>{
+					nuevafila= "<tr><td>" +
+					resp[0].producto + "</td><td>" +
+					resp[0].cantidad  + "</td><td>" +
+					resp[0].ult_dotacion  + "</td></tr>";
+
+					$("#datos_dotacion_detalle").append(nuevafila);
+				});
+				$("#detalle").show();
+			}else{
+				nuevafila= '<tr><td colspan="3">Sin Configuracion</td></tr>';
+				$("#datos_dotacion_detalle").append(nuevafila);
+			}
+			$("#datos_dotacion").show();
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			toastr.error(xhr.status);
+			toastr.error(thrownError);}
+		});
 }
 
 function borrar2(num) {
@@ -249,7 +282,22 @@ $proced      = "p_prod_dotacion";
 								</tr>
 							</table>
 						</fieldset>
-						<fieldset class="fieldset" id="detalle">
+						<fieldset class="fieldset" id="datos_dotacion" style="display: none">
+							<legend>Datos Dotacion: </legend>
+							<table width="100%" align="center" class="tabla_sistema">
+								<thead>
+									<tr>
+										<th>Producto</th>
+										<th>Cantidad</th>
+										<th>Ultima Dotacion</th>
+									</tr>
+								</thead>
+								<tbody id="datos_dotacion_detalle">
+									
+								</tbody>
+							</table>
+						</fieldset>
+						<fieldset class="fieldset" id="detalle" style="display: none;">
 							<legend>Detalle: </legend>
 							<table width="100%" align="center">
 								<tr>
@@ -392,7 +440,8 @@ $proced      = "p_prod_dotacion";
 												this.setValue = function(id) {
 													document.getElementById("stdID").value = id; 
 													toastr.clear(toastr.getLastToast);
-													mostrar_tallas(id);
+													mostrar_dotacion_ficha(id);
+													
             // document.getElementsByName("stdID")[0].value = id;
         }
         if (this.isModified) this.setValue("");

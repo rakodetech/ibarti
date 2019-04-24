@@ -9,11 +9,11 @@ const colores = ['rgb(32, 163, 6,.7)','rgb(32, 163, 176,.7)','rgb(32, 163, 6,.7)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	
-	function mover(){
-		
-		animacion=setInterval(()=>{
-			if (activado){
+
+function mover(){
+
+	animacion=setInterval(()=>{
+		if (activado){
 			
 			$("#opcion").removeClass("animated wobble");
 			activado=false;
@@ -22,15 +22,15 @@ const colores = ['rgb(32, 163, 6,.7)','rgb(32, 163, 176,.7)','rgb(32, 163, 6,.7)
 			$("#opcion").addClass("animated wobble");
 			activado=true;
 		}
-		},1000);
-	}
+	},1000);
+}
 
-	function parar(){
-		clearInterval(animacion);
-		
-		$("#opcion").removeClass("animated wobble");
-	}
-	
+function parar(){
+	clearInterval(animacion);
+
+	$("#opcion").removeClass("animated wobble");
+}
+
 
 
 
@@ -133,19 +133,19 @@ function cargar_recientes(){
 			var res= JSON.parse(response);
 			//obtener_cantidad_nov_reciente();
 		//	console.log('ejecu')
-			
-		//	console.log(response)
-			if (res.length != 0){
-				
-				res.forEach((res)=>{
-					mostrar_toast_notif(res['descripcion'], res['nombre'],res['fecha'],res['codigo'],res['stat'],res['observacion'],10000);
-					if($('#cod_'+ res['codigo']).length != 0){
-						$('#cod_'+ res['codigo']).remove();
-					}
-					crear_div('llenar',res['descripcion'], res['nombre'],res['fecha'],res['codigo'],res['cod_proc'],res['stat'],res['observacion'],res['cedula'],res['color']);
 
-				});
-			}
+		//	console.log(response)
+		if (res.length != 0){
+
+			res.forEach((res)=>{
+				mostrar_toast_notif(res['descripcion'], res['nombre'],res['fecha'],res['codigo'],res['stat'],res['observacion'],10000);
+				if($('#cod_'+ res['codigo']).length != 0){
+					$('#cod_'+ res['codigo']).remove();
+				}
+				crear_div('llenar',res['descripcion'], res['nombre'],res['fecha'],res['codigo'],res['cod_proc'],res['stat'],res['observacion'],res['cedula'],res['color']);
+
+			});
+		}
 
 				//noti es el elemento de notificacion cargado al inicio del menu
 			},
@@ -184,31 +184,31 @@ function transformar_rbg(e,t){
 function crear_div(id_contenedor,descripcion,nombre,fecha,codigo,cod_proc,status,observacion,cedula,color){
 	var color_nuevo = transformar_rbg(color,'.8');
 	$('#'+id_contenedor).append(`
-	<li id='cod_${codigo}'class='caja' style="background:${color_nuevo};display:block;" >
-	
-	<table width = '100%' onclick="window.location.href='inicio.php?area=formularios/Add_novedades2&Nmenu=444&mod=006&codigo=${codigo}&metodo=modificar'">
-	<tr>
-	<td rowspan='3' width='10%'>
-	<img id='${codigo}' class='foto_notif' src="imagenes/fotos/${cedula}.jpg" onerror="$('#${codigo}').attr('src','imagenes/foto.jpg')"></img>
-	</td>
-	<td class='titulo_notif'>${descripcion}</td>
+		<li id='cod_${codigo}'class='caja' style="background:${color_nuevo};display:block;" >
+
+		<table width = '100%' onclick="window.location.href='inicio.php?area=formularios/Add_novedades2&Nmenu=444&mod=006&codigo=${codigo}&metodo=modificar'">
+		<tr>
+		<td rowspan='3' width='10%'>
+		<img id='${codigo}' class='foto_notif' src="imagenes/fotos/${cedula}.jpg" onerror="$('#${codigo}').attr('src','imagenes/foto.jpg')"></img>
+		</td>
+		<td class='titulo_notif'>${descripcion}</td>
 
 
-	<td class='fecha_notif'><img src='imagenes/icono-calendario.gif' style='width:15px;'></img><b>${fecha}<b></td>
-	</tr>
-	<tr >
-	<td class='descripcion_notif' colspan='2'>
-	${observacion}
-	</td>
-	</tr>
-	<tr>
-	<td class='nombre_notif'>Att:"${nombre}"</td>
-	<td class='notificacion_notif'>(${status})</td>
-	</tr>
-	</table>
-	
-	</li>
-	`);
+		<td class='fecha_notif'><img src='imagenes/icono-calendario.gif' style='width:15px;'></img><b>${fecha}<b></td>
+		</tr>
+		<tr >
+		<td class='descripcion_notif' colspan='2'>
+		${observacion}
+		</td>
+		</tr>
+		<tr>
+		<td class='nombre_notif'>Att:"${nombre}"</td>
+		<td class='notificacion_notif'>(${status})</td>
+		</tr>
+		</table>
+
+		</li>
+		`);
 	
 	
 
@@ -226,15 +226,15 @@ function obtener_cantidad_nov() {
 			nov_notif = JSON.parse(response);
 			
 			
-		
+
 			$('#noti').attr("data-count-notificacion",nov_notif.length);
 
 			$('#noti').on("click",()=>{
 				
 
 				if(nov_notif.length != 0){
-						
-						if (activa){
+
+					if (activa){
 					/*
 					nov_notif.forEach((res,i)=>{
 						if(i<(nov_notif.length - 1)){
@@ -251,9 +251,9 @@ function obtener_cantidad_nov() {
 					$('#llenar').removeClass('animated fadeInLeft');
 					$('#llenar').addClass('animated fadeOutLeft');
 					$(".toast_container").fadeOut(400);
-							$(".triangulo").fadeOut(400);
-							activa=false;
-							toastr.clear();
+					$(".triangulo").fadeOut(400);
+					activa=false;
+					toastr.clear();
 					
 
 				}else{
@@ -282,11 +282,11 @@ function obtener_cantidad_nov() {
 				}
 
 
-				}
-				
+			}
+
 			
-				
-			})
+
+		})
 			;
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
@@ -296,43 +296,14 @@ function obtener_cantidad_nov() {
 
 }
 
-function mostrar_tallas(cod_ficha){
-	var parametros = {'cod_ficha':cod_ficha};
-	var tallas;
-	var mensaje;
-	$.ajax({
-		data:  parametros,
-		url:   'packages/notificaciones/views/Get_tallas.php',
-		type:  'post',
-		success:  function (response) {
-
-			tallas = JSON.parse(response);
-			//console.log(tallas);
-			tallas.forEach((res)=>{
-					//mostrar_toast_notif(res['descripcion'], res['nombre'],res['fecha'],res['codigo'],res['stat'],res['observacion'],5000);
-					
-					mensaje = `Talla de camisas: ${res[0]},
-					 Talla de pantalon: ${res[1]}, 
-					 Talla de zapatos: ${res[2]}`;	
-					notificaciones("Tallas: "+cod_ficha,mensaje);
-				});
-			
-			
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);}
-		});
-}
-
 function notificaciones(titulo,cuerpo){
 	var configuracion = {
-		positionClass: "toast-bottom-left",
+		positionClass: "toast-bottom-rigth",
 		"positionClass": "",
 		"closeButton": true ,
 		timeOut: 0
 	}
-	toastr.info(cuerpo,titulo,configuracion);
+	toastr.error(cuerpo,titulo,configuracion);
 }
 
 

@@ -84,22 +84,5 @@ class Notificaciones
 		return $datos= $this->bd-> obtener_fila($query);
 
 	}
-
-	public Function get_tallas($cod_ficha){
-		$sql = "SELECT preing_camisas.descripcion, preing_pantalon.descripcion ,preing_zapatos.descripcion 
-		from preing_camisas ,preing_pantalon ,preing_zapatos,ficha
-		WHERE
-		preing_camisas.codigo = ficha.cod_t_camisas 
-		AND preing_pantalon.codigo = ficha.cod_t_pantalon 
-		AND preing_zapatos.codigo = ficha.cod_n_zapatos
-		and ficha.cod_ficha = '$cod_ficha'
-		";
-		$query         = $this->bd->consultar($sql);
-		while ($datos= $this->bd->obtener_fila($query)) {
-			$this->datos[] = $datos;
-		}
-		return $this->datos;	
-	}
-
 }
 ?>
