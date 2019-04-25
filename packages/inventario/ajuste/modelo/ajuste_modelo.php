@@ -82,7 +82,7 @@ class Ajuste
     $query = $this->bd->consultar($sql);
     return  $this->datos = $this->bd->obtener_fila($query);
   }
-
+  
   public function buscar_productos($dato){
     $sql = "SELECT a.codigo,a.descripcion FROM productos a
     WHERE (a.codigo LIKE '%$dato%'
