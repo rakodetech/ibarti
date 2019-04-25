@@ -34,7 +34,7 @@ $bd = new DataBase();
 	while($datos = $bd->obtener_fila($query,0)){
 		$cod_c = $datos[0];	 
 		
-		$sql02 = " SELECT nov_valores.codigo, nov_valores.abrev 
+		$sql02 = " SELECT nov_valores.codigo, nov_valores.abrev ,nov_valores.descripcion
                      FROM nov_valores_det , nov_valores
                     WHERE nov_valores_det.cod_novedades = '$cod_c'
                       AND nov_valores_det.cod_valores = nov_valores.codigo
@@ -45,7 +45,7 @@ $bd = new DataBase();
       <td><textarea disabled="disabled" cols="60">'.$datos[1].'</textarea></td>
 	  <td>'; 
 	  while($datos02 = $bd->obtener_fila($query02,0)){
-	  echo ' '.$datos02[1].' <input type = "radio" name="check_list_valor_'.$cod_c.'" value ="'.$datos02[0].'" style="width:auto"/>';
+	  echo ' '.$datos02[1].' <input type = "radio"  name="check_list_valor_'.$cod_c.'" value ="'.$datos02[0].'" style="width:auto" title="'.$datos02[2].'" />';
 	  }echo '<input type="hidden" name="cod_valor_'.$cod_c.'" value="'.$datos[0].'" /><input type="hidden" name="check_list[]" value="'.$datos[0].'" /> </td>
       <td><textarea  name="observacion_'.$datos[0].'" cols="50" rows="1"></textarea>
     </tr>';

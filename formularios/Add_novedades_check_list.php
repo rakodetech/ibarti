@@ -376,7 +376,7 @@ function Guardar(){
 	$cod_valor = $datos[3];
 	$obsev = "&observ=".$datos[4]."'";
 
-		$sql02 = " SELECT nov_valores.codigo, nov_valores.abrev
+		$sql02 = " SELECT nov_valores.codigo, nov_valores.abrev,nov_valores.descripcion
                      FROM nov_valores_det , nov_valores
                     WHERE nov_valores_det.cod_novedades = '$cod_nov'
                       AND nov_valores_det.cod_valores = nov_valores.codigo
@@ -389,7 +389,7 @@ function Guardar(){
 		  <input type="hidden" name="check_list[]" value="'.$cod_nov.'" /></td>
 	  <td>';
 	   while($datos02 = $bd->obtener_fila($query02,0)){
-	  echo ' '.$datos02[1].' <input type = "radio" name="check_list_valor_'.$cod_nov.'" value = "'.$datos02[0].'" style="width:auto"
+	  echo ' '.$datos02[1].' <input type = "radio" name="check_list_valor_'.$cod_nov.'" value = "'.$datos02[0].'" style="width:auto" title="'.$datos02[2].'"
 	   '.CheckX(''.$cod_valor.'', ''.$datos02[0].''). '/>';
 	  }
 	  echo '</td>
