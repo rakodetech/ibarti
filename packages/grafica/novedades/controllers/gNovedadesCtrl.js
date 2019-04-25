@@ -30,35 +30,46 @@ function generar() {
             url: 'packages/grafica/novedades/modelo/getGraficaSimple.php',
             type: 'post',
             success: function (response) {
+                
                 var resp = JSON.parse(response);
                 if (resp.length > 0) {
                     $('.brs').show();
                     $('#sin_data').hide();
                     $('#grafica').show();
                     $('#division').show();
+                   
                     if (torta1) {
-                        console.log('actualizar');
-                        torta1 = g.actualizarTorta(torta1, resp, 'Novetades por Status',true)
+                        //console.log('actualizar');
+                        torta1 = g.actualizarTorta(torta1, resp, 'Novetades por Status',true);
                     } else {
                         torta1 = g.Torta('chart-area', resp, 'Novetades por Status',false);
                     }
-
+                    
                     torta1.canvas.onclick = function (evt) {
-                        var activePoints = torta1.getElementsAtEvent(evt);
-                        var firstPoint = activePoints[0];
-                        var cod = torta1.codigos[firstPoint._index];
+                        if(torta1.getElementsAtEvent(evt).length>0){
+                            var activePointsY = torta1.getElementsAtEvent(evt);
+                            var activePointsX = torta1.getDatasetAtEvent(evt);
+                            var firstPoint = activePointsY[activePointsX[0]._datasetIndex];
+                            //console.log(firstPoint)
+                            //console.log("Dataset: " +activePointsX[0]._datasetIndex,"Index: " + activePointsY[0]._index);
+                            var cod = torta1.codigos[firstPoint._index];
                         var titulo = torta1.data.labels[firstPoint._index];
+
                         var parametros = {
                             "fec_desde": fec_desde,
                             "fec_hasta": fec_hasta,
                             "status": cod
                         };
+                        //console.log(parametros)
                         $.ajax({
                             data: parametros,
                             url: 'packages/grafica/novedades/modelo/getGraficaStatusDet.php',
                             type: 'post',
                             success: function (response) {
+                                //console.log(response)
+                                
                                 var resp = JSON.parse(response);
+                                
                                 if (torta2) {
                                     torta2 = g.actualizarTorta(torta2, resp, titulo);
                                 } else {
@@ -71,6 +82,16 @@ function generar() {
                                 alert(thrownError);
                             }
                         });
+                        }
+                       
+                        /*
+                        if(activePoints.length>0){
+                            
+                        var firstPoint = activePoints[0];
+                            ////console.log(firstPoint)
+                        
+                        }
+                        */
 
                     };
                     // Build the chart

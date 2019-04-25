@@ -2,7 +2,7 @@
 define("SPECIALCONSTANT", true);
 include_once('../../../../funciones/funciones.php');
 require  "../../../../autentificacion/aut_config.inc.php";
-require_once  "../../../../".class_bdI;
+require_once  "../../../../" . class_bdI;
 
 class gNovedades
 {
@@ -15,7 +15,8 @@ class gNovedades
     $this->bd = new Database;
   }
 
-  public function get_agrupado($fecha_desde,$fecha_hasta){
+  public function get_agrupado($fecha_desde, $fecha_hasta)
+  {
 
     $sql = "SELECT NP.fec_us_mod titulo, NC.descripcion titulo2,
     Count(NC.descripcion) valor, NS.codigo 
@@ -26,33 +27,36 @@ class gNovedades
     GROUP BY titulo,titulo2 ASC";
 
     $query = $this->bd->consultar($sql);
-    while ($datos= $this->bd-> obtener_fila($query)) {
+    while ($datos = $this->bd->obtener_fila($query)) {
       $this->datos[] = $datos;
     }
     return $this->datos;
-
   }
 
-  public function get_simple($fecha_desde,$fecha_hasta){
+  public function get_simple($fecha_desde, $fecha_hasta)
+  {
 
     $sql = "SELECT
+    
     NS.descripcion AS titulo,
     Count(NS.descripcion) AS valor,
     NS.codigo AS codigo
     FROM
     nov_procesos AS NP
     INNER JOIN nov_status AS NS ON NP.cod_nov_status = NS.codigo
-    WHERE NP.fec_us_ing BETWEEN \"$fecha_desde\" AND \"$fecha_hasta\"
-    GROUP BY codigo ASC";
+    
+    GROUP BY NS.codigo ASC
+ORDER BY NP.cod_novedad ASC
+ ";
     $query = $this->bd->consultar($sql);
-    while ($datos= $this->bd-> obtener_fila($query)) {
+    while ($datos = $this->bd->obtener_fila($query)) {
       $this->datos[] = $datos;
     }
     return $this->datos;
-
   }
 
-  public function getNovStatusDet($fecha_desde,$fecha_hasta,$status){
+  public function getNovStatusDet($fecha_desde, $fecha_hasta, $status)
+  {
 
     $sql = "SELECT
     NC.descripcion AS titulo,
@@ -67,12 +71,9 @@ class gNovedades
     GROUP BY
     titulo ASC";
     $query = $this->bd->consultar($sql);
-    while ($datos= $this->bd-> obtener_fila($query)) {
+    while ($datos = $this->bd->obtener_fila($query)) {
       $this->datos[] = $datos;
     }
     return $this->datos;
-
   }
-
 }
-?>

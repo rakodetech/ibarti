@@ -1,12 +1,12 @@
 <?php 
 require("../autentificacion/aut_config.inc.php");
-// Inicio la sesión
+// Inicio la sesiï¿½n
 session_start();
 header("Cache-control: private"); // Arregla IE 6
- // descoloco todas la variables de la sesión
+ // descoloco todas la variables de la sesiï¿½n
  session_unset();
 
- // Destruyo la sesión
+ // Destruyo la sesiï¿½n
  session_destroy();
   $sitio    = Sitio;
   $carpeta = Carpeta;

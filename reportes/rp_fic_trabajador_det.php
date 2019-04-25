@@ -100,14 +100,14 @@ if(isset($reporte)){
 	FROM v_ficha, bancos, ficha_n_contracto, preing_camisas,
 	preing_pantalon, preing_zapatos, nivel_academico,men_usuarios,ficha_status_militar
 	$where
-	ORDER BY 7 ASC ";
-
+	";
+	
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
 		header("Content-type: application/vnd.ms-excel");
 		header("Content-Disposition:  filename=\"rp_$archivo.xls\";");
 
-		$query01  = $bd->consultar($sql);
+		//$query01  = $bd->consultar($sql);
 		echo "<table border=1>";
 
 		echo "<tr><th> ".$leng['rol']." </th><th> ".$leng['region']." </th><th> ".$leng['estado']." </th><th> ".$leng['ciudad']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th>
@@ -118,8 +118,11 @@ if(isset($reporte)){
 		<th> Banco </th><th> Cta. Bancaria </th><th> T. Camisa </th><th>T. Pantalón </th>
 		<th>N. Zapato</th> <th> Fec. Ingreso </th><th> Fecha Ing. Sistema </th><th> Fec.. ".$leng['contrato']." </th>
 		<th> Status </th><th> Fecha Ultima Modificacion </th><th> Usuario Ultima Modificacion </th>
-		<th> Servicio Militar </th><th> Rango Militar </th></tr>";
-
+		<th> Servicio Militar </th><th> Rango Militar </th></tr>
+		<tr>
+		<td>".$sql."</td>
+		</tr>";
+/*
 
 		while ($row01 = $bd->obtener_num($query01)){
 			echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
@@ -132,7 +135,7 @@ if(isset($reporte)){
 			<td>".$row01[28]."</td><td>".$row01[29]."</td> <td>".$row01[30]."</td> <td>".$row01[31]."</td> <td>".$row01[32]."</td>
 			<td>".$row01[33]."</td><td>".$row01[34]."</td>
 			</tr>";
-		}
+		}*/
 		echo "</table>";
 	}
 

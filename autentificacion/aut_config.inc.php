@@ -6,7 +6,7 @@
 define("Sitio", "http://localhost");
 //	define("Carpeta", "asistencia");
 //	define("Sitio", "http://c122.gconex.com");
-define("Carpeta", "ib_oesvica");
+define("Carpeta", "ibarti");
 define("Leng", "autentificacion/leng/index.php");
 define("Funcion", "funciones/funciones.php");
 //	define("Time_Sistema", 600);
