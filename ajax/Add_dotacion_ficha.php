@@ -6,8 +6,8 @@ require_once  "../".class_bdI;
 $bd = new Database;
 
 $ficha = $_POST['cod_ficha'];
-$result = [];
-
+$result =array();
+try {
 $sql = "SELECT  CONCAT(prod_sub_lineas.descripcion,' (',prod_sub_lineas.codigo,') ') sub_linea,tallas.descripcion talla,
  ficha_dotacion.cantidad,
 IFNULL((SELECT MAX(prod_dotacion.fec_us_mod) FROM prod_dotacion, prod_dotacion_det
@@ -26,6 +26,12 @@ GROUP BY productos.cod_sub_linea";
 $query         = $bd->consultar($sql);
 while ($datos= $bd->obtener_fila($query)) {
 	$result[] = $datos;
+}
+}catch (Exception $e) {
+ $error =  $e->getMessage();
+ $result['error'] = true;
+ $result['mensaje'] = $error;
+ $bd->log_error("Aplicacion", "dotacion_ficha.php",  "$us", "$error", "$sql");
 }	
 echo json_encode($result);
 ?>

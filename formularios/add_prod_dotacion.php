@@ -139,22 +139,26 @@ function mostrar_dotacion_ficha(cod_ficha){
 			var resp = JSON.parse(response);
 			$("#datos_dotacion_detalle").html("");
 			if(resp.length > 0){
-				resp.forEach((d)=>{
-					nuevafila= "<tr><td>" +
-					d.sub_linea + "</td><td>" +
-					d.talla + "</td><td>" +
-					d.cantidad  + "</td><td>" +
-					d.ult_dotacion  + "</td></tr>";
+				if (resp.error) {
+					alert(resp.mensaje);
+				} else {
+					resp.forEach((d)=>{
+						nuevafila= "<tr><td>" +
+						d.sub_linea + "</td><td>" +
+						d.talla + "</td><td>" +
+						d.cantidad  + "</td><td>" +
+						d.ult_dotacion  + "</td></tr>";
 
-					$("#datos_dotacion_detalle").append(nuevafila);
-				});
-				$("#linea_1").attr('disabled',false);
+						$("#datos_dotacion_detalle").append(nuevafila);
+					});
+					$("#linea_1").attr('disabled',false);
 				//$("#detalle").show();
-			}else{
-				$("#linea_1").attr('disabled',true);
-				nuevafila= '<tr><td colspan="4">Sin Configuracion</td></tr>';
-				$("#datos_dotacion_detalle").append(nuevafila);
 			}
+		}else{
+			$("#linea_1").attr('disabled',true);
+			nuevafila= '<tr><td colspan="4">Sin Configuracion</td></tr>';
+			$("#datos_dotacion_detalle").append(nuevafila);
+		}
 			//$("#datos_dotacion").show();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
@@ -303,20 +307,20 @@ if($metodo == 'modificar'){
 	$activo        = $result["status"];
 
 	$sql = "SELECT  CONCAT(prod_sub_lineas.descripcion,' (',prod_sub_lineas.codigo,') ') sub_linea,tallas.descripcion talla,
- ficha_dotacion.cantidad,
-IFNULL((SELECT MAX(prod_dotacion.fec_us_mod) FROM prod_dotacion, prod_dotacion_det
-WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
-AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
-AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha
-and productos.codigo = prod_dotacion_det.cod_producto) ,'SIN DOTACION') ult_dotacion
-FROM ficha_dotacion ,
-productos,prod_sub_lineas,tallas
-WHERE
-ficha_dotacion.cod_ficha = '$ficha'
-AND ficha_dotacion.cod_sub_linea = productos.cod_sub_linea
-AND ficha_dotacion.cod_sub_linea = prod_sub_lineas.codigo
-AND ficha_dotacion.cod_talla = tallas.codigo
-GROUP BY ficha_dotacion.cod_sub_linea";
+	ficha_dotacion.cantidad,
+	IFNULL((SELECT MAX(prod_dotacion.fec_us_mod) FROM prod_dotacion, prod_dotacion_det
+	WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
+	AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
+	AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha
+	and productos.codigo = prod_dotacion_det.cod_producto) ,'SIN DOTACION') ult_dotacion
+	FROM ficha_dotacion ,
+	productos,prod_sub_lineas,tallas
+	WHERE
+	ficha_dotacion.cod_ficha = '$ficha'
+	AND ficha_dotacion.cod_sub_linea = productos.cod_sub_linea
+	AND ficha_dotacion.cod_sub_linea = prod_sub_lineas.codigo
+	AND ficha_dotacion.cod_talla = tallas.codigo
+	GROUP BY ficha_dotacion.cod_sub_linea";
 	$query_dot         = $bd->consultar($sql);
 
 }else{
