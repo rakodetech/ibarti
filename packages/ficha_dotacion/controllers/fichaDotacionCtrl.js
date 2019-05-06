@@ -1,3 +1,4 @@
+var aplica_talla = false;
 $(function() {
     Cons_dotacion('');
 });
@@ -50,50 +51,33 @@ function cargar_dotacion(){
 function agregar_renglon(){
     var error        = 0;
     var errorMessage = ' ';
-    var producto = $("#dot_producto").val();
+    var sub_linea = $("#dot_sub_linea").val();
+    var talla = $("#dot_talla").val();
     var cantidad = $("#dot_cantidad").val();
     var usuario         = $("#usuario").val();
     var ficha = $("#cod_ficha").val();
-    if(producto == ""){
+
+    if(sub_linea == ""){
         error = 1;
-        errorMessage = "Debe Seleccionar un Producto";
+        errorMessage = "Debe Seleccionar una sub_linea";
     }
+
+    if((talla == "") && (aplica_talla)){
+        error = 1;
+        errorMessage = "Debe Seleccionar una talla";
+    }
+
+    if(cantidad < 1){
+        error = 1;
+        errorMessage = "Cantidad Invalida";
+    }
+  
     if(error == 0){
-    var parametros = { "metodo": "agregar","codigo":ficha,"serial" : producto, 
-    "cantidad":cantidad, "proced":"p_ficha_dotacion", "usuario":usuario};
-    $.ajax({
-        data:  parametros,
-        url:   'packages/ficha_dotacion/modelo/ficha_dotacion.php',
-        type:  'post',
-        success:  function (response) {
-            var resp = JSON.parse(response);
-            if(resp.error){
-               toastr.error(resp.mensaje);
-           }else{
-            toastr.success("Actualización Exitosa!..");
-            cargar_dotacion();
-        }
-
-    },
-    error: function (xhr, ajaxOptions, thrownError) {
-        toastr.error(xhr.status);
-        toastr.error(thrownError);}
-    });
-}else{
-    toastr.warning(errorMessage);
-}
-}
-
-function eliminar_renglon(cod){
- if(confirm("Esta seguro de borrar este REGISTRO?")){
-    var error        = 0;
-    var errorMessage = ' ';
-    var usuario         = $("#usuario").val();
-    var ficha = $("#cod_ficha").val();
-    if(error == 0){
-
-        var parametros = { "metodo": "eliminar","codigo":ficha,"serial" : cod, 
-        "cantidad":"", "proced":"p_ficha_dotacion", "usuario":usuario};
+          if(!talla){
+        talla = '9999';
+    }
+        var parametros = { "metodo": "agregar","codigo":ficha,"sub_linea" : sub_linea, 
+        "talla" : talla,"cantidad":cantidad, "proced":"p_ficha_dotacion", "usuario":usuario};
         $.ajax({
             data:  parametros,
             url:   'packages/ficha_dotacion/modelo/ficha_dotacion.php',
@@ -101,8 +85,43 @@ function eliminar_renglon(cod){
             success:  function (response) {
                 var resp = JSON.parse(response);
                 if(resp.error){
-                   toastr.error(resp.mensaje);
-               }else{
+                 toastr.error(resp.mensaje);
+             }else{
+                toastr.success("Actualización Exitosa!..");
+                cargar_dotacion();
+                $("#dot_cantidad").val(0);
+            }
+
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(xhr.status);
+            toastr.error(thrownError);}
+        });
+    }else{
+        toastr.warning(errorMessage);
+    }
+}
+
+function eliminar_renglon(cod){
+   if(confirm("Esta seguro de borrar este REGISTRO?")){
+    var error        = 0;
+    var errorMessage = ' ';
+    var usuario         = $("#usuario").val();
+    var ficha = $("#cod_ficha").val();
+    if(error == 0){
+
+        var parametros = { "metodo": "eliminar","codigo":ficha,"sub_linea" : cod, 
+        "cantidad":null,"talla":null, "proced":"p_ficha_dotacion", "usuario":usuario};
+        $.ajax({
+            data:  parametros,
+            url:   'packages/ficha_dotacion/modelo/ficha_dotacion.php',
+            type:  'post',
+            success:  function (response) {
+                console.log(response);
+                var resp = JSON.parse(response);
+                if(resp.error){
+                 toastr.error(resp.mensaje);
+             }else{
                 toastr.success("Actualización Exitosa!..");
                 cargar_dotacion();
             }
@@ -137,19 +156,42 @@ function get_sub_lineas(linea){
     });
 }
 
-function get_productos(sub_linea){
+function get_tallas(sub_linea){
     var linea = $("#dot_linea").val();
     var parametros = {
         "linea": linea,
         "sub_linea": sub_linea
     };
-    console.log(linea,sub_linea);
     $.ajax({
         data: parametros,
-        url: 'packages/ficha_dotacion/views/Add_producto.php',
+        url: 'packages/ficha_dotacion/views/ValidarSubLinea.php',
         type: 'post',
         success: function (response) {
-            $("#productos").html(response);
+            var resp = JSON.parse(response);
+            $("#dot_cantidad").val(0);
+            if(resp && resp[0] == 'T'){
+                $.ajax({
+                data: parametros,
+                url: 'packages/ficha_dotacion/views/Add_tallas.php',
+                type: 'post',
+                success: function (response) {
+                    $("#talla").show();
+                    $("#talla").html(response);
+                    $("#talla_etiqueta").show();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+                aplica_talla = true;
+            }else{
+                aplica_talla =false;
+                $("#talla").hide();
+                    $("#talla").html("");
+                    $("#talla_etiqueta").hide();
+            }
+            
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -158,33 +200,34 @@ function get_productos(sub_linea){
     });
 }
 
-function Modificar_renglon(serial,ficha,indice){
+function Modificar_renglon(sub_linea,ficha,indice){
     var error        = 0;
     var errorMessage = ' ';
     var cantidad = $("#cant_"+indice).val();
     var usuario         = $("#usuario").val();
     if(error == 0){
-    var parametros = { "metodo": "modificar","codigo":ficha,"serial" : serial, 
-    "cantidad":cantidad, "proced":"p_ficha_dotacion", "usuario":usuario};
-    $.ajax({
-        data:  parametros,
-        url:   'packages/ficha_dotacion/modelo/ficha_dotacion.php',
-        type:  'post',
-        success:  function (response) {
-            var resp = JSON.parse(response);
-            if(resp.error){
-               toastr.error(resp.mensaje);
-           }else{
-            toastr.success("Actualización Exitosa!..");
-            cargar_dotacion();
-        }
+        var parametros = { "metodo": "modificar","codigo":ficha,"sub_linea" : sub_linea, 
+        "talla" : null, "cantidad":cantidad, "proced":"p_ficha_dotacion", "usuario":usuario};
+        $.ajax({
+            data:  parametros,
+            url:   'packages/ficha_dotacion/modelo/ficha_dotacion.php',
+            type:  'post',
+            success:  function (response) {
+                console.log(response);
+                var resp = JSON.parse(response);
+                if(resp.error){
+                 toastr.error(resp.mensaje);
+             }else{
+                toastr.success("Actualización Exitosa!..");
+                cargar_dotacion();
+            }
 
-    },
-    error: function (xhr, ajaxOptions, thrownError) {
-        toastr.error(xhr.status);
-        toastr.error(thrownError);}
-    });
-}else{
-    toastr.error(errorMessage);
-}
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            toastr.error(xhr.status);
+            toastr.error(thrownError);}
+        });
+    }else{
+        toastr.error(errorMessage);
+    }
 }

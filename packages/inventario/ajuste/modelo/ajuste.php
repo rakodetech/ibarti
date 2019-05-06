@@ -29,9 +29,9 @@ if(isset($_POST['metodo'])){
         $data =$bd->obtener_fila($query);
         $nro_ajuste   =  $data[0];
         $cod_ajuste = $nro_ajuste + 1;
-        $sql = " INSERT INTO ajuste(codigo, cod_tipo, fecha,  motivo,
+        $sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia, fecha,  motivo,
         total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
-        VALUES ($cod_ajuste, '$tipo', '$fecha', '$descripcion',
+        VALUES ($cod_ajuste, '$tipo','$referencia','$fecha', '$descripcion',
         '$total',
         '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP); ";
         $bd->consultar($sql);
@@ -53,8 +53,8 @@ if(isset($_POST['metodo'])){
        $sql = " SELECT a.n_ajuste FROM control a ";
        $query = $bd->consultar($sql);
        $data =$bd->obtener_fila($query);
-       $nro  =  $data[0];
-       $cod_ajuste = $nro + 1;
+       $nro_ajuste  =  $data[0];
+       $cod_ajuste = $nro_ajuste + 1;
        $nro_ajuste_c = $nro_ajuste;
        $sql = " UPDATE control SET n_ajuste = $cod_ajuste; ";
        $bd->consultar($sql);

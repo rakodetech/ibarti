@@ -20,7 +20,7 @@ ORDER BY 3 DESC ";
   <fieldset class="fieldset">
     <legend>Informacion De Productos</legend>
     <?php
-    include_once "packages/ficha_dotacion/index.php";
+    require_once "packages/ficha_dotacion/index.php";
     ?>
 </fieldset>
 <fieldset class="fieldset">

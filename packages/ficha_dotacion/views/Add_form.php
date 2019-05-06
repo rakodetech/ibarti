@@ -6,7 +6,6 @@ $codigo   = $_POST['codigo'];
 $pag = 0;
 $ficha_dot = new FichaDotacion;
 $proced   = "p_ficha_dotacion";
-$prod        = $ficha_dot->cargar_dotacion($codigo);
 $lineas  =  $ficha_dot->get_lineas();
 ?>
 
@@ -14,7 +13,7 @@ $lineas  =  $ficha_dot->get_lineas();
   <tr>
     <td width="25%" class="etiqueta">Linea</td>
     <td width="25%" class="etiqueta">Sub Linea</td>
-    <td width="25%" class="etiqueta"><?php echo $leng['producto'];?></td>
+    <td width="25%" class="etiqueta" id="talla_etiqueta" style="display: none;">Talla</td>
     <td width="10%" class="etiqueta">Cantidad</td>
     <td width="15%" class="etiqueta" id="add_renglon_etiqueta">Agregar</td>
   </tr>
@@ -34,10 +33,7 @@ $lineas  =  $ficha_dot->get_lineas();
         <option value="">Seleccione...</option>
       </select>
     </td>
-    <td id="productos">
-      <select id="dot_producto" style="width:210px" >
-        <option value="">Seleccione...</option>
-      </select>
+    <td id="talla" style="display: none;">
     </td>
      <td>
      <input type="number" id="dot_cantidad" style="width:75px" value="0" min="1" placeholder="">
@@ -50,7 +46,9 @@ $lineas  =  $ficha_dot->get_lineas();
 <table class="tabla_sistema"  width="95%">
   <thead>
     <tr class="fondo00">
-      <th>Producto</th>
+      <th>Linea</th>
+      <th>SubLinea</th>
+      <th>Talla</th>
       <th>Cantidad</th>
       <th></th>
     </tr>

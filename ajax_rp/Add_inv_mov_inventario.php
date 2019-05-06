@@ -30,7 +30,7 @@ if($tipo != "TODOS"){
 }
 
 $sql = " SELECT ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, productos.descripcion producto,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
-ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio 
+ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio ,ajuste_reng.aplicar
 FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos
 $where
 ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
@@ -60,15 +60,19 @@ while($rows=$bd->obtener_name($query)){
 	<?php
 	$valor = 0;
 	$query = $bd->consultar($sql);
-
 	while ($datos=$bd->obtener_fila($query,0)){
-
+		$signo = "";
+		if($datos["aplicar"]=="IN"){
+			$signo = "+";
+		}elseif($datos["aplicar"]=="OUT"){
+				$signo = "-";
+		}
 		echo '<tr>
 		<td class="texto">'.$datos["fecha"].'</td>
 		<td class="texto">'.longitud($datos["ajuste"]).'</td>
 		<td class="texto">'.longitud($datos["almacen"]).'</td>
 		<td class="texto">'.longitud($datos["producto"]).'</td>
-		<td class="texto">'.$datos["cantidad"].'</td>
+		<td class="texto">'.$signo.''.$datos["cantidad"].'</td>
 		<td class="texto">'.$datos["costo"].'</td>
 		<td class="texto">'.$datos["neto"].'</td>
 		<td class="texto">'.$datos["cant_acum"].'</td>

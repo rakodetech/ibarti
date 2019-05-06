@@ -129,6 +129,7 @@ function save_ajuste() {
     var proced = "p_ajuste";
 
     var codigo = $("#ped_codigo").val();
+    var referencia = $("#ped_referencia").val();
     var tipo = $("#ped_tipo").val();
     var fecha = $("#ped_fecha").val();
     var descripcion = $("#ped_descripcion").val();
@@ -156,9 +157,10 @@ function save_ajuste() {
             proced: proced,
             us: us,
             metodo: metodo,
-            aplicar: aplicar
+            aplicar: aplicar,
+            referencia:referencia
         };
-       console.log(parametros);
+        
        $.ajax({
         data: parametros,
         url: 'packages/inventario/ajuste/modelo/ajuste.php',

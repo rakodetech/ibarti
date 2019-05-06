@@ -58,6 +58,7 @@ class Ajuste
     $this->datos   = array();
     $this->datos = array('codigo' => '',        'motivo' => '',
      'cod_tipo' =>'',               'tipo' => 'Seleccione...',
+     'referencia' => '',
      'descripcion' => '',           'fecha' => date("d-m-Y"),
      'total' => 0                   );
     return $this->datos;

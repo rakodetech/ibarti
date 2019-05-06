@@ -34,20 +34,24 @@ if($metodo == 'modificar')
     <div style="float: right;" align="center">
       <img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" id="borrar_ajuste" onclick="Borrar_ajuste()" />
       <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" id="agregar_ajuste" title="Agregar Registro" onclick="Agregarajuste()" />
-       <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="Cons_ajuste()" />
+      <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="Cons_ajuste()" />
     </div>
     <table width="95%" align="center">
       <tr>
         <td height="8" colspan="4" align="center"><hr></td>
       </tr>
       <tr>
-        <td width="15%" class="etiqueta">N. Ajuste:</td>
-        <td width="25%" class="etiqueta">Tipo de Ajuste:</td>
+        <td colspan="3"></td>
+        <td width="15%" class="etiqueta">Cod. Referencia: <input type="text" id="ped_referencia" title="Referencia"  placeholder="Referencia" value="<?php echo $ped['referencia'];?>" style="width: 200px;" required/></td>
+      </tr>
+      <tr>
+        <td width="15%" class="etiqueta">N. Movimiento:</td>
+        <td width="25%" class="etiqueta">Tipo de Movimiento:</td>
         <td width="40%" class="etiqueta">Descripcion</td>
         <td width="20%" class="etiqueta">Fecha</td>
       </tr>
       <tr>
-        <td> 
+        <td > 
           <input type="text" id="ped_codigo" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
         </td>
         <td>          

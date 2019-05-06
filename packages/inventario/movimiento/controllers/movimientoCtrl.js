@@ -65,6 +65,7 @@ function save_movimiento() {
 				type: 'post',
 				success: function (response) {
 					var resp = JSON.parse(response);
+					console.log(resp);
 					if (resp.error) {
 						alert(resp.mensaje);
 					}else {

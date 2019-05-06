@@ -42,10 +42,12 @@ class FichaDotacion
 	} 
 
 	public function get_dot_reng($ficha){
-		$sql = "SELECT productos.item, productos.descripcion,ficha_dotacion.cantidad, ficha_dotacion.cod_ficha
-		FROM ficha_dotacion, productos
+		$sql = "SELECT prod_lineas.codigo, prod_lineas.descripcion,prod_sub_lineas.codigo, prod_sub_lineas.descripcion,ficha_dotacion.cantidad, ficha_dotacion.cod_ficha,tallas.descripcion
+		FROM ficha_dotacion, prod_lineas,prod_sub_lineas, tallas
 		WHERE ficha_dotacion.cod_ficha = '$ficha' 
-		AND productos.item = ficha_dotacion.cod_item
+		AND prod_sub_lineas.codigo = ficha_dotacion.cod_sub_linea
+		AND prod_sub_lineas.cod_linea = prod_lineas.codigo
+		AND tallas.codigo = ficha_dotacion.cod_talla
 		ORDER BY ficha_dotacion.fec_us_mod ASC";
 		$query = $this->bd->consultar($sql);
 		while ($datos= $this->bd->obtener_fila($query)) {
@@ -54,16 +56,30 @@ class FichaDotacion
 		return $this->datos;
 	}
 
-	public function get_productos($linea,$sub_linea){
-		$sql = "SELECT item, descripcion FROM productos
-		WHERE  status = 'T' AND cod_linea = '$linea' 
-		AND cod_sub_linea = '$sub_linea'
-		ORDER BY descripcion ASC";
+	public function get_tallas($linea,$sub_linea){
+		$sql = "SELECT talla FROM prod_sub_lineas WHERE cod_linea = '$linea' AND codigo = '$sub_linea'";
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd->obtener_fila($query)) {
-			$this->lineas[] = $datos;
+		$data= $this->bd->obtener_fila($query);
+		if($data[0] == 'T'){
+			$sql = "SELECT tallas.codigo, tallas.descripcion  FROM tallas
+					WHERE tallas.codigo != '9999'
+					ORDER BY tallas. descripcion ASC";
+			$query = $this->bd->consultar($sql);
+			while ($datos= $this->bd->obtener_fila($query)) {
+				$this->lineas[] = $datos;
+			}
+
+			return $this->lineas;
+		}else{
+			return [];
 		}
-		return $this->lineas;
+
+	} 
+
+	public function validar_sub_linea($linea,$sub_linea){
+		$sql = "SELECT talla FROM prod_sub_lineas WHERE cod_linea = '$linea' AND codigo = '$sub_linea'";
+		$query = $this->bd->consultar($sql);
+		return  $this->datos = $this->bd->obtener_fila($query);
 	} 
 
 

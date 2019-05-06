@@ -278,7 +278,7 @@ class Producto
     $sql = "SELECT cos_promedio
     FROM ajuste_reng
     WHERE ajuste_reng.cod_producto = '$serial' AND cod_almacen='$almacen'
-    ORDER BY cod_ajuste,reng_num DESC
+    ORDER BY cod_ajuste DESC,reng_num DESC
     LIMIT 1
     ";
     $query = $this->bd->consultar($sql);

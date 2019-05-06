@@ -63,6 +63,7 @@ if(isset($reporte)){
 	// QUERY A MOSTRAR //
 	    $sql = "SELECT v_ficha.rol, v_ficha.region,
                        v_ficha.estado, v_ficha.ciudad,
+                       v_ficha.cliente,v_ficha.ubicacion,
                        v_ficha.cod_ficha, v_ficha.cedula,
                        v_ficha.ap_nombre, v_ficha.cargo,
                        v_ficha.contracto,  v_ficha.fec_ingreso,
@@ -87,7 +88,7 @@ if(isset($reporte)){
 		$query01  = $bd->consultar($sql);
 		 echo "<table border=1>";
 
- 	 echo "<tr><th> ".$leng['rol']." </th><th> ".$leng['region']." </th><th> ".$leng['estado']." </th><th> ".$leng['ciudad']." </th>
+ 	 echo "<tr><th> ".$leng['rol']." </th><th> ".$leng['region']." </th><th> ".$leng['estado']." </th><th> ".$leng['ciudad']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th>
 	           <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th> <th> Cargo</th>
 				<th> ".$leng['contrato']."</th><th> Fecha Ingreso </th><th> Fecha Egreso </th> <th> Sistema Fecha Egreso </th>
 				<th> Motivo </th>
@@ -103,7 +104,8 @@ if(isset($reporte)){
 				   <td>".$row01[12]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td>
 				   <td>".$row01[16]."</td><td>".$row01[17]."</td><td>".$row01[18]."</td><td>".$row01[19]."</td>
 				   <td>".$row01[20]."</td><td>".$row01[21]."</td><td>".$row01[22]."</td><td>".$row01[23]."</td>
-				   <td>".$row01[24]."</td><td>".$row01[25]."</td><td>".$row01[26]."</td></tr>";
+				   <td>".$row01[24]."</td><td>".$row01[25]."</td><td>".$row01[26]."</td>
+				   <td>".$row01[27]."</td><td>".$row01[28]."</td></tr>";
 		}
 		 echo "</table>";
 	}

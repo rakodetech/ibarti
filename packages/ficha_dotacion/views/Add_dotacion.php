@@ -10,16 +10,18 @@ if(count($reng) > 0){
     echo '
     <tr>
     <td>'.$datos[1].' ('.$datos[0].')</td>
-    <td><input type="text" value="'.$datos[2].'" id="cant_'.$valor.'" style="width:100px"/></td>
+    <td>'.$datos[3].' ('.$datos[2].')</td>
+    <td>'.$datos[6].'</td>
+    <td><input type="text" value="'.$datos[4].'" id="cant_'.$valor.'" style="width:100px"/></td>
     <td>
-    <img  border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" id="modificar_renglon" onclick="Modificar_renglon(\''.$datos[0].'\',\''.$datos[3].'\','.$valor.')" disabled title="Modificar renglon"  />
-    <img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" id="eliminar_renglon" onclick="eliminar_renglon(\''.$datos[0].'\',\''.$datos[3].'\')" title="Modificar renglon" /
+    <img  border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" id="modificar_renglon" onclick="Modificar_renglon(\''.$datos[2].'\',\''.$datos[5].'\','.$valor.')" disabled title="Modificar renglon"  />
+    <img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" id="eliminar_renglon" onclick="eliminar_renglon(\''.$datos[2].'\',\''.$datos[5].'\')" title="Modificar renglon" /
     </td>
     </tr>';
   }
 }else{
   echo '<tr>
-  <td colspan="3">Sin Data</td>
+  <td colspan="5">Sin Data</td>
   </tr>';
 }
 ?>

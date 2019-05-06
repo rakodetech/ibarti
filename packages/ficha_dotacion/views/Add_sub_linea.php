@@ -4,7 +4,7 @@ $codigo   = $_POST['codigo'];
 $modelo      = new FichaDotacion;
 $sub_lineas = $modelo->get_sub_lineas($codigo);
 
-echo '<select name="sub_lineas" id="dot_sub_linea" style="width:210px" onchange="get_productos(this.value)" required>
+echo '<select name="sub_lineas" id="dot_sub_linea" style="width:210px" onchange="get_tallas(this.value)" required>
 <option value="">Seleccione...</option>';
 foreach ($sub_lineas as  $datos)
 {

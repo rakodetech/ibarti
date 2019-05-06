@@ -13,6 +13,7 @@ foreach ($lista as  $datos) {
                 <td>'.$datos["tipo"].'</td>
                 <td>'.$datos["motivo"].'</td>
                 <td>'.$datos["total"].'</td>
+                <td></td>
               </tr>';
           }
 ?>

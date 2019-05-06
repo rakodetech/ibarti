@@ -1,4 +1,28 @@
 <script type="text/javascript">
+	var ficha = "";
+	function Validar(){
+
+		if($("#linea_1").attr("disabled")){
+			validarCamp('');
+		}else{
+			var numX     = parseInt(document.getElementById('incremento').value);
+			var producto   = document.getElementById('producto_'+numX+'').value;
+			var cod_talla   = document.getElementById('cod_talla_'+numX+'').value;
+			comprobarTalla(ficha, producto,cod_talla,function(tallas_iguales){
+				if(tallas_iguales){
+					var cantidad = Number(document.getElementById('cantidad_'+numX+'').value);
+					var cantidad_max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
+					if(cantidad > cantidad_max){
+						toastr.error(cantidad+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+cantidad_max);
+					}else{
+						$("#salvar").click();
+					}
+				}else{
+					toastr.error("La talla no corresponde a la de la Configuracion!..")
+				}
+			});
+		}
+	}
 
 	var cod_producto = "";
 	function Pdf(){
@@ -7,7 +31,7 @@
 		$('#pdf').submit();
 	}
 
-function Activar01(codigo, relacion, contenido){  // LINEA //
+function ActivarSubLinea(codigo, relacion, contenido){  // LINEA //
 	if(codigo!=''){
 		var valor = "ajax/Add_prod_linea.php";
 		ajax=nuevoAjax();
@@ -25,21 +49,63 @@ function Activar01(codigo, relacion, contenido){  // LINEA //
 	}
 }
 
+function comprobarTalla(ficha, producto,cod_talla,callback){ 
+	if(ficha!=''){
+		var valor = "ajax/Add_prod_comp_talla.php";
+		ajax=nuevoAjax();
+		ajax.open("POST", valor, true);
+		ajax.onreadystatechange=function()
+		{
+			if (ajax.readyState==4){
+				var resp = JSON.parse(ajax.responseText);
+				callback(resp.cod_talla == cod_talla);
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("ficha="+ficha+"&producto="+producto+"&cod_talla="+cod_talla+"");
+	}else{
+		alert("Debe de Seleccionar Un Producto ");
+	}
+}
+
+function Activar01(codigo, relacion, contenido){  // LINEA //
+	if(codigo!=''){
+		var valor = "ajax/Add_prod_sub_linea.php";
+		ajax=nuevoAjax();
+		ajax.open("POST", valor, true);
+		ajax.onreadystatechange=function()
+		{
+			if (ajax.readyState==4){
+				document.getElementById(contenido).innerHTML = ajax.responseText;
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("codigo="+codigo+"&relacion="+relacion+"");
+	}else{
+		alert("Debe de Seleccionar Un Producto ");
+	}
+}
+
 function cantidad_maxima(cod_almacen,relacion) {
 	$.ajax({
-		data: { 'producto': cod_producto, 'almacen':cod_almacen },
-		url: 'packages/inventario/ajuste/views/Get_stock.php',
+		data: { 'producto': cod_producto, 'almacen':cod_almacen, 'cod_ficha': ficha},
+		url: 'ajax/Add_prod_dot_max.php',
 		type: 'post',
 		success: function(response) {
-           // console.log(response);
-           var resp = JSON.parse(response);
-           $("#cantida_"+relacion).attr('max',resp[0]);
-       },
-       error: function(xhr, ajaxOptions, thrownError) {
-       	alert(xhr.status);
-       	alert(thrownError);
-       }
-   });
+			var resp = JSON.parse(response);
+			if(resp){
+				$("#cantidad_"+relacion).attr('max',resp[0]);
+			}else if(cod_almacen != ""){
+				$("#cantidad_"+relacion).attr('max',0);
+				toastr.warning("Sin Existencia en este almacen");
+			}
+
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
 }
 
 function Activar_almacen(codigo, relacion, contenido){  // LINEA //
@@ -62,28 +128,31 @@ function Activar_almacen(codigo, relacion, contenido){  // LINEA //
 }
 
 function mostrar_dotacion_ficha(cod_ficha){
+	ficha = cod_ficha;
 	var parametros = {'cod_ficha':cod_ficha};
 	$.ajax({
 		data:  parametros,
 		url:   'ajax/Add_dotacion_ficha.php',
 		type:  'post',
 		success:  function (response) {
-			console.log(response);
 			var nuevafila= "";
 			var resp = JSON.parse(response);
 			$("#datos_dotacion_detalle").html("");
 			if(resp.length > 0){
-				resp.forEach(()=>{
+				resp.forEach((d)=>{
 					nuevafila= "<tr><td>" +
-					resp[0].producto + "</td><td>" +
-					resp[0].cantidad  + "</td><td>" +
-					resp[0].ult_dotacion  + "</td></tr>";
+					d.sub_linea + "</td><td>" +
+					d.talla + "</td><td>" +
+					d.cantidad  + "</td><td>" +
+					d.ult_dotacion  + "</td></tr>";
 
 					$("#datos_dotacion_detalle").append(nuevafila);
 				});
+				$("#linea_1").attr('disabled',false);
 				//$("#detalle").show();
 			}else{
-				nuevafila= '<tr><td colspan="3">Sin Configuracion</td></tr>';
+				$("#linea_1").attr('disabled',true);
+				nuevafila= '<tr><td colspan="4">Sin Configuracion</td></tr>';
 				$("#datos_dotacion_detalle").append(nuevafila);
 			}
 			//$("#datos_dotacion").show();
@@ -102,20 +171,25 @@ function validarCamp(metodo){
 	var numX     = parseInt(document.getElementById('incremento').value);
 	if(metodo == 'eliminar'){
 		document.getElementById('tr_1_'+numX).remove();
+		document.getElementById('incremento').value = numX -1;
 	}else{
 		var valido     = 1;
 //	alert(metodo);
 var mensaje   = " ";
 mensaje01 = " Debe Seleccionar La Linea \n";
-mensaje02 = " Debe Seleccionar Un Productos \n";
-mensaje03 = " Debe Ingresar la Cantidad \n ";
+mensaje02 = " Debe Seleccionar La SubLinea \n";
+mensaje03 = " Debe Seleccionar Un Productos \n";
+mensaje04 = " Debe Ingresar la Cantidad \n ";
+mensaje04 = " Debe Seleccionar Un Almacen \n ";
 
 select01  = document.getElementById('linea_'+numX+'').value;
-select02  = document.getElementById('producto_'+numX+'').value;
-input01   = Number(document.getElementById('cantida_'+numX+'').value);
-input01Max   = Number(document.getElementById('cantida_'+numX+'').getAttribute("max"));
+select02  = document.getElementById('sub_linea_'+numX+'').value;
+select03  = document.getElementById('producto_'+numX+'').value;
+select04  = document.getElementById('almacen_'+numX+'').value;
+input01   = Number(document.getElementById('cantidad_'+numX+'').value);
+input01Max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
 
-mensaje04 = input01+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+input01Max;
+mensaje05 = input01+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+input01Max;
 
 if(select01 == ""){
 	valido++;
@@ -125,21 +199,28 @@ if(select02 == ""){
 	valido++;
 	mensaje += mensaje02;
 }
-if(input01 == ""){
+if(select03 == ""){
 	valido++;
 	mensaje += mensaje03;
+}
+if(select04 == ""){
+	valido++;
+	mensaje += mensaje05;
+}
+if(input01 == ""){
+	valido++;
+	mensaje += mensaje04;
 }
 
 if(input01 > input01Max){
 	valido++;
-	mensaje += mensaje04;
+	mensaje += mensaje05;
 }
      /////  validar ///
      if(valido ==  1){
-     	document.getElementById('cantida_'+numX+'').setAttribute("disabled",true);
      	prod_dotacion_det(numX);
      }else{
-     	alert(mensaje);
+     	toastr.error(mensaje);
      }
  }
 }
@@ -221,17 +302,21 @@ if($metodo == 'modificar'){
 	$anulado       = $result["anulado"];
 	$activo        = $result["status"];
 
-	$sql = "SELECT  CONCAT(productos.descripcion,' (',productos.item,') ') producto, ficha_dotacion.cantidad,
-	IFNULL((SELECT MAX(prod_dotacion.fec_us_mod) FROM prod_dotacion, prod_dotacion_det
-	WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
-	AND prod_dotacion_det.cod_producto = ficha_dotacion.cod_item
-	AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha) ,'SIN DOTACION') ult_dotacion
-	FROM ficha_dotacion ,
-	productos
-	WHERE
-	ficha_dotacion.cod_ficha = '$ficha'
-	AND ficha_dotacion.cod_item = productos.item
-	";
+	$sql = "SELECT  CONCAT(prod_sub_lineas.descripcion,' (',prod_sub_lineas.codigo,') ') sub_linea,tallas.descripcion talla,
+ ficha_dotacion.cantidad,
+IFNULL((SELECT MAX(prod_dotacion.fec_us_mod) FROM prod_dotacion, prod_dotacion_det
+WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
+AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
+AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha
+and productos.codigo = prod_dotacion_det.cod_producto) ,'SIN DOTACION') ult_dotacion
+FROM ficha_dotacion ,
+productos,prod_sub_lineas,tallas
+WHERE
+ficha_dotacion.cod_ficha = '$ficha'
+AND ficha_dotacion.cod_sub_linea = productos.cod_sub_linea
+AND ficha_dotacion.cod_sub_linea = prod_sub_lineas.codigo
+AND ficha_dotacion.cod_talla = tallas.codigo
+GROUP BY ficha_dotacion.cod_sub_linea";
 	$query_dot         = $bd->consultar($sql);
 
 }else{
@@ -296,11 +381,12 @@ $proced      = "p_prod_dotacion";
 							</table>
 						</fieldset>
 						<fieldset class="fieldset" id="datos_dotacion">
-							<legend>Productos a Dotar: </legend>
+							<legend>Configuracion a Dotar: </legend>
 							<table width="100%" align="center" class="tabla_sistema">
 								<thead>
 									<tr>
-										<th>Producto</th>
+										<th>SubLinea</th>
+										<th>Talla</th>
 										<th>Cantidad</th>
 										<th>Ultima Dotacion</th>
 									</tr>
@@ -309,7 +395,7 @@ $proced      = "p_prod_dotacion";
 									<?php 
 									if($metodo == "modificar"){
 										while ($datos= $bd->obtener_fila($query_dot,0)) {
-											echo "<tr><td>" .$datos[0]."</td><td>"  .$datos[1]."</td><td>"  .$datos[2]. "</td></tr>";
+											echo "<tr><td>" .$datos[0]."</td><td>"  .$datos[1]."</td><td>"  .$datos[2]. "</td><td>"  .$datos[3]. "</td></tr>";
 										}	
 									}
 									?>
@@ -321,6 +407,7 @@ $proced      = "p_prod_dotacion";
 							<table width="100%" align="center">
 								<tr>
 									<td class="etiqueta" width="25%">Linea:</td>
+									<td class="etiqueta" width="25%">SubLinea:</td>
 									<td class="etiqueta" width="25%">Producto:</td>
 									<?php if($metodo == "agregar"){ ?>
 										<td class="etiqueta" width="25">Almacen</td>
@@ -333,8 +420,8 @@ $proced      = "p_prod_dotacion";
 									</tr>
 									<?php if($metodo == "agregar"){ ?>
 										<tr class="text" >
-											<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:200px;"
-												onchange="Activar01(this.value, '1', 'select_2_1')">
+											<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:150px;"
+												onchange="ActivarSubLinea(this.value, '1', 'select_2_1')" disabled="disabled">
 												<option value="">Seleccione... </option>
 												<?php  	$sql = " SELECT codigo, descripcion FROM prod_lineas WHERE `status` = 'T' ORDER BY 2 ASC ";
 												$query = $bd->consultar($sql);
@@ -343,27 +430,41 @@ $proced      = "p_prod_dotacion";
 													<option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
 												<?php }?>
 											</select></td>
-											<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:200px;" disabled="disabled">
+											<td id="select_2_1"><select name="sub_linea_1" id="sub_linea_1" style="width:150px;" onchange="Activar01(this.value, '1', 'select_3_1')" disabled="disabled">
+												<option value="">Seleccione... </option>
+												<?php  	$sql = " SELECT codigo, descripcion FROM prod_lineas WHERE `status` = 'T' ORDER BY 2 ASC ";
+												$query = $bd->consultar($sql);
+												while($datos=$bd->obtener_fila($query,0)){
+													?>
+													<option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
+												<?php }?>
+											</select></td>
+											<td id="select_3_1"><select name="producto_1" id="producto_1" style="width:150px;" disabled="disabled">
 												<option value="">Seleccione... </option>
 											</select></td>
-											<td id="select_3_1"><select name="almacen_1" id="almacen_1" style="width:200px;" disabled="disabled">
+											<td id="select_4_1"><select name="almacen_1" id="almacen_1" style="width:150px;" disabled="disabled">
 												<option value="">Seleccione... </option>
 											</select></td>
-											<td id="input04"><input type="number" name="cantida_1" id="cantida_1" min="1"/></td>
+											<td id="input04"><input type="number" name="cantidad_1" id="cantidad_1" min="1" value="0" /></td>
 											<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
 										</tr>
 									<?php }else{
 										$sql = " SELECT productos.cod_linea,  prod_lineas.descripcion AS linea,
-										prod_dotacion_det.cod_producto, productos.descripcion AS producto,
-										prod_dotacion_det.cantidad
-										FROM prod_dotacion_det , productos , prod_lineas
+										prod_dotacion_det.cod_producto, concat(productos.descripcion,' ',tallas.descripcion) AS producto,
+										prod_dotacion_det.cantidad,productos.cod_sub_linea,  
+										prod_sub_lineas.descripcion AS sub_linea
+										FROM prod_dotacion_det , productos , prod_lineas,prod_sub_lineas,tallas
 										WHERE prod_dotacion_det.cod_dotacion = '$codigo'
 										AND prod_dotacion_det.cod_producto = productos.item
-										AND productos.cod_linea = prod_lineas.codigo ";
+										AND productos.cod_linea = prod_lineas.codigo 
+										AND productos.cod_sub_linea = prod_sub_lineas.codigo 
+										AND productos.cod_talla = tallas.codigo";
 										$query = $bd->consultar($sql);
 										while($datos=$bd->obtener_fila($query,0)){
 											$cod_linea    = $datos["cod_linea"];
 											$linea        = $datos["linea"];
+											$cod_sub_linea    = $datos["cod_sub_linea"];
+											$sub_linea        = $datos["sub_linea"];
 											$cod_producto = $datos["cod_producto"];
 											$producto     = $datos["producto"];
 											$cantidad     = $datos["cantidad"];
@@ -378,11 +479,13 @@ $proced      = "p_prod_dotacion";
 														?>
 														<option value="<?php echo $datos2[0];?>"><?php echo $datos2[1];?></option>
 													<?php }?>
+												</select></td><td id="select_3_1"><select name="linea_1" id="linea_1" style="width:180px;" disabled="disabled">
+													<option value="<?php echo $cod_sub_linea;?>"><?php echo $sub_linea;?></option>
 												</select></td>
 												<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:250px;" disabled="disabled">
 													<option value="<?php echo $cod_producto;?>"><?php echo $producto;?></option>
 												</select></td>
-												<td id="input04"><input type="text" name="cantida_1" id="cantida_1" maxlength="15" size="15" readonly="readonly"
+												<td id="input04"><input type="text" name="cantidad_1" id="cantidad_1" maxlength="15" size="15" readonly="readonly"
 													value="<?php echo $cantidad;?>"/></td>
 													<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
 												</tr>
@@ -395,7 +498,8 @@ $proced      = "p_prod_dotacion";
 												<span class="art-button-wrapper">
 													<span class="art-button-l"> </span>
 													<span class="art-button-r"> </span>
-													<input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />
+													<input type="button" name="validar"  id="validar" value="Guardar" class="readon art-button" onclick="Validar()" />
+													<input type="submit" name="salvar"  id="salvar" hidden="hidden" />
 												</span>&nbsp;
 												<span class="art-button-wrapper">
 													<span class="art-button-l"> </span>
@@ -408,11 +512,11 @@ $proced      = "p_prod_dotacion";
 															<span class="art-button-r"> </span>
 															<input type="button" name="pdf" onClick="Pdf()" value="Imprimir" class="readon art-button" />
 														</span>&nbsp;
-														<span class="art-button-wrapper">
+														<!--<span class="art-button-wrapper">
 															<span class="art-button-l"> </span>
 															<span class="art-button-r"> </span>
 															<input type="button" name="anular" id="anular" onclick="Anular()" value="Anular" class="readon art-button" />
-														</span>&nbsp;
+														</span>&nbsp;-->
 
 													<?php } ?>
 													<span class="art-button-wrapper">

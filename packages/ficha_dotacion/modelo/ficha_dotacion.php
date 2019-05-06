@@ -14,7 +14,7 @@ foreach($_POST as $nombre_campo => $valor){
 
 if(isset($_POST['proced'])){
   try {
-    $sql    = "$SELECT $proced('$metodo', '$codigo','$serial','$cantidad', '$usuario')";
+    $sql    = "$SELECT $proced('$metodo', '$codigo','$sub_linea','$talla','$cantidad', '$usuario')";
 
     $result['sql'] = $sql;
     $query   = $bd->consultar($sql);
