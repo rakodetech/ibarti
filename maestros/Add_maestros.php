@@ -37,12 +37,13 @@ if($metodo == 'modificar'){
 	}
 ?>
 <div id="Contenedor" class="mensaje"></div>
+<input type="hidden" name="codigos" value="<?php echo $codigo; ?>">
   <fieldset class="fieldset">
   <legend>DATOS BASICOS <?php echo $titulo;?> </legend>
      <table width="80%" align="center">
     <tr>
       <td class="etiqueta">C&oacute;digo:</td>
-      <td id="input01"><input type="text" name="codigo" maxlength="11" style="width:120px"
+      <td id="input01"><input type="text" name="codigo" id="codigo" maxlength="11" style="width:120px"
                               value="<?php echo $codigo;?>" onblur="<?php echo $codigo_onblur;?>" <?php echo $disabled; ?>/>
         Activo: <input name="activo" type="checkbox"  <?php echo statusCheck("$status");?> value="T"/><br />
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>

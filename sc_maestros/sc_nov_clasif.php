@@ -60,7 +60,7 @@ $usuario  = $_POST['usuario'];
 		
 		}        
 	}
-	require_once('../funciones/sc_direccionar.php');  
+	//require_once('../funciones/sc_direccionar.php');  
 ?>
 <body>
 </body>

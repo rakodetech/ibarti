@@ -13,7 +13,8 @@ $bd = new DataBase();
 $tabla    = $_POST['tabla'];
 $tabla_id = 'codigo';
 
-$codigo      = $_POST['codigo'];
+$codigo      = $_POST['codigos'];
+
 $descripcion = $_POST['descripcion'];	
 $campo01 = $_POST['campo01'];	
 $campo02 = $_POST['campo02'];	

@@ -116,8 +116,9 @@ class Grafica {
             dataset.data.pop();
         });
 
-
-        obj.data.labels.pop();
+       // console.log(obj.data.labels);
+       // obj.data.labels.pop();
+       // console.log(obj.data.labels);
         obj.data.datasets[0].data = this.datos;
         obj.data.labels = this.labels;
         obj.options.title.text = titulo;

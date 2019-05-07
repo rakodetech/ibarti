@@ -44,12 +44,13 @@ class gNovedades
     FROM
     nov_procesos AS NP
     INNER JOIN nov_status AS NS ON NP.cod_nov_status = NS.codigo
-    
+    WHERE
+   NP.fec_us_ing BETWEEN \"$fecha_desde\" AND \"$fecha_hasta\" 
     GROUP BY NS.codigo ASC
 ORDER BY NP.cod_novedad ASC
  ";
     $query = $this->bd->consultar($sql);
-    while ($datos = $this->bd->obtener_fila($query)) {
+    while ($datos = $this->bd->obtener_fila($query, 0)) {
       $this->datos[] = $datos;
     }
     return $this->datos;
@@ -71,7 +72,7 @@ ORDER BY NP.cod_novedad ASC
     GROUP BY
     titulo ASC";
     $query = $this->bd->consultar($sql);
-    while ($datos = $this->bd->obtener_fila($query)) {
+    while ($datos = $this->bd->obtener_fila($query, 0)) {
       $this->datos[] = $datos;
     }
     return $this->datos;

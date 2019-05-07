@@ -9,7 +9,7 @@
 ?>
 <div align="center" class="etiqueta_title"> CONSULTA GENERAL <?php echo $titulo;?> </div> <hr />
 <div id="Contenedor01"></div>
-<div id="listar"><table width="98%" border="0" align="center">
+<div class="listar"><table width="98%" border="0" align="center">
 		<tr class="fondo00">
 			<th width="10%" class="etiqueta">Cedula</th>
 			<th width="25%" class="etiqueta">Nombre</th>

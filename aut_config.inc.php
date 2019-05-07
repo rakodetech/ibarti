@@ -2,9 +2,9 @@
 /* ********************* */
 /* Conexion a PostgreSQL   Y MYSQL */
 /* ********************* */
-	define("Sitio", "http://c122.gconex.com");
+	define("Sitio", "localhost");
 //	define("Sitio", "http://www.ibarti.com.ve");
-	define("Carpeta", "oesvica");
+	define("Carpeta", "ibarti");
 
 $bd = "mysql";
 if($bd == "mysql"){

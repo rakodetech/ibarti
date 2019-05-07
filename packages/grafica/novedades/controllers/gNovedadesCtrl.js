@@ -32,6 +32,7 @@ function generar() {
             success: function (response) {
                 
                 var resp = JSON.parse(response);
+                console.log(resp)
                 if (resp.length > 0) {
                     $('.brs').show();
                     $('#sin_data').hide();
