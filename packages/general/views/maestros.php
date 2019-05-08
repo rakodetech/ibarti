@@ -1,21 +1,43 @@
 <?php 
+
+require "../modelo/general_modelo.php";
+
 $metodo = $_POST['metodo'];
 $titulo = $_POST['titulo'];
 $tabla   = $_POST['tb'];
 $codigo  = $_POST['codigo'];
-session_start();
-$usuario  =$_SESSION['usuario_cod'];
-define("SPECIALCONSTANT", true);
-require  "../../../autentificacion/aut_config.inc.php";
-require_once "../../../".Funcion;
-require_once  "../../../".class_bdI;
-
-
 if(isset($_GET['pagina'])){
 	$pag = $_GET['pagina'];	
 }else{
 	$pag = 0;
 }
+
+if($metodo == 'modificar'){
+  $disabled = "disabled=\"disabled\"";
+	$codigo = $_POST['codigo'];
+
+$modelo = new General;
+$result  =  $modelo->get_maestro($tabla,$codigo);
+	  	   
+	$codigo      = $result['codigo'];
+	$codigo_onblur = "";
+	$descripcion = $result['descripcion'];
+	$campo01     = $result['campo01'];
+	$campo02     = $result['campo02'];
+	$campo03     = $result['campo03'];
+	$campo04     = $result['campo04'];
+	$status      = $result['status'];
+	}else{
+$disabled = "";
+	$codigo      = '';	
+	$codigo_onblur = "Add_ajax_maestros(this.value, 'ajax/validar_maestros.php', 'Contenedor', '$tabla')";
+	$descripcion = '';
+	$campo01     = '';
+	$campo02     = '';
+	$campo03     = '';
+	$campo04     = '';
+	$status      = 'T';
+	}
 ?> 
 
 <script language="javascript">

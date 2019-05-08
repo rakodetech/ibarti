@@ -210,6 +210,7 @@ function anular(){
             var proced = "p_ajuste";
 
             var codigo = $("#ped_codigo").val();
+            var referencia = $("#ped_referencia").val();
             var tipo = '9999';
             var fecha = $("#ped_fecha").val();
             var total = $("#ped_total").val();
@@ -240,22 +241,22 @@ function anular(){
                 proced: proced,
                 us: us,
                 metodo: metodo,
-                aplicar: aplicar
+                aplicar: aplicar,
+                referencia: referencia
             };
 
-                console.log(parametros);
         $.ajax({
         data: parametros,
         url: 'packages/inventario/ajuste/modelo/ajuste.php',
         type: 'post',
         success: function(response) {
-           console.log(response);
            var resp = JSON.parse(response);
            if (resp.error) {
             alert(resp.mensaje);
         } else {
             alert("Actualización Exitosa!..");
             CloseModal();
+            Cons_ajuste()
         }
         $("#ped_descripcion_anular").val("");
     },

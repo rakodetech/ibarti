@@ -69,6 +69,7 @@ $listar  =  $ajuste->get();
         <thead>
           <tr>
             <th>N. Movimiento</th>
+            <th>Referencia</th>      
             <th>Fecha</th>          
             <th>Tipo Movimiento</th>
             <th>Descripcion</th>
@@ -83,10 +84,12 @@ $listar  =  $ajuste->get();
             echo '
             <tr onclick="Form_ajuste(\''.$datos["codigo"].'\', \'modificar\',\''.$datos["cod_tipo"].'\',\''.$datos["anulado"].'\')">
             <td>'.$datos["codigo"].'</td>
+            <td>'.$datos["referencia"].'</td>
             <td>'.$datos["fecha"].'</td>
             <td>'.$datos["tipo"].'</td>
             <td>'.$datos["motivo"].'</td>
-            <td colspan="2">'.$datos["total"].'</td>
+            <td>'.$datos["total"].'</td>
+            <td></td>
             </tr>';
           } ?>
 

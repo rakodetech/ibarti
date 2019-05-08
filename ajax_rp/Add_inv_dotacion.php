@@ -17,7 +17,7 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
 
 	$where = "  WHERE DATE_FORMAT(prod_dotacion.fec_dotacion, '%Y-%m-%d') BETWEEN  \"$fecha_D\" AND \"$fecha_H\"
    	              AND prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
-			      AND prod_dotacion_det.cod_producto = productos.codigo
+			      AND prod_dotacion_det.cod_producto = productos.item
 			      AND productos.cod_linea = prod_lineas.codigo
 			      AND productos.cod_sub_linea = prod_sub_lineas.codigo
 			      AND v_ficha.cod_ficha = prod_dotacion.cod_ficha ";
@@ -34,7 +34,7 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
 		$where  .= " AND prod_sub_lineas.codigo = '$sub_linea' ";
 	}
 	if($producto != "TODOS"){
-		$where  .= " AND productos.codigo  = '$producto' ";
+		$where  .= " AND productos.item  = '$producto' ";
 	}
 
 	if($anulado != "TODOS"){
@@ -49,7 +49,7 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
                  v_ficha.rol, v_ficha.cod_ficha,
                  v_ficha.cedula, v_ficha.nombres AS trabajador,
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
-                 prod_sub_lineas.descripcion AS sub_linea, productos.descripcion AS producto,
+                 prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',productos.item,') ') AS producto,
                  prod_dotacion_det.cantidad
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha
@@ -85,7 +85,7 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
 				  <td class="texto">'.$datos["cod_ficha"].'</td>
 				  <td class="texto">'.longitud($datos["rol"]).'</td>
 				  <td class="texto">'.longitud($datos["sub_linea"]).'</td>
-				  <td class="texto">'.longitud($datos["producto"]).'</td>
+				  <td class="texto">'.$datos["producto"].'</td>
 				  <td class="texto">'.$datos["cantidad"].'</td>
            </tr>';
         };?>

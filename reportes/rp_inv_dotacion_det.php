@@ -28,7 +28,7 @@ if(isset($reporte)){
 
 	$where = "  WHERE DATE_FORMAT(prod_dotacion.fec_dotacion, '%Y-%m-%d') BETWEEN  \"$fecha_D\" AND \"$fecha_H\"
    	              AND prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
-			      AND prod_dotacion_det.cod_producto = productos.codigo
+			      AND prod_dotacion_det.cod_producto = productos.item
 			      AND productos.cod_linea = prod_lineas.codigo
 			      AND productos.cod_sub_linea = prod_sub_lineas.codigo
 			      AND v_ficha.cod_ficha = prod_dotacion.cod_ficha ";
@@ -45,7 +45,7 @@ if(isset($reporte)){
 		$where  .= " AND prod_sub_lineas.codigo = '$sub_linea' ";
 	}
 	if($producto != "TODOS"){
-		$where  .= " AND productos.codigo  = '$producto' ";
+		$where  .= " AND productos.item  = '$producto' ";
 	}
 
 	if($anulado != "TODOS"){
@@ -62,7 +62,7 @@ if(isset($reporte)){
 				 v_ficha.cod_ficha, v_ficha.cedula,
 				 v_ficha.nombres AS trabajador, prod_dotacion.descripcion,
                  prod_lineas.descripcion AS linea, prod_sub_lineas.descripcion AS sub_linea,
-				 productos.descripcion AS producto, prod_dotacion_det.cantidad,
+				 productos.descripcion AS producto,productos.item serial, prod_dotacion_det.cantidad,
 				 Valores(prod_dotacion.anulado) AS anulado
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha
@@ -78,14 +78,14 @@ if(isset($reporte)){
 		 echo "<table border=1>";
  	 echo "<tr><th> Código </th><th> Fecha </th><th> Fecha Ingreso</th><th> ".$leng['rol']." </th>
 	           <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th><th> Descripción </th>
-			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Cantidad </th>
+			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Serial </th><th> Cantidad </th>
 			   <th> Anulado</th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
 		 echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
 		           <td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
 				   <td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td>
-				   <td>".$row01[12]."</td></tr>";
+				   <td>".$row01[12]."</td><td>".$row01[13]."</td></tr>";
 		}
 		 echo "</table>";
 	}
@@ -125,9 +125,9 @@ if(isset($reporte)){
             <td width='20%'>".$row[1]."</td>
             <td width='10%'>".$row[4]."</td>
             <td width='25%'>".$row[6]."</td>
-            <td width='15%'>".$row[10]."</td>
-            <td width='10%' style='text-align:center;'>".$row[11]."</td>
-            <td width='10%' style='text-align:center;'>".$row[12]."</td></tr>";
+            <td width='15%'>".$row[10]." (".$row[11].") </td>
+            <td width='10%' style='text-align:center;'>".$row[12]."</td>
+            <td width='10%' style='text-align:center;'>".$row[13]."</td></tr>";
 
              $f++;
          }

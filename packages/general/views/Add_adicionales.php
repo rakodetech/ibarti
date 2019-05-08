@@ -43,11 +43,6 @@
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span>
                 <input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />	
-                </span>&nbsp;
-             <span class="art-button-wrapper">
-                    <span class="art-button-l"> </span>
-                    <span class="art-button-r"> </span>
-                <input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />	
                 </span>
   </fieldset>
 <script type="text/javascript">

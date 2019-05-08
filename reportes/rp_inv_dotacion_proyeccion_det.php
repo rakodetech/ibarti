@@ -35,7 +35,7 @@ if(isset($reporte)){
 	AND v_prod_dot_max2.cod_cliente = clientes.codigo
 	AND v_prod_dot_max2.cod_linea = prod_lineas.codigo
 	AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
-	AND v_prod_dot_max2.cod_producto = productos.codigo
+	AND v_prod_dot_max2.cod_producto = productos.item
 	AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo  ";
 
 	if($rol != "TODOS"){

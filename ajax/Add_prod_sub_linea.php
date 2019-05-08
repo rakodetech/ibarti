@@ -19,13 +19,8 @@ $query = $bd->consultar($sql);
 echo'<select name="producto_'.$relacion.'" id="producto_'.$relacion.'" style="width:200px" 
 onchange="Activar_almacen(this.value,'.$relacion.', \'select_4_'.$relacion.'\')" required>
 <option value="">Seleccione...</option>';
-$i = 0;
 while($datos=$bd->obtener_fila($query,0)){
 	echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
-	if($i==0){
-		echo '<input type="hidden" value="'.$datos[2].'" id="cod_talla_'.$relacion.'" />';
-	}
-	$i++;
 }
 echo'</select>';
 mysql_free_result($query);

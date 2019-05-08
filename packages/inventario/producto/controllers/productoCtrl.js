@@ -90,12 +90,12 @@ function save_producto(){
 	if(color){
 		item= item + "-"+color;
 	}else{
-		color = "0000";
+		color = "9999";
 	}
 	if(talla){
 		item= item + "-"+talla;
 	}else{
-		talla = "0000";
+		talla = "9999";
 	}
 	if(peso){
 		item= item + "-"+peso;
@@ -107,7 +107,6 @@ function save_producto(){
 	}else{
 		piecubico = "";
 	}
-	console.log(item);
 
 	if(error == 0){
 		var parametros = {"codigo": codigo, "activo": activo, "linea": linea,         

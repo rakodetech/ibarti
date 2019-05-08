@@ -61,9 +61,9 @@ if(isset($_POST['metodo'])){
        $sql = "UPDATE ajuste SET anulado = 'T'
        WHERE codigo          = $nro_ajuste;";
        $bd->consultar($sql);
-       $sql = " INSERT INTO ajuste(codigo, cod_tipo, fecha,  motivo,
+       $sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia, fecha,  motivo,
        total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod,anulado)
-       VALUES ($cod_ajuste, '$tipo', '$fecha', '$descripcion',
+       VALUES ($cod_ajuste, '$tipo','$referencia', '$fecha', '$descripcion',
        '$total', '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP,'T'); ";
        $bd->consultar($sql);
      }

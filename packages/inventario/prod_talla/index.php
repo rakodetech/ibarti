@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="css/modal_planif.css" type="text/css" media="screen" />
-<script type="text/javascript" src="funciones/modal.js"></script>
-<script type="text/javascript" src="packages/inventario/prod_talla/controllers/prodTallaCtrl.js"></script>
 <?php
 	$Nmenu = '707';
 	if(isset($_SESSION['usuario_cod'])){
@@ -10,6 +7,13 @@
 		$us = $_POST['usuario'];
 	}
 
+require_once("packages/general/index.php");
 ?>
-<div id="Cont_talla"></div>
+
+
 <input name="usuario" id="usuario" type="hidden"  value="<?php echo $_SESSION['usuario_cod'];?>" />
+<script type="text/javascript">
+	$(function() {
+	Cons_maestro('', 'agregar','tallas','TALLA');
+});
+</script>

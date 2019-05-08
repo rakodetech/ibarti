@@ -1,8 +1,8 @@
 <?php
 define("SPECIALCONSTANT", true);
-include_once('../../../funciones/funciones.php');
 require("../../../autentificacion/aut_config.inc.php");
 require_once("../../../".class_bdI);
+require_once "../../../".Funcion;
 
 class General
 {
@@ -95,11 +95,11 @@ class General
 
 
   public function buscar($tb,$data){
-    $where = " ";
+    $where = " WHERE codigo != '9999' ";
     if($data != null || $data != ""){
-      $where .= "  WHERE $tb.codigo LIKE '%$data%' OR  $tb.descripcion LIKE '%$data%' ";
+      $where .= " AND $tb.codigo LIKE '%$data%' OR  $tb.descripcion LIKE '%$data%' ";
     }
-    $sql = "SELECT $tb.codigo,$tb.descripcion,$tb.`status` 
+    $sql = "SELECT $tb.codigo,$tb.descripcion,IF($tb.`status`='T','ACTIVO','INACTIVO') status 
     FROM $tb
     $where ";
 
@@ -111,6 +111,15 @@ class General
     return $this->datos;
   }
 
+  public function get_maestro($tabla,$codigo){
+  		$sql = " SELECT $tabla.codigo, $tabla.descripcion,
+	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
+				    $tabla.status
+	           FROM $tabla WHERE codigo = '$codigo' AND  codigo != '9999'";
+	  $query = $this->bd->consultar($sql);
+
+   return $this->datos = $this->bd->obtener_fila($query);
+}
 }
 
 ?>

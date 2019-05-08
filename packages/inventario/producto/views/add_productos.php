@@ -21,7 +21,7 @@
 		<tr>
 			<td class="etiqueta">Producto: </td>
 			<td id="input03"><input type="text" name="descripcion" id="p_descripcion" maxlength="60" size="39" value="<?php
-			if($metodo == "MODIFICAR"){
+			if(($metodo == "MODIFICAR")||(($metodo == "AGREGAR")&&($codigo != ""))){
 				echo $prod['descripcion'];
 			} ?>" required="required"/><br />
 			<span class="textfieldRequiredMsg">El Campo es Requerido... </span>

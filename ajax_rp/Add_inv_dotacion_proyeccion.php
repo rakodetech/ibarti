@@ -21,7 +21,7 @@ $where = "  WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), I
               AND v_prod_dot_max2.cod_contracto = contractos.codigo
               AND v_prod_dot_max2.cod_linea = prod_lineas.codigo
               AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
-              AND v_prod_dot_max2.cod_producto = productos.codigo
+              AND v_prod_dot_max2.cod_producto = productos.item
 			  AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo  ";
 
 

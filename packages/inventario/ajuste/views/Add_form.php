@@ -42,7 +42,7 @@ if($metodo == 'modificar')
       </tr>
       <tr>
         <td colspan="3"></td>
-        <td width="15%" class="etiqueta">Cod. Referencia: <input type="text" id="ped_referencia" title="Referencia"  placeholder="Referencia" value="<?php echo $ped['referencia'];?>" style="width: 200px;" required/></td>
+        <td width="15%" class="etiqueta">Cod. Referencia: <input type="text" id="ped_referencia" title="Referencia"  placeholder="Referencia" value="<?php echo $ped['referencia'];?>" style="width: 200px;" required></td>
       </tr>
       <tr>
         <td width="15%" class="etiqueta">N. Movimiento:</td>
