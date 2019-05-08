@@ -46,7 +46,7 @@ class Existencia
 
   public function get_prod_productos($sub_linea){
     $this->datos   = array();
-    $sql = " SELECT a.item, a.descripcion FROM productos a
+    $sql = " SELECT a.item codigo, a.descripcion FROM productos a
     WHERE a.`status` = 'T'";
     if($sub_linea != "TODOS"){
       $sql .= " AND a.cod_sub_linea = '$sub_linea'";
@@ -77,7 +77,7 @@ class Existencia
     $this->datos   = array();
     $sql = " SELECT a.codigo, a.descripcion FROM almacenes a ,stock b
     WHERE b.cod_almacen = a.codigo 
-    AND b.item = '$producto' ORDER BY 2 ASC ";
+    AND b.cod_producto = '$producto' ORDER BY 2 ASC ";
     $query = $this->bd->consultar($sql);
 
     while ($datos= $this->bd->  obtener_fila($query)) {

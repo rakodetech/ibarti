@@ -63,7 +63,7 @@ class Movimiento
   }
 
     public function buscar_productos($dato,$almacen){
-    $sql = "SELECT a.codigo,a.descripcion FROM productos a,stock b
+    $sql = "SELECT a.item codigo,a.descripcion FROM productos a,stock b
     WHERE (a.codigo LIKE '%$dato%'
     OR a.item LIKE '%$dato%'
     OR a.descripcion LIKE '%$dato%')
