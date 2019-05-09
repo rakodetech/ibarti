@@ -1,13 +1,13 @@
 ////////UNICO DE CONTROL DE FECHA/////////////////////////////////////////////////////////////////
-const meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
+var meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
 var contenedor_fecha_desde;
 var contenedor_fecha_hasta;
 var resp;
 var call;
 /////////////////////////////////////////////////////////////////////77
 var activa = false;
-function crear_control(contenedor, cont_desde, cont_hasta,callback) {
-    call=callback;
+function crear_control(contenedor, cont_desde, cont_hasta, callback) {
+    call = callback;
     resp = contenedor;
     if ($('#fecha_ingreso').length > 0) {
 
@@ -15,7 +15,7 @@ function crear_control(contenedor, cont_desde, cont_hasta,callback) {
             $('#fecha_ingreso').hide();
             $('#fecha_ingreso').offset({ top: ($('#' + contenedor).offset().top + 5 + $('#' + contenedor).height()), left: ($('#' + contenedor).offset().left - ($('#fecha_ingreso').width() / 2)) });
         } else {
-            
+
             $('#fecha_ingreso').show();
             $('#fecha_ingreso').offset({ top: ($('#' + contenedor).offset().top + 5 + $('#' + contenedor).height()), left: ($('#' + contenedor).offset().left - ($('#fecha_ingreso').width() / 2)) });
 
@@ -69,7 +69,7 @@ function destruir(s) {
 }
 
 function mostrar_fecha(id, val, tipo) {
-    
+
     switch (tipo) {
         case "fecha":
             if (id == "fec_des") {
@@ -232,7 +232,7 @@ function asignacion_fecha() {
     $('#' + resp).val(`Desde: ${f_d} | Hasta: ${f_h}`)
     activa = !activa;
     $('#fecha_ingreso').hide();
-    if(typeof call=='function'){
+    if (typeof call == 'function') {
         call();
     }
     /*
