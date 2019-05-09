@@ -3,7 +3,7 @@
 <?php
 $Nmenu = 449;
 $NmenuX = 435;
-require_once('autentificacion/aut_verifica_menu.php');
+//require_once('autentificacion/aut_verifica_menu.php');
 require_once('sql/sql_report_t.php');
 $mod = $_GET['mod'];
 $titulo = "CHECK LIST";
@@ -355,7 +355,7 @@ function Guardar(){
         </tr>
         </table>
 </fieldset>
-<div id="listar"><table width="100%" align="center">
+<div class="listar"><table width="100%" align="center">
    <tr>
      <td class="etiqueta" width="45%">Check List:</td>
      <td class="etiqueta" width="15%">Valor:</td>

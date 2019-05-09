@@ -3,10 +3,10 @@
 /* Conexion a PostgreSQL Y MYSQL */
 /* ********************* */
 
-define("Sitio", "http://c122.gconex.com");
+define("Sitio", "localhost");
 //	define("Carpeta", "asistencia");
 //	define("Sitio", "http://c122.gconex.com");
-define("Carpeta", "ib_oesvica");
+define("Carpeta", "ibarti");
 define("Leng", "autentificacion/leng/index.php");
 define("Funcion", "funciones/funciones.php");
 //	define("Time_Sistema", 600);
@@ -20,7 +20,7 @@ define('host','localhost');
 define('user','root');
 //	define('pass','yth86smg9ual1fcj');
 define('pass','');
-define('database','ib2_oesvica');
+define('database','ib_oesvica');
 //define('port','5432');
 define('port','3306');
 define('db_charset','utf8');
