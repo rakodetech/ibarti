@@ -16,7 +16,7 @@ $cod_accion = $_POST["act"];
 $reporte =$_POST["reporte"];
 $archivo         = "rp_fic_audit";
 $where="";
-
+$titulo = "REPORTE DE AUDITORIA";
 if ($f_d != "" && $f_h != "") {
     $where .= " AND audit_ficha.fecha BETWEEN '$f_d' AND '$f_h'";
 }
@@ -135,6 +135,7 @@ if(isset($reporte)){
 		echo '<br><div>
 		<table>
 		<tbody>
+		<tr>
 		<th width="10%" class="etiqueta">Fecha</th>
         <th width="10%" class="etiqueta">Hora</th>
         <th width="15%" class="etiqueta">Usuario</th>
@@ -144,17 +145,16 @@ if(isset($reporte)){
         <th width="10%" class="etiqueta">Valor Anterior</th>
         <th width="10%" class="etiqueta">Valor Actual</th>
 		</tr>';
+		$f=0;
 
 		while ($datos = $bd->obtener_fila($query, 0)) {
-			if ($valor == 0) {
-				$fondo = 'fondo01';
-				$valor = 1;
-			} else {
-				$fondo = 'fondo02';
-				$valor = 0;
+			if ($f%2==0){
+				echo "<tr>";
+			}else{
+				echo "<tr class='class= odd_row'>";
 			}
-			echo '<tr class="' . $fondo . '" >
-	<td >' . $datos["fecha"] . '</p></td>
+			echo '
+	<td >' . $datos["fecha"] . '</td>
 	<td >' . $datos["hora"] . '</td>
 	<td >' . $datos["usuario"] . '</td>
 	<td >' . $datos["cod_ficha"] . '</td>

@@ -140,9 +140,9 @@ var error=0;
         <input type="submit" name="procesar" id="procesar" hidden="hidden">
         <input type="text" name="reporte" id="reporte" hidden="hidden">
 
-      <!--  <img class="imgLink" id="img_pdf" src="imagenes/pdf.gif" border="0"
+        <img class="imgLink" id="img_pdf" src="imagenes/pdf.gif" border="0"
         onclick="{$('#reporte').val('pdf');$('#procesar').click();}" width="25px" title="imprimir a pdf">
-			-->
+			
         <img class="imgLink" id="img_excel" src="imagenes/excel.gif" border="0"
         onclick="{$('#reporte').val('excel');$('#procesar').click();}" width="25px" title="imprimir a excel">
 		
