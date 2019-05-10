@@ -15,7 +15,7 @@ $query = $bd->consultar($sql);
 while ($datos=$bd->obtener_fila($query,0)){
 
 	$descripcion = "".$datos[1]." - (".$datos[2].")&nbsp;";
-	$codigo      = $datos[0];
+	$codigo      = $datos[2];
 ?>
 
 	<li onselect=" this.setText('<?php echo $codigo;?>').setValue('<?php echo  $codigo;?>') ">

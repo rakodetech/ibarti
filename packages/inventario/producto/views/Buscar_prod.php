@@ -9,6 +9,6 @@ $productos = $mov->buscar_productos($dato,$almacen);
 echo '<option value="">Seleccione..</option>';
   foreach ($productos as  $datos)
   {
-    echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
+    echo '<option value="'.$datos["item"].'">'.$datos["descripcion"].'</option>';
   }
 ?>

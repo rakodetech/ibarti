@@ -132,7 +132,7 @@ class Producto
     AND productos.cod_procedencia = prod_procedencia.codigo
     AND productos.cod_almacen = almacenes.codigo
     AND productos.cod_iva = iva.codigo
-    AND productos.codigo = '$cod'";
+    AND productos.item = '$cod'";
 
     $query = $this->bd->consultar($sql);
     return $this->producto = $this->bd->obtener_fila($query);
