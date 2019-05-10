@@ -23,9 +23,9 @@ if($metodo == 'modificar'){
 	$campo03     = $result['campo03'];
 	$campo04     = $result['campo04'];
 	$status      = $result['status'];
-  $disabled = 'disabled="disabled"';
+  $readonly = 'readonly="readonly"';
 	}else{
-  $disabled = '';
+  $readonly = '';
 	$codigo      = '';	
 	$codigo_onblur = "Add_ajax_maestros(this.value, 'ajax/validar_maestros.php', 'Contenedor', '$tabla')";
 	$descripcion = '';
@@ -43,7 +43,7 @@ if($metodo == 'modificar'){
     <tr>
       <td class="etiqueta">C&oacute;digo:</td>
       <td id="input01"><input type="text" name="codigo" maxlength="11" style="width:120px"
-                              value="<?php echo $codigo;?>" onblur="<?php echo $codigo_onblur;?>" <?php echo $disabled; ?>/>
+                              value="<?php echo $codigo;?>" onblur="<?php echo $codigo_onblur;?>" <?php echo $readonly;?>/>
         Activo: <input name="activo" type="checkbox"  <?php echo statusCheck("$status");?> value="T"/><br />
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
@@ -75,7 +75,6 @@ if($metodo == 'modificar'){
                 <input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />	
                 </span>
    </div>
-  
   		    <input name="metodo" id="metodo" type="hidden"  value="<?php echo $metodo;?>" />
             <input name="tabla" id="tabla" type="hidden"  value="<?php echo $tabla;?>" />            
             <input name="usuario" id="usuario" type="hidden"  value="<?php echo $usuario;?>" />            

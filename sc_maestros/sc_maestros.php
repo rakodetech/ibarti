@@ -46,6 +46,7 @@ $usuario  = $_POST['usuario'];
 						          cod_us_mod  = '$usuario',    fec_us_mod     = '$date',
 								  status      = '$activo'
 						    WHERE codigo = '$codigo'";
+						    echo $sql;
 			    $query = $bd->consultar($sql);	
 		break;
 		case 'borrar':			
@@ -55,7 +56,7 @@ $usuario  = $_POST['usuario'];
 		
 		}        
 	}
-	require_once('../funciones/sc_direccionar.php');  
+	//require_once('../funciones/sc_direccionar.php');  
 ?>
 <body>
 </body>

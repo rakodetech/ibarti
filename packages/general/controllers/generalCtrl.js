@@ -1,11 +1,10 @@
-var tabla,titulo,metodo = "";
+var tabla,titulo = "";
 
 function Cons_maestro(cod, metodo,tb,tit){
 	var error        = 0;
 	var errorMessage = ' ';
 	tabla=tb;
 	titulo=tit;
-	metodo=metodo;
 	if(error == 0){
 		CloseModal();
 		var parametros = { "codigo" : cod, "metodo": metodo, "titulo": titulo, "tb": tabla};
@@ -39,7 +38,7 @@ function guardar_registro(){
 	var campo04 = $('#campo04').val();
 	var usuario = $('#usuario').val();
 	var activo  = $('#activo').val();
-
+	var metodo = $("#maestro_metodo").val();
 	var parametros = {
 
 		'codigo':codigo,
@@ -50,7 +49,8 @@ function guardar_registro(){
 		'campo04':campo04,
 		'tabla':tabla,
 		'usuario':usuario,
-		'activo':activo
+		'activo':activo,
+		'metodo':metodo
 
 	}
 	

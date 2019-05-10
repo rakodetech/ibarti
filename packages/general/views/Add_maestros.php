@@ -18,7 +18,8 @@
       </td>
     </tr>	
 	 <tr> 
-         <td height="8" colspan="2" align="center"><hr></td>
+         <td height="8" colspan="2" align="center"><hr>
+          <input type="hidden" name="metodo" id="maestro_metodo" value="<?php echo $metodo;?>"></td>
      </tr>	
   </table>
   <div align="center"><span class="art-button-wrapper">

@@ -29,9 +29,9 @@ if(isset($_POST['metodo'])){
         $data =$bd->obtener_fila($query);
         $nro_ajuste   =  $data[0];
         $cod_ajuste = $nro_ajuste + 1;
-        $sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia, fecha,  motivo,
+        $sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia,cod_proveedor, fecha,  motivo,
         total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
-        VALUES ($cod_ajuste, '$tipo','$referencia','$fecha', '$descripcion',
+        VALUES ($cod_ajuste, '$tipo','$referencia','$proveedor','$fecha', '$descripcion',
         '$total',
         '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP); ";
         $bd->consultar($sql);
@@ -61,9 +61,9 @@ if(isset($_POST['metodo'])){
        $sql = "UPDATE ajuste SET anulado = 'T'
        WHERE codigo          = $nro_ajuste;";
        $bd->consultar($sql);
-       $sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia, fecha,  motivo,
+       $sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia,cod_proveedor, fecha,  motivo,
        total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod,anulado)
-       VALUES ($cod_ajuste, '$tipo','$referencia', '$fecha', '$descripcion',
+       VALUES ($cod_ajuste, '$tipo','$referencia','$proveedor', '$fecha', '$descripcion',
        '$total', '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP,'T'); ";
        $bd->consultar($sql);
      }

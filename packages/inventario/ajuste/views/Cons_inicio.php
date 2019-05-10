@@ -49,6 +49,14 @@ $listar  =  $ajuste->get();
          <input type="hidden" name="tabla" id="tabla" value="<?php echo $tabla;?>"/></td>
        </tr>
        <tr>
+        <td width="12%">Proveedro:</td>
+         <td width="14%"><select  name="proveedor" id="proveedor" style="width:110px;">
+        <option value="TODOS">TODOS</option>
+        <?php
+        $query01 = $bd->consultar($sql_proveedor);
+        while($row01=$bd->obtener_fila($query01,0)){
+         echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
+       }?></select></td>
          <td>Filtro Prod.:</td>
          <td id="select01">
           <select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">

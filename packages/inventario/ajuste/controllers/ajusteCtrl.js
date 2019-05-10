@@ -131,6 +131,7 @@ function save_ajuste() {
     var codigo = $("#ped_codigo").val();
     var referencia = $("#ped_referencia").val();
     var tipo = $("#ped_tipo").val();
+    var proveedor = $("#ped_proveedor").val();
     var fecha = $("#ped_fecha").val();
     var descripcion = $("#ped_descripcion").val();
     var total = $("#ped_total").val();
@@ -149,6 +150,7 @@ function save_ajuste() {
         var parametros = {
             nro_ajuste: codigo,
             tipo: tipo,
+            proveedor: proveedor,
             fecha: fecha,
             descripcion: descripcion,
             total: total,

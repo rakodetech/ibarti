@@ -23,6 +23,7 @@ if($metodo == 'modificar')
  $anulado   = "F";
  $codigo    = 0;
  $tipo       = $ajuste->get_tipo($ped["cod_tipo"]);
+ $proveedor       = $ajuste->get_proveedor($ped["cod_proveedor"]);
 }
 ?>
 
@@ -38,41 +39,52 @@ if($metodo == 'modificar')
     </div>
     <table width="95%" align="center">
       <tr>
-        <td height="8" colspan="4" align="center"><hr></td>
+        <td height="8" colspan="5" align="center"><hr></td>
+      </tr>
+            <tr>
+        <td width="10%" class="etiqueta">N. Movimiento:</td>
+
+        <td width="15%" class="etiqueta">Cod. Referencia: </td>
+        <td width="25%%" class="etiqueta">Proveedor:</td>
+         <td width="25%" class="etiqueta">Tipo de Movimiento:</td>
+        <td width="25%" class="etiqueta">Fecha</td>
       </tr>
       <tr>
-        <td colspan="3"></td>
-        <td width="15%" class="etiqueta">Cod. Referencia: <input type="text" id="ped_referencia" title="Referencia"  placeholder="Referencia" value="<?php echo $ped['referencia'];?>" style="width: 200px;" required></td>
-      </tr>
-      <tr>
-        <td width="15%" class="etiqueta">N. Movimiento:</td>
-        <td width="25%" class="etiqueta">Tipo de Movimiento:</td>
-        <td width="40%" class="etiqueta">Descripcion</td>
-        <td width="20%" class="etiqueta">Fecha</td>
-      </tr>
-      <tr>
-        <td > 
-          <input type="text" id="ped_codigo" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
+                <td > 
+          <input type="text" id="ped_codigo" style="width: 100px;" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
         </td>
-        <td>          
-          <select id="ped_tipo" required style="width:200px" onchange="Selec_tipo(this.value)">
-            <option value="<?php echo $ped['cod_tipo'];?>"><?php echo $ped['tipo'];?></option>
+                <td ><input type="text" id="ped_referencia" title="Referencia"  placeholder="Referencia" value="<?php echo $ped['referencia'];?>" style="width: 200px;" required></td>
+                <td ><select id="ped_proveedor" required>
+            <option value="<?php echo $ped['cod_proveedor'];?>" style="width: 210px;" ><?php echo $ped['proveedor'];?></option>
             <?php
-            foreach ($tipo as  $datos) {
+            foreach ($proveedor as  $datos) {
               echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
             }?>
+          </select></td>
+          <td> <select id="ped_tipo" required  onchange="Selec_tipo(this.value)">
+            <option value="<?php echo $ped['cod_tipo'];?>" style="width: 210px;" ><?php echo $ped['tipo'];?></option>
+            <?php
+            foreach ($tipo as  $datos) {
+             echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
+           }?>
           </select>
         </td>
-        <td>       
-          <textarea id="ped_descripcion"  cols="60" rows="2"><?php echo $ped['motivo'];?></textarea>
-        </td>
-        <td>   
+                <td>   
           <input type="date" id="ped_fecha" value="<?php echo $ped['fecha'];?>" placeholder="Fecha de Emisión"
           required>
         </td>
       </tr>
+<tr>
+        <td width="50%" colspan="3" class="etiqueta">Descripcion</td>
+      </tr>
       <tr>
-        <td height="8" colspan="4" align="center"><hr></td>
+        <td colspan="5">       
+          <textarea id="ped_descripcion"  cols="60" rows="3"><?php echo $ped['motivo'];?></textarea>
+        </td>
+
+      </tr>
+      <tr>
+        <td height="8" colspan="5" align="center"><hr></td>
       </tr>
     </table>
     <div id="ajuste_det"></div>

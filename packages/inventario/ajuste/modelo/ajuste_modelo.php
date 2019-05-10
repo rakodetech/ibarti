@@ -16,9 +16,10 @@ class Ajuste
   }
 
   public function get(){
-    $sql = " SELECT a.*, b.codigo cod_tipo, b.descripcion tipo
-    FROM ajuste a, prod_mov_tipo b
+    $sql = " SELECT a.*, b.codigo cod_tipo, b.descripcion tipo,c.nombre proveedor
+    FROM ajuste a, prod_mov_tipo b, proveedores c
     WHERE a.cod_tipo = b.codigo
+    AND a.cod_proveedor = c.codigo
     ORDER BY a.codigo ASC";
     $query = $this->bd->consultar($sql);
 
@@ -58,6 +59,7 @@ class Ajuste
     $this->datos   = array();
     $this->datos = array('codigo' => '',        'motivo' => '',
      'cod_tipo' =>'',               'tipo' => 'Seleccione...',
+      'cod_proveedor' =>'',               'proveedor' => 'Seleccione...',
      'referencia' => '',
      'descripcion' => '',           'fecha' => date("d-m-Y"),
      'total' => 0                   );
@@ -67,10 +69,11 @@ class Ajuste
 
   public function editar($cod){
     $this->datos   = array();
-    $sql = "  SELECT a.*, b.descripcion tipo
-    FROM ajuste a, prod_mov_tipo b
+    $sql = "  SELECT a.*, b.descripcion tipo, c.nombre proveedor
+    FROM ajuste a, prod_mov_tipo b, proveedores c
     WHERE a.codigo = $cod
     AND a.cod_tipo = b.codigo
+    AND a.cod_proveedor = c.codigo
     ORDER BY a.codigo DESC";
     $query = $this->bd->consultar($sql);
     return  $this->datos = $this->bd->obtener_fila($query);
@@ -100,9 +103,10 @@ class Ajuste
   }
 
   public function buscar($dato){
-    $sql = "SELECT a.*, b.codigo cod_tipo, b.descripcion tipo
-    FROM ajuste a, prod_mov_tipo b
+    $sql = "SELECT a.*, b.codigo cod_tipo, b.descripcion tipo,c.nombre proveedor
+    FROM ajuste a, prod_mov_tipo b,proveedores c
     WHERE a.cod_tipo = b.codigo
+    AND a.cod_proveedor = c.codigo
     AND (a.codigo LIKE '%$dato%'
     OR a.motivo LIKE '%$dato%'
     OR b.codigo LIKE '%$dato%'
@@ -129,6 +133,18 @@ class Ajuste
     return $this->datos;
   }
 
+ public function get_proveedor($cod){
+    $this->datos   = array();
+    $sql = " SELECT codigo, nombre descripcion FROM proveedores
+    WHERE status = 'T'
+    ORDER BY 2 ASC ";
+    $query = $this->bd->consultar($sql);
+
+    while ($datos= $this->bd->  obtener_fila($query)) {
+      $this->datos[] = $datos;
+    }
+    return $this->datos;
+  }
   public function get_tipo_aplicar($cod){
     $this->datos   = array();
     $sql = " SELECT tipo_movimiento FROM prod_mov_tipo WHERE codigo = '$cod'";

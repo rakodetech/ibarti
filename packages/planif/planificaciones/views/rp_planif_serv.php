@@ -1,7 +1,6 @@
 <?php
 define("SPECIALCONSTANT",true);
 require "../../../../autentificacion/aut_config.inc.php";
-require "../../../general/modelo/general_modelo.php";
 include_once('../../../../funciones/funciones.php');
 require_once "../../../../".class_bdI;
 require_once "../../../../".Leng;
