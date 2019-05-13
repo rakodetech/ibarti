@@ -8,8 +8,8 @@ require_once("../".class_bdI);
 require_once("../".Leng);
 $bd = new DataBase();
 
-$f_d = conversion($_POST["fecha_desde"]);
-$f_h = conversion($_POST["fecha_hasta"]);
+$f_d =$_POST["fecha_desde"];
+$f_h =$_POST["fecha_hasta"];
 $ficha = $_POST["trabajador"];
 $usuario = $_POST["user"];
 $cod_accion = $_POST["act"];
