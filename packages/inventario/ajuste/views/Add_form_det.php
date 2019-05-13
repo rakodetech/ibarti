@@ -97,7 +97,7 @@ if($metodo == "agregar"){
 <script language="JavaScript" type="text/javascript">
   new Autocomplete("ped_producto", function() { 
     this.setValue = function(id) {
-      $("#stdID").value = id;
+      $("#stdID").val(id);
       Selec_producto(id);
     }
     if (this.value.length < 1) return ;

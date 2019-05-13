@@ -33,6 +33,41 @@ var total = 0;
 
 var stock_actual=0;//Esta variable es para controlar que los ajustes de salida no sobrepasen el stock actual por almacen
 
+function buscarMovimiento(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
+
+    var error = 0;
+    var errorMessage = ' ';
+
+    var fecha_desde      = $("#fecha_desde").val();
+    var fecha_hasta  = $("#fecha_hasta").val();
+    var tipo_mov   = $("#tipo_mov").val();
+    var proveedor     = $("#proveedor").val();
+
+    if( (fechaValida(fecha_desde) !=  true || fechaValida(fecha_hasta) != true)&&(fecha_desde!="" || fecha_hasta !="")){
+        var errorMessage = ' Campos De Fecha Incorrectas ';
+        var error = error+1;
+    }
+
+    if(error == 0){
+        var parametros = {fecha_desde:fecha_desde, fecha_hasta:fecha_hasta,tipo_mov:tipo_mov,proveedor:proveedor};
+        $.ajax({
+            data: parametros,
+            url: 'packages/inventario/ajuste/views/Buscar_movimiento.php',
+            type: 'post',
+            success: function(response) {
+                $("#listar_ajuste").html(response);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }else{
+        toastr.error(errorMessage);
+    }
+}
+
+
 function Cons_ajuste() {
     var parametros = {}
     $.ajax({
@@ -72,11 +107,11 @@ function Form_ajuste(cod, metodo, tipo,anulado) {
                     $("#add_renglon_etiqueta").hide();
                     $("#add_renglon").hide();
                     if(typeof tipo != "undefined"){
-                     Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
-                 }
-             }
-         },
-         error: function(xhr, ajaxOptions, thrownError) {
+                       Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
+                   }
+               }
+           },
+           error: function(xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);
         }
@@ -162,36 +197,34 @@ function save_ajuste() {
             aplicar: aplicar,
             referencia:referencia
         };
-        
-       $.ajax({
-        data: parametros,
-        url: 'packages/inventario/ajuste/modelo/ajuste.php',
-        type: 'post',
-        success: function(response) {
-           console.log(response);
-           var resp = JSON.parse(response);
-           if (resp.error) {
-            alert(resp.mensaje);
-        } else {
-            if (metodo == "agregar") {
-                if (confirm("Actualización Exitosa!.. \n Desea AGREGAR un NUEVO REGISTRO?")) {
-                    Form_ajuste("", "agregar");
-                } else {
-                    Cons_ajuste();
+        $.ajax({
+            data: parametros,
+            url: 'packages/inventario/ajuste/modelo/ajuste.php',
+            type: 'post',
+            success: function(response) {
+             var resp = JSON.parse(response);
+             if (resp.error) {
+                alert(resp.mensaje);
+            } else {
+                if (metodo == "agregar") {
+                    if (confirm("Actualización Exitosa!.. \n Desea AGREGAR un NUEVO REGISTRO?")) {
+                        Form_ajuste("", "agregar");
+                    } else {
+                        Cons_ajuste();
+                    }
+                } else if (metodo == "modificar") {
+                    alert("Actualización Exitosa!..");
                 }
-            } else if (metodo == "modificar") {
-                alert("Actualización Exitosa!..");
             }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
         }
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
+    });
+    } else {
+        alert(errorMessage);
     }
-});
-   } else {
-    alert(errorMessage);
-}
 }
 
 function anular_ajuste() {
@@ -213,6 +246,7 @@ function anular(){
 
             var codigo = $("#ped_codigo").val();
             var referencia = $("#ped_referencia").val();
+            var proveedor = $("#ped_proveedor").val();
             var tipo = '9999';
             var fecha = $("#ped_fecha").val();
             var total = $("#ped_total").val();
@@ -224,7 +258,7 @@ function anular(){
               aplicar = 'IN';  
           }
           var ped_reng = JSON.stringify(Ped_detalle);
-        
+
           var us = $("#usuario").val();
           if (reng_num == 0) {
             error = 1;
@@ -244,33 +278,34 @@ function anular(){
                 us: us,
                 metodo: metodo,
                 aplicar: aplicar,
-                referencia: referencia
+                referencia: referencia,
+                proveedor: proveedor
             };
 
-        $.ajax({
-        data: parametros,
-        url: 'packages/inventario/ajuste/modelo/ajuste.php',
-        type: 'post',
-        success: function(response) {
-           var resp = JSON.parse(response);
-           if (resp.error) {
-            alert(resp.mensaje);
+            $.ajax({
+                data: parametros,
+                url: 'packages/inventario/ajuste/modelo/ajuste.php',
+                type: 'post',
+                success: function(response) {
+                 var resp = JSON.parse(response);
+                 if (resp.error) {
+                    alert(resp.mensaje);
+                } else {
+                    alert("Actualización Exitosa!..");
+                    CloseModal();
+                    Cons_ajuste()
+                }
+                $("#ped_descripcion_anular").val("");
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
         } else {
-            alert("Actualización Exitosa!..");
-            CloseModal();
-            Cons_ajuste()
+            alert(errorMessage);
         }
-        $("#ped_descripcion_anular").val("");
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
     }
-});
-   } else {
-    alert(errorMessage);
-}
-}
 }else{
     alert("La descripcion es requerida");
 }
@@ -334,18 +369,16 @@ function Agregarajuste() {
 
 
 function mostrar_costo_promedio(codigo,cod_almacen) {
-    console.log(codigo,cod_almacen);
     $.ajax({
         data: { 'codigo': codigo, 'almacen': cod_almacen },
         url: 'packages/inventario/producto/views/Get_costo_prom.php',
         type: 'post',
         success: function(response) {
-         console.log(response);
-         var resp = JSON.parse(response);
-         costo = resp[0];
-         $("#ped_costo").val(resp[0]);
-     },
-     error: function(xhr, ajaxOptions, thrownError) {
+           var resp = JSON.parse(response);
+           costo = resp[0];
+           $("#ped_costo").val(resp[0]);
+       },
+       error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
     }
@@ -361,7 +394,6 @@ function cantidad_maxima(cod_producto,cod_almacen) {
            // console.log(response);
            var resp = JSON.parse(response);
            stock_actual = resp[0];
-           console.log(stock_actual);
            $("#ped_cantidad").attr('max',resp[0]);
        },
        error: function(xhr, ajaxOptions, thrownError) {
@@ -392,10 +424,20 @@ function Selec_producto(codigo) {
 
 function Selec_tipo(codigo) {
     if ((codigo != "") && (codigo != "undefined")) {
+        if(codigo == "COM"){
+            $("#etiqueta_proveedor").show();
+            $("#select_proveedor").show();
+            $("#ped_proveedor").attr("required",true);
+        }else{
+            $("#ped_proveedor").val('');
+            $("#ped_proveedor").attr("required",false);
+            $("#etiqueta_proveedor").hide();
+            $("#select_proveedor").hide();
+        }
         var metodo = $("#ped_metodo").val();
         Form_ajuste_det(ajuste_cod,metodo,codigo);
     } else {
-        alert("Debe seleccionar un Tipo de Ajuste");
+        alert("Debe seleccionar un Tipo de Movimiento");
     }
 }
 
@@ -749,9 +791,9 @@ function Add_productos(almacen){
     url: 'ajax/Add_stock_productos.php',
     type: 'post',
     success: function(response) {
-     $("#productos").html(response);
- },
- error: function(xhr, ajaxOptions, thrownError) {
+       $("#productos").html(response);
+   },
+   error: function(xhr, ajaxOptions, thrownError) {
     alert(xhr.status);
     alert(thrownError);
 }

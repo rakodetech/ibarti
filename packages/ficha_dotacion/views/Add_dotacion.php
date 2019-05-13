@@ -15,7 +15,7 @@ if(count($reng) > 0){
     <td><input type="text" value="'.$datos[4].'" id="cant_'.$valor.'" style="width:100px"/></td>
     <td>
     <img  border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" id="modificar_renglon" onclick="Modificar_renglon(\''.$datos[2].'\',\''.$datos[5].'\','.$valor.')" disabled title="Modificar renglon"  />
-    <img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" id="eliminar_renglon" onclick="eliminar_renglon(\''.$datos[2].'\',\''.$datos[5].'\')" title="Modificar renglon" /
+    <img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" onclick="eliminar_renglon(\''.$datos[2].'\',\''.$datos[5].'\')" title="Modificar renglon" /
     </td>
     </tr>';
   }

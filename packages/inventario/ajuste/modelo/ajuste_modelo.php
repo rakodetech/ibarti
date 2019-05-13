@@ -20,7 +20,7 @@ class Ajuste
     FROM ajuste a, prod_mov_tipo b, proveedores c
     WHERE a.cod_tipo = b.codigo
     AND a.cod_proveedor = c.codigo
-    ORDER BY a.codigo ASC";
+    ORDER BY a.codigo ASC LIMIT 100";
     $query = $this->bd->consultar($sql);
 
     while ($datos= $this->bd->  obtener_fila($query)) {
@@ -59,7 +59,7 @@ class Ajuste
     $this->datos   = array();
     $this->datos = array('codigo' => '',        'motivo' => '',
      'cod_tipo' =>'',               'tipo' => 'Seleccione...',
-      'cod_proveedor' =>'',               'proveedor' => 'Seleccione...',
+     'cod_proveedor' =>'',               'proveedor' => 'Seleccione...',
      'referencia' => '',
      'descripcion' => '',           'fecha' => date("d-m-Y"),
      'total' => 0                   );
@@ -102,16 +102,23 @@ class Ajuste
     return $this->datos;
   }
 
-  public function buscar($dato){
+  public function buscar($fecha_desde,$fecha_hasta,$mov_tipo,$proveedor){
+ $WHERE = " WHERE a.cod_tipo = b.codigo
+    AND a.cod_proveedor = c.codigo ";
+    if($fecha_desde != '' && $fecha_hasta != ''){
+      $WHERE .= " AND a.fecha BETWEEN '$fecha_desde' AND '$fecha_hasta' ";
+    }
+    if($mov_tipo != 'TODOS'){
+      $WHERE .= " AND b.codigo = '$mov_tipo'";
+    }
+    if($proveedor != 'TODOS'){
+      $WHERE .= " AND  c.codigo = '$proveedor'";
+    }
     $sql = "SELECT a.*, b.codigo cod_tipo, b.descripcion tipo,c.nombre proveedor
     FROM ajuste a, prod_mov_tipo b,proveedores c
-    WHERE a.cod_tipo = b.codigo
-    AND a.cod_proveedor = c.codigo
-    AND (a.codigo LIKE '%$dato%'
-    OR a.motivo LIKE '%$dato%'
-    OR b.codigo LIKE '%$dato%'
-    OR a.fecha LIKE '%$dato%')                
+    $WHERE       
     ORDER BY a.codigo ASC  ";
+    
     $query         = $this->bd->consultar($sql);
     while ($datos= $this->bd->obtener_fila($query)) {
       $this->datos[] = $datos;
@@ -133,7 +140,7 @@ class Ajuste
     return $this->datos;
   }
 
- public function get_proveedor($cod){
+  public function get_proveedor($cod){
     $this->datos   = array();
     $sql = " SELECT codigo, nombre descripcion FROM proveedores
     WHERE status = 'T'

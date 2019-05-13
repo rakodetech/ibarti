@@ -23,7 +23,9 @@ if(isset($_POST['metodo'])){
       $anulado = "F";
       $nro_ajuste_c = "";
       if($metodo == "agregar"){
-
+        if($proveedor == ""){
+          $proveedor = '9999';
+        }
         $sql = " SELECT a.n_ajuste FROM control a ";
         $query = $bd->consultar($sql);
         $data =$bd->obtener_fila($query);

@@ -11,6 +11,10 @@ $sql_contracto = "SELECT contractos.codigo, contractos.descripcion
                     FROM contractos WHERE contractos.`status` = 'T'
                 ORDER BY descripcion ASC ";
 
+$sql_proveedor  = "SELECT proveedores.codigo, proveedores.nombre descripcion
+                    FROM proveedores WHERE proveedores.`status` = 'T'
+                ORDER BY descripcion ASC ";
+
 $sql_n_contracto = " SELECT ficha_n_contracto.codigo, ficha_n_contracto.descripcion
                        FROM ficha_n_contracto
 					  ORDER BY 2 ASC ";

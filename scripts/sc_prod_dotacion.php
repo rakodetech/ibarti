@@ -58,10 +58,11 @@ if(isset($_POST['proced'])){
 		$data =$bd->obtener_fila($query,0);
 		$nro_ajuste   =  $data[0];
 		$cod_ajuste = $nro_ajuste + 1;
-		$sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia, fecha,  motivo,
+		$sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia, cod_proveedor,fecha,  motivo,
 		total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
-		VALUES ($cod_ajuste, 'DOT','$codigo', '$fecha', '$descripcion',
+		VALUES ($cod_ajuste, 'DOT','$codigo','9999', '$fecha', '$descripcion',
 		'','$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP); ";
+
 		$query = $bd->consultar($sql);
 		$sql = " UPDATE control SET n_ajuste = $cod_ajuste; ";
 		$query = $bd->consultar($sql);
