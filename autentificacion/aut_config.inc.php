@@ -20,7 +20,7 @@ define('host','localhost');
 define('user','root');
 //	define('pass','yth86smg9ual1fcj');
 define('pass','');
-define('database','ib_oesvica');
+define('database','ib2_oesvica');
 //define('port','5432');
 define('port','3306');
 define('db_charset','utf8');

@@ -37,7 +37,7 @@ if($metodo == 'modificar'){
 	}
 ?>
 <div id="Contenedor" class="mensaje"></div>
-<input type="hidden" name="codigos" value="<?php echo $codigo; ?>">
+<!--<input type="hidden" name="codigos" value="<?php echo $codigo; ?>">-->
   <fieldset class="fieldset">
   <legend>DATOS BASICOS <?php echo $titulo;?> </legend>
      <table width="80%" align="center">

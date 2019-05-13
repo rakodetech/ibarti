@@ -1,15 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<title>Documento sin t&iacute;tulo</title>
-</head>
 <?php
+define("SPECIALCONSTANT", true);
 
+include_once('../../../funciones/funciones.php');
 require("../../../autentificacion/aut_config.inc.php");
-require_once("../../../".class_bd);
-require_once("../../../".Funcion);
+require_once("../../../".class_bdI);
 $bd = new DataBase();
+$result = array();
 //include_once('../funciones/mensaje_error.php');
 $tabla    = $_POST['tabla'];
 $tabla_id = 'codigo';
@@ -25,38 +21,77 @@ $activo      = statusbd($_POST['activo']);
 
 $usuario  = $_POST['usuario']; 
 
-	if (isset($_POST['metodo'])){
-		
-		$i = $_POST['metodo'];	
-		switch ($i) {
+if (isset($_POST['metodo'])){
+
+	$i = $_POST['metodo'];	
+	switch ($i) {
 		case 'agregar':
-	
- 			    $sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
-                                            cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
-                                    VALUES ('$codigo', '$descripcion',
-									        '$campo01', '$campo02', '$campo03', '$campo04', 
-									        '$usuario', '$date', '$usuario','$date' , '$activo')";						  
-			    $query = $bd->consultar($sql);	  			   	
+
+		try {
+
+			$sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
+			cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
+			VALUES ('$codigo', '$descripcion',
+			'$campo01', '$campo02', '$campo03', '$campo04', 
+			'$usuario', '$date', '$usuario','$date' , '$activo')";	
+
+			$query   = $bd->consultar($sql);
+			$result['sql'] = $sql;
+
+		}catch (Exception $e) {
+			$error =  $e->getMessage();
+			$result['error'] = true;
+			$result['mensaje'] = $error;
+
+			$bd->log_error("Aplicacion", "sc_linea.php",  "$usuario", "$error", "$sql");
+		}
+
 		break;					
-		case 'modificar':			
-					$sql ="UPDATE $tabla SET   
-						          codigo          = '$codigo',     descripcion    = '$descripcion',
-								  campo01     = '$campo01',    campo02        = '$campo02',
-								  campo03     = '$campo03',    campo04        = '$campo04', 
-						          cod_us_mod  = '$usuario',    fec_us_mod     = '$date',
-								  status      = '$activo'
-						    WHERE codigo = '$codigo'";
-			    $query = $bd->consultar($sql);	
+		case 'modificar':		
+
+
+		try {
+
+			$sql ="UPDATE $tabla SET   
+			codigo          = '$codigo',     descripcion    = '$descripcion',
+			campo01     = '$campo01',    campo02        = '$campo02',
+			campo03     = '$campo03',    campo04        = '$campo04', 
+			cod_us_mod  = '$usuario',    fec_us_mod     = '$date',
+			status      = '$activo'
+			WHERE codigo = '$codigo'";
+			$query = $bd->consultar($sql);	
+			$result['sql'] = $sql;
+
+		}catch (Exception $e) {
+			$error =  $e->getMessage();
+			$result['error'] = true;
+			$result['mensaje'] = $error;
+
+			$bd->log_error("Aplicacion", "sc_linea.php",  "$usuario", "$error", "$sql");
+		}	
+		
 		break;
 		case 'borrar':			
-					$sql ="DELETE FROM $tabla WHERE  $tabla_id = '$codigo'";
-			    $query = $bd->consultar($sql);	
+
+
+		try {
+
+			$sql ="DELETE FROM $tabla WHERE  $tabla_id = '$codigo'";
+			$query = $bd->consultar($sql);	
+			$result['sql'] = $sql;
+
+		}catch (Exception $e) {
+			$error =  $e->getMessage();
+			$result['error'] = true;
+			$result['mensaje'] = $error;
+
+			$bd->log_error("Aplicacion", "sc_linea.php",  "$usuario", "$error", "$sql");
+		}	
 		break;		
 		
-		}        
-	}
-	
+	}        
+}
+print_r(json_encode($result));
+return json_encode($result);
+
 ?>
-<body>
-</body>
-</html>
