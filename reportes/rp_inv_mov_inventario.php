@@ -45,7 +45,7 @@ $titulo  = " MOVIMIENTO DE INVENTARIO ";
         url: 'ajax_rp/Add_inv_mov_inventario.php',
         type: 'post',
         success: function(response) {
-        $("#listar").html(response);
+        $(".listar").html(response);
       },
       error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
@@ -98,7 +98,7 @@ $titulo  = " MOVIMIENTO DE INVENTARIO ";
    </td>
  </tr>
 </table><hr />
-<div id="listar">
+<div class="listar">
   <!--<table width="100%" border="0" align="center">
     <thead>
       <tr class="fondo00">

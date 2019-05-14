@@ -16,9 +16,10 @@ $archivo         = "rp_inv_mov_inventario_".$date."";
 $titulo          = " REPORTE MOVIMIENTO DE INVENTARIO \n";
 
 if(isset($reporte)){
-	$where = " WHERE ajuste_reng.cod_almacen = almacenes.codigo AND ajuste_reng.cod_producto = productos.codigo
-	AND ajuste.codigo = ajuste_reng.cod_ajuste AND ajuste.cod_tipo = ajuste_tipo.codigo
-	AND ajuste.fecha BETWEEN '$fecha_D' AND '$fecha_H' ";
+	$where = " WHERE ajuste_reng.cod_almacen = almacenes.codigo AND ajuste_reng.cod_producto = productos.item
+AND ajuste.codigo = ajuste_reng.cod_ajuste AND ajuste.cod_tipo = prod_mov_tipo.codigo 
+AND prod_sub_lineas.codigo = productos.cod_sub_linea AND tallas.codigo = productos.cod_talla
+AND ajuste.fecha BETWEEN '$fecha_D' AND '$fecha_H' ";
 
 	if($almacen != "TODOS"){
 		$where .= " AND ajuste_reng.cod_almacen = '$almacen' ";
@@ -32,11 +33,11 @@ if(isset($reporte)){
 		$where .= " AND ajuste.cod_tipo= '$tipo' ";
 	}
 
-	$sql = " SELECT ajuste.fecha,ajuste_tipo.descripcion ajuste,almacenes.descripcion almacen,productos.descripcion producto,ajuste_reng.cantidad, ajuste_reng.costo,ajuste_reng.neto importe,
-	ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio 
-	FROM ajuste,ajuste_reng,ajuste_tipo,almacenes,productos
-	$where
-	ORDER BY 1 ASC ";
+	$sql = " SELECT ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion), productos.descripcion ) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
+ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio ,ajuste_reng.aplicar
+FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos,prod_sub_lineas,tallas
+$where
+ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";

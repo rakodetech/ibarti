@@ -15,6 +15,7 @@ $result = array();
 
 $where = " WHERE ajuste_reng.cod_almacen = almacenes.codigo AND ajuste_reng.cod_producto = productos.item
 AND ajuste.codigo = ajuste_reng.cod_ajuste AND ajuste.cod_tipo = prod_mov_tipo.codigo 
+AND prod_sub_lineas.codigo = productos.cod_sub_linea AND tallas.codigo = productos.cod_talla
 AND ajuste.fecha BETWEEN '$fecha_D' AND '$fecha_H' ";
 
 if($almacen != "TODOS"){
@@ -29,9 +30,9 @@ if($tipo != "TODOS"){
 	$where .= " AND ajuste.cod_tipo= '$tipo' ";
 }
 
-$sql = " SELECT ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, productos.descripcion producto,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
+$sql = " SELECT ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion), productos.descripcion ) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
 ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio ,ajuste_reng.aplicar
-FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos
+FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos,prod_sub_lineas,tallas
 $where
 ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 
@@ -71,7 +72,7 @@ while($rows=$bd->obtener_name($query)){
 		<td class="texto">'.$datos["fecha"].'</td>
 		<td class="texto">'.longitud($datos["ajuste"]).'</td>
 		<td class="texto">'.longitud($datos["almacen"]).'</td>
-		<td class="texto">'.longitud($datos["producto"]).'</td>
+		<td class="texto">'.$datos["producto"].'</td>
 		<td class="texto">'.$signo.''.$datos["cantidad"].'</td>
 		<td class="texto">'.$datos["costo"].'</td>
 		<td class="texto">'.$datos["neto"].'</td>

@@ -6,13 +6,13 @@ $bd = new DataBase();
 
 $codigo        = $_POST['codigo'];
 
-$where = " WHERE b.cod_producto = a.item ";
+$where = " WHERE b.cod_producto = a.item AND a.cod_talla = c.codigo AND d.codigo = a.cod_sub_linea";
 
 if($codigo != "TODOS"){
 	$where .= " AND b.cod_almacen= '$codigo' ";
 }
 
-$sql = " SELECT a.item, a.descripcion FROM productos a ,stock b 
+$sql = " SELECT a.item, IF(d.talla = 'T', CONCAT(a.descripcion,' ',c.descripcion), a.descripcion ) descripcion FROM productos a ,stock b ,tallas c,prod_sub_lineas d
 $where  ORDER BY 2 ASC ";
 
 $query = $bd->consultar($sql);

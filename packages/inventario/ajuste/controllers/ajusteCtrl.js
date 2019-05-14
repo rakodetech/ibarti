@@ -107,11 +107,11 @@ function Form_ajuste(cod, metodo, tipo,anulado) {
                     $("#add_renglon_etiqueta").hide();
                     $("#add_renglon").hide();
                     if(typeof tipo != "undefined"){
-                     Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
-                 }
-             }
-         },
-         error: function(xhr, ajaxOptions, thrownError) {
+                       Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
+                   }
+               }
+           },
+           error: function(xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);
         }
@@ -203,8 +203,8 @@ function save_ajuste() {
                 url: 'packages/inventario/ajuste/modelo/ajuste.php',
                 type: 'post',
                 success: function(response) {
-                   var resp = JSON.parse(response);
-                   if (resp.error) {
+                 var resp = JSON.parse(response);
+                 if (resp.error) {
                     alert(resp.mensaje);
                 } else {
                     if (metodo == "agregar") {
@@ -289,8 +289,8 @@ function anular(){
                 url: 'packages/inventario/ajuste/modelo/ajuste.php',
                 type: 'post',
                 success: function(response) {
-                   var resp = JSON.parse(response);
-                   if (resp.error) {
+                 var resp = JSON.parse(response);
+                 if (resp.error) {
                     alert(resp.mensaje);
                 } else {
                     alert("Actualización Exitosa!..");
@@ -376,11 +376,11 @@ function mostrar_costo_promedio(codigo,cod_almacen) {
         url: 'packages/inventario/producto/views/Get_costo_prom.php',
         type: 'post',
         success: function(response) {
-         var resp = JSON.parse(response);
-         costo = resp[0];
-         $("#ped_costo").val(resp[0]);
-     },
-     error: function(xhr, ajaxOptions, thrownError) {
+           var resp = JSON.parse(response);
+           costo = resp[0];
+           $("#ped_costo").val(resp[0]);
+       },
+       error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
     }
@@ -580,8 +580,9 @@ function Agregar_renglon() {
             costo: costo,
             neto: neto
         };
-        Ped_detalle.push(Ped_detalleX);
 
+        Ped_detalle.push(Ped_detalleX);
+        console.log(Ped_detalleX,Ped_detalle);
         var tr = ('<tr id="tr_' + reng_num + '"></tr>');
         var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + reng_num + '" readonly style="width:100px"></td>');
         var td02 = ('<td><input type="text" id="prod_' + reng_num + '" value="' + producto_des + '" readonly style="width:200px"></td>');
@@ -635,6 +636,7 @@ function Modificar_renglon(codigo) {
     if($("#ped_aplicar").val() == 'OUT'){
         cantidad_maxima(Ped_detalle[index]["cod_producto"] ,Ped_detalle[index]["cod_almacen"]);
     }
+    console.log(codigo,index,Ped_detalle[index]);
     var prod_option = '<option value="' + Ped_detalle[index]["cod_producto"] + '">' + Ped_detalle[index]["producto"] + '</option>';
     $("#ped_producto").html(prod_option);
     var prod_almacen = '<option value="' + Ped_detalle[index]["cod_almacen"] + '">' + Ped_detalle[index]["almacen"] + '</option>';
@@ -674,6 +676,7 @@ function Actualizar_renglon() {
         $("#costo_" + idX + "").val(costo);
         $("#neto_" + idX + "").val(neto);
         $("#ped_almacen").prop('disabled', false);
+        console.log(Ped_detalle[index],'idX:'+idx);
         Cancelar_renglon();
         Cal_total();
     }else {
@@ -793,9 +796,9 @@ function Add_productos(almacen){
     url: 'ajax/Add_stock_productos.php',
     type: 'post',
     success: function(response) {
-     $("#productos").html(response);
- },
- error: function(xhr, ajaxOptions, thrownError) {
+       $("#productos").html(response);
+   },
+   error: function(xhr, ajaxOptions, thrownError) {
     alert(xhr.status);
     alert(thrownError);
 }
