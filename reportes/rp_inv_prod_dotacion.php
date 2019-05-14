@@ -21,13 +21,14 @@ $sql = "SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
 //query Cliente
 $queryc = $bd->consultar($sql);
 
-$sql02 = "SELECT productos.descripcion AS producto, prod_lineas.descripcion AS linea,
+$sql02 = "SELECT IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion), productos.descripcion ) producto, prod_lineas.descripcion AS linea,
                            prod_sub_lineas.descripcion AS sub_linea, prod_dotacion_det.cantidad
-                      FROM prod_dotacion_det ,  productos, prod_lineas , prod_sub_lineas
+                      FROM prod_dotacion_det ,  productos, prod_lineas , prod_sub_lineas,tallas
                      WHERE  prod_dotacion_det.cod_dotacion = '$codigo'
-                       AND prod_dotacion_det.cod_producto = productos.codigo
+                       AND prod_dotacion_det.cod_producto = productos.item
                        AND productos.cod_linea = prod_lineas.codigo
-                       AND productos.cod_sub_linea = prod_sub_lineas.codigo";
+                       AND productos.cod_sub_linea = prod_sub_lineas.codigo
+AND productos.cod_talla = tallas.codigo";
 //query Producto
 $queryp = $bd->consultar($sql02);
 
