@@ -14,14 +14,16 @@ IFNULL((SELECT MAX(prod_dotacion.fec_us_mod) FROM prod_dotacion, prod_dotacion_d
 WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
 AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
 AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha
-and productos.codigo = prod_dotacion_det.cod_producto) ,'SIN DOTACION') ult_dotacion
+and productos.codigo = prod_dotacion_det.cod_producto) ,'SIN DOTACION') ult_dotacion,
+ficha.cod_cliente,ficha.cod_ubicacion
 FROM ficha_dotacion ,
-productos,prod_sub_lineas,tallas
+productos,prod_sub_lineas,tallas,ficha
 WHERE
 ficha_dotacion.cod_ficha = '$ficha'
 AND ficha_dotacion.cod_sub_linea = productos.cod_sub_linea
 AND ficha_dotacion.cod_sub_linea = prod_sub_lineas.codigo
 AND ficha_dotacion.cod_talla = tallas.codigo
+AND ficha_dotacion.cod_ficha = ficha.cod_ficha
 GROUP BY productos.cod_sub_linea";
 $query         = $bd->consultar($sql);
 while ($datos= $bd->obtener_fila($query)) {

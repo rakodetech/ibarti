@@ -141,8 +141,14 @@ function mostrar_dotacion_ficha(cod_ficha){
 			if(resp.length > 0){
 				if (resp.error) {
 					alert(resp.mensaje);
+					$("$cliente_ficha").val("");
+					$("$cliente_ficha").val("");
 				} else {
-					resp.forEach((d)=>{
+					resp.forEach((d,i)=>{
+						if(i==0){
+							$("$cliente_ficha").val(d.cod_cliente);
+							$("$ubicacion_ficha").val(d.cod_ubicacion);
+						}
 						nuevafila= "<tr><td>" +
 						d.sub_linea + "</td><td>" +
 						d.talla + "</td><td>" +
@@ -158,6 +164,8 @@ function mostrar_dotacion_ficha(cod_ficha){
 			$("#linea_1").attr('disabled',true);
 			nuevafila= '<tr><td colspan="4">Sin Configuracion</td></tr>';
 			$("#datos_dotacion_detalle").append(nuevafila);
+			$("$cliente_ficha").val("");
+			$("$ubicacion_ficha").val("");
 		}
 			//$("#datos_dotacion").show();
 		},
