@@ -45,7 +45,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 				  '<img src="imagenes/loading.gif" onclick="" class="imgLink" />';
 				}
 				if (ajax.readyState==4){
-		     	  document.getElementById(contenido).innerHTML = ajax.responseText;
+		     	  $(".listar").html(ajax.responseText);
 				   document.getElementById("cont_img").innerHTML =
 				  '<img class="imgLink" src="imagenes/actualizar.png" border="0" onclick="Add_filtroX()">';
 				}
@@ -133,7 +133,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
             <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION['usuario_cod'];?>"/> </td>
       </tr>
 </table><hr />
-<div id="listar">&nbsp;</div>
+<div class="listar">&nbsp;</div>
 <div align="center"><br/>
         <span class="art-button-wrapper">
             <span class="art-button-l"> </span>

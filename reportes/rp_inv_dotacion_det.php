@@ -28,10 +28,16 @@ if(isset($reporte)){
 
 	$where = "  WHERE DATE_FORMAT(prod_dotacion.fec_dotacion, '%Y-%m-%d') BETWEEN  \"$fecha_D\" AND \"$fecha_H\"
    	              AND prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
+   	              AND prod_dotacion.cod_cliente = clientes.codigo
+   	              AND prod_dotacion.cod_ubicacion = clientes_ubicacion.codigo
 			      AND prod_dotacion_det.cod_producto = productos.item
 			      AND productos.cod_linea = prod_lineas.codigo
 			      AND productos.cod_sub_linea = prod_sub_lineas.codigo
-			      AND v_ficha.cod_ficha = prod_dotacion.cod_ficha ";
+			      AND v_ficha.cod_ficha = prod_dotacion.cod_ficha 
+			      AND ajuste.referencia = prod_dotacion.codigo
+				AND ajuste_reng.cod_ajuste = ajuste.codigo
+				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
+				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
@@ -57,17 +63,17 @@ if(isset($reporte)){
 	}
 
 
- $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
-                 prod_dotacion.fec_us_ing,  v_ficha.rol,
-				 v_ficha.cod_ficha, v_ficha.cedula,
-				 v_ficha.nombres AS trabajador, prod_dotacion.descripcion,
-                 prod_lineas.descripcion AS linea, prod_sub_lineas.descripcion AS sub_linea,
-				 productos.descripcion AS producto,productos.item serial, prod_dotacion_det.cantidad,
-				 Valores(prod_dotacion.anulado) AS anulado
+ $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion, prod_dotacion.fec_us_ing,
+                 v_ficha.rol, v_ficha.cod_ficha,
+                 v_ficha.cedula, v_ficha.nombres AS trabajador,
+                 prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
+                 prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',productos.cod_talla,') ') AS producto,
+                 productos.item serial,
+                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, SUM(ajuste_reng.importe) importe,Valores(prod_dotacion.anulado) anulado
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
-                 prod_sub_lineas, v_ficha
-                 $where
-        ORDER BY 2 ASC ";
+                 prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng
+          $where
+        ORDER BY 2 ASC  ";
 
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
@@ -76,16 +82,16 @@ if(isset($reporte)){
 
 		$query01  = $bd->consultar($sql);
 		 echo "<table border=1>";
- 	 echo "<tr><th> Código </th><th> Fecha </th><th> Fecha Ingreso</th><th> ".$leng['rol']." </th>
+ 	 echo "<tr><th> Código </th><th> Fecha </th><th> Fecha Ingreso</th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th><th> ".$leng['rol']." </th>
 	           <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th><th> Descripción </th>
 			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Serial </th><th> Cantidad </th>
-			   <th> Anulado</th></tr>";
+			   <th> Importe</th><th> Anulado</th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
-		 echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
+		 echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[3]."</td>
 		           <td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
 				   <td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td>
-				   <td>".$row01[12]."</td><td>".$row01[13]."</td></tr>";
+				   <td>".$row01[12]."</td><td>".$row01[15]."</td><td>".$row01[16]."</td></tr>";
 		}
 		 echo "</table>";
 	}
