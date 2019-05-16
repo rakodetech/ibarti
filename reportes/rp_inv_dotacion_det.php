@@ -69,7 +69,7 @@ if(isset($reporte)){
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
                  prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',productos.cod_talla,') ') AS producto,
                  productos.item serial,
-                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, SUM(ajuste_reng.importe) importe,Valores(prod_dotacion.anulado) anulado
+                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto importe,Valores(prod_dotacion.anulado) anulado
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng
           $where

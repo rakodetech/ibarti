@@ -57,7 +57,7 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
                  v_ficha.cedula, v_ficha.nombres AS trabajador,
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
                  prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',tallas.descripcion,') ') AS producto,
-                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.importe
+                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng,tallas
           $where
@@ -91,14 +91,14 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
         echo '<tr class="'.$fondo.'">
 			      <td class="texto">'.$datos["codigo"].'</td>
 			      <td class="texto">'.$datos["fec_dotacion"].'</td>
-				  <td class="texto">'.$datos["cod_ficha"].'</td>
 				  <td class="texto">'.$datos["cliente"].'</td>
 				  <td class="texto">'.$datos["ubicacion"].'</td>
+				  <td class="texto">'.$datos["cod_ficha"].'</td>
 				  <td class="texto">'.longitud($datos["rol"]).'</td>
 				  <td class="texto">'.longitud($datos["sub_linea"]).'</td>
 				  <td class="texto">'.$datos["producto"].'</td>
 				  <td class="texto">'.$datos["cantidad"].'</td>
-				  <td class="texto">'.$datos["importe"].'</td>
+				  <td class="texto">'.$datos["neto"].'</td>
            </tr>';
         };?>
     </table>
