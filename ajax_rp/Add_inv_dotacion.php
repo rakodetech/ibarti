@@ -21,6 +21,7 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
    	              AND prod_dotacion.cod_ubicacion = clientes_ubicacion.codigo
 			      AND prod_dotacion_det.cod_producto = productos.item
 			      AND productos.cod_linea = prod_lineas.codigo
+			      AND productos.cod_talla = tallas.codigo
 			      AND productos.cod_sub_linea = prod_sub_lineas.codigo
 			      AND v_ficha.cod_ficha = prod_dotacion.cod_ficha 
 			      AND ajuste.referencia = prod_dotacion.codigo
@@ -55,10 +56,10 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
                  v_ficha.rol, v_ficha.cod_ficha,
                  v_ficha.cedula, v_ficha.nombres AS trabajador,
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
-                 prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',productos.item,') ') AS producto,
+                 prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',tallas.descripcion,') ') AS producto,
                  prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, SUM(ajuste_reng.importe) importe
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
-                 prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng
+                 prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng,tallas
           $where
         ORDER BY 2 ASC ";
 ?>
