@@ -24,6 +24,8 @@ $codigo      = $_POST["codigo"];
 $fecha       = conversion($_POST["fecha"]);
 $descripcion = $_POST["descripcion"];
 $trabajador  = $_POST["trabajador"];
+$cliente  = $_POST["cliente"];
+$ubicacion  = $_POST["ubicacion"];
 $incr        = $_POST["incremento"];
 
 $campo01     = $_POST["campo01"];
@@ -38,10 +40,11 @@ $proced   = $_POST['proced'];
 $metodo   = $_POST['metodo'];
 $nro_ajuste_c = "";
 if(isset($_POST['proced'])){
-	$sql    = "$SELECT $proced('$metodo', '$codigo', '$fecha', '$trabajador',
+	$sql    = "$SELECT $proced('$metodo', '$codigo', '$fecha','$cliente','$ubicacion', '$trabajador',
 	'$descripcion',
 	'$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo')";
 	$query = $bd->consultar($sql);
+	echo $sql;
 
 // procedimiento debe retonrar un valor pediente.. OJO ///
 // y eliminar el SELECT MAX
@@ -62,7 +65,6 @@ if(isset($_POST['proced'])){
 		total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
 		VALUES ($cod_ajuste, 'DOT','$codigo','9999', '$fecha', '$descripcion',
 		'','$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP); ";
-
 		$query = $bd->consultar($sql);
 		$sql = " UPDATE control SET n_ajuste = $cod_ajuste; ";
 		$query = $bd->consultar($sql);
@@ -109,7 +111,7 @@ if(isset($_POST['proced'])){
 
 }
 
-	require_once('../funciones/sc_direccionar.php');
+	//require_once('../funciones/sc_direccionar.php');
 ?>
 <body>
 

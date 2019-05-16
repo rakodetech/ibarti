@@ -136,18 +136,19 @@ function mostrar_dotacion_ficha(cod_ficha){
 		type:  'post',
 		success:  function (response) {
 			var nuevafila= "";
+			console.log(response);
 			var resp = JSON.parse(response);
 			$("#datos_dotacion_detalle").html("");
 			if(resp.length > 0){
 				if (resp.error) {
 					alert(resp.mensaje);
-					$("$cliente_ficha").val("");
-					$("$cliente_ficha").val("");
+					$("#cliente_ficha").val("");
+					$("#cliente_ficha").val("");
 				} else {
 					resp.forEach((d,i)=>{
 						if(i==0){
-							$("$cliente_ficha").val(d.cod_cliente);
-							$("$ubicacion_ficha").val(d.cod_ubicacion);
+							$("#cliente_ficha").val(d.cod_cliente);
+							$("#ubicacion_ficha").val(d.cod_ubicacion);
 						}
 						nuevafila= "<tr><td>" +
 						d.sub_linea + "</td><td>" +
@@ -164,8 +165,8 @@ function mostrar_dotacion_ficha(cod_ficha){
 			$("#linea_1").attr('disabled',true);
 			nuevafila= '<tr><td colspan="4">Sin Configuracion</td></tr>';
 			$("#datos_dotacion_detalle").append(nuevafila);
-			$("$cliente_ficha").val("");
-			$("$ubicacion_ficha").val("");
+			$("#cliente_ficha").val("");
+			$("#ubicacion_ficha").val("");
 		}
 			//$("#datos_dotacion").show();
 		},
@@ -384,7 +385,9 @@ $proced      = "p_prod_dotacion";
 							<td class="etiqueta"><?php echo $leng['trabajador'];?>:</td>
 							<td colspan="2">
 								<input  id="stdName" type="text" size="36" value="<?php echo $trabajador;?>"/>
-								<span id="input03"><input type="hidden" name="trabajador" id="stdID" value="<?php echo $ficha;?>"/><br />
+								<span id="input03"><input type="hidden" name="trabajador" id="stdID" value="<?php echo $ficha;?>"/>
+									<input type="hidden" name="cliente" id="cliente_ficha">"
+									<input type="hidden" name="ubicacion" id="ubicacion_ficha"><br />
 									<span class="textfieldRequiredMsg">Debe De Seleccionar Un Campo De la Lista.</span>
 									<span class="textfieldInvalidFormatMsg">El Formato es Invalido</span> </span></td>
 									<td colspan="2" class="etiqueta">Anulado: <?php echo valorS($anulado);?>
