@@ -88,10 +88,10 @@ class Existencia
 
   public function buscar($linea,$sub_linea,$producto,$almacen){
     $sql = "SELECT c.descripcion almacen, b.item serial, b.descripcion producto, a.stock_actual, 
-      IFNULL((SELECT d.costo FROM ajuste_reng d
+      IFNULL((SELECT d.importe FROM ajuste_reng d
     WHERE  d.cod_almacen = a.cod_almacen 
     AND d.cod_producto = a.cod_producto
-    ORDER BY d.cod_ajuste DESC, d.reng_num DESC LIMIT 1),'SIN DATA') cos_actual,
+    ORDER BY d.cod_ajuste DESC, d.reng_num DESC LIMIT 1),'SIN DATA') importe,
     IFNULL((SELECT e.cos_promedio FROM ajuste_reng e
     WHERE e.cod_almacen = a.cod_almacen 
     AND e.cod_producto = a.cod_producto
@@ -121,10 +121,10 @@ class Existencia
 
     public function buscar_inicio(){
     $sql = "SELECT c.descripcion almacen, b.item serial, b.descripcion producto, a.stock_actual, 
-      IFNULL((SELECT d.costo FROM ajuste_reng d
+      IFNULL((SELECT d.importe FROM ajuste_reng d
     WHERE  d.cod_almacen = a.cod_almacen 
     AND d.cod_producto = a.cod_producto
-    ORDER BY d.cod_ajuste DESC, d.reng_num DESC LIMIT 1),'SIN DATA') cos_actual,
+    ORDER BY d.cod_ajuste DESC, d.reng_num DESC LIMIT 1),'SIN DATA') importe,
     IFNULL((SELECT e.cos_promedio FROM ajuste_reng e
     WHERE e.cod_almacen = a.cod_almacen 
     AND e.cod_producto = a.cod_producto

@@ -38,10 +38,10 @@ if(isset($generar_tipo)){
     $where  .= " AND a.cod_almacen = '$almacen' ";
   }
 
-  $sql = " SELECT a.cod_producto,b.descripcion producto,d.descripcion linea, e.descripcion sub_linea,c.descripcion almacen,      (SELECT d.costo FROM ajuste_reng d
+  $sql = " SELECT a.cod_producto,b.descripcion producto,d.descripcion linea, e.descripcion sub_linea,c.descripcion almacen,      (SELECT d.importe FROM ajuste_reng d
     WHERE  d.cod_almacen = a.cod_almacen 
     AND d.cod_producto = a.cod_producto
-    ORDER BY d.cod_ajuste DESC, d.reng_num DESC LIMIT 1) cos_actual,
+    ORDER BY d.cod_ajuste DESC, d.reng_num DESC LIMIT 1) importe,
     (SELECT e.cos_promedio FROM ajuste_reng e
     WHERE e.cod_almacen = a.cod_almacen 
     AND e.cod_producto = a.cod_producto
@@ -58,7 +58,7 @@ if(isset($generar_tipo)){
     $query  = $bd->consultar($sql);
     echo "<table border=1>
     <tr><th colspan='8'>".$titulo."</th></tr>
-    <tr><th> Serial </th><th>".$leng["producto"]." <th>Linea</th><th> Sub Linea</th><th>Almacen</th><th>Ultimo Costo</th><th>Ultimo Costo Promedio</th> <th>Stock</th> </tr>";
+    <tr><th> Serial </th><th>".$leng["producto"]." <th>Linea</th><th> Sub Linea</th><th>Almacen</th><th>Importe</th><th>Ultimo Costo Promedio</th> <th>Stock</th> </tr>";
 
     while ($dato = $bd->obtener_fila($query)){
      echo "<tr><td>".$dato[0]."</td><td>".$dato[1]."</td><td>".$dato[2]."</td><td>".$dato[3]."</td>

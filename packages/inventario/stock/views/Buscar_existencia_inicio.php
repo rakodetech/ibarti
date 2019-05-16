@@ -10,7 +10,7 @@ foreach ($lista as  $datos) {
 	<td>'.$datos["producto"].'</td>
 	<td>'.$datos["serial"].'</td>
 	<td>'.$datos["stock_actual"].'</td>
-	<td>'.$datos["cos_actual"].'</td>
+	<td>'.$datos["importe"].'</td>
 	<td>'.$datos["cos_prom_actual"].'</td>
 	</tr>';
 }
