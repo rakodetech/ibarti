@@ -46,7 +46,7 @@ class Existencia
 
   public function get_prod_productos($sub_linea){
     $this->datos   = array();
-    $sql = " SELECT a.item codigo, a.descripcion FROM productos a
+    $sql = " SELECT a.item codigo, CONCAT(a.descripcion,' (',a.item,') ') descripcion FROM productos a
     WHERE a.`status` = 'T'";
     if($sub_linea != "TODOS"){
       $sql .= " AND a.cod_sub_linea = '$sub_linea'";
