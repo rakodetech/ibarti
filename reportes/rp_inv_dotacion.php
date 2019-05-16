@@ -81,7 +81,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 					<?php
 	   			$query01 = $bd->consultar($sql_producto);
 		 		while($row01=$bd->obtener_fila($query01,0)){
-					 echo '<option value="'.$row01[2].'">'.$row01[1].'</option>';
+					 echo '<option value="'.$row01[2].'">'.$row01[1].' ('.$row01[2].')</option>';
 			 	}
 			   ?></select></td>
       <td width="4%" id="cont_img"><img class="imgLink" src="imagenes/actualizar.png" border="0" onclick="Add_filtroX()"></td>

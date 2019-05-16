@@ -153,7 +153,7 @@ $sql_armamento    = "SELECT productos.codigo, productos.descripcion, productos.i
                       ORDER BY 2, 3 ASC";
 
 $sql_producto     = "SELECT productos.codigo, productos.descripcion, productos.item AS serial
-                       FROM productos , control
+                       FROM productos
                    ORDER BY 2, 3 ASC";
 
 
