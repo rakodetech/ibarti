@@ -8,7 +8,7 @@ $bd = new DataBase();
 $producto   = $_POST['producto'];
 $almacen    = $_POST['almacen'];
 $cod_ficha    = $_POST['cod_ficha'];
- $sql = "SELECT IF(FORMAT(stock.stock_actual,0) > FORMAT(ficha_dotacion.cantidad,0) ,FORMAT(stock.stock_actual,0) ,FORMAT(ficha_dotacion.cantidad,0) ) stock_actual
+ $sql = "SELECT IF(FORMAT(stock.stock_actual,0) < FORMAT(ficha_dotacion.cantidad,0) ,FORMAT(stock.stock_actual,0) ,FORMAT(ficha_dotacion.cantidad,0) ) stock_actual
     FROM stock,ficha_dotacion,productos 
 WHERE stock.cod_producto = '$producto' 
 AND stock.cod_almacen = '$almacen'

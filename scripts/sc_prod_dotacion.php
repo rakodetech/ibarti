@@ -44,7 +44,6 @@ if(isset($_POST['proced'])){
 	'$descripcion',
 	'$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo')";
 	$query = $bd->consultar($sql);
-	echo $sql;
 
 // procedimiento debe retonrar un valor pediente.. OJO ///
 // y eliminar el SELECT MAX
@@ -111,7 +110,7 @@ if(isset($_POST['proced'])){
 
 }
 
-	//require_once('../funciones/sc_direccionar.php');
+	require_once('../funciones/sc_direccionar.php');
 ?>
 <body>
 
