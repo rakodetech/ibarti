@@ -13,8 +13,7 @@ $sql = "SELECT  CONCAT(prod_sub_lineas.descripcion,' (',prod_sub_lineas.codigo,'
 IFNULL((SELECT CONCAT(MAX(prod_dotacion.fec_us_mod),'  (',prod_dotacion_det.cantidad,')') FROM prod_dotacion, prod_dotacion_det
 WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
 AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
-AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha
-and productos.item = prod_dotacion_det.cod_producto) ,'SIN DOTACION') ult_dotacion,
+AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha) ,'SIN DOTACION') ult_dotacion,
 ficha.cod_cliente,ficha.cod_ubicacion
 FROM ficha_dotacion ,
 productos,prod_sub_lineas,tallas,ficha
