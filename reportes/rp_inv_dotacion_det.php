@@ -133,7 +133,7 @@ if(isset($reporte)){
             <td width='25%'>".$row[6]."</td>
             <td width='15%'>".$row[10]." (".$row[11].") </td>
             <td width='10%' style='text-align:center;'>".$row[12]."</td>
-            <td width='10%' style='text-align:center;'>".$row[13]."</td></tr>";
+            <td width='10%' style='text-align:center;'>".$row[16]."</td></tr>";
 
              $f++;
          }
