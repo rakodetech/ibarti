@@ -681,11 +681,12 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 			<td class="etiqueta"><?php echo $leng["ubicacion"];?>:</td>
 			<td id="cl_ubicacion"><select name="ubicacion" style="width:200px">
 				<option value="<?php echo $cod_ubicacion;?>"><?php echo $ubicacion;?></option>
-				<?php  	$sql = " SELECT clientes_ubicacion.codigo, clientes_ubicacion.descripcion
+				<?php  	$sql = " 
+			SELECT clientes_ubicacion.codigo, clientes_ubicacion.descripcion
 				FROM clientes_ubicacion
 				WHERE clientes_ubicacion.cod_cliente = clientes_ubicacion.cod_cliente
 				AND clientes_ubicacion.`status` = 'T'
-				AND clientes_ubicacion.codigo <> '$cod_ubicacion' ORDER BY 2 ASC ";
+				AND clientes_ubicacion.codigo <> '$cod_ubicacion' AND clientes_ubicacion.cod_cliente = '$cod_cliente' ORDER BY 2 ASC ";
 				$query = $bd->consultar($sql);
 				while($datos=$bd->obtener_fila($query,0)){
 					?>
