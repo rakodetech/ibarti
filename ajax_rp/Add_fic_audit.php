@@ -10,7 +10,7 @@ $f_h = $_POST["fecha_hasta"];
 $ficha = $_POST["ficha"];
 $usuario = $_POST["user"];
 $cod_accion = $_POST["accion"];
-
+$campo = $_POST['campo'];
 if ($f_d != "" && $f_h != "") {
     $where .= " AND audit_ficha.fecha BETWEEN '$f_d' AND '$f_h'";
 }
@@ -25,6 +25,10 @@ if ($usuario != "") {
 
 if ($cod_accion != "") {
     $where .= " AND acciones.codigo = '$cod_accion'";
+}
+
+if ($campo != "") {
+    $where .= " AND audit_ficha_det.campo = '$campo'";
 }
 
 $sql =

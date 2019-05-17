@@ -14,6 +14,7 @@ $ficha = $_POST["trabajador"];
 $usuario = $_POST["user"];
 $cod_accion = $_POST["act"];
 $reporte =$_POST["reporte"];
+$campo = $_POST['campo'];
 $archivo         = "rp_fic_audit";
 $where="";
 $titulo = "REPORTE DE AUDITORIA";
@@ -23,6 +24,10 @@ if ($f_d != "" && $f_h != "") {
 
 if ($ficha != "") {
     $where .= " AND audit_ficha.cod_ficha = '$ficha'";
+}
+
+if ($campo != "") {
+    $where .= " AND audit_ficha_det.campo = '$campo'";
 }
 
 if ($usuario != "") {

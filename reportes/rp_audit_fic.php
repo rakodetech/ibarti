@@ -20,7 +20,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	var accion  = $('#act').val();
 	var fecha_desde  = $('#fec_d').val();
 	var fecha_hasta  = $('#fec_h').val();
-	
+	var campo = $('#campo').val();
 var error=0;
 	
    
@@ -31,7 +31,8 @@ var error=0;
 						"user":usuario,
 						"accion":accion,
 						"fecha_desde" :fecha_desde,
-						"fecha_hasta" : fecha_hasta
+						"fecha_hasta" : fecha_hasta,
+						"campo":campo
 				};
 				$.ajax({
 						data:  parametros,
@@ -100,17 +101,18 @@ var error=0;
 			?>
 		</select>
 		</td>
-		<td width="5%" rowspan="2">
+		<td width="5%" rowspan="3">
 		<img class="imgLink" id="img_actualizar" src="imagenes/actualizar.png" border="0" onclick=" Add_filtroX()">
 		</td>
 		<td width="15%"></td>
 	</tr>
+	<tr><td colspan="9" height="5"></td></tr>
 	<tr>
 		<td>
 		Trabajador:
 		</td>
 			
-			<td colspan="3">
+			<td colspan="2">
 		<input id="stdName" type="text"  disabled="disabled" onclick="{$('#stdID').val('');$('#stdName').val('');}"  />
 				<input type="hidden" name="trabajador" id="stdID" value="" />
 		<select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">
@@ -121,7 +123,19 @@ var error=0;
 					<option value="nombres"> Nombre </option>
 					<option value="apellidos"> Apellido </option>
 				</select></td>
-    <td>
+    <td colspan="3">
+			Campo:
+		<select name="campo" id="campo" style="width:150px;margin-left: 5px;">
+			<option value="">TODOS</option>
+			<?php 
+				$sql= "SELECT campo  FROM audit_ficha_det GROUP BY campo ORDER BY 1 ASC";
+				$query = $bd->consultar($sql);
+				while ($datos=$bd->obtener_fila($query,0)){
+					echo "<option value='$datos[0]'>$datos[0]</option>";
+				}
+			?>
+		</select>
+
 			&nbsp; <input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu;?>" />
 			<input type="hidden" name="mod" id="mod" value="<?php echo $mod;?>" />
 		</td>            
