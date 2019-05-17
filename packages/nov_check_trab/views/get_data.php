@@ -4,7 +4,7 @@ require("../../../autentificacion/aut_config.inc.php");
 require_once("../../../" . class_bd);
 $bd = new DataBase();
 
-
+$metodo = $_POST['metodo'];
 $clasificacion = $_POST['clasif'];
 $tipo = $_POST['tipo'];
 $cedula = $_POST['codigo_trabajador'];
