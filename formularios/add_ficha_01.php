@@ -682,7 +682,7 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 			<td id="cl_ubicacion"><select name="ubicacion" style="width:200px">
 				<option value="<?php echo $cod_ubicacion;?>"><?php echo $ubicacion;?></option>
 				<?php  	$sql = " 
-			SELECT clientes_ubicacion.codigo, clientes_ubicacion.descripcion
+				SELECT clientes_ubicacion.codigo, clientes_ubicacion.descripcion
 				FROM clientes_ubicacion
 				WHERE clientes_ubicacion.cod_cliente = clientes_ubicacion.cod_cliente
 				AND clientes_ubicacion.`status` = 'T'

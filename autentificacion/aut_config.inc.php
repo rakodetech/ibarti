@@ -3,7 +3,7 @@
 /* Conexion a PostgreSQL Y MYSQL */
 /* ********************* */
 
-define("Sitio", "localhost");
+define("Sitio", "http://localhost");
 //	define("Carpeta", "asistencia");
 //	define("Sitio", "http://c122.gconex.com");
 define("Carpeta", "ibarti");
