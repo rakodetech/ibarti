@@ -1,0 +1,802 @@
+<?xml version = "1.0" encoding="Windows-1252" standalone="yes"?>
+<VFPData>
+	<xsd:schema id="VFPData" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="VFPData" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="csnvaria" minOccurs="0" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="co_var">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="12"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="des_var" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="60"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="uso" type="xsd:int" minOccurs="0"/>
+								<xsd:element name="tipo" type="xsd:int" minOccurs="0"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+				<xsd:anyAttribute namespace="http://www.w3.org/XML/1998/namespace" processContents="lax"/>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<csnvaria>
+		<co_var>A001</co_var>
+		<des_var>Sueldo Mensual</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A003</co_var>
+		<des_var>Bono Vehiculo/Moto</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A004</co_var>
+		<des_var>Beca de Estudio</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A301</co_var>
+		<des_var>No Cancelar Bono Vacacional "N"</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B001</co_var>
+		<des_var>Horas Extras Diurnas</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B002</co_var>
+		<des_var>Horas Extras Nocturno</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B004</co_var>
+		<des_var>Monto Comisiones</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B005</co_var>
+		<des_var>Bono de Asistencia</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B006</co_var>
+		<des_var>Número de Hijos Nacidos</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B007</co_var>
+		<des_var>Efectividad del Matrimonio "S"</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B008</co_var>
+		<des_var>Días Adicionales Laborados</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B009</co_var>
+		<des_var>Anticipo de Prestaciones Sociales</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B010</co_var>
+		<des_var>Anticipo de Utilidades</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B012</co_var>
+		<des_var>Retroactivo de Sueldo</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B100</co_var>
+		<des_var>Asignación con Caracter Salarial</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B101</co_var>
+		<des_var>Asignación sin Caracter Salarial</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>D001</co_var>
+		<des_var>Cuota H.C.M.</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>D002</co_var>
+		<des_var>Cuota H.C.M. Familiares</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>D003</co_var>
+		<des_var>Cuota Uniformes</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>D004</co_var>
+		<des_var>Cuota I.N.A.V.I.</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>D008</co_var>
+		<des_var>Factor Centecimal Fondo de Ahorro Trabajador %</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E001</co_var>
+		<des_var>Ausencias no Justificadas (Días)</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E002</co_var>
+		<des_var>Horas NO Trabajadas</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E003</co_var>
+		<des_var>Exceso de Celular</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E004</co_var>
+		<des_var>Anticipo de Prest.Sociales</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E005</co_var>
+		<des_var>Anticipo de Utilidades</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E100</co_var>
+		<des_var>Deducción con Caracter Salarial</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E101</co_var>
+		<des_var>Deducción sin Caracter Salarial</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>R001</co_var>
+		<des_var>No Retener SSO-SPF No(N)</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>R003</co_var>
+		<des_var>No Retener LPH  No(N)</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>R005</co_var>
+		<des_var>Factor Centecimal ISLR</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V001</co_var>
+		<des_var>Fecha Mes Anterior/Base Salario Integral Prestaciones</des_var>
+		<uso>1</uso>
+		<tipo>3</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V002</co_var>
+		<des_var>Días de Utilidades Casos Especiales</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V003</co_var>
+		<des_var>Fecha de Ultima Nómina para Utilidades</des_var>
+		<uso>3</uso>
+		<tipo>3</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V005</co_var>
+		<des_var>Días de Bono de Fin de Año - Casos Especiales</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V006</co_var>
+		<des_var>Fecha de Inicio Mes Anterior/Base para Vacaciones</des_var>
+		<uso>3</uso>
+		<tipo>3</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V007</co_var>
+		<des_var>Fecha de Corte Anual para Vacaciones</des_var>
+		<uso>3</uso>
+		<tipo>3</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Y011</co_var>
+		<des_var>Trabajador Liquidado/Quincena con Vacaciones</des_var>
+		<uso>3</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z001</co_var>
+		<des_var>Acum. Sdo. Año Anterior/Días Adic. Préstaciones</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z002</co_var>
+		<des_var>Acum. Inicial Prestaciones Sociales</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z003</co_var>
+		<des_var>Acum. Inicial Intereses de Prestaciones Sociales</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z004</co_var>
+		<des_var>Acum. Inicial Anticipos de Prestaciones Sociales</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z005</co_var>
+		<des_var>Acum. Inicial Anticipos de Utilidades</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z006</co_var>
+		<des_var>Acum. Sdo. Año Inicio Operaciones</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z007</co_var>
+		<des_var>Acum. Inicial Días de Vacaciones Vencidas</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z008</co_var>
+		<des_var>Acum.  Inicial Días de Bono Vacacional</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z009</co_var>
+		<des_var>Acum. Inicial de Intereses Pagados</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z010</co_var>
+		<des_var>Acum. Inicial de Fondo de Ahorro</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z011</co_var>
+		<des_var>Acum. Inicial Sueldo para Vacaciones Esq. Promedio Anual</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z405</co_var>
+		<des_var>Días de Bono Vacacional Pendiente</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z406</co_var>
+		<des_var>Días de Preaviso Trabajados</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z407</co_var>
+		<des_var>Días Adicionales Laborados</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z500</co_var>
+		<des_var>Acum. de Prestaciones Sociales</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z501</co_var>
+		<des_var>Acum. Intereses de Prestaciones</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z503</co_var>
+		<des_var>Acum. Anticipos de Prestaciones</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z504</co_var>
+		<des_var>Acum. Anticipos de Utilidades</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z700</co_var>
+		<des_var>Acum. Días de Prestaciones</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z701</co_var>
+		<des_var>Acum. Días de Vacaciones Causadas</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z703</co_var>
+		<des_var>Acum. Intereses Cancelados</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z704</co_var>
+		<des_var>Acum. Fondo de Ahorro</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z900</co_var>
+		<des_var>Total Disponible de Prestaciones</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z901</co_var>
+		<des_var>Total Disponible de Intereses Prestaciones</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z902</co_var>
+		<des_var>Total Días Disponibles de Vacaciones</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z904</co_var>
+		<des_var>Total Disponibles de Fondo de Ahorro</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z903</co_var>
+		<des_var>Total Días Sin Cancelar de Bono Vacacional</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V004</co_var>
+		<des_var>Omitir/Pagar para Bono de Alimentación Si(S) No(N)</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z702</co_var>
+		<des_var>Acum. Días de Bono Vacacional Causado</des_var>
+		<uso>3</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Z012</co_var>
+		<des_var>Acum. Inicial Días de Prestaciones</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A000</co_var>
+		<des_var>Sueldo en Otra Moneda</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>T001</co_var>
+		<des_var>Tipo de Cta. Bancaria ("1" Ahorros, "0" Corriente)</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>T002</co_var>
+		<des_var>Categoría Ocupación:A,B,C,D,E,F,G.ver planilla declaracación</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>T200</co_var>
+		<des_var>Status Empleado LPH (I - Incluir ,M - Modifi.,D - Desincorp)</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>T201</co_var>
+		<des_var>Intereses LPH</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A005</co_var>
+		<des_var>Feriado Laborado</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A006</co_var>
+		<des_var>Dia Libre Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A007</co_var>
+		<des_var>Domingo Trabajado Empleados? -S-</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A008</co_var>
+		<des_var>Domingo Completo? -S-</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A009</co_var>
+		<des_var>Domingos Oficiales</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A010</co_var>
+		<des_var>Redoble Diruno</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B013</co_var>
+		<des_var>Dias Boono Nocturno</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>D005</co_var>
+		<des_var>DEDUCCION DE PRESTAMO</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>Y046</co_var>
+		<des_var>Bono de Alimentación Doble Turno ? (S)</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>T003</co_var>
+		<des_var>Trabajador de Guardia</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A018</co_var>
+		<des_var>Bono alimentación Adicionas (Cantidad)</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B102</co_var>
+		<des_var>Dias de Reintegro</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B003</co_var>
+		<des_var>Dias Bono Nocturno</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B060</co_var>
+		<des_var>Dias de Bonos Nocturno Mixto</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V050</co_var>
+		<des_var>TALLA DE CAMISA</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V051</co_var>
+		<des_var>TALLA DE PANTALON</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V052</co_var>
+		<des_var>TALLA DE ZAPATO</des_var>
+		<uso>1</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>V053</co_var>
+		<des_var>FECHA DE DOTACION</des_var>
+		<uso>1</uso>
+		<tipo>3</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E006</co_var>
+		<des_var>Dias de descanso en calculo Hora 11 y 12</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A002</co_var>
+		<des_var>Dias Trabajado para Hora 11 y 12, Sodexho</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B103</co_var>
+		<des_var>Permisos Remunerados</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>B104</co_var>
+		<des_var>Permisos no Remunerados</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X001</co_var>
+		<des_var>Salario Diurno</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X002</co_var>
+		<des_var>Salario Mixto</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X003</co_var>
+		<des_var>Salario Nocturno</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X004</co_var>
+		<des_var>Descanso Legal</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X005</co_var>
+		<des_var>Retirado</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A305</co_var>
+		<des_var>Feriado</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A019</co_var>
+		<des_var>Reposo</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A020</co_var>
+		<des_var>Reposo</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>T100</co_var>
+		<des_var>Rif del  Trabajador</des_var>
+		<uso>1</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X006</co_var>
+		<des_var>Vacaciones</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X007</co_var>
+		<des_var>Feriado Diurno Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X008</co_var>
+		<des_var>Feriado Nocturno Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A202</co_var>
+		<des_var>Utilidades Noviembre y Diciembre 2009</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>D201</co_var>
+		<des_var>Prestamos Contra Utilidades</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X010</co_var>
+		<des_var>ALIMENTACION EN ESPECIES</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A014</co_var>
+		<des_var>Hora 12</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X011</co_var>
+		<des_var>Feriado Mixto Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X012</co_var>
+		<des_var>Nocturno Libre Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X013</co_var>
+		<des_var>Mixto Libre Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X014</co_var>
+		<des_var>Redoble Nocturno</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X015</co_var>
+		<des_var>Redoble Mixto</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X016</co_var>
+		<des_var>Redoble Feriado Diurno Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X017</co_var>
+		<des_var>Redoble Feriado Mixto Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X018</co_var>
+		<des_var>Redoble Feriado Noturno Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>E102</co_var>
+		<des_var>Anticipo de Redoble</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X019</co_var>
+		<des_var>24 HORAS</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X020</co_var>
+		<des_var>24 Horas Libre Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X021</co_var>
+		<des_var>24 Horas Feriado Trabajado</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>A011</co_var>
+		<des_var>Bono de Alimentacion</des_var>
+		<uso>2</uso>
+		<tipo>1</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X22</co_var>
+		<des_var>Permiso Paterno</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X022</co_var>
+		<des_var>24 horas CANTV</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X023</co_var>
+		<des_var>24 Horas Libre Trabajado CANTV</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+	<csnvaria>
+		<co_var>X024</co_var>
+		<des_var>24 Horas Feriado Trabajado CANTV</des_var>
+		<uso>2</uso>
+		<tipo>2</tipo>
+	</csnvaria>
+</VFPData>

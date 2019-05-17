@@ -1,0 +1,264 @@
+<?xml version = "1.0" encoding="Windows-1252" standalone="yes"?>
+<VFPData>
+	<xsd:schema id="VFPData" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="VFPData" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="csndepart" minOccurs="0" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="co_depart">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="12"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element name="des_depart" minOccurs="0">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="60"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+				<xsd:anyAttribute namespace="http://www.w3.org/XML/1998/namespace" processContents="lax"/>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<csndepart>
+		<co_depart>001</co_depart>
+		<des_depart>CARACAS</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>002</co_depart>
+		<des_depart>Aragua</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>003</co_depart>
+		<des_depart>NUEVA ESPARTA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>004</co_depart>
+		<des_depart>LARA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>005</co_depart>
+		<des_depart>PORTUGUESA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>006</co_depart>
+		<des_depart>TACHIRA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>007</co_depart>
+		<des_depart>Carabobo</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>008</co_depart>
+		<des_depart>EL TIGRE</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>009</co_depart>
+		<des_depart>YARACUY</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>010</co_depart>
+		<des_depart>MERIDA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>011</co_depart>
+		<des_depart>TRUJILLO</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>012</co_depart>
+		<des_depart>FALCON</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>013</co_depart>
+		<des_depart>APURE</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>014</co_depart>
+		<des_depart>MAKRO</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>015</co_depart>
+		<des_depart>Monagas</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>016</co_depart>
+		<des_depart>Barinas</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>018</co_depart>
+		<des_depart>Administrativo</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>019</co_depart>
+		<des_depart>Coramer</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>020</co_depart>
+		<des_depart>Operaciones</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>017</co_depart>
+		<des_depart>Nomina</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>021</co_depart>
+		<des_depart>ANZOATEGUI</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>022</co_depart>
+		<des_depart>COORDINACION CENTRO OCCIDENTAL</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>023</co_depart>
+		<des_depart>COORDINACION CENTRO LLANO</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>024</co_depart>
+		<des_depart>SUPERVISION CARACAS</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>025</co_depart>
+		<des_depart>SUPERVISION CARABOBO</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>026</co_depart>
+		<des_depart>SUPERVISION APURE</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>027</co_depart>
+		<des_depart>SUPERVISION BARRANCA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>028</co_depart>
+		<des_depart>SUPERVISION PORLAMAR</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>029</co_depart>
+		<des_depart>ADMINISTRACION OPERACIONES</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>030</co_depart>
+		<des_depart>ADMINISTRACION CARACAS xxx</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>031</co_depart>
+		<des_depart>ADMINISTRACION SAN CRISTOBAL</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>032</co_depart>
+		<des_depart>ADMINISTRACION VALENCIA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>033</co_depart>
+		<des_depart>JUNTA DIRECTIVA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>034</co_depart>
+		<des_depart>SUPERVISION MERIDA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>035</co_depart>
+		<des_depart>SUPERVISION SAN CRISTOBAL</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>036</co_depart>
+		<des_depart>SUPERVISION BARINAS</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>037</co_depart>
+		<des_depart>SUPERVISION EL TIGRE</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>038</co_depart>
+		<des_depart>SUPERVISOR BARCELONA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>039</co_depart>
+		<des_depart>SUPERVISION  PORTUGUESA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>040</co_depart>
+		<des_depart>SUPERVISION  ARAGUA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>041</co_depart>
+		<des_depart>SUPERVISION BARQUISIMETO</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>042</co_depart>
+		<des_depart>SUPERVISION SAN FELIPE</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>043</co_depart>
+		<des_depart>ADMINISTRACION PORLAMAR</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>044</co_depart>
+		<des_depart>COORDINACION ANDES 1</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>045</co_depart>
+		<des_depart>COORDINACION ANDES 2</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>046</co_depart>
+		<des_depart>COORDINACION ORIENTAL</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>047</co_depart>
+		<des_depart>COORDINACION MEPROPOLITANA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>048</co_depart>
+		<des_depart>ASIS DE COORDINACION CENTRO OCCIDENTAL</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>049</co_depart>
+		<des_depart>ASIS DE COORDINACION METROPOLITANA</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>050</co_depart>
+		<des_depart>COJEDES</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>051</co_depart>
+		<des_depart>OPERACIONES</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>052</co_depart>
+		<des_depart>ASISTENTE DE OPERACIONES</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>053</co_depart>
+		<des_depart>RECURSOS HUMANOS</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>054</co_depart>
+		<des_depart>CORPOELEC</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>055</co_depart>
+		<des_depart>CARACAS CANTV</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>056</co_depart>
+		<des_depart>Servicio Tecnico</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>057</co_depart>
+		<des_depart>Mercadeo y Ventas</des_depart>
+	</csndepart>
+	<csndepart>
+		<co_depart>058</co_depart>
+		<des_depart>Logistica</des_depart>
+	</csndepart>
+</VFPData>

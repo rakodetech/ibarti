@@ -1,0 +1,141 @@
+@charset "UTF-8";
+/*Caracteristicas pricipales de los Imput, Textarea y Select*/
+a, a:link, a:visited, a:visited {
+	
+	text-decoration: none;
+	text-transform: capitalize;
+}
+
+/*  TABB*/
+.TabbedPanels {
+	width: 700px;
+
+}
+.TabbedPanelsTab {
+	font-family: sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+input, textarea, select{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #0033CC;
+	font-size: 11px;
+	border-color: #0033CC;
+	font-weight: normal;
+	background-color: #F5F5EB;
+}
+
+/*Estilos cuando los imput se encuentran desabilitados*/
+input.disabled {
+	border: 1px solid #F2F2F2;
+	background-color: #CCCCCC;
+	
+}
+
+/* campos requeridos*/
+
+input.required, textarea.required, select.required{
+	border: 1px solid #FF3300;;
+}
+
+
+/*Estilos cuanco los imput y los textareas no pasan la validacion*/
+
+input.validation-failed, textarea.validation-failed {
+	border: 1px solid #FF3300;
+	color : #000000;
+	
+}
+
+/*Estilos cuanco los imput y los textareas pasan la validacion*/
+input.validation-passed, textarea.validation-passed, select.validation-passed{
+	border: 1px solid #00CC00;
+	color : #0000CC;
+	
+}
+
+/*Mensaje de Error de validacion*/
+.validation-advice {
+	margin: 5px 0;
+	padding: 5px;
+	background-color: #FF3300;
+	color : #FFF;
+	font-weight: bold;
+	width:300px;
+	position:absolute;
+}
+
+.custom-advice {
+	margin: 5px 0;
+	padding: 5px;
+	background-color: #C8AA00;
+	color : #FFF;
+	font-weight: bold;
+}
+
+/*Estilos de los Fieldset*/
+fieldset {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+		
+	font-size: 12x;
+	font-style: normal;
+	font-weight: bold;
+	color:#000099;
+	padding: 0.5em;
+	margin-bottom: 1em;	
+	border-color: #0033FF;
+	
+}
+
+label {
+	font-weight: bold;
+}
+
+.form-row {
+	clear: both;
+	padding: 0.5em;
+}
+
+
+/*Etiquetas de los formularios*/
+.etiqueta{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight:bold;
+    color:#000066}
+
+
+/*Titulos de los formularios*/
+.etiqueta_title{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	font-style: normal;
+	font-weight: bold;
+	color:#000066}
+
+.texto{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	color:#000000}
+	
+	
+/*Denota campo obligatorio*/
+.obligatorio{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	color:#FF3300;
+}
+
+
+.campo_num_c {	
+	font-size: 10px;
+	font-style: normal;
+	color: #000000;
+	text-decoration: none;
+	text-align:center;
+}
+

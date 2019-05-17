@@ -1,0 +1,439 @@
+@charset "UTF-8";
+/*Caracteristicas pricipales de los Imput, Textarea y Select*/
+a, a:link, a:visited, a:visited {
+	text-decoration: none;
+	text-transform: capitalize;
+}
+<!--.News01{width: 1000px;margin-bottom: 20px; text-align:center;} 		-->
+.News01{width: 600px;margin-bottom: 20px}
+.News02{width: 450px;margin-bottom: 20px}
+.News03{width: 800px;margin-bottom: 20px}
+.NTitulo{text-align: center;  margin:0;padding: 0 0 30px;background: #888888; color:#000066;}
+.NDesc{ font-size:14px; text-align:justify; background:#FFFFFF;margin:0;padding: 5px 10px;line-height: 1.3;text-align: justify;}
+/*Estilos de los Fieldset*/
+
+.imgLink,   .imgLink img, .imgLink button  {
+	cursor:pointer;
+	text-align:center;
+	align-items: center;
+	align:center;
+	vertical-align: middle;
+	margin: 0px 2px 0px 0px;
+}
+
+.marg,   .marg img , marg button{
+	margin: 0px;
+}
+
+
+
+
+.img_guardar, .img_borrar, .img_agregar{
+	cursor:pointer;
+	background-repeat:no-repeat;
+	background-position:center;
+	width:35px;
+	height:35px;
+	/*	text-align:center;  background-position:top; */
+}
+
+.img_guardar{
+	background:url(../imagenes/guardar.bmp);
+}
+.img_borrar{
+	background:url(../imagenes/borrar.bmp);
+}
+.img_agregar{
+	background:url(../imagenes/nuevo.bmp);
+}
+
+/*					<!--
+					<img src="imagenes/nuevo.bmp" class="imgLink" onclick="Add_maestros( )"  />&nbsp;
+                    <img src="imagenes/borrar.bmp" class="imgLink"  />&nbsp;
+                    <img src="imagenes/buscar.bmp" class="imgLink" onclick="Buscar()" />--> */
+
+                    fieldset {
+                    	font-family: Verdana, Arial, Helvetica, sans-serif;
+                    	font-size: 12x;
+                    	font-style: normal;
+                    	font-weight: bold;
+                    	color:#5A733F;
+                    	padding: 0.5em;
+                    	margin-bottom: 1em;
+                    	border-color: #000066;
+/*	height:200px;
+width:700px;*/
+}
+
+.fieldset {
+	width:880px;
+	padding:2px;
+	margin:15px 22px;
+}
+label {
+	font-weight: bold;
+}
+
+.form-row {
+	clear: both;
+	padding: 0.5em;
+}
+
+.field-label {
+
+}
+
+.field-widget {
+
+}
+
+/*Etiquetas de los formularios*/
+.etiqueta{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight:bold;
+	color:#020}
+	.etiqueta2{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		font-style: normal;
+		color:#5A733F}
+
+
+		/* Titulos de los formularios */
+		.etiqueta_title{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 15px;
+			font-style: normal;
+			font-weight: bold;
+			color:#030 }
+
+			.texto{
+				font-family: Verdana, Arial, Helvetica, sans-serif;
+				font-size: 9px;
+				font-style: normal;
+				color:#000000}
+
+
+				/*Denota campo obligatorio*/
+				.obligatorio{
+					font-family: Verdana, Arial, Helvetica, sans-serif;
+					font-size: 12px;
+					font-style: normal;
+					color: #990000;
+				}
+
+				.mensaje{
+					font-family: Verdana, Arial, Helvetica, sans-serif;
+					font-size: 12px;
+					font-style: normal;
+					color: #990000;
+
+				}
+
+				.tb_fondo {
+
+					border: 2px solid  #FFF;
+				}
+				.tb_fondo th, .tb_fondo td {
+					border: 3px solid #FFF;
+				}
+				.tb_fondo th {
+					text-align:center;
+					
+				}
+				.fondo00{
+					background: #CAFFCA;
+				}
+				.fondo01{
+					background: #EAFFEA;
+
+				}
+				.fondo02{
+					/* background:  #C4FFC4;  */
+					background:  #42FF42;
+
+				}
+
+				.fondo03{
+					/* background:#632523;  */
+					background: #FF2F2F;
+					/* background:#C00;  */
+
+				}
+
+				#right{
+					text-align:right !important;
+				}
+				#center{
+					text-align:center !important;
+				}
+				#left{
+					text-align: left !important;
+				}
+				.button1, .button1Act, .button2, .button2Act,
+				.button3, .button3Act, .buttonMenu, .buttonMenuAct, actualizar {
+					font-family: Verdana, Arial, Helvetica, sans-serif;
+					font-style: normal;
+					font-weight:bold;
+					cursor: pointer;
+					background-repeat:no-repeat;
+					border:none;
+				}
+				.button1 {
+
+					font-size: 11px;
+					color:#000066;
+					width:120px;
+					height:22px;
+					background-image:url(../imagenes/button1.jpg);
+				}
+
+				.button1Act {
+					font-size: 11px;
+					color:#000066;
+					width:120px;
+					height:22px;
+					background-image:url(../imagenes/button1act.jpg);
+				}
+
+				.button2 {
+					font-size: 11px;
+					color:#000066;
+					width:70px;
+					height:22px;
+					background-image:url(../imagenes/button2.jpg);
+				}
+
+				.button2Act {
+					font-size: 11px;
+					color:#000066;
+					width:70px;
+					height:22px;
+					background-image:url(../imagenes/button2act.jpg);
+				}
+
+
+				.button3 {
+					font-size: 11px;
+					color:#000066;
+					width:150px;
+					height:22px;
+					background-image:url(../imagenes/button3.jpg);
+				}
+
+				.button3Act {
+					font-size: 11px;
+					color:#000066;
+					width:150px;
+					height:22px;
+					background-image:url(../imagenes/button3act.jpg);
+				}
+
+				.buttonMenuT {
+					text-align: center;
+					font-size: 22px;
+					color:#000066;
+					width:550px;
+					height:64px;
+					background-image:url(../imagenes/menut.jpg);
+					background-repeat: repeat-x;
+
+
+				}
+				.buttonMenu {
+					text-align: center;
+					font-size: 16px;
+					color:#000066;
+					width:180px;
+					height:60px;
+					background-image:url(../imagenes/menu.jpg);
+				}
+
+				.buttonMenuAct {
+
+					text-align:center;
+					font-size: 16px;
+					color: #660000;
+					width:180px;
+					height:60px;
+					background-image:url(../imagenes/menuact.jpg);
+				}
+
+				.actualizar {
+
+					width:30px;
+					height:30px;
+					background-image:url(../imagenes/actualizar.bmp);
+				}
+
+				.campo_num_c {
+					font-size: 10px;
+					font-style: normal;
+					color: #000000;
+					text-decoration: none;
+					text-align:center;
+					font-weight:lighter;
+				}
+
+
+				.backgroundC{
+					background-color:#6699CC;
+				}
+
+				/* Caja de código */
+
+				#listar {
+					/* overflow:auto; /* Determina si es necesario agregar barras de Scroll */
+					overflow:scroll;
+					overflow-y:scroll;
+					overflow-x:hidden;
+					width:960px;
+					height:280px;
+					/* background-color: #99FF99; /* Color de Fondo en Hex   // r,g,b  0,153,0  verde claro */
+
+					border-style: inset;
+					border-color:  #99CC99;
+					border-width: 5px;
+					/* color:#990000; /* Col#009900or de letra en Hex */
+					display:block; /* No tocar */
+					padding:6px; /* Relleno del cuadro */
+					white-space:pre; /* No tocar */
+					/* text-align:left; /* Alineacion del Texto , left=izquierda, center= centrado, right=derecha */
+					min-height:63px; /* Altura minima del Cuadro */
+				}
+
+				/* Cuando pase el Mouse sobre la caja ocurrirá lo siguiente: */
+				#listar:hover{
+					border-style: inset;
+					border-color:#009900;
+					border-width: 5px;
+				}
+
+
+				.circulo {
+					width: 35px;
+					height: 35px;
+					margin:10px;
+
+					float:left;
+					-moz-border-radius: 50%;
+					-webkit-border-radius: 50%;
+					border-radius: 50%;
+				}
+
+
+				.listar {
+					/* overflow:auto; /* Determina si es necesario agregar barras de Scroll */
+					overflow:scroll;
+					overflow-y:auto;
+					overflow-x:auto;
+					width: 95%;
+					height:280px;
+					border-style: inset;
+					border-color:  #009900;
+					border-width: 4px;
+
+					display:block; /* No tocar */
+					padding:3px; /* Relleno del cuadro */
+					white-space:pre; /* No tocar */
+					min-height:150px; /* Altura minima del Cuadro */
+				}
+
+				.tabla_sistema table 		 {
+					border-spacing: 1;
+					border-collapse: collapse;
+					background:white;
+					border-radius:6px;
+					overflow:hidden;
+
+					margin:0 auto;
+					position:relative;
+/*
+max-width:800px;
+width:100%;
+*/
+}
+
+.tabla_sistema th, .tabla_sistema td {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0.15rem;
+	border: 0;
+	border-color: black;
+}
+
+.tabla_sistema th {
+	background: #CAFFCA;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.tabla_sistema th img{
+	margin: 0px;
+	cursor:pointer;
+}
+.tabla_sistema td{
+	font-size: 12px;
+	font-style: normal;
+
+}
+
+.tabla_sistema td img{
+	margin: 0px;
+	cursor:pointer;
+}
+
+.tabla_sistema tr:nth-child(even) {
+	background-color:   #EAFFEA;
+}
+
+.tabla_sistema tr:nth-child(odd) {
+	background-color: #42FF42;
+}
+
+
+.tabla_sistema tr:hover {
+	background: yellow;
+	font-weight: bold;
+}
+
+.tabla_hover tr:hover{
+	background: yellow;
+	font-weight: bold;
+}
+/* FIN Caja de código */
+
+
+/* CSS PARA NOTIFICACIONES */
+
+.badge-notificacion{
+	position: relative;
+}
+.badge-notificacion::after{
+	content: attr(data-count-notificacion);
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: red;
+	padding: 2px;
+	font-size: 10px;
+	font-weight: bold;
+	color: white;
+	box-sizing: border-box;
+	box-shadow: 0px 0px 1px 1px black;
+	border-radius: 500px;
+}
+
+.mostrar_tabla {
+	display: block;
+	background: #EAFFEA;
+}
+.ocultar_tabla{
+	display: none
+}
+/*FIN CSS PARA NOTIFICACIONES */

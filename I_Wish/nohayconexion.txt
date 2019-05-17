@@ -1,0 +1,10 @@
+  if (isOnlineNet()) {
+            fab.setEnabled(true);
+        } else   {
+            String mensaje2 = "No hay Conexion a Internet,Reintentar..";
+            Toast.makeText(
+                    getActivity(),
+                    mensaje2,
+                    Toast.LENGTH_LONG).show();
+
+        }

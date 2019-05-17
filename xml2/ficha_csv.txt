@@ -1,0 +1,4 @@
+Nombre;Edad;Profesion
+fas;23;awda
+sdf;16;sdfsdf
+sdfvsd;13,sdfvds	
