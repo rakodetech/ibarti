@@ -1,7 +1,6 @@
 <?php
 $sql = "SELECT CONCAT(preingreso.nombres,' ',preingreso.apellidos) FROM preingreso WHERE preingreso.cedula='" . $cedula . "'";
 $query  = $bd->consultar($sql);
-$filtro = "CEDULA";
 $cedula = "";
 $nombre = "";
 $usuario = $_SESSION['usuario_cod'];
@@ -12,9 +11,9 @@ while ($datos = $bd->obtener_fila($query, 0)) {
 ?>
 <link rel="stylesheet" type="text/css" href="latest/stylesheets/autocomplete.css" />
 <script type="text/javascript" src="latest/scripts/autocomplete.js"></script>
-<script src="packages/nov_check_trab/controllers/check_trab.js"></script>
 
-<form name="form_reportes" id="form_reportes" action="<?php echo $archivo; ?>" method="post" target="_blank">
+
+<form name="form_reportes" id="form_reportes" onsubmit="agregar_registro(event,this.id)" action="<?php echo $archivo; ?>" method="post" target="_blank">
     <table id="datos_b" width="100%">
         <tr>
             <td width="15%">Codigo:</td>
@@ -26,7 +25,7 @@ while ($datos = $bd->obtener_fila($query, 0)) {
         <tr>
             <td>Filtro Supervisor:</td>
             <td>
-                <select  onchange="habilitar(this.id,this.value)" id="filtro_supervisor" style="width:220px;">
+                <select onchange="habilitar(this.id,this.value)" id="filtro_supervisor" style="width:220px;">
                     <option value="TODOS"> TODOS</option>
                     <option value="codigo"> <?php echo $leng['ficha'] ?> </option>
                     <option value="cedula"><?php echo $leng['ci'] ?> </option>
@@ -39,7 +38,7 @@ while ($datos = $bd->obtener_fila($query, 0)) {
             <td><input type="text" id="descripcion_supervisor" style="width:220px;" value="" disabled></td>
             <input type="hidden" name="codigo_supervisor" id="codigo_supervisor" value="">
         </tr>
-        
+
         <tr>
             <td>Filtro Trabajador:</td>
             <td>
@@ -64,7 +63,7 @@ while ($datos = $bd->obtener_fila($query, 0)) {
                 <span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
                 <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span></td>
             <td class="etiqueta">Repuesta:</td>
-            <td id="textarea02"><textarea name="repuesta" id="respuesta"cols="42" rows="2" readonly="readonly"></textarea>
+            <td id="textarea02"><textarea name="repuesta" id="respuesta" cols="42" rows="2" readonly="readonly"></textarea>
                 <span id="Counterror_mess2" class="texto">&nbsp;</span><br />
                 <span class="textareaRequiredMsg">El Campo es Requerido.</span>
                 <span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
@@ -111,9 +110,9 @@ while ($datos = $bd->obtener_fila($query, 0)) {
 overflow-y:auto;
 overflow-x:auto;padding:3px;
 border:1px solid;"></div>
-    <button type="submit">sub</button>
-    <input name="usuario" type="hidden" value="<?php echo $usuario;?>" />
-    
+    <button type="submit">AGREGAR REGISTRO</button>
+    <input name="usuario" type="hidden" value="<?php echo $usuario; ?>" />
+    <button type="reset" id="reset" style="display:none;">resetear</button>
 </form>
 
 <script>
@@ -140,6 +139,9 @@ border:1px solid;"></div>
     function habilitar(id, valor) {
         var text = id.replace("filtro", 'descripcion');
         $("#" + text).prop("disabled", (valor == "TODOS" || valor == ""));
-       
+
     }
+    
 </script>
+
+<script src="packages/nov_check_trab/controllers/check_trab.js"></script>

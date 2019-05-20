@@ -3,7 +3,7 @@ $mod     =  $_GET['mod'];
 $metodo = "agregar";
 $titulo  = strtoupper($metodo) . " REGISTRO CHECK LIST";
 
-$archivo = "packages/nov_check_trab/views/get_data.php";
+$archivo = "";
 
 if ($metodo == "agregar") {
     $cedula = "1777288";
