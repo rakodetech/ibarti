@@ -75,7 +75,6 @@ function Cons_ajuste() {
         url: 'packages/inventario/ajuste/views/Cons_inicio.php',
         type: 'post',
         success: function(response) {
-            //console.log(response);
             $("#Cont_ajuste").html(response);
         },
         error: function(xhr, ajaxOptions, thrownError) {
@@ -107,11 +106,11 @@ function Form_ajuste(cod, metodo, tipo,anulado) {
                     $("#add_renglon_etiqueta").hide();
                     $("#add_renglon").hide();
                     if(typeof tipo != "undefined"){
-                       Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
-                   }
-               }
-           },
-           error: function(xhr, ajaxOptions, thrownError) {
+                     Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
+                 }
+             }
+         },
+         error: function(xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);
         }
@@ -203,8 +202,8 @@ function save_ajuste() {
                 url: 'packages/inventario/ajuste/modelo/ajuste.php',
                 type: 'post',
                 success: function(response) {
-                   var resp = JSON.parse(response);
-                   if (resp.error) {
+                 var resp = JSON.parse(response);
+                 if (resp.error) {
                     alert(resp.mensaje);
                 } else {
                     if (metodo == "agregar") {
@@ -289,8 +288,8 @@ function anular(){
                 url: 'packages/inventario/ajuste/modelo/ajuste.php',
                 type: 'post',
                 success: function(response) {
-                   var resp = JSON.parse(response);
-                   if (resp.error) {
+                 var resp = JSON.parse(response);
+                 if (resp.error) {
                     alert(resp.mensaje);
                 } else {
                     alert("Actualización Exitosa!..");
@@ -376,11 +375,11 @@ function mostrar_costo_promedio(codigo,cod_almacen) {
         url: 'packages/inventario/producto/views/Get_costo_prom.php',
         type: 'post',
         success: function(response) {
-         var resp = JSON.parse(response);
-         costo = resp[0];
-         $("#ped_costo").val(resp[0]);
-     },
-     error: function(xhr, ajaxOptions, thrownError) {
+           var resp = JSON.parse(response);
+           costo = resp[0];
+           $("#ped_costo").val(resp[0]);
+       },
+       error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
     }
@@ -393,12 +392,11 @@ function cantidad_maxima(cod_producto,cod_almacen) {
         url: 'packages/inventario/ajuste/views/Get_stock.php',
         type: 'post',
         success: function(response) {
-           // console.log(response);
-           var resp = JSON.parse(response);
-           stock_actual = resp[0];
-           $("#ped_cantidad").attr('max',resp[0]);
-       },
-       error: function(xhr, ajaxOptions, thrownError) {
+         var resp = JSON.parse(response);
+         stock_actual = resp[0];
+         $("#ped_cantidad").attr('max',resp[0]);
+     },
+     error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
     }
@@ -508,27 +506,24 @@ function Cal_prod_neto(evento, valor) {
         alert("Ingrese un valor");
     } else {
         var valorX = parseFloat(valor);
-       // console.log(typeof(valorX));
-       // console.log(Number.isInteger(valorX));
 
-       if (evento == "cantidad") {
-        cantidad = valorX;
-    }
-    if (evento == "costo") {
-        costo = valorX;
-    }
-       // console.log(costo);
-       neto = parseFloat((cantidad * costo).toFixed(2));
+        if (evento == "cantidad") {
+            cantidad = valorX;
+        }
+        if (evento == "costo") {
+            costo = valorX;
+        }
 
-       $('#ped_neto').val(neto);
-       // console.log(neto);
-       if (neto > 0) {
-        $("#add_renglon").prop('disabled', false);
-    } else {
-        $("#add_renglon").prop('disabled', true);
-    }
+        neto = parseFloat((cantidad * costo).toFixed(2));
 
-}
+        $('#ped_neto').val(neto);
+        if (neto > 0) {
+            $("#add_renglon").prop('disabled', false);
+        } else {
+            $("#add_renglon").prop('disabled', true);
+        }
+
+    }
 
 }
 
@@ -536,7 +531,6 @@ function Agregar_renglon() {
     var error = 0;
     var errorMessage = ' ';
     var cantidad = Number($("#ped_cantidad").val());
-    //console.log(cantidad,stock_actual);
     if($("#ped_aplicar").val() == 'OUT'){
         if(cantidad > stock_actual){
             error = 1;
@@ -544,18 +538,16 @@ function Agregar_renglon() {
         }
 
         var cant= cantidad;
-        //console.log(Ped_detalle);
         Ped_detalle.some((ajuste)=>{
             if(ajuste.cod_producto==producto_cod && ajuste.cod_almacen==almacen_cod){
                 cant = Number(cant) + Number(ajuste.cantidad);
-               // console.log(cant,stock_actual);
-               if(cant>stock_actual){
-                error = 1;
-                errorMessage += "\n El detalle del ajuste sobrepasa la cantidad maxima permitida,para este producto en este almacen!:.";  
-                return true;
+                if(cant>stock_actual){
+                    error = 1;
+                    errorMessage += "\n El detalle del ajuste sobrepasa la cantidad maxima permitida,para este producto en este almacen!:.";  
+                    return true;
+                }
             }
-        }
-    });
+        });
     }
 
     if (almacen_cod == "") {
@@ -582,7 +574,6 @@ function Agregar_renglon() {
         };
 
         Ped_detalle.push(Ped_detalleX);
-        //console.log(Ped_detalleX,Ped_detalle);
         var tr = ('<tr id="tr_' + reng_num + '"></tr>');
         var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + reng_num + '" readonly style="width:100px"></td>');
         var td02 = ('<td><input type="text" id="prod_' + reng_num + '" value="' + producto_des + '" readonly style="width:200px"></td>');
@@ -600,9 +591,8 @@ function Agregar_renglon() {
         $('#tr_' + reng_num + '').append(td05);
         $('#tr_' + reng_num + '').append(td06);
         $('#tr_' + reng_num + '').append(td07);
-        //// console.log(Ped_detalleX);
-        //// console.log(Ped_detalle);
         Cal_total();
+        Limpiar_producto();
         $("#ped_producto").val("");
         $("#ped_almacen").val("");
     } else {
@@ -633,10 +623,10 @@ function Modificar_renglon(codigo) {
 
     cantidad = Ped_detalle[index]["cantidad"];
     costo = Ped_detalle[index]["costo"];
+    neto = Ped_detalle[index]["neto"];
     if($("#ped_aplicar").val() == 'OUT'){
         cantidad_maxima(Ped_detalle[index]["cod_producto"] ,Ped_detalle[index]["cod_almacen"]);
     }
-    //console.log(codigo,index,Ped_detalle[index]);
     var prod_option = '<option value="' + Ped_detalle[index]["cod_producto"] + '">' + Ped_detalle[index]["producto"] + '</option>';
     $("#ped_producto").html(prod_option);
     var prod_almacen = '<option value="' + Ped_detalle[index]["cod_almacen"] + '">' + Ped_detalle[index]["almacen"] + '</option>';
@@ -653,6 +643,7 @@ function Cancelar_renglon() {
     $("#add_renglon").prop('hidden', false);
     $("#canc_renglon").prop('hidden', true);
     $("#update_renglon").prop('hidden', true);
+    Limpiar_producto();
     //var prod_option  = '<option value="">Seleccione...</option>';
     //$("#ped_producto").html(prod_option);
 }
@@ -676,9 +667,9 @@ function Actualizar_renglon() {
         $("#costo_" + idX + "").val(costo);
         $("#neto_" + idX + "").val(neto);
         $("#ped_almacen").prop('disabled', false);
-        //console.log(Ped_detalle[index],'idX:'+idx);
-        Cancelar_renglon();
+        Limpiar_producto();
         Cal_total();
+        Cancelar_renglon();
     }else {
         alert(errorMessage);
     }
@@ -699,11 +690,11 @@ function Borrar_renglon(intemsV) {
 
             var tr = ('<tr id="tr_' + reng_num + '">');
             var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + reng_num + '" readonly style="width:100px"></td>');
-            var td02 = ('<td><input type="text" id="prod_' + reng_num + '" value="' + producto_des + '" readonly style="width:200px"></td>');
-            var td03 = ('<td><input type="text" id="alm_' + reng_num + '" value="' + almacen_des + '" readonly style="width:120px"></td>');
-            var td04 = ('<td><input type="text" id="cant_' + reng_num + '" value="' + cantidad + '" readonly style="width:100px"></td>');
-            var td05 = ('<td><input type="text" id="costo_' + reng_num + '" value="' + costo + '" readonly style="width:100px"></td>');
-            var td06 = ('<td><input type="text" id="neto_' + reng_num + '" value="' + neto + '" readonly style="width:150px"></td>');
+            var td02 = ('<td><input type="text" id="prod_' + reng_num + '" value="' + datos[i]["producto"] + '" readonly style="width:200px"></td>');
+            var td03 = ('<td><input type="text" id="alm_' + reng_num + '" value="' + datos[i]["almacen"] + '" readonly style="width:120px"></td>');
+            var td04 = ('<td><input type="text" id="cant_' + reng_num + '" value="' + datos[i]["cantidad"] + '" readonly style="width:100px"></td>');
+            var td05 = ('<td><input type="text" id="costo_' + reng_num + '" value="' + datos[i]["costo"] + '" readonly style="width:100px"></td>');
+            var td06 = ('<td><input type="text" id="neto_' + reng_num + '" value="' + datos[i]["neto"] + '" readonly style="width:150px"></td>');
             var td07 = ('<td><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
 
             $('#listar_ajuste').append(tr);
@@ -741,7 +732,6 @@ function Reng_ped(codigo) {
         success: function(response) {
             var resp = JSON.parse(response);
             Ped_detalle = resp;
-            ////console.log(Ped_detalle);
             reng_num = 0;
             jQuery.each(Ped_detalle, function(i) {
                 reng_num = Ped_detalle[i]["reng_num"];
@@ -796,9 +786,9 @@ function Add_productos(almacen){
     url: 'ajax/Add_stock_productos.php',
     type: 'post',
     success: function(response) {
-       $("#productos").html(response);
-   },
-   error: function(xhr, ajaxOptions, thrownError) {
+     $("#productos").html(response);
+ },
+ error: function(xhr, ajaxOptions, thrownError) {
     alert(xhr.status);
     alert(thrownError);
 }
