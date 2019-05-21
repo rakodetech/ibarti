@@ -46,10 +46,11 @@ include('../'.pagDomPdf.'/paginacion_ibarti.php');
             <tbody>
             <?php 
             echo "<tr style='background-color: #4CAF50;'>
-            <td><span class='etiqueta'>Linea</span></td>
-            <td><span class='etiqueta'>Sub Linea</span></td>
-            <td><span class='etiqueta'>Producto</span></td>
-            <td><span class='etiqueta'>Cantidad</span></td>
+            <td width='20%'><span class='etiqueta'>Linea</span></td>
+            <td width='20%'><span class='etiqueta'>Sub Linea</span></td>
+            <td width='40%'><span class='etiqueta'>Producto</span></td>
+            <td width='10%'><span class='etiqueta'>Cantidad</span></td>
+            <td width='10%'><span class='etiqueta'>Firma</span></td>
             </tr>";  
             $i=0;
              while ($producto = $bd->obtener_name($queryp))
@@ -70,6 +71,9 @@ include('../'.pagDomPdf.'/paginacion_ibarti.php');
             </td>
              <td>
              <span class="texto"><?php echo $producto['cantidad'];?></span>
+            </td>
+              <td style="text-align: center;font-size: 11px;">
+                ___________________
             </td>
              </tr>
             <?php ++$i;} ?>
