@@ -42,7 +42,7 @@ $data = "[";
             $valores = $c_l->obtener_valor($valor[0]);
             foreach ($valores as $index2 => $valor2) {
                 $check = (($valor[0]==$novedad_actual)&&($valor2[0]==$valor_actual))?'checked':'';
-                echo $valor2[1].'<input type="radio" required="required" name="valores['.$valor[0].']" value="'.$valor2[0].'" '.$check.' > ';
+                echo '<div style="float:left;" title="'.$valor2[2].'">'.$valor2[1].'<input type="radio" required="required" name="valores['.$valor[0].']" value="'.$valor2[0].'" '.$check.' ></div> ';
             }
             $data.="]}";
             echo "</td><td style='border:1px solid; text-align:center;'><textarea name='obs[".$valor[0]."]' style='width:95%'></textarea></td></tr>";
