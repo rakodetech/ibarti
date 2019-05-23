@@ -226,7 +226,14 @@ function fnacimient($fecha)
 			}
 			return $result;
 		}
-
+		function Select($valor,$valido){
+			if (($valor == $valido)){
+				$result = 'selected';
+			}else{
+				$result = '';
+			}
+			return $result;
+		}
 		function CheckUso($valor, $valido){
 
 			if (($valor == 'NUM')&&($valido == 'NUM')){

@@ -26,7 +26,8 @@ $pag = 0;
         <li class="TabbedPanelsTab">REFERENCIA DE UNIFORME</li>
 		<li class="TabbedPanelsTab">ADICIONALES</li>
         <?php if(($_GET["metodo"]) <> "agregar"){ ?>
-        <li class="TabbedPanelsTab">CARGAR FOTOS</li>
+		<li class="TabbedPanelsTab">CARGAR FOTOS</li>
+		<li class="TabbedPanelsTab">EVALUACION CHECKLIST</li>
         <?php } ?>
 	 </ul>
 	  <div class="TabbedPanelsContentGroup">
@@ -37,7 +38,8 @@ $pag = 0;
   	  	 <div class="TabbedPanelsContent"><?php include('formularios/add_ing_dotacion.php');?></div>
  	     <div class="TabbedPanelsContent"><?php include('formularios/add_adicionales_ad.php');?></div>
          <?php if(($_GET["metodo"]) <> "agregar"){ ?>
-         <div class="TabbedPanelsContent"><?php include('formularios/add_adicionales_trab.php');?></div>
+		 <div class="TabbedPanelsContent"><?php include('formularios/add_adicionales_trab.php');?></div>
+		 <div class="TabbedPanelsContent"><?php include('formularios/add_ing_preliminar.php');?></div>
         <?php } ?>
 	  </div>
 

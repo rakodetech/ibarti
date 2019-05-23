@@ -1,0 +1,51 @@
+BEGIN
+
+IF (metodo = "agregar") THEN
+	INSERT INTO nov_check_list_trab (
+		hora,
+		cod_nov_clasif,
+		cod_nov_tipo,
+		cod_ficha,
+		cedula,
+		observacion,
+		repuesta,
+		cod_us_ing,
+		fec_us_ing,
+		cod_us_mod,
+		fec_us_mod
+	)
+VALUES
+	(
+		CURRENT_TIME,
+		clasif,
+		tipo,
+		supervisor,
+		trabajador,
+		observacion,
+		respuesta,
+		usuario_ing,
+		current_date,
+		usuario_ing,
+		current_date
+	);
+
+ELSEIF(metodo="modificar") THEN
+	
+	UPDATE nov_check_list_trab SET
+		cod_nov_clasif = clasif,
+		cod_nov_tipo = tipo,
+		cod_ficha = supervisor,
+		cedula = trabajador,
+		observacion = observacion,
+		repuesta = respuesta,
+		cod_us_mod = usuario_ing,
+		fec_us_mod = current_date
+		WHERE codigo = codigo;
+
+END IF;
+
+
+END
+
+
+IN `metodo` varchar(11),IN codigo varchar(11),IN `clasif` varchar(11),IN `tipo` varchar(11),IN `supervisor` varchar(11),IN `trabajador` varchar(11),IN `observacion` varchar(255),IN `respuesta` varchar(255),IN `usuario_ing` varchar(11)
