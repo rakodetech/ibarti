@@ -125,7 +125,7 @@ function Borrar_ubic(cod){
 										 "usuario": usuario   };
 		$.ajax({
 				data:  parametros,
-				url:   'packages/cliente/general/controllers/sc_borrar.php',
+				url:   'packages/general/controllers/sc_borrar.php',
 				type:  'post',
 				success:  function (response) {
 				var resp = JSON.parse(response);
