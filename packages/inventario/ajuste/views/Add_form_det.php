@@ -7,14 +7,13 @@
  if($metodo == 'modificar')
  {
   $codigo   = $_POST['codigo'];
-  $ped      =  $ajuste->editar("$codigo");
+  $ped      =  $ajuste->editar($codigo);
 }else{
   $ped       = $ajuste->inicio();
   $codigo    = -1;
 }
 $aplicar = $ajuste->get_tipo_aplicar($cod_tipo);
 $reng       = $ajuste->get_aj_reng($codigo);
-
 if($metodo == "agregar"){
   ?>
 
