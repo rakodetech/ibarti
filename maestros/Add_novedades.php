@@ -12,7 +12,7 @@ if ($metodo == 'modificar') {
 	                novedades.descripcion,
                     novedades.cod_nov_clasif, nov_clasif.descripcion AS clasif,
                     novedades.cod_nov_tipo,  nov_tipo.descripcion AS tipo,                   
-                    novedades.`status` , novedades.orden, novedades.dias_vencimiento
+                    novedades.`status` , novedades.orden, novedades.dias_vencimiento,nov_clasif.campo04
                FROM novedades , nov_clasif, nov_tipo 
               WHERE novedades.cod_nov_clasif = nov_clasif.codigo	
                 AND novedades.cod_nov_tipo = nov_tipo.codigo 			    
@@ -30,6 +30,7 @@ if ($metodo == 'modificar') {
 	$tipo           = $result["tipo"];
 	$activo         = $result["status"];
 	$dias_v					= $result["dias_vencimiento"];
+	$campo					= $result["campo04"];
 } else {
 
 	$titulo       = "AGREGAR DATOS BASICOS $titulo";
@@ -42,6 +43,7 @@ if ($metodo == 'modificar') {
 	$tipo         = " Seleccione... ";
 	$dias_v				= 0;
 	$activo       = 'T';
+	$campo				= '';
 }
 ?>
 <script>
@@ -84,20 +86,20 @@ if ($metodo == 'modificar') {
 					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 				</td>
 			</tr>
-			<tr>
-				<td class="etiqueta">Dias Vencimiento:</td>
+			<tr id="campo_muestra" style="<?php echo ($campo!="")?'display:block;':'display:none;';?>">
+				<td class="etiqueta" id="campo"><?php echo ($campo=="F")?"Dias de Vencimiento":"Valor Critico";?></td>
 				<td class="etiqueta"><input type="number" name="dias_v" id="dias_v" min="1" id="dias_v" value="<?php echo $dias_v ?>"></td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Clasificaci&oacute;n:</td>
-				<td id="select01"><select name="clasif" id="clasif" style="width:250px">
-						<option value="<?php echo $cod_clasif; ?>"><?php echo $clasif; ?></option>
-						<?php $sql = " SELECT codigo, descripcion FROM nov_clasif WHERE `status` = 'T' 
+				<td id="select01"><select name="clasif" id="clasif" style="width:250px" onchange="{llenar_nov_tipo(this.value)}">
+						<option value="<?php echo $cod_clasif; ?>" onclick='cambiar_campo(<?php echo "\"$campo\"";?>)'><?php echo $clasif; ?></option>
+						<?php $sql = " SELECT codigo, descripcion,campo04 FROM nov_clasif WHERE `status` = 'T' 
 		                        AND codigo <> '$cod_clasif' ORDER BY 2 ASC ";
 						$query = $bd->consultar($sql);
 						while ($datos = $bd->obtener_fila($query, 0)) {
 							?>
-							<option value="<?php echo $datos[0]; ?>"><?php echo $datos[1]; ?></option>
+							<option value="<?php echo $datos[0]; ?>" onclick='cambiar_campo(<?php echo "\"$datos[2]\"";?>)'><?php echo $datos[1]; ?></option>
 						<?php } ?>
 					</select><br />
 					<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>
@@ -401,7 +403,10 @@ if ($metodo == 'modificar') {
 		}
 		update_table('tabla_add', arreglo_valores);
 	}
-
+	function cambiar_campo(campo){
+		$("#campo_muestra").show();
+		$("#campo").html((campo=='F')?'Dias de Vencimiento':'Valor Critico');
+	}
 	function llenar_valores(clasif,call) {
 		var parametros = {
 			"clasif": clasif
@@ -423,6 +428,8 @@ if ($metodo == 'modificar') {
 		});
 	}
 
+
+	
 	function agregar_db() {
 
 		var codigo_novedad = $('#codigo').val();

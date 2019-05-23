@@ -48,23 +48,21 @@ function agregar_registro(e, i) {
     }
 
     if(error<=0){
-        $.ajax({
-            data: parametros,
-            url: 'packages/nov_check_trab/views/set_check_trab.php',
-            type: 'post',
-            success: function (response) {
-                //console.log(response);
-                toastr.success(`Desea Agregar un nuevo registro:<button type="button" onclick="{window.location.href ='inicio.php?area=packages/nov_check_trab/index&metodo=agregar';,toastr.clear();}">SI</button>|<button type="button" onclick="{toastr.clear(),window.history.back();}">NO</button>`, '', {
-                    positionClass: 'toast-top-full-width',
-                    timeOut: 0,
-                    extendedTimeOut: 0
-                });
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
-            }
-        });
+        if(confirm("Esta seguro que desea guardar la evaluacion")){
+            $.ajax({
+                data: parametros,
+                url: 'packages/nov_check_trab/views/set_check_trab.php',
+                type: 'post',
+                success: function (response) {
+                    window.history.back();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        }
+       
     }else{
         toastr.error(`Tiene que seleccionar un trabajador y un supervisor`, 'ERROR');
     }
