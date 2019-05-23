@@ -2,10 +2,8 @@
 <script type="text/javascript" src="funciones/pestanas.js"></script>
 <?php
 require "../modelo/ubicacion_modelo.php";
-require "../../../general/modelo/general_modelo.php";
 require "../../../../".Leng;
 $ubicacion = new Ubicacion;
-$general   = new General;
 
 $metodo = $_POST['metodo'];
 $titulo = " ".$leng['cliente'] ." ".$leng['ubicacion']."";
@@ -22,11 +20,11 @@ if($metodo == 'modificar')
 	$ubic      =  $ubicacion->inicio();
 }
 
-$region     = $general->get_region($ubic['cod_region']);
-$estado     = $general->get_estado($ubic['cod_estado']);
-$ciudad     = $general->get_ciudad($ubic['cod_ciudad'],$ubic['cod_estado']);
-$calendario = $general->get_calendario($ubic['cod_calendario']);
-$zona       = $general->get_zona($ubic['cod_zona']);
+$region     = $ubicacion->get_region($ubic['cod_region']);
+$estado     = $ubicacion->get_estado($ubic['cod_estado']);
+$ciudad     = $ubicacion->get_ciudad($ubic['cod_ciudad'],$ubic['cod_estado']);
+$calendario = $ubicacion->get_calendario($ubic['cod_calendario']);
+$zona       = $ubicacion->get_zona($ubic['cod_zona']);
 ?>
 <div class="tab">
   <button class="tablinks" onclick="openTap(0)"><?php echo $leng['ubicacion']?></button>
