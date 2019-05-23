@@ -1,0 +1,32 @@
+BEGIN
+
+DECLARE cantidad, nov_valor, nov_valor_max INTEGER(3) DEFAULT 0;
+
+    SELECT nov_valores_det.valor INTO nov_valor 
+      FROM nov_valores_det
+     WHERE nov_valores_det.cod_novedades = novedades 
+       AND nov_valores_det.cod_valores   = c_valor;
+
+    SELECT Max(nov_valores_det.valor) AS max INTO nov_valor_max 
+      FROM nov_valores_det
+     WHERE nov_valores_det.cod_novedades = novedades;
+
+  IF (metodo = 'agregar') THEN
+
+    INSERT INTO nov_check_list_trab_det (cod_check_list, cod_novedades, cod_valor, valor,
+                                    valor_max, observacion)
+                            VALUES (cod, novedades, c_valor, nov_valor, 
+                                     nov_valor_max, observ);
+  
+  ELSEIF (metodo = 'modificar') THEN
+
+    UPDATE nov_check_list_trab_det SET
+           observacion    = observ
+     WHERE cod_check_list = cod
+       AND cod_novedades  = novedades;
+
+END IF;
+END
+
+metodo VARCHAR(16),  cod VARCHAR(12),  novedades VARCHAR(12), c_valor VARCHAR(12),
+                                                                   observ VARCHAR(500)

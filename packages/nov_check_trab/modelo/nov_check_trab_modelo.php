@@ -16,6 +16,19 @@ class check_list
 		$this->bd = new Database;
 	}
 
+	public function obtener_existentes($codigo)
+	{
+		$this->datos   = array();
+		$sql = "SELECT nov_check_list_trab_det.cod_novedades,nov_check_list_trab_det.cod_valor FROM nov_check_list_trab_det WHERE cod_check_list = '$codigo'";
+
+		$query         = $this->bd->consultar($sql);
+		while ($datos = $this->bd->obtener_fila($query, 0)) {
+			$this->datos[] = $datos;
+		}
+
+		return $this->datos;
+	}
+
 	public function obtener_novedad($tipo, $clasificion)
 	{
 		$this->datos   = array();
@@ -29,9 +42,9 @@ class check_list
 						WHERE
 							 novedades.cod_nov_clasif = nov_clasif.codigo
 						AND novedades.cod_nov_tipo = nov_tipo.codigo
-						AND nov_clasif.codigo = "'.$tipo.'"
-						AND nov_tipo.codigo = "'.$clasificion.'"
-						AND nov_clasif.campo04 = "T"
+						AND nov_clasif.codigo = "' . $tipo . '"
+						AND nov_tipo.codigo = "' . $clasificion . '"
+						AND nov_clasif.campo04 = "P"
 						AND novedades.`status` = "T"
 						ORDER BY
 		1,
@@ -67,8 +80,3 @@ class check_list
 		return $this->datos;
 	}
 }
-
-
-
-
-
