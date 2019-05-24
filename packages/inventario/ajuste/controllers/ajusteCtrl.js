@@ -287,6 +287,9 @@ function anular(){
                 data: parametros,
                 url: 'packages/inventario/ajuste/modelo/ajuste.php',
                 type: 'post',
+                beforeSend: function(){
+                    $("#anulador").attr("disabled",true);
+                },
                 success: function(response) {
                  var resp = JSON.parse(response);
                  if (resp.error) {
@@ -297,10 +300,12 @@ function anular(){
                     Cons_ajuste()
                 }
                 $("#ped_descripcion_anular").val("");
+                $("#anulador").attr("disabled",false);
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
                 alert(thrownError);
+                $("#anulador").attr("disabled",false);
             }
         });
         } else {
