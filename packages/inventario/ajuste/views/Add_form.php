@@ -116,7 +116,7 @@ if($metodo == 'modificar')
     echo '<span class="art-button-wrapper">
     <span class="art-button-l"> </span>
     <span class="art-button-r"> </span>
-    <input type="button" title="Anular Ajuste" class="readon art-button"  value="Anular" onclick="anular_ajuste()" />
+    <input type="button" title="Anular Ajuste" class="readon art-button" id="anulador" value="Anular" onclick="anular_ajuste()" />
     </span>';
   }
 }?>
