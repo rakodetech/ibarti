@@ -30,7 +30,7 @@ if($tipo != "TODOS"){
 	$where .= " AND ajuste.cod_tipo= '$tipo' ";
 }
 
-$sql = " SELECT ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion), productos.descripcion ) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
+$sql = " SELECT ajuste.codigo,ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion), productos.descripcion ) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
 ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio ,ajuste_reng.aplicar
 FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos,prod_sub_lineas,tallas
 $where
@@ -47,6 +47,7 @@ while($rows=$bd->obtener_name($query)){
 ?>
 <table class="tabla_sistema" width="100%" border="0" align="center">
 	<tr>
+		<th width="8%" class="etiqueta">Codigo</th>
 		<th width="8%" class="etiqueta">Fecha Hora</th>
 		<th width="13%" class="etiqueta">Tipo Movimiento</th>
 		<th width="13%" class="etiqueta">Almacen</th>
@@ -69,6 +70,7 @@ while($rows=$bd->obtener_name($query)){
 				$signo = "-";
 		}
 		echo '<tr>
+		<td class="texto">'.$datos["codigo"].'</td>
 		<td class="texto">'.$datos["fecha"].'</td>
 		<td class="texto">'.longitud($datos["ajuste"]).'</td>
 		<td class="texto">'.longitud($datos["almacen"]).'</td>

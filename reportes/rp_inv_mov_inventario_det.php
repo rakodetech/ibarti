@@ -33,9 +33,8 @@ AND ajuste.fecha BETWEEN '$fecha_D' AND '$fecha_H' ";
 		$where .= " AND ajuste.cod_tipo= '$tipo' ";
 	}
 
-	$sql = " SELECT ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion), productos.descripcion ) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
-ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio ,ajuste_reng.aplicar
-FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos,prod_sub_lineas,tallas
+	$sql = " SELECT ajuste.codigo,ajuste.fecha,prod_mov_tipo.descripcion ajuste, almacenes.descripcion almacen, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion,'  (',productos.item ,')'), CONCAT(productos.descripcion,'  (',productos.item ,')' )) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
+ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos,prod_sub_lineas,tallas
 $where
 ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 
@@ -47,13 +46,13 @@ ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 		$query01  = $bd->consultar($sql);
 
 		echo "<table border=1>";
-		echo "<th> FECHA</th><th> AJUSTE </th><th> ALMACEN </th><th> PRODUCTO </th> <th> CANTIDAD </th>
+		echo "<th> CODIGO</th><th> FECHA</th><th> AJUSTE </th><th> ALMACEN </th><th> PRODUCTO </th> <th> CANTIDAD </th>
 		<th> COSTO </th> <th> IMPORTE </th> <th> CANTIDAD ACUMULADA </th> <th> IMPORTE ACUMULADO </th>
 		<th> COSTO PROMEDIO </th>
 		</tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
-			echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td><td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td></tr>";
+			echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td><td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -74,16 +73,13 @@ ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 		<table>
 		<tbody>
 		<tr style='background-color: #4CAF50;'>
-		<th width='15%'>Fecha</th>
-		<th width='20%'>Ajuste</th>
-		<th width='20%'>Almacen</th>
-		<th width='25%'>Producto</th>
-		<th width='20%'>Cantidad</th>
-		<th width='20%'>Costo</th>
-		<th width='20%'>Importe</th>
-		<th width='20%'>Cantidad Acumulada</th>
-		<th width='20%'>Importe Acumulado</th>
-		<th width='20%'>Costo Promedio</th>
+		<th>Codigo</th>
+		<th>Fecha</th>
+		<th>Ajuste</th>
+		<th>Almacen</th>
+		<th>Producto</th>
+		<th>Cantidad</th>
+		<th>Costo</th>
 		</tr>";
 
 		$f=0;
@@ -93,16 +89,13 @@ ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 			}else{
 				echo "<tr class='class= odd_row'>";
 			}
-			echo   "<td width='15%'>".$row[0]."</td>
-			<td width='20%'>".$row[1]."</td>
-			<td width='20%'>".$row[2]."</td>
-			<td width='25%'>".$row[3]."</td>
-			<td width='20%'>".$row[4]."</td>
-			<td width='20%'>".$row[5]."</td>
-			<td width='20%'>".$row[6]."</td>
-			<td width='20%'>".$row[7]."</td>
-			<td width='20%'>".$row[8]."</td>
-			<td width='20%'>".$row[9]."</td></tr>";
+			echo   "<td width='10%'>".$row[0]."</td>
+			<td width='10%'>".$row[1]."</td>
+			<td width='10%'>".$row[2]."</td>
+			<td width='15%'>".$row[3]."</td>
+			<td width='35%'>".$row[4]."</td>
+			<td width='10%'>".$row[5]."</td>
+			<td width='10%'>".$row[6]."</td></tr>";
 
 			$f++;
 		}
