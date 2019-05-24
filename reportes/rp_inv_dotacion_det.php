@@ -20,8 +20,10 @@ $sub_linea  = $_POST['sub_linea'];
 $producto   = $_POST['producto'];
 $anulado    = $_POST['anulado'];
 $trabajador      = $_POST['trabajador'];
-
+$cliente	= $_POST['cliente'];
+$ubicacion	= $_POST['ubicacion'];
 $reporte         = $_POST['reporte'];
+$restri	    = $_SESSION['r_cliente'];
 $archivo         = "rp_inv_dotacion_".$fecha."";
 $titulo          = "  DOTACION TRABAJADOR \n";
 if(isset($reporte)){
@@ -62,6 +64,13 @@ if(isset($reporte)){
 		$where  .= " AND v_ficha.cod_ficha = '$trabajador' ";
 	}
 
+	if($cliente != "TODOS" && $cliente != ""){
+		$where  .= " AND  clientes.codigo  = '$cliente' ";
+	}
+
+	if($ubicacion != "TODOS" && $ubicacion != ""){
+		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
+	}
 
  $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion, prod_dotacion.fec_us_ing,
                  v_ficha.rol, v_ficha.cod_ficha,
@@ -84,14 +93,17 @@ if(isset($reporte)){
 		 echo "<table border=1>";
  	 echo "<tr><th> Código </th><th> Fecha </th><th> Fecha Ingreso</th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th><th> ".$leng['rol']." </th>
 	           <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th><th> Descripción </th>
-			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Serial </th><th> Cantidad </th>
-			   <th> Importe</th><th> Anulado</th></tr>";
+			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Serial </th><th> Cantidad </th>";
+			   echo ($restri=="F")?'<th class="etiqueta">Importe</th>':'';
+		echo "<th> Anulado</th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
 		 echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[3]."</td>
 		           <td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
 				   <td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td>
-				   <td>".$row01[12]."</td><td>".$row01[15]."</td><td>".$row01[16]."</td></tr>";
+				   <td>".$row01[12]."</td>";
+				   echo ($restri=="F")?'<td class="texto">'.$row01[15].'</td>':''; 
+				 echo "  <td>".$row01[16]."</td></tr>";
 		}
 		 echo "</table>";
 	}

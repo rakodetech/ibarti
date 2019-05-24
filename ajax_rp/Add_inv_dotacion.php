@@ -4,16 +4,18 @@ require "../autentificacion/aut_config.inc.php";
 require "../".class_bd;
 require "../".Leng;
 $bd = new DataBase();
-
+session_start();
 $rol        = $_POST['rol'];
 $linea      = $_POST['linea'];
 $sub_linea  = $_POST['sub_linea'];
 $producto   = $_POST['producto'];
 $anulado    = $_POST['anulado'];
 $trabajador = $_POST['trabajador'];
-
-$fecha_D   = conversion($_POST['fecha_desde']);
-$fecha_H   = conversion($_POST['fecha_hasta']);
+$cliente	= $_POST['cliente'];
+$ubicacion	= $_POST['ubicacion'];
+$restri	    = $_SESSION['r_cliente'];
+$fecha_D    = conversion($_POST['fecha_desde']);
+$fecha_H    = conversion($_POST['fecha_hasta']);
 
 	$where = "  WHERE DATE_FORMAT(prod_dotacion.fec_dotacion, '%Y-%m-%d') BETWEEN  \"$fecha_D\" AND \"$fecha_H\"
    	              AND prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
@@ -23,7 +25,8 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
 			      AND productos.cod_linea = prod_lineas.codigo
 			      AND productos.cod_talla = tallas.codigo
 			      AND productos.cod_sub_linea = prod_sub_lineas.codigo
-			      AND v_ficha.cod_ficha = prod_dotacion.cod_ficha 
+				  AND v_ficha.cod_ficha = prod_dotacion.cod_ficha 
+				  
 			      AND ajuste.referencia = prod_dotacion.codigo
 				AND ajuste_reng.cod_ajuste = ajuste.codigo
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
@@ -52,6 +55,15 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
 		$where  .= " AND v_ficha.cod_ficha = '$trabajador' ";
 	}
 
+	
+	if($cliente != "TODOS" && $cliente != ""){
+		$where  .= " AND  clientes.codigo  = '$cliente' ";
+	}
+
+	if($ubicacion != "TODOS" && $ubicacion != ""){
+		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
+	}
+
  $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
                  v_ficha.rol, v_ficha.cod_ficha,
                  v_ficha.cedula, v_ficha.nombres AS trabajador,
@@ -74,7 +86,7 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
             <th width="24%" class="etiqueta">Sub Linea</th>
             <th width="24%" class="etiqueta">Producto </th>
             <th width="5%" class="etiqueta">Cantidad</th>
-            <th width="5%" class="etiqueta">Importe</th>
+            <?php echo ($restri=="F")?'<th width="5%" class="etiqueta">Importe</th>':'';?>
 	</tr>
     <?php
 	$valor = 0;
@@ -98,7 +110,8 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
 				  <td class="texto">'.longitud($datos["sub_linea"]).'</td>
 				  <td class="texto">'.$datos["producto"].'</td>
 				  <td class="texto">'.$datos["cantidad"].'</td>
-				  <td class="texto">'.$datos["neto"].'</td>
-           </tr>';
+				  ';
+				  echo ($restri=="F")?'<td class="texto">'.$datos["neto"].'</td>':'';
+           echo '</tr>';
         };?>
     </table>

@@ -3,8 +3,8 @@
 
 require "../modelo/clientes_rp_modelo.php";
 $cliente = $_POST['cliente'];
-$estado = $_POST['estado'];
-$ciudad = $_POST['ciudad'];
+$estado = isset($_POST['estado'])?$_POST['estado']:'TODOS';
+$ciudad = isset($_POST['ciudad'])?$_POST['ciudad']:'TODOS';
 
 
 	$region      = new clientes_reporte;
