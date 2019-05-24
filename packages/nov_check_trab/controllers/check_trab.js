@@ -39,7 +39,11 @@ function agregar_registro(e, i) {
     e.preventDefault();
     var parametros = $("#" + i).serializeArray();
     var error=0;
+    var cedula = '';
     for (const key in parametros) {
+        if(parametros[key].name == 'codigo_trabajador'){
+            cedula = parametros[key].value;
+        }
         var indice = parametros[key].name;
         var valor = parametros[key].value;
         if((indice=="codigo_supervisor" && valor=="") || (indice=="codigo_trabajador" && valor=="")){
@@ -53,8 +57,12 @@ function agregar_registro(e, i) {
                 data: parametros,
                 url: 'packages/nov_check_trab/views/set_check_trab.php',
                 type: 'post',
+                beforeSend: function(){
+                    $("#salvar").attr("disabled",true);
+                },
                 success: function (response) {
-                    window.history.back();
+                    $("#salvar").attr("disabled",false);
+                    window.location.href = "inicio.php?area=pestanas/Add_ingreso&Nmenu=439&mod=013&archivo=ingreso&codigo="+cedula+"&metodo=modificar";
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -66,9 +74,10 @@ function agregar_registro(e, i) {
     }else{
         toastr.error(`Tiene que seleccionar un trabajador y un supervisor`, 'ERROR');
     }
-    
 
-
-
-
+}
+function Volver(){
+    if(confirm("¿Estas seguro de que deseas Cancelar la Evaluación?")){
+        window.history.back()
+    }
 }
