@@ -33,7 +33,10 @@ $titulo  = " DOTACION TRABAJADOR ";
 			var error = error + 1;
 			errorMessage = errorMessage + ' \n Debe Seleccionar un Rol ';
 		}
-
+		if (cliente == '') {
+			var error = error + 1;
+			errorMessage = errorMessage + ' \n Debe Seleccionar un Cliente ';
+		}
 		if (error == 0) {
 			var contenido = "listar";
 			var parametros = {
@@ -127,8 +130,8 @@ $titulo  = " DOTACION TRABAJADOR ";
 
 			<td>Cliente:</td>
 			<td><select name="cliente" id="cliente" onchange="llenar_ubicacion(this.value)" style="width:120px;">
-					<option value="TODOS">TODOS</option>
 					<?php
+					echo $select_cl ;
 					$query01 = $bd->consultar($sql_cliente);
 					while ($row01 = $bd->obtener_fila($query01, 0)) {
 						echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
@@ -219,7 +222,7 @@ $titulo  = " DOTACION TRABAJADOR ";
 				success: function(response) {
 					var datos = JSON.parse(response);
 
-					$('#ubicacion').append('<option value="TODOS">selecione...</option>');
+					$('#ubicacion').append('<option value="">selecione...</option>');
 					datos.forEach((res, i) => {
 						$('#ubicacion').append("<option value='" + res[0] + "'>" + res[1] + "</option>");
 
@@ -231,7 +234,7 @@ $titulo  = " DOTACION TRABAJADOR ";
 				}
 			});
 		} else {
-			$('#ubicacion').append('<option value= "TODOS">TODOS</option>');
+			$('#ubicacion').append('<option value= ""></option>');
 		}
 	}
 </script>
