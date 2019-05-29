@@ -74,8 +74,9 @@ if($metodo == "agregar"){
       echo '
       <tr id="tr_'.$datos["reng_num"].'">
       <td><input type="text" id="items_'.$datos["reng_num"].'" value="'.$datos["reng_num"].'" readonly style="width:100px"></td>
-      <td><input type="text" id="prod_'.$datos["reng_num"].'" value="'.$datos["producto"].'" readonly style="width:200px"></td>
-      <td><input type="text" id="alm_'.$datos["reng_num"].'" value="'.$datos["almacen"].'" readonly style="width:120px"></td>
+      <td><input type="hidden" id="prod_'.$datos["reng_num"].'" value="'.$datos["producto"].' '.$datos["serial"].'">
+      '.$datos["producto"].' ('.$datos["serial"].')</td>
+      <td><input type="hidden" id="alm_'.$datos["reng_num"].'" value="'.$datos["almacen"].'">'.$datos["almacen"].'</td>
       <td><input type="text" id="cant_'.$datos["reng_num"].'" value="'.$datos["cantidad"].'" readonly style="width:100px"></td>
       <td><input type="text" id="costo_'.$datos["reng_num"].'" value="'.$datos["costo"].'" readonly style="width:100px"></td>
       <td><input type="text" id="neto_'.$datos["reng_num"].'" value="'.$datos["neto"].'" readonly style="width:150px"></td>';

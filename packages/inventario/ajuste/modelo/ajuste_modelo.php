@@ -161,7 +161,7 @@ class Ajuste
 
   public function get_aj_reng($cod){
     $this->datos   = array();
-    $sql = " SELECT a.*, b.descripcion producto,c.descripcion almacen
+    $sql = " SELECT a.*, b.descripcion producto,c.descripcion almacen,b.item serial
     FROM ajuste_reng a , productos b,almacenes c
     WHERE a.cod_ajuste = $cod
     AND a.cod_producto = b.item
