@@ -8,8 +8,8 @@ function valores(codigo, tipo) {
         url: 'packages/nov_check_trab/views/crear_novedad_valor.php',
         type: 'post',
         success: function (response) {
-            //console.log(response)
-            $("#contenedor").html(response);
+            console.log(JSON.parse(response));
+            //$("#contenedor").html(response);
 
         },
         error: function (xhr, ajaxOptions, thrownError) {
