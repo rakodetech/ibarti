@@ -63,13 +63,16 @@ class check_list
 		$sql = "SELECT
 		nov_valores.codigo,
 		nov_valores.abrev,
-		nov_valores.descripcion
+		nov_valores.descripcion,
+		novedades.descripcion nov
 	FROM
 		nov_valores,
-		nov_valores_det
+		nov_valores_det,
+		novedades
 	WHERE
 		nov_valores_det.cod_novedades = '$novedad'
 	AND nov_valores_det.cod_valores = nov_valores.codigo
+	AND novedades.codigo = nov_valores_det.cod_novedades
 		
 		";
 

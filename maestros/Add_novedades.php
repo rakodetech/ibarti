@@ -86,20 +86,20 @@ if ($metodo == 'modificar') {
 					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 				</td>
 			</tr>
-			<tr id="campo_muestra" style="<?php echo ($campo!="")?'display:block;':'display:none;';?>">
-				<td class="etiqueta" id="campo"><?php echo ($campo=="F")?"Dias de Vencimiento":"Valor Critico";?></td>
+			<tr id="campo_muestra" style="<?php echo ($campo != "") ? 'display:block;' : 'display:none;'; ?>">
+				<td class="etiqueta" id="campo"><?php echo ($campo == "F") ? "Dias de Vencimiento" : "Valor Critico"; ?></td>
 				<td class="etiqueta"><input type="number" name="dias_v" id="dias_v" min="1" id="dias_v" value="<?php echo $dias_v ?>"></td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Clasificaci&oacute;n:</td>
 				<td id="select01"><select name="clasif" id="clasif" style="width:250px" onchange="{llenar_nov_tipo(this.value)}">
-						<option value="<?php echo $cod_clasif; ?>" onclick='cambiar_campo(<?php echo "\"$campo\"";?>)'><?php echo $clasif; ?></option>
+						<option value="<?php echo $cod_clasif; ?>" onclick='cambiar_campo(<?php echo "\"$campo\""; ?>)'><?php echo $clasif; ?></option>
 						<?php $sql = " SELECT codigo, descripcion,campo04 FROM nov_clasif WHERE `status` = 'T' 
 		                        AND codigo <> '$cod_clasif' ORDER BY 2 ASC ";
 						$query = $bd->consultar($sql);
 						while ($datos = $bd->obtener_fila($query, 0)) {
 							?>
-							<option value="<?php echo $datos[0]; ?>" onclick='cambiar_campo(<?php echo "\"$datos[2]\"";?>)'><?php echo $datos[1]; ?></option>
+							<option value="<?php echo $datos[0]; ?>" onclick='cambiar_campo(<?php echo "\"$datos[2]\""; ?>)'><?php echo $datos[1]; ?></option>
 						<?php } ?>
 					</select><br />
 					<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>
@@ -393,21 +393,23 @@ if ($metodo == 'modificar') {
 			case 'modificar':
 				$('#boton_agregar').val('modificar');
 				$('#clasifica').val(arreglo_valores[pos].id_clasif);
-				llenar_valores(arreglo_valores[pos].id_clasif,()=>{
+				llenar_valores(arreglo_valores[pos].id_clasif, () => {
 					$('#valora').val(arreglo_valores[pos].id);
-				$('#cantidad').val(arreglo_valores[pos].cantidad);
+					$('#cantidad').val(arreglo_valores[pos].cantidad);
 				});
-			
+
 				modificar = true;
 				pos_modificar = pos;
 		}
 		update_table('tabla_add', arreglo_valores);
 	}
-	function cambiar_campo(campo){
+
+	function cambiar_campo(campo) {
 		$("#campo_muestra").show();
-		$("#campo").html((campo=='F')?'Dias de Vencimiento':'Valor Critico');
+		$("#campo").html((campo == 'F') ? 'Dias de Vencimiento' : 'Valor Critico');
 	}
-	function llenar_valores(clasif,call) {
+
+	function llenar_valores(clasif, call) {
 		var parametros = {
 			"clasif": clasif
 		};
@@ -417,7 +419,7 @@ if ($metodo == 'modificar') {
 			type: 'post',
 			success: function(response) {
 				$('#valora').html(response)
-				if(typeof call==='function'){
+				if (typeof call === 'function') {
 					call()
 				}
 			},
@@ -429,7 +431,7 @@ if ($metodo == 'modificar') {
 	}
 
 
-	
+
 	function agregar_db() {
 
 		var codigo_novedad = $('#codigo').val();
@@ -446,7 +448,7 @@ if ($metodo == 'modificar') {
 		var array_valores = [];
 		var array_cantidades = [];
 
-		if (codigo_novedad != '' && orden != '' && clasif != '' && tipo != '' && descripcion != '' && activo != '' && proced != '' && dias_v != '' && usuario != '' && metodo != '' && arreglo_valores.length >0) {
+		if (codigo_novedad != '' && orden != '' && clasif != '' && tipo != '' && descripcion != '' && activo != '' && proced != '' && dias_v != '' && usuario != '' && metodo != '' && arreglo_valores.length > 0) {
 
 
 			arreglo_valores.forEach((res) => {

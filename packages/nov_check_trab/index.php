@@ -1,5 +1,5 @@
 <?php require "views/accionar_check.php"; ?>
-<div class="mod">
+<div id="mod" class="mod">
     <table id="opciones_mod" width="100%">
         <thead>
             <tr>
@@ -7,38 +7,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td width="80%" style="text-align:center;border:1px solid;">opcion1</td>
-                <td width="20%" style="text-align:center;border:1px solid;"><input type="radio" name="" id=""></td>
-            </tr>
-            <tr>
-                <td width="80%" style="text-align:center;border:1px solid;">opcion1</td>
-                <td width="20%" style="text-align:center;border:1px solid;"><input type="radio" name="" id=""></td>
-            </tr>
-            <tr>
-                <td width="80%" style="text-align:center;border:1px solid;">opcion1</td>
-                <td width="20%" style="text-align:center;border:1px solid;"><input type="radio" name="" id=""></td>
-            </tr>
-            <tr>
-                <td width="80%" style="text-align:center;border:1px solid;">opcion1</td>
-                <td width="20%" style="text-align:center;border:1px solid;"><input type="radio" name="" id=""></td>
-            </tr>
-            
+          
         </tbody>
     </table>
 </div>
 
 <style>
     .mod {
+        display: none;
         overflow: scroll;
         overflow-y: scroll;
         overflow-x: hidden;
         position: absolute;
-        left: 25%;
-        right: 25%;
-        top: 25%;
-        width: 50%;
-        max-height: 100px;
+        width: 300px;
+        max-height: 200px;
         background: white;
         border: 2px solid;
         z-index: 99999;
