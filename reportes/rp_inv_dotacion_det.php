@@ -39,7 +39,8 @@ if(isset($reporte)){
 			      AND ajuste.referencia = prod_dotacion.codigo
 				AND ajuste_reng.cod_ajuste = ajuste.codigo
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
-				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto ";
+				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto
+				AND ajuste_reng.anulado = 'F' ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";

@@ -26,11 +26,11 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 			      AND productos.cod_talla = tallas.codigo
 			      AND productos.cod_sub_linea = prod_sub_lineas.codigo
 				  AND v_ficha.cod_ficha = prod_dotacion.cod_ficha 
-				  
 			      AND ajuste.referencia = prod_dotacion.codigo
 				AND ajuste_reng.cod_ajuste = ajuste.codigo
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
-				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto";
+				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto
+				AND ajuste_reng.anulado = 'F' ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
@@ -75,6 +75,7 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
           $where
         ORDER BY 2 ASC ";
 ?>
+
 <table width="100%" border="0" align="center">
 		<tr class="fondo00">
   			<th width="9%" class="etiqueta">Codigo</th>
