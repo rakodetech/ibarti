@@ -34,7 +34,7 @@ foreach ($novedad as $index => $valor) {
             }
             $html.="<tr style='border:1px solid; text-align:center;'>
             <td style='border:1px solid; text-align: justify;'>".$valor[1]."</td>
-            <td style='border:1px solid; text-align:center;' id='contenedor_".$valor[0]."' value='' onclick='func(this)' onmouseenter='func(this)'>";
+            <td style='border:1px solid; text-align:center;' id='contenedor_".$valor[0]."' value='' onmouseenter='func(this)'>";
             $valores = $c_l->obtener_valor($valor[0]);
             $nueva.= (($i>0)?",":"").'"'.$valor[0].'":'.json_encode($valores);
             $i++;

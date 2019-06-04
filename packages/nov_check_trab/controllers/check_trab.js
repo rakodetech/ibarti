@@ -27,17 +27,19 @@ function seleccionado(novedad, posicion, valor) {
     });
     $("#contenedor_" + novedad+" p").text(arreglo_v[novedad][posicion].descripcion);
     arreglo_v[novedad][posicion].check = valor;
-    //console.log(arreglo_v[novedad][posicion]);
-    arreglo_v[novedad].forEach((res)=>{
-        //console.log(2,res);
-        //res.check="";
-    });
+
+    if($("#mod_"+novedad).length<=0){
+        $("#contenedor_" + novedad).append(/*html*/`
+        <img id="mod_${novedad}" src="imagenes/consultar01.png" width="20px" onclick='func(this)' height="20px" style="border:1px solid;cursor:pointer;" title="MODIFICAR"></img>
+    `)
+    }
+    
     
 }
 
 function func(el) {
     
-    var id = el.id.replace('contenedor_', '');
+    var id = el.id.replace('contenedor_', '').replace('mod_','');
 
     if (event.type == "click") {
         if ($("#cod_" + id).val() != "") {
@@ -121,14 +123,21 @@ function agregar_registro(e, i) {
     e.preventDefault();
     var parametros = $("#" + i).serializeArray();
     var error = 0;
+    var mensajes = [];
     for (const key in parametros) {
         var indice = parametros[key].name;
         var valor = parametros[key].value;
+        if(indice.indexOf("valores")==0){
+            if(valor==""){
+                error++;
+            }
+        }
         if ((indice == "codigo_supervisor" && valor == "") || (indice == "codigo_trabajador" && valor == "")) {
             error++;
         }
+        
     }
-
+    
     if (error <= 0) {
         if (confirm("Esta seguro que desea guardar la evaluacion")) {
             $.ajax({
@@ -146,7 +155,7 @@ function agregar_registro(e, i) {
         }
 
     } else {
-        toastr.error(`Tiene que seleccionar un trabajador y un supervisor`, 'ERROR');
+        toastr.error(`Tiene que seleccionar todo`, 'ERROR');
     }
 
 
