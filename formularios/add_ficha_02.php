@@ -12,9 +12,9 @@ productos.descripcion AS producto, v_prod_dot_max2.cantidad
 FROM v_prod_dot_max2, prod_lineas, prod_sub_lineas, productos
 WHERE v_prod_dot_max2.cod_linea = prod_lineas.codigo
 AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
-AND v_prod_dot_max2.cod_producto = productos.codigo 
+AND v_prod_dot_max2.cod_producto = productos.item 
 AND v_prod_dot_max2.cod_ficha = '$codigo'
-ORDER BY 3 DESC ";
+ORDER BY 1,3 DESC ";
 ?>
 <form action="scripts/sc_ficha_02.php" method="post" name="add" id="add"> 
   <fieldset class="fieldset">
@@ -24,7 +24,7 @@ ORDER BY 3 DESC ";
     ?>
 </fieldset>
 <fieldset class="fieldset">
-  <legend>Ultima Dotacion Uniformes </legend>
+  <legend>Ultima Dotación </legend>
   <table width="100%" border="0" align="center">
     <tr class="fondo00">
      <th width="10%" class="etiqueta">Cod. Dotacion</th>

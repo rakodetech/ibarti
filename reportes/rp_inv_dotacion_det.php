@@ -74,7 +74,7 @@ if(isset($reporte)){
 
  $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion, prod_dotacion.fec_us_ing,
                  v_ficha.rol, v_ficha.cod_ficha,
-                 v_ficha.cedula, v_ficha.nombres AS trabajador,
+                 v_ficha.cedula, v_ficha.ap_nombre AS trabajador,
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
                  prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',productos.cod_talla,') ') AS producto,
                  productos.item serial,
