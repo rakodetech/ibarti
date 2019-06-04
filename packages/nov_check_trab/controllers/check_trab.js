@@ -22,9 +22,17 @@ function valores(codigo, tipo) {
 function seleccionado(novedad, posicion, valor) {
     $('#mod').hide();
     $("#cod_" + novedad).val(valor);
+    arreglo_v[novedad].forEach((res)=>{
+        res.check="";
+    });
     $("#contenedor_" + novedad+" p").text(arreglo_v[novedad][posicion].descripcion);
     arreglo_v[novedad][posicion].check = valor;
-    console.log(arreglo_v[novedad][posicion]);
+    //console.log(arreglo_v[novedad][posicion]);
+    arreglo_v[novedad].forEach((res)=>{
+        //console.log(2,res);
+        //res.check="";
+    });
+    
 }
 
 function func(el) {
@@ -43,14 +51,21 @@ function func(el) {
             $("#opciones_mod tbody").html('');
             arreglo_v[id].forEach((res, i) => {
                 
-                var check = (typeof res.check == "undefined");
+                var check = false;
+                
+                if(!(typeof res.check == "undefined")){
+                    if(res.check!=""){
+                        check = true;
+                    }
+                }
                 $("#opciones_mod tbody").append(/*html*/`
                 <tr>
                     <td width="80%">${res.descripcion}</td>
-                    <td width="20%"><input type="radio" onclick="seleccionado('${id}','${i}',this.value)" ${check ? '' : 'checked'} name="${id}" value="${res.codigo}"></td>
+                    <td width="20%"><input type="radio" onclick="seleccionado('${id}','${i}',this.value)" ${check ? 'checked="checked"':''} name="${id}" value="${res.codigo}"></td>
                 </tr>
-            `)
+            `);
             });
+            
         }
     }else{
         if ($('#cod_' + id).val() == "") {
@@ -64,8 +79,13 @@ function func(el) {
             $('#titulo_mod').html(arreglo_v[id][0].nov);
             $("#opciones_mod tbody").html('');
             arreglo_v[id].forEach((res, i) => {
-    
-                var check = !(typeof res.check == "undefined");
+                var check = false;
+                
+                if(!(typeof res.check == "undefined")){
+                    if(res.check!=""){
+                        check = true;
+                    }
+                }
                 $("#opciones_mod tbody").append(/*html*/`
                 <tr>
                     <td width="80%">${res.descripcion}</td>

@@ -38,7 +38,7 @@ foreach ($novedad as $index => $valor) {
             $valores = $c_l->obtener_valor($valor[0]);
             $nueva.= (($i>0)?",":"").'"'.$valor[0].'":'.json_encode($valores);
             $i++;
-            $html.='<input type="hidden" id="cod_'.$valor[0].'" value=""><p>SIN SELECCION</p>';
+            $html.='<input type="hidden" id="cod_'.$valor[0].'" name="valores['.$valor[0].']" value=""><p>SIN SELECCION</p>';
             /*foreach ($valores as $index2 => $valor2) {
                 $check = (($valor[0] == $novedad_actual) && ($valor2[0] == $valor_actual)) ? 'checked' : '';
                 //$html.= '<div style="float:left;" title="' . $valor2[2] . '">' . $valor2[1] . '<input type="radio" required="required" name="valores[' . $valor[0] . ']" value="' . $valor2[0] . '" ' . $check . ' ></div> ';

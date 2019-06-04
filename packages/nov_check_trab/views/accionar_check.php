@@ -129,17 +129,12 @@ $fecha_sistema = conversion($date);
 
         <tr>
             <td class="etiqueta">Observacion:</td>
-            <td id="textarea01"><textarea name="observacion" cols="42" rows="2" readonly="readonly" value="<?php echo $descripcion; ?>"></textarea>
+            <td id="textarea01"><textarea name="observacion" cols="42" rows="2" value="<?php echo $descripcion; ?>"></textarea>
                 <span id="Counterror_mess1" class="texto">&nbsp;</span><br />
                 <span class="textareaRequiredMsg">El Campo es Requerido.</span>
                 <span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
                 <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span></td>
-            <td class="etiqueta">Repuesta:</td>
-            <td id="textarea02"><textarea name="repuesta" id="respuesta" value="<?php echo $respuesta; ?>" cols="42" rows="2" readonly="readonly"></textarea>
-                <span id="Counterror_mess2" class="texto">&nbsp;</span><br />
-                <span class="textareaRequiredMsg">El Campo es Requerido.</span>
-                <span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
-                <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span></td>
+            
         </tr>
         <tr>
             
