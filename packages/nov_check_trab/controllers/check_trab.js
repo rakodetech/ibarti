@@ -22,24 +22,24 @@ function valores(codigo, tipo) {
 function seleccionado(novedad, posicion, valor) {
     $('#mod').hide();
     $("#cod_" + novedad).val(valor);
-    arreglo_v[novedad].forEach((res)=>{
-        res.check="";
+    arreglo_v[novedad].forEach((res) => {
+        res.check = "";
     });
-    $("#contenedor_" + novedad+" p").text(arreglo_v[novedad][posicion].descripcion);
+    $("#contenedor_" + novedad + " p").text(arreglo_v[novedad][posicion].descripcion);
     arreglo_v[novedad][posicion].check = valor;
 
-    if($("#mod_"+novedad).length<=0){
+    if ($("#mod_" + novedad).length <= 0) {
         $("#contenedor_" + novedad).append(/*html*/`
         <img id="mod_${novedad}" src="imagenes/consultar01.png" width="20px" onclick='func(this)' height="20px" style="border:1px solid;cursor:pointer;" title="MODIFICAR"></img>
     `)
     }
-    
-    
+
+
 }
 
 function func(el) {
-    
-    var id = el.id.replace('contenedor_', '').replace('mod_','');
+
+    var id = el.id.replace('contenedor_', '').replace('mod_', '');
 
     if (event.type == "click") {
         if ($("#cod_" + id).val() != "") {
@@ -52,24 +52,24 @@ function func(el) {
             $('#titulo_mod').html(arreglo_v[id][0].nov);
             $("#opciones_mod tbody").html('');
             arreglo_v[id].forEach((res, i) => {
-                
+
                 var check = false;
-                
-                if(!(typeof res.check == "undefined")){
-                    if(res.check!=""){
+
+                if (!(typeof res.check == "undefined")) {
+                    if (res.check != "") {
                         check = true;
                     }
                 }
                 $("#opciones_mod tbody").append(/*html*/`
                 <tr>
                     <td width="80%">${res.descripcion}</td>
-                    <td width="20%"><input type="radio" onclick="seleccionado('${id}','${i}',this.value)" ${check ? 'checked="checked"':''} name="${id}" value="${res.codigo}"></td>
+                    <td width="20%"><input type="radio" onclick="seleccionado('${id}','${i}',this.value)" ${check ? 'checked="checked"' : ''} name="${id}" value="${res.codigo}"></td>
                 </tr>
             `);
             });
-            
+
         }
-    }else{
+    } else {
         if ($('#cod_' + id).val() == "") {
 
             var pos = $('#' + el.id).offset();
@@ -82,9 +82,9 @@ function func(el) {
             $("#opciones_mod tbody").html('');
             arreglo_v[id].forEach((res, i) => {
                 var check = false;
-                
-                if(!(typeof res.check == "undefined")){
-                    if(res.check!=""){
+
+                if (!(typeof res.check == "undefined")) {
+                    if (res.check != "") {
                         check = true;
                     }
                 }
@@ -98,7 +98,7 @@ function func(el) {
         }
     }
 
-    
+
 
 }
 
@@ -127,23 +127,31 @@ function agregar_registro(e, i) {
     for (const key in parametros) {
         var indice = parametros[key].name;
         var valor = parametros[key].value;
-        if(indice.indexOf("valores")==0){
-            if(valor==""){
+        if (indice.indexOf("valores") == 0) {
+            if (valor == "") {
                 error++;
             }
         }
         if ((indice == "codigo_supervisor" && valor == "") || (indice == "codigo_trabajador" && valor == "")) {
             error++;
         }
-        
+
     }
-    
+
     if (error <= 0) {
         if (confirm("Esta seguro que desea guardar la evaluacion")) {
             $.ajax({
                 data: parametros,
                 url: 'packages/nov_check_trab/views/set_check_trab.php',
                 type: 'post',
+                beforeSend: function () {
+                    $('#salvar').remove();
+                    toastr.info("<img src='imagenes/loading.gif' width='30px' height='30px'></img>", "PORFAVOR ESPERE", {
+                        timeOut: "0",
+                        extendedTimeOut: "0"
+                    });
+
+                },
                 success: function (response) {
                     window.history.back();
                 },
