@@ -189,7 +189,7 @@ border:1px solid;"></div>
 
         <span class="art-button-l"> </span>
         <span class="art-button-r"> </span>
-        <input type="button" value="Volver" class="readon art-button" onclick="window.history.back()">
+        <input type="button" value="Volver" class="readon art-button" onclick="Volver()">
 
     </span>&nbsp;
     <span class="art-button-wrapper">
