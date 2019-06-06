@@ -8,9 +8,13 @@ $bd = new DataBase();
 $result = array();
 
 foreach($_POST as $nombre_campo => $valor){
-  $variables = "\$".$nombre_campo."='".$valor."';";
-  eval($variables);
+  if($nombre_campo != "eans"){
+    $variables = "\$".$nombre_campo."='".$valor."';";
+    eval($variables);
+  }
 }
+$fecha_actual = date('Y-m-d H:i:s');
+$eans = $_POST["eans"];
 
 if(isset($_POST['proced'])){
   try {
@@ -18,11 +22,22 @@ if(isset($_POST['proced'])){
     '$unidad',  '$proveedor','$procedencia','$almacen', '$iva','$item', '$descripcion', 
     '$prec_vta1', '$prec_vta2',' $prec_vta3', '$prec_vta4',  '$prec_vta5',   
     '$garantia', '$talla','$peso', '$piecubico','$venc', '$fec_venc',
-    '$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo')";
+    '$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo','$ean')";
 
-    $result['sql'] = $sql;
     $query   = $bd->consultar($sql);
-    
+
+    $result['sql'][] = $sql;
+
+    if($ean == 'T'){
+        $sql = "DELETE FROM prod_ean WHERE cod_producto = '$item' ";
+        $query   = $bd->consultar($sql);
+        foreach($eans as $eanX) {
+          $sql = "INSERT INTO prod_ean(cod_producto,cod_ean,cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod) VALUES('$item','$eanX','$usuario','$fecha_actual','$usuario','$fecha_actual')";
+          $query   = $bd->consultar($sql);
+          $result['sql'][] = $sql;
+          $result['eans'][] = $ean;
+      }
+    }
 
   }catch (Exception $e) {
    $error =  $e->getMessage();

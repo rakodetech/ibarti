@@ -159,6 +159,13 @@ class Ajuste
     return  $this->datos = $this->bd->obtener_fila($query);
   }
 
+  public function get_if_ean($cod){
+    $this->datos   = array();
+    $sql = " SELECT ean FROM productos WHERE item = '$cod'";
+    $query = $this->bd->consultar($sql);
+    return  $this->datos = $this->bd->obtener_fila($query);
+  }
+
   public function get_aj_reng($cod){
     $this->datos   = array();
     $sql = " SELECT a.*, b.descripcion producto,c.descripcion almacen,b.item serial

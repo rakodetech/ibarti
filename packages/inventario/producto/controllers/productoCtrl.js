@@ -1,14 +1,27 @@
 var metodo = "AGREGAR";
+
+var eans = [];
+var reng_num = 0;
+var index = 0;
+
 $(function() {
 	Cons_producto('', 'AGREGAR');
 });
+
+function ActivarEan(activo){
+ if(activo){
+ 	$("#tab_ean").show();
+ }else{
+ 	$("#tab_ean").hide();
+ }
+}
 
 function Cons_producto(cod, met){
 	var error        = 0;
 	var errorMessage = ' ';
 	metodo = met;
 	if(error == 0){
-		var parametros = { "codigo" : cod, "metodo": metodo};
+		var parametros = {"codigo" : cod, "metodo": metodo};
 		$.ajax({
 			data:  parametros,
 			url:   'packages/inventario/producto/views/Add_form.php',
@@ -24,11 +37,17 @@ function Cons_producto(cod, met){
 					$('#agregar_producto').show();
 					var sub_linea       = $("#p_sub_linea").val();
 					get_propiedades(sub_linea);
+					if($("#p_ean:checked").val()){
+						cargarEans(cod);
+					}
 				}else if(metodo=="AGREGAR" && cod != ""){
 					var sub_linea       = $("#p_sub_linea").val();
 					get_propiedades(sub_linea);
 					$('#agregar_producto').show();
 					$("#p_codigo").attr("disabled",true);
+				}
+				if($("#p_ean:checked").val()){
+					$("#tab_ean").show();
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
@@ -83,6 +102,7 @@ function save_producto(){
 	var campo04     	= $("#campo04").val();
 
 	var activo       	= Status($("#p_activo:checked").val());
+	var ean       	= Status($("#p_ean:checked").val());
 	var usuario      	= $("#usuario").val();
 	var metodo       	= $("#p_metodo").val();
 	var item = codigo+"-"+linea+"-"+sub_linea;
@@ -109,7 +129,7 @@ function save_producto(){
 	}
 
 	if(error == 0){
-		var parametros = {"codigo": codigo, "activo": activo, "linea": linea,         
+		var parametros = {"codigo": codigo, "activo": activo, "ean": ean, "eans":eans, "linea": linea,         
 		"sub_linea" : sub_linea, "color": color,         "prod_tipo": prod_tipo ,
 		"unidad": unidad , "proveedor": proveedor , "iva": iva , "item":item, "descripcion": descripcion ,
 		"procedencia": procedencia,"almacen":almacen, "prec_vta1":prec_vta1, "prec_vta2":prec_vta2,"prec_vta3":prec_vta3,
@@ -334,4 +354,96 @@ function irAAgregarProducto(){
 function volver(){
 	$("#buscar_producto").hide();
 	$("#add_producto").show();
+}
+
+function agregar_ean(){
+    var error        = 0;
+    var errorMessage = ' ';
+    var ean = $("#prod_ean").val();
+    var existe = eans.some((d)=>d.ean == ean);
+
+    if(ean == ""){
+        error = 1;
+        errorMessage = "El EAN es Obligatorio.";
+    }
+
+    if(existe){
+    	error = 1;
+        errorMessage = "Este EAN ya existe!..";
+    }
+
+    if(error == 0){
+    	reng_num++;
+        eans.push(ean);
+        var tr = ('<tr id="tr_' + reng_num + '"></tr>');
+        var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + ean + '" style="width:300px"></td>');
+		var td02 = ('<td><img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_ean(' + reng_num + ')" title="Borrar Registro"/> </td>');
+
+        $('#listar_eans').append(tr);
+        $('#tr_' + reng_num + '').append(td01);
+        $('#tr_' + reng_num + '').append(td02);
+        $("#prod_ean").val("");
+	}else{
+	    toastr.warning(errorMessage);
+	}
+}
+
+function Borrar_ean(intemsV){
+ if(confirm("Esta seguro de borrar temporalmente este EAN?")){
+    var error        = 0;
+    var errorMessage = ' ';
+    if(error == 0){
+
+    var datos = eans;
+    $("#listar_eans").html("");
+    eans = [];
+    reng_num = 0;
+    jQuery.each(datos, function(i) {
+        reng_num++;
+        console.log(intemsV,reng_num);
+        if (reng_num != intemsV) {
+            eans.push(datos[i]);
+
+	        var tr = ('<tr id="tr_' + eans.length + '"></tr>');
+	        var td01 = ('<td><input type="text" id="reng_num_' + eans.length + '" value="' + datos[i] + '" style="width:300px"></td>');
+			var td02 = ('<td><img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_ean(' + eans.length + ')" title="Borrar Registro"/> </td>');
+
+	        $('#listar_eans').append(tr);
+	        $('#tr_' + eans.length + '').append(td01);
+	        $('#tr_' + eans.length + '').append(td02);
+        }
+    });
+    }else{
+        toastr.error(errorMessage);
+    }
+}
+}
+
+function cargarEans(codigo){
+	$.ajax({
+	        data: { 'codigo': codigo },
+	        url: 'packages/inventario/producto/views/Add_EAN.php',
+	        type: 'post',
+	        success: function(response) {
+	        	console.log(response);
+	            var resp = JSON.parse(response);
+	            reng_num = 0;
+	            jQuery.each(resp, function(i) {
+	            	    	reng_num++;
+					        eans.push(resp[i].cod_ean);
+					        var tr = ('<tr id="tr_' + reng_num + '"></tr>');
+					        var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + resp[i].cod_ean + '" style="width:300px"></td>');
+							var td02 = ('<td><img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_ean(' + reng_num + ')" title="Borrar Registro"/> </td>');
+
+					        $('#listar_eans').append(tr);
+					        $('#tr_' + reng_num + '').append(td01);
+					        $('#tr_' + reng_num + '').append(td02);
+					        $("#prod_ean").val("");
+	            });
+	        },
+	        error: function(xhr, ajaxOptions, thrownError) {
+	            alert(xhr.status);
+	            alert(thrownError);
+	        }
+	});
 }

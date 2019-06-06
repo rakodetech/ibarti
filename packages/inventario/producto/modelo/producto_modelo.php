@@ -90,7 +90,7 @@ class Producto
       'prec_vta3' => '', 'fec_prec_vta3' => '','prec_vta4' => '', 'fec_prec_vta4' => '',
       'garantia' => '', 'talla' => '','peso' => '', 'piecubico' => '',
       'venc' => 'F', 'fec_venc' => '','campo01' => '', 'campo02' => '','campo03' => '','campo04' => '',
-      'prec_vta5' => '', 'fec_prec_vta5' => '','status' => 'T');
+      'prec_vta5' => '', 'fec_prec_vta5' => '','status' => 'T','ean' => 'F');
     return $this->datos;
   }
 
@@ -119,7 +119,7 @@ class Producto
     productos.fec_prec_v5, productos.prec_vta5,
     productos.piecubico, productos.campo01,
     productos.campo02, productos.campo03,
-    productos.campo04, productos.`status`
+    productos.campo04, productos.`status`, productos.ean
     FROM productos , prod_lineas , prod_sub_lineas , colores , tallas, prod_tipos ,
     unidades , proveedores , iva, prod_procedencia,almacenes
     WHERE productos.cod_linea = prod_lineas.codigo 
@@ -285,6 +285,22 @@ class Producto
 
     return $this->datos= $this->bd->obtener_fila($query);
   }
+
+
+  public function get_eans($cod){
+    $this->datos   = array();
+    $sql = " SELECT a.cod_producto, a.cod_ean
+    FROM prod_ean a
+    WHERE a.cod_producto = '$cod'
+    ORDER BY a.fec_us_mod DESC";
+    $query = $this->bd->consultar($sql);
+
+    while ($datos= $this->bd->  obtener_fila($query)) {
+      $this->datos[] = $datos;
+    }
+    return $this->datos;
+  }
+
   
 }
 ?>
