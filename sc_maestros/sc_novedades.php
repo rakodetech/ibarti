@@ -29,8 +29,8 @@ $cantidad = $_POST['cantidad'];
 	                           '$tipo', '$descripcion', '$usuario', '$activo',$dias_vencimiento)";						 		
 
 	$query = $bd->consultar($sql);	
-	
-	$sql   = "DELETE FROM nov_valores_det WHERE cod_novedades = '$codigo'";
+	//if(count($valor)>0){
+		$sql   = "DELETE FROM nov_valores_det WHERE cod_novedades = '$codigo'";
     $query = $bd->consultar($sql);	
 
 		 foreach($valor as $clave=>$valorX){
@@ -43,6 +43,8 @@ $cantidad = $_POST['cantidad'];
 		    $query = $bd->consultar($sql);			 
 		 }		   	
 	}
+	//}
+	
 	
 require_once('../funciones/sc_direccionar.php');  
 ?>
