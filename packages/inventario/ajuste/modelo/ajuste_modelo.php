@@ -182,6 +182,5 @@ class Ajuste
     return $this->datos;
   }
 
-
 }
 ?>
