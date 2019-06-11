@@ -67,32 +67,22 @@ if (isset($reporte)) {
 	),
 	SUM(
 		nov_check_list_trab_det.valor_max
-	),
-	CONCAT(
-		ROUND(
-			(
-				SUM(
-					nov_check_list_trab_det.valor
-				) / SUM(
-					nov_check_list_trab_det.valor_max
-				)
-			) * 100
-		),
-		'%'
-	) porcentaje
+	)
 FROM
 	preingreso,
 	nov_check_list_trab,
 	nov_check_list_trab_det,
 	nov_tipo,
 	nov_clasif,
-	ficha
+	ficha,
+	novedades
 	WHERE nov_check_list_trab.fec_us_ing BETWEEN \"$fecha_D\" AND \"$fecha_H\" AND 
  nov_check_list_trab.cedula = preingreso.cedula
 AND nov_check_list_trab.cod_nov_clasif = nov_clasif.codigo
 AND nov_check_list_trab.cod_nov_tipo = nov_tipo.codigo
 AND nov_check_list_trab.codigo = nov_check_list_trab_det.cod_check_list 
 AND nov_check_list_trab.cod_ficha = ficha.cod_ficha
+AND nov_check_list_trab_det.cod_novedades = novedades.codigo
 $where
 GROUP BY
 	nov_check_list_trab.codigo
@@ -117,7 +107,6 @@ GROUP BY
 					<th  class="etiqueta">Entrevistador</th>
 					<th  class="etiqueta">Valor</th>
 					<th  class="etiqueta">Valor MAX</th>
-					<th  class="etiqueta">Puntaje</th>
 				</tr>
 			';
 		$query01  = $bd->consultar($sql);
@@ -136,7 +125,6 @@ GROUP BY
 					<td>' . strtoupper($datos[7]) . '</td>
 					<td>' . $datos[8] . '</td>
 					<td>' . $datos[9] . '</td>
-					<td>' . $datos[10] . '</td>
           		  </tr>';
 		};
 		echo "</table>";
@@ -154,7 +142,7 @@ GROUP BY
 		require('../' . PlantillaDOM . '/header_ibarti_2.php');
 		include('../' . pagDomPdf . '/paginacion_ibarti.php');
 
-			echo '<br><div>
+		echo '<br><div>
         <table>
 		<tbody>
             <tr style="background-color: #4CAF50;">
@@ -168,24 +156,23 @@ GROUP BY
 			</tr>
 			';
 
-			$f = 0;
-			while ($datos = $bd->obtener_num($query01)) {
-				if ($f % 2 == 0) {
-					echo "<tr>";
-				} else {
-					echo "<tr class='class= odd_row'>";
-				}
-				echo   "
+		$f = 0;
+		while ($datos = $bd->obtener_num($query01)) {
+			if ($f % 2 == 0) {
+				echo "<tr>";
+			} else {
+				echo "<tr class='class= odd_row'>";
+			}
+			echo   "
 				<td>$datos[1]</td>
 				<td>$datos[2]</td>
 				<td>$datos[3]</td>
 				<td>$datos[4]</td>
-				<td>".strtoupper($datos[5])."</td>
+				<td>" . strtoupper($datos[5]) . "</td>
 				<td>$datos[8]</td>
 				<td>$datos[9]</td></tr>";
 
-				$f++;
-			
+			$f++;
 		}
 		echo "</tbody>
         </table>

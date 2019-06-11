@@ -29,12 +29,13 @@ if ($tipo != "TODOS" && $tipo != "") {
 }
 
 $sql   = " SELECT
-		nov_check_list_trab.codigo,nov_check_list_trab.fec_us_mod,nov_tipo.descripcion,preingreso.cedula,concat(preingreso.nombres,' ',preingreso.apellidos) nombres,SUM(nov_check_list_trab_det.valor),SUM(nov_check_list_trab_det.valor_max),CONCAT(ROUND((SUM(nov_check_list_trab_det.valor) / SUM(nov_check_list_trab_det.valor_max)) * 100),'%') porcentaje 
+		nov_check_list_trab.codigo,nov_check_list_trab.fec_us_mod,nov_tipo.descripcion,preingreso.cedula,concat(preingreso.nombres,' ',preingreso.apellidos) nombres,nov_check_list_trab_det.valor,nov_check_list_trab_det.valor_max,CONCAT(sum(nov_check_list_trab_det.valor),' ','puntos') porcentaje 
 	FROM
-		preingreso,nov_check_list_trab,nov_check_list_trab_det,nov_tipo,nov_clasif
-		WHERE nov_check_list_trab.fec_us_ing BETWEEN \"$fecha_D\" AND \"$fecha_H\" AND  nov_check_list_trab.cedula = preingreso.cedula AND nov_check_list_trab.cod_nov_clasif = nov_clasif.codigo AND nov_check_list_trab.cod_nov_tipo = nov_tipo.codigo AND nov_check_list_trab.codigo = nov_check_list_trab_det.cod_check_list 
+		preingreso,nov_check_list_trab,nov_check_list_trab_det,nov_tipo,nov_clasif,novedades
+		WHERE nov_check_list_trab.fec_us_ing BETWEEN \"$fecha_D\" AND \"$fecha_H\" AND nov_check_list_trab_det.cod_novedades = novedades.codigo AND novedades.status='T' AND nov_check_list_trab.cedula = preingreso.cedula AND nov_check_list_trab.cod_nov_clasif = nov_clasif.codigo AND nov_check_list_trab.cod_nov_tipo = nov_tipo.codigo AND nov_check_list_trab.codigo = nov_check_list_trab_det.cod_check_list 
 					$where
-					GROUP BY	nov_check_list_trab.codigo";
+					group by nov_check_list_trab.codigo
+					";
 $query = $bd->consultar($sql);
 ?><table width="100%" align="center">
 	<tr class="fondo00">
@@ -62,6 +63,8 @@ $query = $bd->consultar($sql);
                   <td class="texo" style="text-align:center;">' . longitud($datos[3]) . '</td>
 				  <td class="texo" style="text-align:center;">' . strtoupper(longitud($datos[4])) . '</td>
 				  <td class="texo" style="text-align:center;">' . $datos[7] . '</td>
-            </tr>';
-	}; ?>
+			</tr>';
+	}
+
+	?>
 </table>
