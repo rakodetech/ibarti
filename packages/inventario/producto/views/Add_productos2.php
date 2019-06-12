@@ -19,9 +19,9 @@ foreach ($prods as  $datos) {
 		$fondo = 'fondo02';
 		$valor = 0;
 	}
-	echo '<tr class="'.$fondo.'" onclick="Cons_producto(\''.$datos["codigo"].'\', \'MODIFICAR\')" title="Click para Modificar.."> 
+	echo '<tr class="'.$fondo.'" onclick="Cons_producto(\''.$datos["item"].'\', \'MODIFICAR\')" title="Click para Modificar.."> 
 	<td class="texo">'.longitudMin($datos["codigo"]).'</td> 
-									<td class="texo">'.longitudMin($datos["item"]).'</td> 
+									<td class="texo">'.$datos["item"].'</td> 
 									<td class="texo">'.longitud($datos["descripcion"]).'</td>
 									<td class="texo">'.longitudMin($datos["linea"]).'</td>
 									<td class="texo">'.longitudMin($datos["sub_linea"]).'</td>
