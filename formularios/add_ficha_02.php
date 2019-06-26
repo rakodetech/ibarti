@@ -8,7 +8,7 @@ $metodo  = "modificar";
 $sql_dot = " SELECT v_prod_dot_max2.cod_dotacion,
 v_prod_dot_max2.fecha_max AS fecha, prod_lineas.descripcion AS linea,
 prod_sub_lineas.descripcion AS sub_linea, v_prod_dot_max2.cod_producto,
-productos.descripcion AS producto, v_prod_dot_max2.cantidad
+CONCAT(productos.descripcion,' ',v_prod_dot_max2.talla) AS producto, v_prod_dot_max2.cantidad
 FROM v_prod_dot_max2, prod_lineas, prod_sub_lineas, productos
 WHERE v_prod_dot_max2.cod_linea = prod_lineas.codigo
 AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
@@ -50,7 +50,7 @@ ORDER BY 1,3 DESC ";
    <td>'.longitudMin($datos["fecha"]).'</td>
    <td>'.longitud($datos["linea"]).'</td>
    <td>'.longitud($datos["sub_linea"]).'</td> 
-   <td>'.longitud($datos["producto"]).'</td>		
+   <td>'.$datos["producto"].'</td>		
    <td>'.$datos["cantidad"].'</td>
    </tr>'; 
  }?>
