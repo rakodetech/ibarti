@@ -58,7 +58,8 @@ if($metodo == 'modificar')
           <input type="text" id="ped_codigo" style="width: 100px;" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
         </td>
         <td ><input type="text" id="ped_referencia" title="Referencia"  placeholder="Referencia" value="<?php echo $ped['referencia'];?>" style="width: 200px;" required></td>
-        <td> <select id="ped_tipo" required  onchange="Selec_tipo(this.value)">
+        <td> <input type="hidden" id="ped_cod_tipo" value="<?php echo $ped['cod_tipo'];?>">
+          <select id="ped_tipo" required  onchange="Selec_tipo(this.value)">
           <option value="<?php echo $ped['cod_tipo'];?>" style="width: 210px;" ><?php echo $ped['tipo'];?></option>
           <?php
           foreach ($tipo as  $datos) {

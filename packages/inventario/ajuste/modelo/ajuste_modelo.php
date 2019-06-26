@@ -102,7 +102,7 @@ class Ajuste
     return $this->datos;
   }
 
-  public function buscar($fecha_desde,$fecha_hasta,$mov_tipo,$proveedor){
+  public function buscar($fecha_desde,$fecha_hasta,$mov_tipo,$proveedor,$referencia){
  $WHERE = " WHERE a.cod_tipo = b.codigo
     AND a.cod_proveedor = c.codigo ";
     if($fecha_desde != '' && $fecha_hasta != ''){
@@ -114,6 +114,10 @@ class Ajuste
     if($proveedor != 'TODOS'){
       $WHERE .= " AND  c.codigo = '$proveedor'";
     }
+    if($referencia != '' AND $referencia != null){
+      $WHERE .= " AND  a.referencia = '$referencia'";
+    }
+
     $sql = "SELECT a.*, b.codigo cod_tipo, b.descripcion tipo,c.nombre proveedor
     FROM ajuste a, prod_mov_tipo b,proveedores c
     $WHERE       

@@ -10,6 +10,7 @@ $fecha_D   = conversion($_POST['fecha_desde']);
 $fecha_H   = conversion($_POST['fecha_hasta']);
 $almacen   = $_POST['almacen'];
 $producto  = $_POST['producto'];
+$referencia  = $_POST['referencia'];
 $tipo      = $_POST['tipo'];
 $result = array();
 
@@ -30,12 +31,17 @@ if($tipo != "TODOS"){
 	$where .= " AND ajuste.cod_tipo= '$tipo' ";
 }
 
-$sql = " SELECT ajuste.codigo,ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion), productos.descripcion ) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
+if($referencia != "" && $referencia != null){
+	$where .= " AND ajuste.referencia= '$referencia' ";
+}
+
+$sql = " SELECT ajuste.codigo,ajuste.referencia,ajuste.fecha,prod_mov_tipo.descripcion ajuste,prod_mov_tipo.tipo_movimiento,almacenes.codigo cod_almacen, almacenes.descripcion almacen,productos.item cod_producto, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion), productos.descripcion ) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
 ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio ,ajuste_reng.aplicar
 FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos,prod_sub_lineas,tallas
 $where
 ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 
+//echo $sql;
 $query = $bd->consultar($sql);
 while($rows=$bd->obtener_name($query)){
 	$result[] = $rows;
@@ -48,6 +54,7 @@ while($rows=$bd->obtener_name($query)){
 <table class="tabla_sistema" width="100%" border="0" align="center">
 	<tr>
 		<th width="8%" class="etiqueta">Codigo</th>
+		<th width="8%" class="etiqueta">Referencia</th>
 		<th width="8%" class="etiqueta">Fecha Hora</th>
 		<th width="13%" class="etiqueta">Tipo Movimiento</th>
 		<th width="13%" class="etiqueta">Almacen</th>
@@ -71,6 +78,7 @@ while($rows=$bd->obtener_name($query)){
 		}
 		echo '<tr>
 		<td class="texto">'.$datos["codigo"].'</td>
+		<td class="texto">'.$datos["referencia"].'</td>
 		<td class="texto">'.$datos["fecha"].'</td>
 		<td class="texto">'.longitud($datos["ajuste"]).'</td>
 		<td class="texto">'.longitud($datos["almacen"]).'</td>

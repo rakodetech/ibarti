@@ -40,6 +40,11 @@ $listar  =  $ajuste->get();
                  <input type="hidden" name="archivo" id="archivo" value="<?php echo $archivo;?>" />
                  <input type="hidden" name="tabla" id="tabla" value="<?php echo $tabla;?>"/></td>
             </tr>
+            <tr>
+              <td>Referencia:</td>
+
+                <td colspan="4"><input  id="referencia" type="text" style="width:250px"/>
+            </tr>
     <!-- <tr>
    <td>Producto:</td>
 
@@ -71,7 +76,7 @@ $listar  =  $ajuste->get();
         <th align="center"><img src="imagenes/nuevo.bmp" alt="Agregar Registro" title="Agregar Registro" width="20px" height="20px" border="null"onclick="Form_ajuste('','agregar')" title="Agregar Registro"/></th>
     </tr>
         </thead>
-        <tbody id="listar_ajuste">
+        <tbody id="listar_ajuste" align="center">
           <?php
           foreach ($listar as  $datos) {
 
