@@ -29,8 +29,7 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 			      AND ajuste.referencia = prod_dotacion.codigo
 				AND ajuste_reng.cod_ajuste = ajuste.codigo
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
-				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto
-				AND ajuste_reng.anulado = 'F' ";
+				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
@@ -73,7 +72,10 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng,tallas
           $where
-        ORDER BY 2 ASC ";
+        GROUP BY prod_dotacion.codigo,ajuste.codigo,prod_dotacion_det.cod_producto
+HAVING MAX(ajuste.codigo)
+ORDER BY 2 ASC ";
+
 ?>
 
 <table width="100%" border="0" align="center">

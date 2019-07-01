@@ -39,8 +39,7 @@ if(isset($reporte)){
 			      AND ajuste.referencia = prod_dotacion.codigo
 				AND ajuste_reng.cod_ajuste = ajuste.codigo
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
-				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto
-				AND ajuste_reng.anulado = 'F' ";
+				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
@@ -81,9 +80,13 @@ if(isset($reporte)){
                  productos.item serial,
                  prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto importe,Valores(prod_dotacion.anulado) anulado
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
-                 prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng
+                 prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng,tallas
           $where
-        ORDER BY 2 ASC  ";
+        GROUP BY prod_dotacion.codigo,ajuste.codigo,prod_dotacion_det.cod_producto
+HAVING MAX(ajuste.codigo)
+ORDER BY 2 ASC ";
+
+
 
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
