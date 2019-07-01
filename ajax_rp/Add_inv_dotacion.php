@@ -68,7 +68,8 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
                  v_ficha.cedula, v_ficha.nombres AS trabajador,
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
                  prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',tallas.descripcion,') ') AS producto,
-                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto
+                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto,
+                 Valores(prod_dotacion.anulado) anulado
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng,tallas
           $where
@@ -90,6 +91,7 @@ ORDER BY 2 ASC ";
             <th width="24%" class="etiqueta">Producto </th>
             <th width="5%" class="etiqueta">Cantidad</th>
             <?php echo ($restri=="F")?'<th width="5%" class="etiqueta">Importe</th>':'';?>
+             <th width="5%" class="etiqueta">Anulado</th>
 	</tr>
     <?php
 	$valor = 0;
@@ -115,6 +117,6 @@ ORDER BY 2 ASC ";
 				  <td class="texto">'.$datos["cantidad"].'</td>
 				  ';
 				  echo ($restri=="F")?'<td class="texto">'.$datos["neto"].'</td>':'';
-           echo '</tr>';
+           echo '<td class="texto">'.$datos["anulado"].'</td></tr>';
         };?>
     </table>
