@@ -1,0 +1,13 @@
+men menu
+
+708	Emision Dotacion Almacen	166	inicio.php?area=packages/dotacion_movimiento/index&view=vla	t	9999	2019-06-13	9999	2019-06-13	T
+709	Recepcion Dotacion Operaciones	166	inicio.php?area=packages/dotacion_movimiento/index&view=clo	t	9999	2019-06-13	9999	2019-06-13	T
+710	Emision Dotacion Operaciones	166	inicio.php?area=packages/dotacion_movimiento/index&view=vlo	t	9999	2019-06-13	9999	2019-06-13	T
+711	Recepcion Dotacion Almacen	166	inicio.php?area=packages/dotacion_movimiento/index&view=cla	t	9999	2019-06-13	9999	2019-06-13	T
+
+men_menu_modulos
+
+03	708	007
+03	709	007
+03	710	007
+03	711	007

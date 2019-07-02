@@ -34,7 +34,7 @@ CREATE TABLE `dotacion_proceso` (
   PRIMARY KEY (`codigo`),
   KEY `FK_status` (`status`),
   CONSTRAINT `FK_status` FOREIGN KEY (`status`) REFERENCES `dotacion_status` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -55,7 +55,7 @@ CREATE TABLE `dotacion_recepcion` (
   PRIMARY KEY (`codigo`),
   KEY `FK_stat` (`status`),
   CONSTRAINT `FK_stat` FOREIGN KEY (`status`) REFERENCES `dotacion_status` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 
 
@@ -81,7 +81,7 @@ CREATE TABLE `dotacion_proceso_det` (
   CONSTRAINT `FK_dotacion` FOREIGN KEY (`cod_dotacion`) REFERENCES `prod_dotacion` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_proceso` FOREIGN KEY (`cod_dotacion_proceso`) REFERENCES `dotacion_proceso` (`codigo`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_status_dpd` FOREIGN KEY (`status`) REFERENCES `dotacion_status` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 
 
@@ -110,7 +110,7 @@ CREATE TABLE `dotacion_recepcion_det` (
   CONSTRAINT `FK_proceso_r` FOREIGN KEY (`cod_dotacion_proceso`) REFERENCES `dotacion_proceso` (`codigo`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_recepcion` FOREIGN KEY (`cod_dotacion_recepcion`) REFERENCES `dotacion_recepcion` (`codigo`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_status_drd` FOREIGN KEY (`status`) REFERENCES `dotacion_status` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 
 INSERT INTO `dotacion_status` VALUES ('01', 'IN', 'INICIADO', 'T', '9999', '2019-06-21');
