@@ -29,7 +29,8 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 			      AND ajuste.referencia = prod_dotacion.codigo
 				AND ajuste_reng.cod_ajuste = ajuste.codigo
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
-				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto ";
+				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto
+				AND (ajuste.cod_tipo = 'DOT'  OR ajuste.cod_tipo = 'ANU' OR ajuste.cod_tipo = 'ANU_DOT') ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
@@ -76,7 +77,7 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
         GROUP BY prod_dotacion.codigo,ajuste.codigo,prod_dotacion_det.cod_producto
 HAVING MAX(ajuste.codigo)
 ORDER BY 2 ASC ";
-
+echo $sql;
 ?>
 
 <table width="100%" border="0" align="center">

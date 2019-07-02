@@ -35,7 +35,7 @@ $usuario  = $_POST['usuario'];
                                             cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
                                     VALUES ('$codigo', '$descripcion',
 									        '$campo01', '$campo02', '$campo03', '$campo04', 
-									        '$usuario', '$date', '$usuario','$date' , '$activo')";						  
+									        '$usuario', '$date', '$usuario','$date' , '$activo')";	
 			    $query = $bd->consultar($sql);	  			   	
 		break;					
 		case 'modificar':			
