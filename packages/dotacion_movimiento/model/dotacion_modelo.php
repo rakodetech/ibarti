@@ -23,7 +23,7 @@ class dotaciones
         $where = "";
         $tabla = ($tipo == "almacen") ? 'dotacion_proceso' : 'dotacion_recepcion';
         if ($vista == "clo" || $vista == "cla") {
-            $where .= "AND " . $tabla . ".anulado <> 'T'";
+            $where .= "AND " . $tabla . ".anulado <> 'T' AND dotacion_status.codigo <> '01'";
         }
         try {
             $sql = " SELECT
@@ -44,7 +44,7 @@ class dotaciones
                             men_usuarios
                         WHERE
                             men_usuarios.codigo = " . $tabla . ".cod_us_mod
-                        AND dotacion_status.codigo <> '01'
+                        
                         AND dotacion_status.codigo = " . $tabla . ".`status` " . $where;
             $result['sql'][] = $sql;
             $query        = $this->bd->consultar($sql);
@@ -95,7 +95,8 @@ class dotaciones
                 d.anulado,
                 b.status estado_detalle,
                 IF(a.anulado='T','SI','NO') dotacion_anulado,
-                CURRENT_DATE() fecha_actual
+                CURRENT_DATE() fecha_actual,
+                d.observacion obs
                 FROM prod_dotacion a
                 INNER JOIN dotacion_proceso_det b ON a.codigo = b.cod_dotacion
                 INNER JOIN dotacion_proceso d ON d.codigo = b.cod_dotacion_proceso
@@ -111,7 +112,21 @@ class dotaciones
                 d.anulado,
                 b.status estado_detalle,
                 IF(a.anulado='T','SI','NO') dotacion_anulado,
-                CURRENT_DATE() fecha_actual
+                CURRENT_DATE() fecha_actual,
+                d.observacion obs,
+                    (
+                    SELECT
+                        COUNT(e.codigo)
+                    FROM
+                        dotacion_recepcion_det e,
+                        dotacion_recepcion f
+                    WHERE
+                        e.cod_dotacion_recepcion = f.codigo
+                    AND e.cod_dotacion = a.codigo
+                    AND e.cod_dotacion_proceso = d.codigo
+                    AND f.anulado = 'F'
+                ) existe
+   
                 FROM prod_dotacion a
                 INNER JOIN dotacion_proceso_det b ON a.codigo = b.cod_dotacion
                 INNER JOIN dotacion_proceso d ON d.codigo = b.cod_dotacion_proceso
@@ -127,7 +142,8 @@ class dotaciones
                 d.anulado,
                 b.status estado_detalle,
                 IF(a.anulado='T','SI','NO') dotacion_anulado,
-                CURRENT_DATE() fecha_actual
+                CURRENT_DATE() fecha_actual,
+                d.observacion obs
                 FROM prod_dotacion a
                 INNER JOIN dotacion_recepcion_det b ON a.codigo = b.cod_dotacion
                 INNER JOIN dotacion_recepcion d ON d.codigo = b.cod_dotacion_recepcion
@@ -143,7 +159,8 @@ class dotaciones
                 dotacion_recepcion.anulado,
                 dotacion_recepcion_det.status estado_detalle,
                 IF (prod_dotacion.anulado = 'T', 'SI', 'NO') dotacion_anulado,
-                CURRENT_DATE () fecha_actual
+                CURRENT_DATE () fecha_actual,
+                dotacion_recepcion.observacion obs
                 FROM
                     ficha,
                     prod_dotacion,

@@ -14,7 +14,7 @@ $archivo = 'comprobante_paquete_dotacion.pdf';
 switch ($vista) {
     case 'vista_dotacion':
 
-        $sql = "SELECT codigo, fec_us_mod fec_dotacion FROM dotacion_proceso WHERE codigo = '$codigo'";
+        $sql = "SELECT codigo, fec_us_mod fec_dotacion ,observacion obs FROM dotacion_proceso WHERE codigo = '$codigo'";
         $queryp = $bd->consultar($sql);
         $row = $bd->obtener_fila($queryp, 0);
 
@@ -35,7 +35,7 @@ switch ($vista) {
         break;
     case 'vista_recepcion':
 
-        $sql = "SELECT codigo, fec_us_mod fec_dotacion FROM dotacion_recepcion WHERE codigo = '$codigo'";
+        $sql = "SELECT codigo, fec_us_mod fec_dotacion, observacion obs FROM dotacion_recepcion WHERE codigo = '$codigo'";
         $queryp = $bd->consultar($sql);
         $row = $bd->obtener_fila($queryp, 0);
 
@@ -99,6 +99,15 @@ $mostrar = '<div style="border: 1.5px solid #1B5E20;">
                     
                     
                     $mostrar.=($vista=="vista_dotacion")?'ALMACEN':'OPERACIONES';
+                    $mostrar.='</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="1"><span class="etiqueta">Observacion: </span>
+                    <span class="texto">';
+                    
+                    
+                    $mostrar.= strtoupper($row["obs"]);
                     $mostrar.='</span>
                 </td>
             </tr>
