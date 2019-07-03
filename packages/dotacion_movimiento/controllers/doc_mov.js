@@ -4,31 +4,46 @@ var datos_consulta_omitir = [];
 
 
 function cons_inicio(vista, metodo, callback) {
-
     var url = "";
     switch (vista) {
         case 'vista_dotacion':
             url = "packages/dotacion_movimiento/views/vista_lote_dotacion.php";
             break;
 
-        default:
+        case 'vista_recepcion':
+            url = "packages/dotacion_movimiento/views/vista_lote_dotacion.php";
+            break;
+        case 'clo':
             url = "packages/dotacion_movimiento/views/Buscar_dotacion.php";
+            break;
+        case 'cla':
+            url = "packages/dotacion_movimiento/views/Buscar_dotacion.php";
+            break;
+        case 'vla':
+            url = "packages/dotacion_movimiento/views/Buscar_dotacion.php";
+            break;
+        case 'vlo':
+            url = "packages/dotacion_movimiento/views/Buscar_dotacion.php";
+            break;
     }
-    $.ajax({
-        data: { view: vista },
-        url: url,
-        type: 'post',
-        success: function (response) {
-            document.getElementById("contendor").innerHTML = response;
-            if (typeof (callback) == "function") {
-                callback();
+    if (url != "") {
+        $.ajax({
+            data: { view: vista },
+            url: url,
+            type: 'post',
+            success: function (response) {
+                document.getElementById("contendor").innerHTML = response;
+                if (typeof (callback) == "function") {
+                    callback();
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
             }
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-        }
-    });
+        });
+    }
+
 }
 
 function consultar_existente(codigo) {
@@ -40,14 +55,15 @@ function consultar_existente(codigo) {
 
     var parametros = {
         cod: codigo,
-        us: usuario
+        us: usuario,
+        vista: vista
     }
-
     $.ajax({
         data: parametros,
         url: 'packages/dotacion_movimiento/views/Get_listado_existente.php',
         type: 'post',
         success: function (response) {
+            console.log(response);
             datos_consulta_dotacion = JSON.parse(response);
             datos_consulta_dotacion.forEach((res) => {
                 datos_consulta_omitir.push(res.cod_dotacion);
@@ -73,7 +89,6 @@ function llenar_consulta(codigo, vista, metodo) {
         vista: vista,
         metodo: metodo
     }
-
     $.ajax({
         data: parametros,
         url: 'packages/dotacion_movimiento/views/vista_consulta.php',
@@ -81,7 +96,19 @@ function llenar_consulta(codigo, vista, metodo) {
 
         success: function (response) {
             ModalOpen();
-            $("#modal_titulo").text("Consulta de Lote");
+            if (vista == "clo") {
+                $("#modal_titulo").text("Confirmacion de Dotaciones en Lote por Operaciones");
+            }
+            if (vista == "cla") {
+                $("#modal_titulo").text("Confirmacion de Dotaciones en Lote por Almacen");
+            }
+            if (vista == "vista_dotacion") {
+                $("#modal_titulo").text("Consulta de Lote Almacen");
+            }
+            if (vista == "vista_recepcion") {
+                $("#modal_titulo").text("Consulta de Lote Operaciones");
+            }
+
             $("#modal_contenido").html(response);
 
             //cons_inicio();
@@ -106,9 +133,8 @@ function accionar_consulta(id) {
                 type: 'post',
 
                 success: function (response) {
-
+                    console.log(response);
                     var resultado = JSON.parse(response);
-
                     if (resultado.confirmacion) {
                         alert("Guardado Correctamente");
                         llenar_consulta(resultado.codigo);
@@ -134,13 +160,14 @@ function accionar_consulta(id) {
 
 }
 
-function consultar_listado() {
+function consultar_listado(tipo) {
     var fecha_desde = document.getElementById('fec_d').value
     var fecha_hasta = document.getElementById('fec_h').value
     var parametros = {
         'omitir': datos_consulta_omitir,
         'fecha_d': fecha_desde,
-        'fecha_h': fecha_hasta
+        'fecha_h': fecha_hasta,
+        'tipo': tipo
     };
     $.ajax({
         data: parametros,
@@ -165,9 +192,14 @@ function consultar_listado() {
 }
 
 
+
+
 function seleccionar(cod, tabla) {
+
     if (tabla == "in") {
+        console.log(datos_consulta);
         datos_consulta_dotacion.push(datos_consulta.filter((valor, i) => {
+
             if (valor.cod_dotacion == cod) {
                 datos_consulta.splice(i, 1);
                 var remplace = document.getElementById("dot_" + cod).outerHTML.replace("'in'", "'out'").replace("90deg", '-90deg');
@@ -177,6 +209,7 @@ function seleccionar(cod, tabla) {
             }
             return valor.cod_dotacion == cod
         })[0]);
+
     }
     if (tabla == "out") {
         datos_consulta.push(datos_consulta_dotacion.filter((valor, i) => {
@@ -269,10 +302,10 @@ function confirmar_consulta(codigo, metodo, vista) {
     }
 
     if (metodo == "modificar") {
-        cons_inicio('vista_dotacion', '', () => {
+        cons_inicio(vista, '', () => {
             document.getElementById('cod').value = codigo;
             document.getElementById('metodo').value = "modificar";
-            document.getElementById('titulo_accion').innerText = "MODIFICACION DE LOTE: NRO-" + codigo;
+            document.getElementById('titulo_accion').innerText += " (MODIFICACION DE LOTE: NRO-" + codigo + ")";
             consultar_existente(codigo);
             CloseModal();
         });
@@ -289,25 +322,30 @@ function confirmar_consulta(codigo, metodo, vista) {
     }
 
     if (confirmacion) {
+
         $.ajax({
             data: parametros,
             url: 'packages/dotacion_movimiento/model/asignacion_dotacion.php',
             type: 'post',
 
             success: function (response) {
+
                 var resultado = JSON.parse(response);
                 if (resultado.confirmacion) {
                     alert("Guardado Correctamente");
                     if (metodo == "confirmar") {
                         $("#reporte_dotacion").submit();
-
+                    }
+                    if (metodo == "agregar" || metodo == "modificar") {
+                        document.getElementById("dotacion_out").getElementsByTagName("tbody")[0].innerHTML = "";
+                        document.getElementById("dotacion_in").getElementsByTagName("tbody")[0].innerHTML = "";
                     }
                     CloseModal();
                 } else {
                     alert("No se Guardo Correctamente");
                 }
-                document.getElementById("dotacion_out").getElementsByTagName("tbody")[0].innerHTML = "";
-                document.getElementById("dotacion_in").getElementsByTagName("tbody")[0].innerHTML = "";
+
+
                 datos_consulta = [];
                 datos_consulta_dotacion = [];
                 datos_consulta_omitir = [];
@@ -318,4 +356,42 @@ function confirmar_consulta(codigo, metodo, vista) {
             }
         });
     }
+}
+
+function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento) {
+    vista = (typeof vista == "undefined") ? document.getElementById('vista').value : vista
+    if (elemento) {
+        var metodo = 'agregar_confirmacion';
+    } else {
+        var metodo = "remover_confirmacion";
+    }
+
+    var usuario = document.getElementById('us').value;
+    var parametros = {
+        cod: codigo,
+        cod_dotacion: cod_dotacion,
+        metodo: metodo,
+        vista: vista,
+        us: usuario
+    }
+    $.ajax({
+        data: parametros,
+        url: 'packages/dotacion_movimiento/model/asignacion_dotacion.php',
+        type: 'post',
+
+        success: function (response) {
+            var resultado = JSON.parse(response);
+            if (resultado.confirmacion) {
+                alert("Guardado Correctamente");
+            } else {
+                alert("No se Guardo Correctamente");
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+
+
 }

@@ -3,12 +3,29 @@ session_start();
 $usuario = $_SESSION['usuario_cod'];
 $vista = (isset($_POST['view'])) ? $_POST['view'] : '';
 $metodo = (isset($_POST['metodo'])) ? $_POST['metodo'] : 'agregar';
+
+switch ($vista) {
+    case 'vista_dotacion':
+        $titulo = "LISTADO DE DOTACIONES SIN PROCESAR";
+        $retorno = "vla";
+        $filtro = "almacen";
+
+        break;
+
+    case 'vista_recepcion':
+        $titulo = "LISTADO DE DOTACIONES PENDIENTES POR DEVOLVER";
+        $retorno = "vlo";
+        $filtro = "operaciones";
+        break;
+}
+
+
 ?>
 <form id="form_lote" onsubmit="accionar_consulta(this.id)" method="post">
 
     <br />
-    <label id="titulo_accion" style="text-align:center;">LISTADO DE DOTACIONES SIN PROCESAR</label>
-    <img src="imagenes/buscar.bmp" style="float:right;cursor:pointer;" title="Buscar " onclick="cons_inicio('','')"></img>
+    <label id="titulo_accion" style="text-align:center;"><?php echo $titulo;?></label>
+    <img src="imagenes/buscar.bmp" style="float:right;cursor:pointer;" title="Buscar " onclick="cons_inicio('<?php echo $retorno;?>','')"></img>
     <br /><br />
     <div id="contenedor_carga">
 
@@ -20,7 +37,7 @@ $metodo = (isset($_POST['metodo'])) ? $_POST['metodo'] : 'agregar';
                     <td width="10%">Fecha Hasta</td>
                     <td width="10%"><input type="date" name="fec_h" id="fec_h"></td>
                     <td width="55%"></td>
-                    <td width="5%" rowspan="2"><a href="javascript:consultar_listado()"><img src="imagenes/actualizar.png" width="20px" alt=""></a></td>
+                    <td width="5%" rowspan="2"><a href="javascript:consultar_listado('<?php echo $filtro;?>')"><img src="imagenes/actualizar.png" width="20px" alt=""></a></td>
 
                 </tr>
 
