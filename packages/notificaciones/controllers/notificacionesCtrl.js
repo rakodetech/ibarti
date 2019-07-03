@@ -34,7 +34,7 @@ function parar(){
 
 
 
-function activar(){
+function activarNotif(){
 
 	var parametros = { };
 

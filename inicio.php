@@ -19,9 +19,9 @@ if(isset($_GET['mod'])){
 }else{
   $modulo  = $_SESSION['menu'];
 }
-
+define("SPECIALCONSTANT",true);
 require_once 'autentificacion/aut_config.inc.php';
-require_once class_bd;
+require_once class_bdI;
 include_once 'funciones/funciones.php';
 require Leng;
 
@@ -233,5 +233,5 @@ function subir(){
         scrollTop: $("#art-main").offset().top
     }, 1000); 
 }
-activar();
+activarNotif();
 </script>
