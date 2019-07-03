@@ -9,6 +9,7 @@ $existencia     = $listado->get_listado_existente($cod, $vista);
 if (count($existencia) > 0) {
     $fecha = $existencia[0]['fecha_actual'];
     $anulado = $existencia[0]['anulado'];
+    $obs = $existencia[0]['obs'];
     $status    = $listado->comprobar_status($cod, $vista);
     $metodo = $_POST['metodo'];
     $modulo_accion = array();
@@ -23,7 +24,8 @@ if (count($existencia) > 0) {
     <form action="reportes/rp_dotacion_formato.php" id="reporte_dotacion" method="post" target="_blank">
         <div id="consultar_listado">
             <div id="consulta_cabecera" style="width:60%">
-                <label style="float:left;font-size:24px">Codigo de Lote:<?php echo $cod ?></label>
+                <span style="float:left;"><label style="font-size:24px">Codigo de Lote:<?php echo $cod ?></label><br><label style="float:left;font-size:14px">Observacion: <?php echo $obs ?></label></span>
+                
                 <label style="float:right;">Fecha Produccion:<?php echo $fecha ?></label><br>
                 <label style="float:right;">Anulado:<?php echo ($anulado == 'T') ? ' SI' : ' NO' ?></label><br>
 
@@ -52,8 +54,9 @@ if (count($existencia) > 0) {
 
                         if($vista=="clo"){
                             if ($modulo_accion[0] != "") {
-                                $activo = ($value['estado_detalle'] == "05") ? " checked='checked'/>" : '/>';
-                                $contenido .= "<td><input type='checkbox' value='" . $value['cod_dotacion'] . "' onclick=\"confirmacion_lote_operaciones('$cod', '" . $value["cod_dotacion"] . "', '$vista',this.checked) \"" . $activo . " </td>";
+                                $activo = ($value['estado_detalle'] == "05") ? " checked='checked '/>" : '/>';
+                                $desabilitar = (intval($value['existe']) > 0) ? " disabled='disabled' " : '';
+                                $contenido .= "<td><input type='checkbox' value='" . $value['cod_dotacion'] . "' onclick=\"confirmacion_lote_operaciones('$cod', '" . $value["cod_dotacion"] . "', '$vista',this.checked) \"" .$desabilitar. $activo . " </td>";
                             }
                         }
 
@@ -88,13 +91,13 @@ if (count($existencia) > 0) {
                     if ($status[0]['sta'] == "02") {
                         echo '
                                 <input type="button" id="anulado" value="Anular" onclick="confirmar_consulta(\'' . $cod . '\',\'anular\',\'' . $vista . '\')">
-                                <input type="button" id="imprimir" value="Imprimir" onclick="confirmar_consulta(\'' . $cod . '\',\'confirmar\',\'' . $vista . '\')">
+                                <input type="button" id="imprimir" value="Imprimir" onclick="confirmar_consulta(\'' . $cod . '\',\'imprimir\',\'' . $vista . '\')">
                             ';
                     }
                     
                     if ($status[0]['sta'] == "03" || $status[0]['sta'] == "09") {
                         echo '
-                                    <input type="button" id="imprimir" value="Imprimir" onclick="confirmar_consulta(\'' . $cod . '\',\'confirmar\',\'' . $vista . '\')">
+                                    <input type="button" id="imprimir" value="Imprimir" onclick="confirmar_consulta(\'' . $cod . '\',\'imprimir\',\'' . $vista . '\')">
                                     ';
                     }
                 }

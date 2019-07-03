@@ -5,7 +5,7 @@ require "../model/dotacion_modelo.php";
 $listado      = new dotaciones;
 $vista        = isset($_POST['view']) ? $_POST['view'] : '';
 if ($vista == "clo") {
-  $titulo = "Recepcion De Lotes Almacen";
+  $titulo = "Recepcion De Lotes Operaciones";
   $agregar = "<th width='6%' align='center'></th>";
   $cantidad = $listado->obtener_procesos('almacen',$vista);
 }
@@ -23,7 +23,7 @@ if($vista=="vlo"){
 }
 
 if ($vista == "cla") {
-  $titulo = "Recepcion De Lotes Operaciones";
+  $titulo = "Recepcion De Lotes Almacen";
   $agregar = "<th width='6%' align='center'></th>";
   $cantidad = $listado->obtener_procesos('operaciones',$vista);
 }

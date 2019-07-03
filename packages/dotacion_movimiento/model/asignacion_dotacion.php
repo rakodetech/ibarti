@@ -17,8 +17,9 @@ switch ($vista) {
         switch ($metodo) {
             case 'agregar':
                 if (count($data) > 0) {
+                    $obs = $_POST['obs'];
                     try {
-                        $sql = "INSERT INTO dotacion_proceso (cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod,status,anulado) VALUES ('$usuario',current_date,'$usuario',current_date,'01','F')";
+                        $sql = "INSERT INTO dotacion_proceso (cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod,status,anulado,observacion) VALUES ('$usuario',current_date,'$usuario',current_date,'01','F','$obs')";
                         $result['sql'][] = $sql;
                         $query        = $bd->consultar($sql);
 
@@ -68,6 +69,9 @@ switch ($vista) {
                     if ($cod != "") {
                         $result['mensaje'] = $metodo . $vista;
                         try {
+                            $obs = $_POST['obs'];
+                            $sql = "UPDATE dotacion_proceso SET observacion = '$obs' WHERE dotacion_proceso.codigo = '$cod'";
+                            $query        = $bd->consultar($sql);
                             $sql = "DELETE FROM dotacion_proceso_det WHERE dotacion_proceso_det.cod_dotacion_proceso = '$cod'";
                             $query        = $bd->consultar($sql);
                             try {
@@ -183,7 +187,8 @@ switch ($vista) {
             case 'agregar':
                 if (count($data) > 0) {
                     try {
-                        $sql = "INSERT INTO dotacion_recepcion (cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod,status,anulado) VALUES ('$usuario',current_date,'$usuario',current_date,'01','F')";
+                        $obs = $_POST['obs'];
+                        $sql = "INSERT INTO dotacion_recepcion (cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod,status,anulado,observacion) VALUES ('$usuario',current_date,'$usuario',current_date,'01','F','$obs')";
                         $result['sql'][] = $sql;
                         $query        = $bd->consultar($sql);
 
@@ -239,6 +244,9 @@ switch ($vista) {
                     if ($cod != "") {
                         $result['mensaje'] = $metodo . $vista;
                         try {
+                            $obs = $_POST['obs'];
+                            $sql = "UPDATE dotacion_recepcion SET observacion = '$obs' WHERE dotacion_recepcion.codigo = '$cod'";
+                            $query        = $bd->consultar($sql);
                             $sql = "DELETE FROM dotacion_recepcion_det WHERE dotacion_recepcion_det.cod_dotacion_recepcion = '$cod'";
                             $query        = $bd->consultar($sql);
 

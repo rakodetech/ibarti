@@ -21,7 +21,7 @@ switch ($vista) {
 
 
 ?>
-<form id="form_lote" onsubmit="accionar_consulta(this.id)" method="post">
+<form id="form_lote" onsubmit="modal_descripcion(this.id)" method="post">
 
     <br />
     <label id="titulo_accion" style="text-align:center;"><?php echo $titulo;?></label>

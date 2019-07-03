@@ -1,7 +1,7 @@
 var datos_consulta = [];
 var datos_consulta_dotacion = [];
 var datos_consulta_omitir = [];
-
+var descripcion = "";
 
 function cons_inicio(vista, metodo, callback) {
     var url = "";
@@ -48,7 +48,7 @@ function cons_inicio(vista, metodo, callback) {
 
 function consultar_existente(codigo) {
 
-    //var codigo = document.getElementById('cod').value;
+
     var metodo = document.getElementById('metodo').value;
     var vista = document.getElementById('vista').value;
     var usuario = document.getElementById('us').value;
@@ -63,21 +63,21 @@ function consultar_existente(codigo) {
         url: 'packages/dotacion_movimiento/views/Get_listado_existente.php',
         type: 'post',
         success: function (response) {
-            console.log(response);
+            
             datos_consulta_dotacion = JSON.parse(response);
             datos_consulta_dotacion.forEach((res) => {
                 datos_consulta_omitir.push(res.cod_dotacion);
             });
 
             filtrado('', 'out');
-            //document.getElementById('consulta_contenido').innerHTML = response;
-
+            descripcion = datos_consulta_dotacion[0].obs;
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);
         }
     });
+
 }
 
 function llenar_consulta(codigo, vista, metodo) {
@@ -111,7 +111,7 @@ function llenar_consulta(codigo, vista, metodo) {
 
             $("#modal_contenido").html(response);
 
-            //cons_inicio();
+
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -120,12 +120,14 @@ function llenar_consulta(codigo, vista, metodo) {
     });
 }
 
-function accionar_consulta(id) {
+function accionar_consulta(id, texto) {
+
     event.preventDefault();
     if (confirm("Esta seguro que quiere realizar la operacion")) {
         if (datos_consulta_omitir.length > 0) {
             var parametros = $("#" + id).serializeArray();
             parametros.push({ 'name': 'data', 'value': JSON.stringify(datos_consulta_omitir) });
+            parametros.push({ 'name': 'obs', 'value': texto });
 
             $.ajax({
                 data: parametros,
@@ -133,7 +135,6 @@ function accionar_consulta(id) {
                 type: 'post',
 
                 success: function (response) {
-                    console.log(response);
                     var resultado = JSON.parse(response);
                     if (resultado.confirmacion) {
                         alert("Guardado Correctamente");
@@ -318,6 +319,11 @@ function confirmar_consulta(codigo, metodo, vista) {
     } else {
         if (metodo == "confirmar") {
             confirmacion = confirm("Una vez impreso no se podra modificar, ¿Esta seguro que desea seguir?");
+        } else {
+            if (metodo == "imprimir") {
+                confirmacion = false;
+                $("#reporte_dotacion").submit();
+            }
         }
     }
 
@@ -356,6 +362,22 @@ function confirmar_consulta(codigo, metodo, vista) {
             }
         });
     }
+}
+
+function modal_descripcion(id) {
+    event.preventDefault();
+    ModalOpen();
+    $("#modal_titulo").text("Agregar Descripcion");
+    $("#modal_contenido").html(`
+        <table width="60%" align="center">
+        <tr><td style="text-align:center" class="texto"><textarea id="area_text"  cols="60">${descripcion}</textarea></td></tr>
+        <tr><td style="text-align:center"><input type="button" value="Confirmar" onclick="accionar_consulta('${id}',$('#area_text').val())"></td></tr>
+        </table>
+        `);
+
+
+
+
 }
 
 function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento) {
