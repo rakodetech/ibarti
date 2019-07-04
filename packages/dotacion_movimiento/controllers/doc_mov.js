@@ -63,7 +63,7 @@ function consultar_existente(codigo) {
         url: 'packages/dotacion_movimiento/views/Get_listado_existente.php',
         type: 'post',
         success: function (response) {
-            
+
             datos_consulta_dotacion = JSON.parse(response);
             datos_consulta_dotacion.forEach((res) => {
                 datos_consulta_omitir.push(res.cod_dotacion);
@@ -380,13 +380,26 @@ function modal_descripcion(id) {
 
 }
 
-function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento) {
+function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento, tipo) {
+    var elementos = document.getElementById("seleccion").getElementsByTagName("tbody")[0].getElementsByTagName("input");
+    var metodo = "";
+
     vista = (typeof vista == "undefined") ? document.getElementById('vista').value : vista
-    if (elemento) {
-        var metodo = 'agregar_confirmacion';
-    } else {
-        var metodo = "remover_confirmacion";
+    if (tipo == "normal") {
+        if (elemento) {
+            metodo = 'agregar_confirmacion';
+        } else {
+            metodo = "remover_confirmacion";
+        }
     }
+    if (tipo == "masiva") {
+        if (elemento) {
+            metodo = 'agregar_masiva';
+        } else {
+            metodo = "remover_masiva";
+        }
+    }
+
 
     var usuario = document.getElementById('us').value;
     var parametros = {
@@ -402,9 +415,17 @@ function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento) {
         type: 'post',
 
         success: function (response) {
+
             var resultado = JSON.parse(response);
             if (resultado.confirmacion) {
                 alert("Guardado Correctamente");
+
+                if (tipo == "masiva") {
+                    for (let index = 0; index < elementos.length; index++) {
+                        elementos[index].checked = !elementos[index].checked;
+                    }
+                }
+
             } else {
                 alert("No se Guardo Correctamente");
             }

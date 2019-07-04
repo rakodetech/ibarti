@@ -13,6 +13,7 @@ $vista  = $_POST['vista'];
 $usuario = $_POST['us'];
 
 switch ($vista) {
+    
     case 'vista_dotacion':
         switch ($metodo) {
             case 'agregar':
@@ -365,6 +366,145 @@ switch ($vista) {
         break;
     case 'clo':
         switch ($metodo) {
+            case 'agregar_masiva':
+                try {
+                    $sql = 'UPDATE dotacion_proceso,
+                        dotacion_proceso_det
+                        SET dotacion_proceso_det.`status` = "05",
+                            dotacion_proceso.`status` = "03",
+                        dotacion_proceso.fec_us_mod= current_date,
+                        dotacion_proceso.cod_us_mod= "' . $usuario . '",
+                        dotacion_proceso_det.fec_us_mod= current_date,
+                        dotacion_proceso_det.cod_us_mod= "' . $usuario . '"
+                        WHERE dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
+                        AND dotacion_proceso.codigo =  "' . $cod . '"
+                ';
+                    $result['sql'][] = $sql;
+                    $query        = $bd->consultar($sql);
+                    try {
+                        $sql = 'SELECT COUNT(dotacion_proceso_det.codigo) 
+                                FROM dotacion_proceso,dotacion_proceso_det 
+                            WHERE
+                                dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
+                            AND 
+                                dotacion_proceso.codigo = "' . $cod . '" 
+                            AND
+                                dotacion_proceso_det.status<>"05"
+                            ';
+                        $result['sql'][] = $sql;
+                        $query        = $bd->consultar($sql);
+                        $contador = $bd->obtener_fila($query, 0)[0];
+
+                        if ($contador == 0) {
+                            try {
+                                $sql = 'UPDATE dotacion_proceso
+                                SET dotacion_proceso.`status` = "09",
+                                dotacion_proceso.fec_us_mod= current_date,
+                                dotacion_proceso.cod_us_mod= "' . $usuario . '"
+                                WHERE dotacion_proceso.codigo =  "' . $cod . '"
+                            ';
+                                $result['sql'][] = $sql;
+                                $query        = $bd->consultar($sql);
+                                $result['confirmacion'] = true;
+                            } catch (Exception $e) {
+                                $error =  $e->getMessage();
+                                $result['error'] = true;
+                                $result['mensaje'][] = $error;
+                                if ($result['error'] = true) {
+
+                                    $result['confirmacion'] = false;
+                                }
+                            }
+                        }
+                    } catch (Exception $e) {
+                        $error =  $e->getMessage();
+                        $result['error'] = true;
+                        $result['mensaje'][] = $error;
+                        if ($result['error'] = true) {
+
+                            $result['confirmacion'] = false;
+                        }
+                    }
+                    $result['confirmacion'] = true;
+                } catch (Exception $e) {
+                    $error =  $e->getMessage();
+                    $result['error'] = true;
+                    $result['mensaje'][] = $error;
+                    if ($result['error'] = true) {
+
+                        $result['confirmacion'] = false;
+                    }
+                }
+
+                break;
+            case 'remover_masiva':
+                try {
+                    $sql = 'UPDATE dotacion_proceso,
+                        dotacion_proceso_det
+                        SET dotacion_proceso_det.`status` = "04",dotacion_proceso.`status` = "03",
+                        dotacion_proceso_det.fec_us_mod= current_date,
+                        dotacion_proceso_det.cod_us_mod= "' . $usuario . '"
+                        WHERE dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
+                        AND dotacion_proceso.codigo =  "' . $cod . '"
+                        
+                ';
+                    $result['sql'][] = $sql;
+                    $query        = $bd->consultar($sql);
+                    try {
+                        $sql = 'SELECT COUNT(dotacion_proceso_det.codigo) 
+                                FROM dotacion_proceso,dotacion_proceso_det 
+                            WHERE
+                                dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
+                            AND 
+                                dotacion_proceso.codigo = "' . $cod . '" 
+                            AND
+                                dotacion_proceso_det.status="05"
+                            ';
+                        $result['sql'][] = $sql;
+                        $query        = $bd->consultar($sql);
+                        $contador = $bd->obtener_fila($query, 0)[0];
+
+                        if ($contador <= 0) {
+                            try {
+                                $sql = 'UPDATE dotacion_proceso
+                                SET dotacion_proceso.`status` = "02",
+                                dotacion_proceso.fec_us_mod= current_date,
+                                dotacion_proceso.cod_us_mod= "' . $usuario . '"
+                                WHERE dotacion_proceso.codigo =  "' . $cod . '"
+                            ';
+                                $result['sql'][] = $sql;
+                                $query        = $bd->consultar($sql);
+                                $result['confirmacion'] = true;
+                            } catch (Exception $e) {
+                                $error =  $e->getMessage();
+                                $result['error'] = true;
+                                $result['mensaje'][] = $error;
+                                if ($result['error'] = true) {
+
+                                    $result['confirmacion'] = false;
+                                }
+                            }
+                        }
+                    } catch (Exception $e) {
+                        $error =  $e->getMessage();
+                        $result['error'] = true;
+                        $result['mensaje'][] = $error;
+                        if ($result['error'] = true) {
+
+                            $result['confirmacion'] = false;
+                        }
+                    }
+                    $result['confirmacion'] = true;
+                } catch (Exception $e) {
+                    $error =  $e->getMessage();
+                    $result['error'] = true;
+                    $result['mensaje'][] = $error;
+                    if ($result['error'] = true) {
+
+                        $result['confirmacion'] = false;
+                    }
+                }
+                break;
             case 'agregar_confirmacion':
                 $cod_dotacion = $_POST['cod_dotacion'];
                 try {
@@ -512,6 +652,7 @@ switch ($vista) {
     case 'cla':
         switch ($metodo) {
             case 'agregar_confirmacion':
+
                 $cod_dotacion = $_POST['cod_dotacion'];
                 try {
                     $sql = 'UPDATE dotacion_recepcion,
@@ -546,6 +687,148 @@ switch ($vista) {
                             try {
                                 $sql = 'UPDATE dotacion_recepcion
                                     SET dotacion_recepcion.`status` = "09",
+                                    dotacion_recepcion.fec_us_mod= current_date,
+                                    dotacion_recepcion.cod_us_mod= "' . $usuario . '"
+                                    WHERE dotacion_recepcion.codigo =  "' . $cod . '"
+                                ';
+                                $result['sql'][] = $sql;
+                                $query        = $bd->consultar($sql);
+                                $result['confirmacion'] = true;
+                            } catch (Exception $e) {
+                                $error =  $e->getMessage();
+                                $result['error'] = true;
+                                $result['mensaje'][] = $error;
+                                if ($result['error'] = true) {
+
+                                    $result['confirmacion'] = false;
+                                }
+                            }
+                        }
+                    } catch (Exception $e) {
+                        $error =  $e->getMessage();
+                        $result['error'] = true;
+                        $result['mensaje'][] = $error;
+                        if ($result['error'] = true) {
+
+                            $result['confirmacion'] = false;
+                        }
+                    }
+                    $result['confirmacion'] = true;
+                } catch (Exception $e) {
+                    $error =  $e->getMessage();
+                    $result['error'] = true;
+                    $result['mensaje'][] = $error;
+                    if ($result['error'] = true) {
+
+                        $result['confirmacion'] = false;
+                    }
+                }
+                break;
+            case 'agregar_masiva':
+
+                try {
+                    $sql = 'UPDATE dotacion_recepcion,
+                            dotacion_recepcion_det
+                            SET dotacion_recepcion_det.`status` = "07",
+                                dotacion_recepcion.`status` = "03",
+                            dotacion_recepcion.fec_us_mod= current_date,
+                            dotacion_recepcion.cod_us_mod= "' . $usuario . '",
+                            dotacion_recepcion_det.fec_us_mod= current_date,
+                            dotacion_recepcion_det.cod_us_mod= "' . $usuario . '"
+                            WHERE dotacion_recepcion.codigo = dotacion_recepcion_det.cod_dotacion_recepcion
+                            AND dotacion_recepcion.codigo =  "' . $cod . '"
+                            
+                    ';
+                    $result['sql'][] = $sql;
+                    $query        = $bd->consultar($sql);
+                    try {
+                        $sql = 'SELECT COUNT(dotacion_recepcion_det.codigo) 
+                                    FROM dotacion_recepcion,dotacion_recepcion_det 
+                                WHERE
+                                    dotacion_recepcion.codigo = dotacion_recepcion_det.cod_dotacion_recepcion
+                                AND 
+                                    dotacion_recepcion.codigo = "' . $cod . '" 
+                                AND
+                                    dotacion_recepcion_det.status<>"07"
+                                ';
+                        $result['sql'][] = $sql;
+                        $query        = $bd->consultar($sql);
+                        $contador = $bd->obtener_fila($query, 0)[0];
+
+                        if ($contador == 0) {
+                            try {
+                                $sql = 'UPDATE dotacion_recepcion
+                                    SET dotacion_recepcion.`status` = "09",
+                                    dotacion_recepcion.fec_us_mod= current_date,
+                                    dotacion_recepcion.cod_us_mod= "' . $usuario . '"
+                                    WHERE dotacion_recepcion.codigo =  "' . $cod . '"
+                                ';
+                                $result['sql'][] = $sql;
+                                $query        = $bd->consultar($sql);
+                                $result['confirmacion'] = true;
+                            } catch (Exception $e) {
+                                $error =  $e->getMessage();
+                                $result['error'] = true;
+                                $result['mensaje'][] = $error;
+                                if ($result['error'] = true) {
+
+                                    $result['confirmacion'] = false;
+                                }
+                            }
+                        }
+                    } catch (Exception $e) {
+                        $error =  $e->getMessage();
+                        $result['error'] = true;
+                        $result['mensaje'][] = $error;
+                        if ($result['error'] = true) {
+
+                            $result['confirmacion'] = false;
+                        }
+                    }
+                    $result['confirmacion'] = true;
+                } catch (Exception $e) {
+                    $error =  $e->getMessage();
+                    $result['error'] = true;
+                    $result['mensaje'][] = $error;
+                    if ($result['error'] = true) {
+
+                        $result['confirmacion'] = false;
+                    }
+                }
+                break;
+            case 'remover_masiva':
+
+                try {
+                    $sql = 'UPDATE dotacion_recepcion,
+                            dotacion_recepcion_det
+                            SET dotacion_recepcion_det.`status` = "06",
+                            dotacion_recepcion.`status` = "03",
+                            dotacion_recepcion_det.fec_us_mod= current_date,
+                            dotacion_recepcion_det.cod_us_mod= "' . $usuario . '"
+                            WHERE dotacion_recepcion.codigo = dotacion_recepcion_det.cod_dotacion_recepcion
+                            AND dotacion_recepcion.codigo =  "' . $cod . '"
+                            
+                    ';
+                    $result['sql'][] = $sql;
+                    $query        = $bd->consultar($sql);
+                    try {
+                        $sql = 'SELECT COUNT(dotacion_recepcion_det.codigo) 
+                                    FROM dotacion_recepcion,dotacion_recepcion_det 
+                                WHERE
+                                    dotacion_recepcion.codigo = dotacion_recepcion_det.cod_dotacion_recepcion
+                                AND 
+                                    dotacion_recepcion.codigo = "' . $cod . '" 
+                                AND
+                                    dotacion_recepcion_det.status="07"
+                                ';
+                        $result['sql'][] = $sql;
+                        $query        = $bd->consultar($sql);
+                        $contador = $bd->obtener_fila($query, 0)[0];
+
+                        if ($contador <= 0) {
+                            try {
+                                $sql = 'UPDATE dotacion_recepcion
+                                    SET dotacion_recepcion.`status` = "02",
                                     dotacion_recepcion.fec_us_mod= current_date,
                                     dotacion_recepcion.cod_us_mod= "' . $usuario . '"
                                     WHERE dotacion_recepcion.codigo =  "' . $cod . '"
