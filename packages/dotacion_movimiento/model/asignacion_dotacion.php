@@ -13,7 +13,7 @@ $vista  = $_POST['vista'];
 $usuario = $_POST['us'];
 
 switch ($vista) {
-    
+
     case 'vista_dotacion':
         switch ($metodo) {
             case 'agregar':
@@ -33,7 +33,7 @@ switch ($vista) {
                                 if ($key > 0) {
                                     $values .= ",";
                                 }
-                                $values .= "('$codigo','$value','04',current_date,'$usuario',current_date,'$usuario')";
+                                $values .= "('$codigo','$value','01',now(),'$usuario',now(),'$usuario')";
                             }
                             $sql = "INSERT INTO dotacion_proceso_det (cod_dotacion_proceso,cod_dotacion,status,fec_us_ing,cod_us_ing,fec_us_mod,cod_us_mod) VALUES " . $values;
                             $result['sql'][] = $sql;
@@ -80,7 +80,7 @@ switch ($vista) {
                                     if ($key > 0) {
                                         $values .= ",";
                                     }
-                                    $values .= "('$cod','$value','04',current_date,'$usuario',current_date,'$usuario')";
+                                    $values .= "('$cod','$value','01',now(),'$usuario',now(),'$usuario')";
                                 }
                                 $sql = "INSERT INTO dotacion_proceso_det (cod_dotacion_proceso,cod_dotacion,status,fec_us_ing,cod_us_ing,fec_us_mod,cod_us_mod) VALUES " . $values;
                                 $result['sql'][] = $sql;
@@ -167,8 +167,29 @@ switch ($vista) {
                     ";
                     $result['sql'][] = $sql;
                     $query        = $bd->consultar($sql);
-                    $result['confirmacion'] = true;
 
+                    $result['confirmacion'] = true;
+                    try {
+
+                        $sql = "UPDATE dotacion_proceso_det SET  
+                    cod_status = '04',
+                    fec_us_mod= now(),
+                    cod_us_mod='$usuario' 
+                    WHERE cod_dotacion_proceso = '$cod'
+                    ";
+                        $result['sql'][] = $sql;
+                        $query        = $bd->consultar($sql);
+
+                        $result['confirmacion'] = true;
+                    } catch (Exception $e) {
+                        $error =  $e->getMessage();
+                        $result['error'] = true;
+                        $result['mensaje'][] = $error;
+                        if ($result['error'] = true) {
+                            //echo $result['mensaje'];
+                            $result['confirmacion'] = false;
+                        }
+                    }
                     //code...
                 } catch (Exception $e) {
                     $error =  $e->getMessage();
@@ -205,7 +226,7 @@ switch ($vista) {
                                 if ($key > 0) {
                                     $values .= ",";
                                 }
-                                $values .= "('$codigo_dotacion','$codigo_recepcion','$value','06',current_date,'$usuario',current_date,'$usuario')";
+                                $values .= "('$codigo_dotacion','$codigo_recepcion','$value','06',now(),'$usuario',now(),'$usuario')";
                             }
 
                             $sql = "INSERT INTO dotacion_recepcion_det (cod_dotacion_proceso,cod_dotacion_recepcion,cod_dotacion,status,fec_us_ing,cod_us_ing,fec_us_mod,cod_us_mod) VALUES " . $values;
@@ -261,7 +282,7 @@ switch ($vista) {
                                     if ($key > 0) {
                                         $values .= ",";
                                     }
-                                    $values .= "('$codigo_dotacion','$cod','$value','06',current_date,'$usuario',current_date,'$usuario')";
+                                    $values .= "('$codigo_dotacion','$cod','$value','06',now(),'$usuario',now(),'$usuario')";
                                 }
 
                                 $sql = "INSERT INTO dotacion_recepcion_det (cod_dotacion_proceso,cod_dotacion_recepcion,cod_dotacion,status,fec_us_ing,cod_us_ing,fec_us_mod,cod_us_mod) VALUES " . $values;
@@ -374,7 +395,7 @@ switch ($vista) {
                             dotacion_proceso.`status` = "03",
                         dotacion_proceso.fec_us_mod= current_date,
                         dotacion_proceso.cod_us_mod= "' . $usuario . '",
-                        dotacion_proceso_det.fec_us_mod= current_date,
+                        dotacion_proceso_det.fec_us_mod= now(),
                         dotacion_proceso_det.cod_us_mod= "' . $usuario . '"
                         WHERE dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
                         AND dotacion_proceso.codigo =  "' . $cod . '"
@@ -442,7 +463,7 @@ switch ($vista) {
                     $sql = 'UPDATE dotacion_proceso,
                         dotacion_proceso_det
                         SET dotacion_proceso_det.`status` = "04",dotacion_proceso.`status` = "03",
-                        dotacion_proceso_det.fec_us_mod= current_date,
+                        dotacion_proceso_det.fec_us_mod= now(),
                         dotacion_proceso_det.cod_us_mod= "' . $usuario . '"
                         WHERE dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
                         AND dotacion_proceso.codigo =  "' . $cod . '"
@@ -518,7 +539,7 @@ switch ($vista) {
                                 dotacion_proceso.`status` = "03",
                             dotacion_proceso.fec_us_mod= current_date,
                             dotacion_proceso.cod_us_mod= "' . $usuario . '",
-                            dotacion_proceso_det.fec_us_mod= current_date,
+                            dotacion_proceso_det.fec_us_mod= now(),
                             dotacion_proceso_det.cod_us_mod= "' . $usuario . '"
                             WHERE dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
                             AND dotacion_proceso.codigo =  "' . $cod . '"
@@ -587,7 +608,7 @@ switch ($vista) {
                     $sql = 'UPDATE dotacion_proceso,
                             dotacion_proceso_det
                             SET dotacion_proceso_det.`status` = "04",dotacion_proceso.`status` = "03",
-                            dotacion_proceso_det.fec_us_mod= current_date,
+                            dotacion_proceso_det.fec_us_mod= now(),
                             dotacion_proceso_det.cod_us_mod= "' . $usuario . '"
                             WHERE dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
                             AND dotacion_proceso.codigo =  "' . $cod . '"
@@ -665,7 +686,7 @@ switch ($vista) {
                                 dotacion_recepcion.`status` = "03",
                             dotacion_recepcion.fec_us_mod= current_date,
                             dotacion_recepcion.cod_us_mod= "' . $usuario . '",
-                            dotacion_recepcion_det.fec_us_mod= current_date,
+                            dotacion_recepcion_det.fec_us_mod= now(),
                             dotacion_recepcion_det.cod_us_mod= "' . $usuario . '"
                             WHERE dotacion_recepcion.codigo = dotacion_recepcion_det.cod_dotacion_recepcion
                             AND dotacion_recepcion.codigo =  "' . $cod . '"
@@ -737,7 +758,7 @@ switch ($vista) {
                                 dotacion_recepcion.`status` = "03",
                             dotacion_recepcion.fec_us_mod= current_date,
                             dotacion_recepcion.cod_us_mod= "' . $usuario . '",
-                            dotacion_recepcion_det.fec_us_mod= current_date,
+                            dotacion_recepcion_det.fec_us_mod= now(),
                             dotacion_recepcion_det.cod_us_mod= "' . $usuario . '"
                             WHERE dotacion_recepcion.codigo = dotacion_recepcion_det.cod_dotacion_recepcion
                             AND dotacion_recepcion.codigo =  "' . $cod . '"
@@ -807,7 +828,7 @@ switch ($vista) {
                             dotacion_recepcion_det
                             SET dotacion_recepcion_det.`status` = "06",
                             dotacion_recepcion.`status` = "03",
-                            dotacion_recepcion_det.fec_us_mod= current_date,
+                            dotacion_recepcion_det.fec_us_mod= now(),
                             dotacion_recepcion_det.cod_us_mod= "' . $usuario . '"
                             WHERE dotacion_recepcion.codigo = dotacion_recepcion_det.cod_dotacion_recepcion
                             AND dotacion_recepcion.codigo =  "' . $cod . '"
@@ -877,7 +898,7 @@ switch ($vista) {
                             dotacion_recepcion_det
                             SET dotacion_recepcion_det.`status` = "06",
                             dotacion_recepcion.`status` = "03",
-                            dotacion_recepcion_det.fec_us_mod= current_date,
+                            dotacion_recepcion_det.fec_us_mod= now(),
                             dotacion_recepcion_det.cod_us_mod= "' . $usuario . '"
                             WHERE dotacion_recepcion.codigo = dotacion_recepcion_det.cod_dotacion_recepcion
                             AND dotacion_recepcion.codigo =  "' . $cod . '"
