@@ -27,8 +27,9 @@ observacion2, fec_us_ing
 FROM ficha_egreso
 WHERE cod_ficha = '$codigo' ";
 
-$query = $bd->consultar($sql);			
-if($bd->num_fila($query) ==0){
+$query = $bd->consultar($sql);
+$result=$bd->obtener_fila($query,0);			
+if(count($result) ==0){
 
  $metodo = "agregar";
  $fec_egreso     = '';
@@ -55,7 +56,6 @@ if($bd->num_fila($query) ==0){
 }else{
 
 	$metodo = "modificar";
-	$result=$bd->obtener_fila($query,0);	
 	if($result['fec_egreso']==NULL){
     $fec_egreso="";
   }else{

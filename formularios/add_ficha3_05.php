@@ -17,8 +17,9 @@ $proced      = "p_fichas_05";
                     observacion2, fec_us_ing 
                FROM ficha_egreso
               WHERE cod_ficha = '$codigo' ";
-    $query = $bd->consultar($sql);			
-   	if($bd->num_fila($query) ==0){
+    $query = $bd->consultar($sql);	
+    $result=$bd->obtener_fila($query,0);  		
+   	if(count($result) ==0){
 
 	$metodo = "agregar";
 
@@ -46,7 +47,6 @@ $proced      = "p_fichas_05";
 	}else{
 
 	$metodo = "modificar";
-	$result=$bd->obtener_fila($query,0);	
 	
 	$fec_egreso       = conversion($result['fec_egreso']);
 	$fec_sistema_ing  = conversion($result['fec_us_ing']);
