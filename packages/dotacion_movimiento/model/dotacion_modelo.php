@@ -290,4 +290,54 @@ class dotaciones
         }
         return $this->datos;
     }
+
+
+///////////////////////////////////////////////////////77
+public function llenar_dotaciones_procesadas()
+    {
+        $this->datos   = array();
+       
+        //$tabla = ($vista=="vista_dotacion")?'dotacion_proceso':($vista=="vista_recepcion")?'dotacion_recepcion':'';
+        $sql = "SELECT DISTINCT
+        dotacion_proceso_status.cod_dotacion,
+        dotacion_proceso_status.cod_status,
+        dotacion_proceso_status.fecha,
+        dotacion_proceso_status.cod_us_ing
+    FROM
+        dotacion_proceso_status
+    UNION
+        SELECT
+            dotacion_recepcion_status.cod_dotacion,
+            dotacion_recepcion_status.cod_status,
+            dotacion_recepcion_status.fecha,
+            dotacion_recepcion_status.cod_us_ing
+        FROM
+            dotacion_recepcion_status
+        
+        ORDER BY
+            cod_dotacion";
+        $query        = $this->bd->consultar($sql);
+        while ($datos = $this->bd->obtener_fila($query, 0)) {
+            $this->datos[] = $datos;
+        }
+        return $this->datos;
+    }
+
+    public function llenar_status_proceso()
+    {
+        $this->datos   = array();
+       
+        //$tabla = ($vista=="vista_dotacion")?'dotacion_proceso':($vista=="vista_recepcion")?'dotacion_recepcion':'';
+        $sql = "SELECT codigo,abr,descripcion  from dotacion_status WHERE tipo = 'O'";
+        $query        = $this->bd->consultar($sql);
+        while ($datos = $this->bd->obtener_fila($query, 0)) {
+            $this->datos[] = $datos;
+        }
+        return $this->datos;
+    }
+
+
 }
+
+
+

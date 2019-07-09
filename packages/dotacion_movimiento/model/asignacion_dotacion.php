@@ -452,13 +452,17 @@ switch ($vista) {
                     $query        = $bd->consultar($sql);
                     try {
                         $sql = 'SELECT COUNT(dotacion_proceso_det.codigo) 
-                                FROM dotacion_proceso,dotacion_proceso_det 
+                                FROM dotacion_proceso,dotacion_proceso_det
                             WHERE
                                 dotacion_proceso.codigo = dotacion_proceso_det.cod_dotacion_proceso
                             AND 
                                 dotacion_proceso.codigo = "' . $cod . '" 
                             AND
                                 dotacion_proceso_det.status="05"
+                            AND 
+                                dotacion_proceso.codigo NOT IN 
+                                (SELECT dotacion_recepcion_det.cod_dotacion_proceso 
+                                FROM dotacion_recepcion,dotacion_recepcion_det)
                             ';
                         $result['sql'][] = $sql;
                         $query        = $bd->consultar($sql);
