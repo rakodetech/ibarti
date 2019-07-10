@@ -172,7 +172,7 @@ switch ($vista) {
                     try {
 
                         $sql = "UPDATE dotacion_proceso_det SET  
-                    cod_status = '04',
+                    status = '04',
                     fec_us_mod= now(),
                     cod_us_mod='$usuario' 
                     WHERE cod_dotacion_proceso = '$cod'
