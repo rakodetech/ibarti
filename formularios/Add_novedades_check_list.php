@@ -297,9 +297,9 @@ function Guardar(){
       	<td id="select03"><select name="ubicacion" id="ubicacion" style="width:200px">
                                   <option value="<?php echo $cod_ubicacion;?>"><?php echo $ubicacion;?></option>
           <?php
-			    	$sql   = "SELECT clientes_ubicacion.id, clientes_ubicacion.descripcion
+			    	$sql   = "SELECT clientes_ubicacion.codigo, clientes_ubicacion.descripcion
                                            FROM clientes_ubicacion
-						                  WHERE clientes_ubicacion.co_cli = ' $cod_cliente'
+						                  WHERE clientes_ubicacion.cod_cliente = ' $cod_cliente'
 						                    AND clientes_ubicacion.`status` = 'T'
 						                  ORDER BY 2 ASC";
 		            $query = $bd->consultar($sql);
