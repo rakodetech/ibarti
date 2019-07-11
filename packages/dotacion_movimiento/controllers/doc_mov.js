@@ -63,7 +63,7 @@ function consultar_existente(codigo) {
         url: 'packages/dotacion_movimiento/views/Get_listado_existente.php',
         type: 'post',
         success: function (response) {
-            
+
             datos_consulta_dotacion = JSON.parse(response);
             datos_consulta_dotacion.forEach((res) => {
                 datos_consulta_omitir.push(res.cod_dotacion);
@@ -380,13 +380,26 @@ function modal_descripcion(id) {
 
 }
 
-function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento) {
+function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento, tipo) {
+    var elementos = document.getElementById("seleccion").getElementsByTagName("tbody")[0].getElementsByTagName("input");
+    var metodo = "";
+
     vista = (typeof vista == "undefined") ? document.getElementById('vista').value : vista
-    if (elemento) {
-        var metodo = 'agregar_confirmacion';
-    } else {
-        var metodo = "remover_confirmacion";
+    if (tipo == "normal") {
+        if (elemento) {
+            metodo = 'agregar_confirmacion';
+        } else {
+            metodo = "remover_confirmacion";
+        }
     }
+    if (tipo == "masiva") {
+        if (elemento) {
+            metodo = 'agregar_masiva';
+        } else {
+            metodo = "remover_masiva";
+        }
+    }
+
 
     var usuario = document.getElementById('us').value;
     var parametros = {
@@ -402,9 +415,18 @@ function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento) {
         type: 'post',
 
         success: function (response) {
+
             var resultado = JSON.parse(response);
             if (resultado.confirmacion) {
                 alert("Guardado Correctamente");
+                cons_inicio(vista);
+
+                if (tipo == "masiva") {
+                    for (let index = 0; index < elementos.length; index++) {
+                        elementos[index].checked = elemento;
+                    }
+                }
+
             } else {
                 alert("No se Guardo Correctamente");
             }
@@ -414,6 +436,91 @@ function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento) {
             alert(thrownError);
         }
     });
+
+
+}
+var datas;
+function tabla_status_dotacion() {
+    var parametros = {}
+    $.ajax({
+        data: parametros,
+        url: 'packages/dotacion_movimiento/views/Get_status_proceso.php',
+        type: 'post',
+
+        success: function (response) {
+            var filtrados = [];
+            var resultado = JSON.parse(response);
+            resultado.forEach((res)=>{
+                filtrado.push()
+            });
+            //var respuesta = /*html*/
+            //    `
+            //    <table width="100%">
+            //    <thead>
+            //    <th>CODIGO</th>
+            //    `
+            tabla_dotacion_procesada(()=>{    
+                var data = d3.nest().key((d) => d.cod_dotacion).sortKeys(d3.ascending).key((d) => d.cod_status).sortKeys(d3.ascending)
+                .entries(datas);
+                
+                //filtrado = filtrados.map((val,index,array)=>{
+                    data.forEach((res)=>{
+                        res.values.forEach((dato)=>{
+                            console.log(res.key,dato);
+                        });
+                    })
+                //})
+                
+            });
+            
+            /*
+            filtrado = d3.nest()
+            .key((d) => d.cod_status).sortKeys(d3.ascending)
+            .entries(datos);
+            */
+
+            /*
+            resultado.forEach((res) => {
+                //respuesta += `<th title="${res.descripcion}">${res.abr}</th>`
+            });*/
+            /*
+            respuesta += `</thead>
+                </table>
+                    `;
+            $("#modal_titulo").text("PRUEBA");
+            $("#modal_contenido").html(respuesta);
+            ModalOpen();
+            */
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+}
+
+function tabla_dotacion_procesada(callback) {
+    var parametros = {}
+    $.ajax({
+        data: parametros,
+        url: 'packages/dotacion_movimiento/views/Get_dotaciones_procesadas.php',
+        type: 'post',
+
+        success: function (response) {
+
+            
+            //var resultado = 
+            datas = JSON.parse(response);
+            if(typeof (callback) == "function"){
+                callback();
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+
 
 
 }

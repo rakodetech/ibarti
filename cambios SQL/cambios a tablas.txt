@@ -1,0 +1,121 @@
+TABLA dotacion_status
+-AGREGAR CAMPO
+tipo	varchar	11	0	0	0	0	0	0		0		utf8	utf8_spanish_ci		0	0
+
+-llenar DATA
+codigo	tipo
+01	P
+02	P
+03	P
+04	O
+05	O
+06	O
+07	O
+08	P
+09	P
+9999	N
+
+TABLA dotacion_proceso
+TRIGERS
+
+trig_detalle_status_delete_p	0	0			After	0	-1	0	
+	BEGIN
+	IF(NEW.anulado='T') THEN
+      	DELETE FROM dotacion_proceso_status WHERE  cod_proceso = NEW.codigo ;
+	END IF;
+
+	END	
+
+TABLA dotacion_proceso_det
+
+TRIGERS
+
+trig_detalle_status_add	0	0			After	-1	0	0	
+
+	BEGIN
+
+	INSERT INTO dotacion_proceso_status(cod_dotacion,
+	cod_proceso,
+	cod_us_ing,
+	fecha,
+	cod_status) VALUES (NEW.cod_dotacion,NEW.cod_dotacion_proceso,NEW.cod_us_mod,NEW.fec_us_mod,NEW.status);
+
+	END	
+
+trig_detalle_status_mod	0	0			After	0	-1	0	
+	BEGIN
+
+	IF(NEW.status="04") THEN
+	DELETE FROM dotacion_proceso_status WHERE cod_dotacion = OLD.cod_dotacion AND cod_proceso = OLD.cod_dotacion_proceso and cod_status = "05";
+	END IF;
+
+	IF(NEW.status<>"04") THEN
+	INSERT INTO dotacion_proceso_status(cod_dotacion,
+	cod_proceso,
+	cod_us_ing,
+	fecha,
+	cod_status) VALUES (NEW.cod_dotacion,NEW.cod_dotacion_proceso,NEW.cod_us_mod,NEW.fec_us_mod,NEW.status);
+	END IF;
+	END	
+
+trig_detalle_status_delete	0	0			Before	0	0	-1	
+	BEGIN
+
+	DELETE FROM dotacion_proceso_status WHERE cod_dotacion = OLD.cod_dotacion AND cod_proceso = OLD.cod_dotacion_proceso ;
+
+	END	
+
+TABLA dotacion_recepcion
+
+TRIGERS
+
+trig_detalle_status_delete_r	0	0			After	0	-1	0	
+	BEGIN
+	IF(NEW.anulado='T') THEN
+      	DELETE FROM dotacion_recepcion_status WHERE  cod_recepcion = NEW.codigo ;
+	END IF;
+
+	END	
+
+TABLA dotacion_recepcion_det
+
+TRIGERS
+
+trig_detalle_statusr_add_r	0	0			After	-1	0	0	
+	BEGIN
+
+	INSERT INTO dotacion_recepcion_status(cod_dotacion,
+	cod_recepcion,
+	cod_us_ing,
+	fecha,
+	cod_status) VALUES (NEW.cod_dotacion,NEW.cod_dotacion_recepcion,NEW.cod_us_mod,NEW.fec_us_mod,NEW.status);
+
+	END
+		
+trig_detalle_statusr_mod_r	0	0			After	0	-1	0	
+	BEGIN
+
+	IF(NEW.status="06") THEN
+	DELETE FROM dotacion_recepcion_status WHERE cod_dotacion = OLD.cod_dotacion AND cod_recepcion = OLD.cod_dotacion_recepcion and cod_status = "07";
+	END IF;
+
+	IF(NEW.status<>"06") THEN
+	INSERT INTO dotacion_recepcion_status(cod_dotacion,
+	cod_recepcion,
+	cod_us_ing,
+	fecha,
+	cod_status) VALUES (NEW.cod_dotacion,NEW.cod_dotacion_recepcion,NEW.cod_us_mod,NEW.fec_us_mod,NEW.status);
+	END IF;
+	END
+	
+trig_detalle_statusr_delete_r	0	0			Before	0	0	-1	
+	BEGIN
+
+	DELETE FROM dotacion_proceso_status WHERE cod_dotacion = OLD.cod_dotacion AND cod_proceso = OLD.cod_dotacion_proceso ;
+
+	END	
+
+
+
+
+

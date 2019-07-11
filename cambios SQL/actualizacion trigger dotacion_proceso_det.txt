@@ -1,0 +1,29 @@
+MODIFICACION
+
+BEGIN
+DECLARE contador INT(11);
+IF(NEW.status="04") THEN
+SELECT COUNT(codigo) INTO contador
+ FROM dotacion_proceso_det 
+WHERE cod_dotacion_proceso = NEW.cod_dotacion_proceso AND status = "05" LIMIT 1;
+
+IF(contador>0) THEN
+DELETE FROM dotacion_proceso_status WHERE cod_dotacion = OLD.cod_dotacion AND cod_proceso = OLD.cod_dotacion_proceso and cod_status = "05";
+ELSE
+INSERT INTO dotacion_proceso_status(cod_dotacion,
+cod_proceso,
+cod_us_ing,
+fecha,
+cod_status) VALUES (NEW.cod_dotacion,NEW.cod_dotacion_proceso,NEW.cod_us_mod,NEW.fec_us_mod,NEW.status);
+END IF;
+
+END IF;
+
+IF(NEW.status<>"04") THEN
+INSERT INTO dotacion_proceso_status(cod_dotacion,
+cod_proceso,
+cod_us_ing,
+fecha,
+cod_status) VALUES (NEW.cod_dotacion,NEW.cod_dotacion_proceso,NEW.cod_us_mod,NEW.fec_us_mod,NEW.status);
+END IF;
+END

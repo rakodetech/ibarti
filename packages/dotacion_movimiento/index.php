@@ -28,6 +28,7 @@ $usuario = $_SESSION['usuario_cod'];
 
 </div>
 <div>
+<input type="button" value="consultar" onclick="tabla_status_dotacion()">
   <input type="hidden" name="us" id="us" value="<?php echo $usuario; ?>">
   <input type="hidden" name="us" id="view" value="<?php echo $vista; ?>"></div>
 <script>
