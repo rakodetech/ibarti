@@ -24,19 +24,20 @@ if ($vista == "cla") {
 
 ?>
 <div align="center" class="etiqueta_title"> <?php echo $titulo; ?></div>
-<span style="float:left;margin:15px;">
-  <form id="filtros" action="" onsubmit="event.preventDefault()" >
+<span style="float:left;margin-top:15px; width:80%">
+  <form id="filtros" action="" onsubmit="event.preventDefault()">
     Fecha de Inicio: <input type="button" id="filtro_fecha" value="Buscar" onclick="crear_control(this.id,'f_d','f_h',()=>{crear_data('<?php echo $vista; ?>','filtros')})">
     Codigo: <input type="text" name="filtro_codigo" id="filtro_codigo">
     Status: <select name="filtro_status" id="filtro_status">
       <option value="">TODOS</option>
       <option value="01">INICIADO</option>
       <?php foreach ($status as $key => $value) {
-      echo "<option value='".$value['codigo']."'>".$value['descripcion']."</option>";
-      }?>
-      
+        echo "<option value='" . $value['codigo'] . "'>" . $value['descripcion'] . "</option>";
+      } ?>
+
     </select>
-    <input type="button" value="actualizar" onclick="crear_data('<?php echo $vista; ?>','filtros')">
+    <img src="imagenes/actualizar.png" title="actualizar" width="20px" height="20px" style="cursor:pointer;float:right;" onclick="crear_data('<?php echo $vista; ?>','filtros')">
+
     <input type="hidden" name="f_d" id="f_d">
     <input type="hidden" name="f_h" id="f_h">
     <input type="hidden" name="vista" id="vista" value="<?php echo $vista; ?>">

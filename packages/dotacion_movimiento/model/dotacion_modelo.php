@@ -58,7 +58,7 @@ class dotaciones
                         WHERE
                             men_usuarios.codigo = " . $tabla . ".cod_us_mod
                         
-                        AND dotacion_status.codigo = " . $tabla . ".`status` " . $where;
+                        AND dotacion_status.codigo = " . $tabla . ".`status` " . $where." ORDER BY 1";
             $result['sql'][] = $sql;
             $query        = $this->bd->consultar($sql);
             while ($datos = $this->bd->obtener_fila($query, 0)) {
@@ -86,7 +86,7 @@ class dotaciones
             $tabla = "dotacion_recepcion";
         }
         //$tabla = ($vista=="vista_dotacion")?'dotacion_proceso':($vista=="vista_recepcion")?'dotacion_recepcion':'';
-        $sql = "SELECT codigo, status sta,anulado FROM " . $tabla . " WHERE codigo='$cod'";
+        $sql = "SELECT codigo, status sta,anulado FROM " . $tabla . " WHERE codigo='$cod' ORDER BY 1";
         $query        = $this->bd->consultar($sql);
         while ($datos = $this->bd->obtener_fila($query, 0)) {
             $this->datos[] = $datos;
@@ -114,7 +114,7 @@ class dotaciones
                 INNER JOIN dotacion_proceso_det b ON a.codigo = b.cod_dotacion
                 INNER JOIN dotacion_proceso d ON d.codigo = b.cod_dotacion_proceso
                 INNER JOIN ficha c on c.cod_ficha = a.cod_ficha
-                WHERE d.codigo = '$cod'";
+                WHERE d.codigo = '$cod' order by 1";
                 break;
             case 'clo':
                 $sql = "SELECT 
@@ -144,7 +144,7 @@ class dotaciones
                 INNER JOIN dotacion_proceso_det b ON a.codigo = b.cod_dotacion
                 INNER JOIN dotacion_proceso d ON d.codigo = b.cod_dotacion_proceso
                 INNER JOIN ficha c on c.cod_ficha = a.cod_ficha
-                WHERE d.codigo = '$cod'";
+                WHERE d.codigo = '$cod' order by 1";
                 break;
             case 'cla':
                 $sql = "SELECT 
@@ -161,7 +161,7 @@ class dotaciones
                 INNER JOIN dotacion_recepcion_det b ON a.codigo = b.cod_dotacion
                 INNER JOIN dotacion_recepcion d ON d.codigo = b.cod_dotacion_recepcion
                 INNER JOIN ficha c on c.cod_ficha = a.cod_ficha
-                WHERE d.codigo = '$cod'";
+                WHERE d.codigo = '$cod' order by 1";
                 break;
             case 'vista_recepcion':
                 $sql = "SELECT
@@ -184,7 +184,7 @@ class dotaciones
                     dotacion_recepcion.codigo  =dotacion_recepcion_det.cod_dotacion_recepcion
                 AND prod_dotacion.codigo = dotacion_recepcion_det.cod_dotacion
                 AND ficha.cod_ficha = prod_dotacion.cod_ficha
-                AND dotacion_recepcion.codigo = '$cod'            
+                AND dotacion_recepcion.codigo = '$cod'    order by 1         
                 ";
                 break;
         }
@@ -241,7 +241,7 @@ class dotaciones
         ) = 0
     
 
-		" . $where . "    GROUP BY a.codigo";
+		" . $where . "    GROUP BY a.codigo order by 1";
 
         $query        = $this->bd->consultar($sql);
         while ($datos = $this->bd->obtener_fila($query, 0)) {
@@ -295,7 +295,7 @@ class dotaciones
     )
 
         " . $where . "
-    GROUP BY a.codigo";
+    GROUP BY a.codigo order by 1";
 
         $query        = $this->bd->consultar($sql);
         while ($datos = $this->bd->obtener_fila($query, 0)) {
@@ -363,7 +363,7 @@ class dotaciones
     AND c.cod_recepcion = a.codigo
 		INNER JOIN dotacion_proceso e ON e.codigo = c.cod_dotacion OR b.cod_dotacion_proceso = e.codigo
     INNER JOIN prod_dotacion d ON b.cod_dotacion = d.codigo
-		 " . $where2;
+		 " . $where2." ORDER BY 1";
         $query        = $this->bd->consultar($sql);
         while ($datos = $this->bd->obtener_fila($query, 0)) {
             $this->datos[] = $datos;

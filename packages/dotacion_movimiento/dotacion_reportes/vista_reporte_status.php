@@ -5,10 +5,10 @@
 <span style="float:right;font-size:14px;">Mostrar por:.<select id="select_mostrar" style="width:200px;font-size:14px;" onchange="crear_tabla(this.value,estado, procesos)">
         <option value="fecha">Fechas</option>
         <option value="dias">Diferencia Dias</option>
-    </select></span><br><br>
+    </select><img src="imagenes/actualizar.png" title="actualizar" width="20px" height="20px" style="cursor:pointer;float:right;" onclick="crear_reporte()"></span><br><br>
 <hr />
 <table width="100%" border="1" id="tabla_cabeza">
-    
+
 </table>
 <div style="max-height:300px;
 height:300px;overflow:scroll;
