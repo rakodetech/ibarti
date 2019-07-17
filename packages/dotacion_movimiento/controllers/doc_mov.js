@@ -44,7 +44,7 @@ function cons_inicio(vista, metodo, callback) {
             url: url,
             type: 'post',
             success: function (response) {
-                //console.log(response)
+                ////console.log(response)
                 document.getElementById("contendor").innerHTML = response;
                 if (typeof (callback) == "function") {
                     callback();
@@ -212,7 +212,7 @@ function consultar_listado(tipo) {
 function seleccionar(cod, tabla) {
 
     if (tabla == "in") {
-        //console.log(datos_consulta);
+        ////console.log(datos_consulta);
         datos_consulta_dotacion.push(datos_consulta.filter((valor, i) => {
 
             if (valor.cod_dotacion == cod) {
@@ -496,7 +496,7 @@ function crear_tabla(tipo, status, info) {
     info = (typeof (info) == "undefined") ? procesos : info;
     var listado_proceso = d3.nest().key((d) => d.cod_dotacion).entries(info);
     var tabla = [{}];
-    console.log(info, listado_proceso)
+    //console.log(info, listado_proceso)
     listado_proceso.forEach((res, i) => {
         var objeto = {};
         res.values.forEach((dato) => {
@@ -543,7 +543,7 @@ function crear_tabla(tipo, status, info) {
                 if (j == 0) {
                     anterior[0] = moment((dato != "") ? (dato) : '');
                     //anterior[1] = moment((dato2 != "") ? (dato2) : '');
-                    ////console.log(anterior[1])
+                    //////console.log(anterior[1])
                 }
 
                 nuevo[0] = moment((dato != "") ? (dato) : '');
@@ -663,8 +663,7 @@ function llenar_tabla(vista, info, codigo) {
       <tr>
         <th width="12%">Código</th>
         <th width="12%">Fecha</th>
-        <th width="22%"  style="max-width: 200px; overflow: hidden;
-        text-overflow: ellipsis; white-space: nowrap;">Descripción</th>
+        <th width="22%">Descripción</th>
         <th width="10%">Usuario Mod</th>
         <th width="22%">Status</th>
         <th width="14%">Anulado</th>
@@ -688,7 +687,8 @@ function llenar_tabla(vista, info, codigo) {
 
         }
         html +=/*html*/`
-        ${cabecera}<td>${res['codigo']}</td><td>${res['fecha']}</td><td>${res['descripcion']}</td><td>${res['nombre']}</td><td>${res['estatus']}</td><td>${res['anulado']}</td><td></td></tr>
+        ${cabecera}<td>${res['codigo']}</td><td>${res['fecha']}</td><td  style="max-width: 200px; overflow: hidden;
+        text-overflow: ellipsis; white-space: nowrap;">${res['descripcion']}</td><td>${res['nombre']}</td><td>${res['estatus']}</td><td>${res['anulado']}</td><td></td></tr>
         `;
 
     });
