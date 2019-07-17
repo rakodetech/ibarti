@@ -35,12 +35,12 @@ if ($vista == "cla") {
 <hr />
 <div class="tabla_sistema listar"><table width="100%" border="0" align="center">
     <tr>
-      <th width="12%">Codigo</th>
-      <th width="12%">Observación</th>
-      <th width="12%">Fecha</th>
-      <th width="32%">Usuario Mod.</th>
+      <th width="10%">Codigo</th>
+      <th width="30%" style="max-width: 150px;">Observación</th>
+      <th width="15%">Fecha</th>
+      <th width="25%">Usuario Mod.</th>
       <th width="10%">Status</th>
-      <th width="14%">Anulado</th>
+      <th width="10%">Anulado</th>
       <?php echo $agregar; ?>
     </tr>
     <?php
@@ -63,7 +63,9 @@ if ($vista == "cla") {
 
       $contenido.='
       <td>' . $datos["codigo"] . '</td>
-      <td>' . $datos["observacion"] . '</td>
+      <td style="max-width: 200px; overflow: hidden;
+                text-overflow: ellipsis; white-space: nowrap;">'
+                 . $datos["observacion"] . '</td>
       <td>' . $datos["fecha"] . '</td>
       <td>' . $datos["nombre"] . '</td>
       <td>' . $datos["estatus"] . '</td>
