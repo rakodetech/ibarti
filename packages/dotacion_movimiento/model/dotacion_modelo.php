@@ -291,4 +291,67 @@ class dotaciones
         }
         return $this->datos;
     }
+
+
+    ///////////////////////////////////////////////////////77
+    public function llenar_dotaciones_procesadas($fecha_desde, $fecha_hasta)
+    {
+        $this->datos   = array();
+        $where1 = "";
+        $where2 = "";
+        if ($fecha_desde != "" && $fecha_hasta != "") {
+            $where1 = "WHERE a.fec_us_ing BETWEEN '$fecha_desde' AND '$fecha_hasta'";
+            $where2 = "WHERE e.fec_us_ing BETWEEN '$fecha_desde' AND '$fecha_hasta'";
+        }
+        //$tabla = ($vista=="vista_dotacion")?'dotacion_proceso':($vista=="vista_recepcion")?'dotacion_recepcion':'';
+        $sql = "SELECT
+        IFNULL(c.cod_dotacion,b.cod_dotacion) cod_dotacion,
+        IFNULL(c.cod_status,b.`status`) cod_status,
+        IFNULL(c.fecha,b.fec_us_mod) fecha,
+        IFNULL(c.cod_us_ing,b.cod_us_mod) cod_us_ing,
+        d.cod_ficha
+    FROM
+        dotacion_proceso a
+    INNER JOIN dotacion_proceso_det b ON b.cod_dotacion_proceso = a.codigo
+    AND a.anulado = 'F' 
+    LEFT JOIN dotacion_proceso_status c ON c.cod_dotacion = b.cod_dotacion
+    AND c.cod_proceso = a.codigo
+    INNER JOIN prod_dotacion d ON b.cod_dotacion = d.codigo 
+    " . $where1 . "
+    UNION 
+    
+    SELECT
+        IFNULL(c.cod_dotacion,b.cod_dotacion) cod_dotacion,
+        IFNULL(c.cod_status,b.`status`) cod_status,
+        IFNULL(c.fecha,b.fec_us_mod) fecha,
+        IFNULL(c.cod_us_ing,b.cod_us_mod) cod_us_ing,
+    d.cod_ficha
+    FROM
+        dotacion_recepcion a
+    INNER JOIN dotacion_recepcion_det b ON b.cod_dotacion_recepcion = a.codigo
+    AND a.anulado = 'F' 
+    LEFT JOIN dotacion_recepcion_status c ON c.cod_dotacion = b.cod_dotacion
+    AND c.cod_recepcion = a.codigo
+		INNER JOIN dotacion_proceso e ON e.codigo = c.cod_dotacion OR b.cod_dotacion_proceso = e.codigo
+    INNER JOIN prod_dotacion d ON b.cod_dotacion = d.codigo
+		 " . $where2;
+        $query        = $this->bd->consultar($sql);
+        while ($datos = $this->bd->obtener_fila($query, 0)) {
+            $this->datos[] = $datos;
+        }
+        return $this->datos;
+    }
+
+    public function llenar_status_proceso()
+    {
+        $this->datos   = array();
+
+        //$tabla = ($vista=="vista_dotacion")?'dotacion_proceso':($vista=="vista_recepcion")?'dotacion_recepcion':'';
+        $sql = "SELECT codigo,abr,descripcion  from dotacion_status WHERE tipo = 'O'  ORDER BY codigo ASC";
+        $query        = $this->bd->consultar($sql);
+        while ($datos = $this->bd->obtener_fila($query, 0)) {
+            $this->datos[] = $datos;
+        }
+        return $this->datos;
+    }
 }

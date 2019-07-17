@@ -25,6 +25,12 @@ function cons_inicio(vista, metodo, callback) {
         case 'vlo':
             url = "packages/dotacion_movimiento/views/Buscar_dotacion.php";
             break;
+        case 'rds':
+            url = "packages/dotacion_movimiento/dotacion_reportes/vista_reporte_status.php";
+            callback = ()=>{
+                crear_reporte();
+            }
+            break;
     }
     if (url != "") {
         $.ajax({
@@ -32,6 +38,7 @@ function cons_inicio(vista, metodo, callback) {
             url: url,
             type: 'post',
             success: function (response) {
+                console.log(response)
                 document.getElementById("contendor").innerHTML = response;
                 if (typeof (callback) == "function") {
                     callback();
@@ -439,79 +446,22 @@ function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento, ti
 
 
 }
-var datas;
-function tabla_status_dotacion() {
-    var parametros = {}
-    $.ajax({
-        data: parametros,
-        url: 'packages/dotacion_movimiento/views/Get_status_proceso.php',
-        type: 'post',
 
-        success: function (response) {
-            var filtrados = [];
-            var resultado = JSON.parse(response);
-            resultado.forEach((res)=>{
-                filtrado.push()
-            });
-            //var respuesta = /*html*/
-            //    `
-            //    <table width="100%">
-            //    <thead>
-            //    <th>CODIGO</th>
-            //    `
-            tabla_dotacion_procesada(()=>{    
-                var data = d3.nest().key((d) => d.cod_dotacion).sortKeys(d3.ascending).key((d) => d.cod_status).sortKeys(d3.ascending)
-                .entries(datas);
-                
-                //filtrado = filtrados.map((val,index,array)=>{
-                    data.forEach((res)=>{
-                        res.values.forEach((dato)=>{
-                            console.log(res.key,dato);
-                        });
-                    })
-                //})
-                
-            });
-            
-            /*
-            filtrado = d3.nest()
-            .key((d) => d.cod_status).sortKeys(d3.ascending)
-            .entries(datos);
-            */
-
-            /*
-            resultado.forEach((res) => {
-                //respuesta += `<th title="${res.descripcion}">${res.abr}</th>`
-            });*/
-            /*
-            respuesta += `</thead>
-                </table>
-                    `;
-            $("#modal_titulo").text("PRUEBA");
-            $("#modal_contenido").html(respuesta);
-            ModalOpen();
-            */
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-        }
-    });
-}
-
+var procesos;
+var estado;
 function tabla_dotacion_procesada(callback) {
-    var parametros = {}
+    var fec_d = $("#f_d").val();
+    var fec_h = $("#f_h").val();
+    var parametros = {fecha_desde:fec_d,fecha_hasta:fec_h}
+    // var dat;
     $.ajax({
         data: parametros,
         url: 'packages/dotacion_movimiento/views/Get_dotaciones_procesadas.php',
         type: 'post',
 
         success: function (response) {
-
-            
-            //var resultado = 
-            datas = JSON.parse(response);
-            if(typeof (callback) == "function"){
+            procesos = JSON.parse(response);
+            if (typeof (callback) == "function") {
                 callback();
             }
         },
@@ -522,5 +472,120 @@ function tabla_dotacion_procesada(callback) {
     });
 
 
+
+
+}
+
+function crear_tabla(tipo, status, info) {
+    status = (typeof (status) == "undefined") ? estado : status;
+    info = (typeof (info) == "undefined") ? procesos : info;
+    var listado_proceso = d3.nest().key((d) => d.cod_dotacion).entries(info);
+    var tabla = [{}];
+    listado_proceso.forEach((res, i) => {
+        var objeto = {};
+        res.values.forEach((dato) => {
+            var fecha = dato.fecha.split(" ");
+
+            objeto[dato.cod_status] = { fecha: fecha[0], hora: fecha[1] };
+        });
+        tabla[0][res.key] = objeto;
+    });
+    var resp = "";
+    resp += `<tr class="fondo00"><td width="10%"  style="text-align:center;vertical-align:middle;">Dotacion</td><td width="10%" style="text-align:center;vertical-align:middle;" >Ficha</td>`;
+    var indices = [];
+    var por = (status.length > 0) ? 80 / status.length : 0;
+    status.forEach((res, i) => {
+        indices.push(res.codigo)
+        resp += `<td width="${por}%"  style="text-align:center;vertical-align:middle;">${res.descripcion}</td>`;
+
+    });
+    resp += `</tr>
+    `;
+    var i = 0;
+    for (const llave in tabla[0]) {
+
+        resp += `<tr class="${(i % 2 == 0) ? 'fondo01' : 'fondo02'}"><td style=" ;text-align:center;"  >${llave}</td>`;
+
+        resp += `<td style="text-align:center;" >${listado_proceso[i].values[0].cod_ficha}</td>`;
+        var anterior = [];
+        var nuevo = [];
+        indices.forEach((res, j) => {
+
+            var dato = (typeof (tabla[0][llave][res]) != "undefined") ? tabla[0][llave][res].fecha : '';
+
+            if (tipo == "dias") {
+
+                if (j == 0) {
+                    anterior[0] = moment((dato != "") ? (dato) : '');
+                    //anterior[1] = moment((dato2 != "") ? (dato2) : '');
+                    //console.log(anterior[1])
+                }
+
+                nuevo[0] = moment((dato != "") ? (dato) : '');
+                //nuevo[1] = moment((dato2 != "") ? (dato2) : '');
+
+                var diferencia = nuevo[0].diff(anterior[0], 'days');
+                anterior[0] = nuevo[0];
+                //anterior[1] = nuevo[1];
+
+                resp += `<td style="text-align:center;">${isNaN(diferencia) ? "NaN" : diferencia}</td>`;
+            }
+            if (tipo == "horas") {
+                if (j == 0) {
+                    anterior = moment((dato != "") ? (dato) : '');
+                }
+
+                nuevo = moment((dato != "") ? (dato) : '');
+                var diferencia = nuevo.diff(anterior, 'days');
+                anterior = nuevo;
+            }
+
+            if (tipo == "fecha") {
+                resp += `<td style="text-align:center;" >${(dato != "") ? dato : '-'}</td>`;
+            }
+        });
+        resp += `</tr>`;
+        i++;
+    }
+    $("#tabla_detalle").html(resp.trim());
+
+}
+
+function crear_reporte() {
+    var parametros = {}
+    $.ajax({
+        data: parametros,
+        url: 'packages/dotacion_movimiento/views/Get_status_proceso.php',
+        type: 'post',
+
+        success: function (response) {
+            estado = JSON.parse(response);
+            tabla_dotacion_procesada(() => {
+                crear_tabla($("#select_mostrar").val(), estado, procesos);
+            });
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+}
+
+function reporte(archivo, id) {
+    var html = document.getElementById(id).innerHTML;
+
+    html = html.replace("dias", '');
+    var formulario = `
+    <form name="form_reportes" id="form_reportes" action="packages/dotacion_movimiento/views/dotacion_status.php"  method="post" target="_blank">
+        <input type="hidden" name="archivo_r" value="${archivo}">
+        <input type="hidden" id="report" name="reporte">
+        <button type="submit" hidden="hidden">
+    </form>
+    `;
+
+    $("body").append(formulario);
+    $('#report').val($('#' + id).html());
+    $("#form_reportes").submit();
+    $("#form_reportes").remove();
 
 }
