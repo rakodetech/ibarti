@@ -39,6 +39,7 @@ class dotaciones
         try {
             $sql = " SELECT
                             " . $tabla . ".codigo,
+                             " . $tabla . ".observacion,
                             " . $tabla . ".fec_us_mod fecha,
                             " . $tabla . ".observacion descripcion,
                             CONCAT(men_usuarios.nombre,' ',men_usuarios.apellido) nombre,

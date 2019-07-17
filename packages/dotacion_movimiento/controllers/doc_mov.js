@@ -661,10 +661,11 @@ function llenar_tabla(vista, info, codigo) {
     }
     var html = /*html*/`<table width="100%" border="0" align="center">
       <tr>
-        <th width="12%">Codigo</th>
+        <th width="12%">Código</th>
         <th width="12%">Fecha</th>
-        <th width="22%">Descripcion.</th>
-        <th width="10%">Usuario Mod.</th>
+        <th width="22%"  style="max-width: 200px; overflow: hidden;
+        text-overflow: ellipsis; white-space: nowrap;">Descripción</th>
+        <th width="10%">Usuario Mod</th>
         <th width="22%">Status</th>
         <th width="14%">Anulado</th>
         ${agregar}
