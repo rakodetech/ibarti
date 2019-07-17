@@ -2,8 +2,11 @@ var datos_consulta = [];
 var datos_consulta_dotacion = [];
 var datos_consulta_omitir = [];
 var descripcion = "";
-
+//////////socate vistas
 function cons_inicio(vista, metodo, callback) {
+
+    var parametros = [];
+
     var url = "";
     switch (vista) {
         case 'vista_dotacion':
@@ -20,6 +23,7 @@ function cons_inicio(vista, metodo, callback) {
             url = "packages/dotacion_movimiento/views/Buscar_dotacion.php";
             break;
         case 'vla':
+            parametros = $("#filtros").serializeArray();
             url = "packages/dotacion_movimiento/views/Buscar_dotacion.php";
             break;
         case 'vlo':
@@ -27,18 +31,20 @@ function cons_inicio(vista, metodo, callback) {
             break;
         case 'rds':
             url = "packages/dotacion_movimiento/dotacion_reportes/vista_reporte_status.php";
-            callback = ()=>{
-                crear_reporte();
+            callback = () => {
+                //crear_reporte();
             }
             break;
     }
+
+    parametros.push({ name: 'view', value: vista });
     if (url != "") {
         $.ajax({
-            data: { view: vista },
+            data: parametros,
             url: url,
             type: 'post',
             success: function (response) {
-                console.log(response)
+                //console.log(response)
                 document.getElementById("contendor").innerHTML = response;
                 if (typeof (callback) == "function") {
                     callback();
@@ -52,6 +58,7 @@ function cons_inicio(vista, metodo, callback) {
     }
 
 }
+////////////// funcionalidad emicion
 
 function consultar_existente(codigo) {
 
@@ -205,7 +212,7 @@ function consultar_listado(tipo) {
 function seleccionar(cod, tabla) {
 
     if (tabla == "in") {
-        console.log(datos_consulta);
+        //console.log(datos_consulta);
         datos_consulta_dotacion.push(datos_consulta.filter((valor, i) => {
 
             if (valor.cod_dotacion == cod) {
@@ -447,18 +454,26 @@ function confirmacion_lote_operaciones(codigo, cod_dotacion, vista, elemento, ti
 
 }
 
+
+
+
+
+///////////////////reporte dotacion_status
 var procesos;
 var estado;
 function tabla_dotacion_procesada(callback) {
     var fec_d = $("#f_d").val();
     var fec_h = $("#f_h").val();
-    var parametros = {fecha_desde:fec_d,fecha_hasta:fec_h}
+    var parametros = { fecha_desde: fec_d, fecha_hasta: fec_h }
     // var dat;
     $.ajax({
         data: parametros,
         url: 'packages/dotacion_movimiento/views/Get_dotaciones_procesadas.php',
         type: 'post',
+        beforeSend: function () {
 
+            $("#tabla_detalle").html(`<tr><td style="text-align:center;"><img src="imagenes/loading.gif"></img></td></tr><tr><td style="text-align:center;">PORFAVOR ESPERE...</td></tr>`)
+        },
         success: function (response) {
             procesos = JSON.parse(response);
             if (typeof (callback) == "function") {
@@ -481,6 +496,7 @@ function crear_tabla(tipo, status, info) {
     info = (typeof (info) == "undefined") ? procesos : info;
     var listado_proceso = d3.nest().key((d) => d.cod_dotacion).entries(info);
     var tabla = [{}];
+    console.log(info, listado_proceso)
     listado_proceso.forEach((res, i) => {
         var objeto = {};
         res.values.forEach((dato) => {
@@ -491,7 +507,7 @@ function crear_tabla(tipo, status, info) {
         tabla[0][res.key] = objeto;
     });
     var resp = "";
-    resp += `<tr class="fondo00"><td width="10%"  style="text-align:center;vertical-align:middle;">Dotacion</td><td width="10%" style="text-align:center;vertical-align:middle;" >Ficha</td>`;
+    resp += `<thead style="display:none;"><tr class="fondo00"><td width="10%"  style="text-align:center;vertical-align:middle;">Dotacion</td><td width="10%" style="text-align:center;vertical-align:middle;" >Ficha</td>`;
     var indices = [];
     var por = (status.length > 0) ? 80 / status.length : 0;
     status.forEach((res, i) => {
@@ -499,9 +515,18 @@ function crear_tabla(tipo, status, info) {
         resp += `<td width="${por}%"  style="text-align:center;vertical-align:middle;">${res.descripcion}</td>`;
 
     });
-    resp += `</tr>
+    resp += `</tr></thead>
+    `;
+    var resp2 = resp.replace('style="display:none;"','');
+    $("#tabla_cabeza").html(resp2.trim());
+    resp+=`
+    <tbody style="overflow:scroll;
+
+            overflow-y:scroll !IMPORTANT;
+            overflow-x:hidden;">
     `;
     var i = 0;
+    
     for (const llave in tabla[0]) {
 
         resp += `<tr class="${(i % 2 == 0) ? 'fondo01' : 'fondo02'}"><td style=" ;text-align:center;"  >${llave}</td>`;
@@ -518,7 +543,7 @@ function crear_tabla(tipo, status, info) {
                 if (j == 0) {
                     anterior[0] = moment((dato != "") ? (dato) : '');
                     //anterior[1] = moment((dato2 != "") ? (dato2) : '');
-                    //console.log(anterior[1])
+                    ////console.log(anterior[1])
                 }
 
                 nuevo[0] = moment((dato != "") ? (dato) : '');
@@ -547,6 +572,7 @@ function crear_tabla(tipo, status, info) {
         resp += `</tr>`;
         i++;
     }
+    resp+="</tbody>";
     $("#tabla_detalle").html(resp.trim());
 
 }
@@ -589,3 +615,84 @@ function reporte(archivo, id) {
     $("#form_reportes").remove();
 
 }
+
+
+/////////////////////////////
+
+function crear_data(vista, filtros) {
+    var parametros = $("#" + filtros).serializeArray();
+    parametros.push({ name: 'view', value: vista });
+    $.ajax({
+        data: parametros,
+        type: 'post',
+        url: 'packages/dotacion_movimiento/vista_data/Get_data_procesos.php',
+        success: function (response) {
+            var new_Data = JSON.parse(response);
+            llenar_tabla(vista, new_Data);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    })
+}
+
+function llenar_tabla(vista, info, codigo) {
+    var agregar;
+    var cabecera;
+    switch (vista) {
+        case 'clo':
+            agregar = "<th width='6%' align='center'></th>";
+            
+            break;
+        case 'vla':
+            agregar = '<th width="6%" align="center"><img src="imagenes/nuevo.bmp" alt="Agregar" onclick="cons_inicio(\'vista_dotacion\', \'agregar\')" title="Agregar Registro" width="30px" height="30px" border="null"/></th>';
+            
+            break;
+        case 'vlo':
+            agregar = '<th width="6%" align="center"><img src="imagenes/nuevo.bmp" alt="Agregar" onclick="cons_inicio(\'vista_recepcion\', \'agregar\')" title="Agregar Registro" width="30px" height="30px" border="null"/></th>';
+            
+            break;
+        case 'cla':
+            agregar = "<th width='6%' align='center'></th>";
+            
+            break;
+
+    }
+    var html = /*html*/`<table width="100%" border="0" align="center">
+      <tr>
+        <th width="12%">Código</th>
+        <th width="12%">Fecha</th>
+        <th width="22%"  style="max-width: 200px; overflow: hidden;
+        text-overflow: ellipsis; white-space: nowrap;">Descripción</th>
+        <th width="10%">Usuario Mod</th>
+        <th width="22%">Status</th>
+        <th width="14%">Anulado</th>
+        ${agregar}
+    </tr>
+    `;
+    info.forEach((res) => {
+        switch (vista) {
+            case 'clo':
+                cabecera = '<tr title="Seleccione para ver detalles" onclick="llenar_consulta(\'' + res["codigo"] + '\',\'' + vista + '\', \'\')">';
+                break;
+            case 'vla':
+                cabecera = '<tr title="Seleccione para ver detalles" onclick="llenar_consulta(\'' + res["codigo"] + '\',\'vista_dotacion\', \'\')">';
+                break;
+            case 'vlo':
+                cabecera = '<tr title="Seleccione para ver detalles" onclick="llenar_consulta(\'' + res["codigo"] + '\',\'vista_recepcion\', \'\')">';
+                break;
+            case 'cla':
+                cabecera = '<tr title="Seleccione para ver detalles" onclick="llenar_consulta(\'' + res["codigo"] + '\',\'' + vista + '\', \'\')">';
+                break;
+
+        }
+        html +=/*html*/`
+        ${cabecera}<td>${res['codigo']}</td><td>${res['fecha']}</td><td>${res['descripcion']}</td><td>${res['nombre']}</td><td>${res['estatus']}</td><td>${res['anulado']}</td><td></td></tr>
+        `;
+
+    });
+    html+="</table>";
+    $("#tabla_info").html(html);
+}
+//////////////////////////

@@ -18,18 +18,30 @@ class dotaciones
     }
 
 
-    public function obtener_procesos($tipo, $vista)
+    public function obtener_procesos($tipo, $vista, $fecha_d, $fecha_h, $cod, $status)
     {
         $where = "";
         $tabla = ($tipo == "almacen") ? 'dotacion_proceso' : 'dotacion_recepcion';
+
         if ($vista == "clo" || $vista == "cla") {
             $where .= "AND " . $tabla . ".anulado <> 'T' AND dotacion_status.codigo <> '01'";
+        }
+        if ($fecha_d != "" && $fecha_h != "") {
+            $where .= "AND " . $tabla . ".fec_us_ing BETWEEN '$fecha_d' AND '$fecha_h'";
+        }
+
+        if ($cod != "") {
+            $where .= "AND " . $tabla . ".codigo = '$cod'";
+        }
+        if ($status != "") {
+            $where .= "AND dotacion_status.codigo = '$status'";
         }
         try {
             $sql = " SELECT
                             " . $tabla . ".codigo,
                              " . $tabla . ".observacion,
                             " . $tabla . ".fec_us_mod fecha,
+                            " . $tabla . ".observacion descripcion,
                             CONCAT(men_usuarios.nombre,' ',men_usuarios.apellido) nombre,
                             dotacion_status.descripcion estatus,
                         
@@ -300,11 +312,28 @@ class dotaciones
         $where1 = "";
         $where2 = "";
         if ($fecha_desde != "" && $fecha_hasta != "") {
-            $where1 = "WHERE a.fec_us_ing BETWEEN '$fecha_desde' AND '$fecha_hasta'";
-            $where2 = "WHERE e.fec_us_ing BETWEEN '$fecha_desde' AND '$fecha_hasta'";
+            $where1 = "WHERE a.fec_us_ing BETWEEN '$fecha_desde' AND '$fecha_hasta' ";
+            $where2 = "WHERE e.fec_us_ing BETWEEN '$fecha_desde' AND '$fecha_hasta' ";
         }
         //$tabla = ($vista=="vista_dotacion")?'dotacion_proceso':($vista=="vista_recepcion")?'dotacion_recepcion':'';
-        $sql = "SELECT
+        $sql = "
+                SELECT
+            b.cod_dotacion cod_dotacion,
+            '01' cod_status,
+            a.fec_us_ing fecha,
+            a.cod_us_ing cod_us_ing,
+            d.cod_ficha
+        FROM
+            dotacion_proceso a
+        INNER JOIN dotacion_proceso_det b ON b.cod_dotacion_proceso = a.codigo
+        AND a.anulado = 'F' 
+        INNER JOIN prod_dotacion d ON b.cod_dotacion = d.codigo 
+        " . $where1 . "
+        
+
+        UNION
+        
+        SELECT
         IFNULL(c.cod_dotacion,b.cod_dotacion) cod_dotacion,
         IFNULL(c.cod_status,b.`status`) cod_status,
         IFNULL(c.fecha,b.fec_us_mod) fecha,
@@ -339,15 +368,16 @@ class dotaciones
         while ($datos = $this->bd->obtener_fila($query, 0)) {
             $this->datos[] = $datos;
         }
+
         return $this->datos;
     }
 
-    public function llenar_status_proceso()
+    public function llenar_status_proceso($tipo)
     {
         $this->datos   = array();
-
+        $tipo = isset($tipo) ? $tipo : 'O';
         //$tabla = ($vista=="vista_dotacion")?'dotacion_proceso':($vista=="vista_recepcion")?'dotacion_recepcion':'';
-        $sql = "SELECT codigo,abr,descripcion  from dotacion_status WHERE tipo = 'O'  ORDER BY codigo ASC";
+        $sql = "SELECT codigo,abr,descripcion  from dotacion_status WHERE tipo = '$tipo'  ORDER BY codigo ASC";
         $query        = $this->bd->consultar($sql);
         while ($datos = $this->bd->obtener_fila($query, 0)) {
             $this->datos[] = $datos;

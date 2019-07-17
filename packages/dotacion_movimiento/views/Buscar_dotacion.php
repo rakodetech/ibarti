@@ -1,78 +1,49 @@
+<link rel="stylesheet" href="libs/control_fecha/fecha.css">
+
 <?php
-
 require "../model/dotacion_modelo.php";
-
 $listado      = new dotaciones;
+$status =  $listado->llenar_status_proceso('P');
 $vista        = isset($_POST['view']) ? $_POST['view'] : '';
 if ($vista == "clo") {
   $titulo = "Recepcion De Lotes Operaciones";
-  $agregar = "<th width='6%' align='center'></th>";
-  $cantidad = $listado->obtener_procesos('almacen',$vista);
 }
 
-if($vista=="vla"){
+if ($vista == "vla") {
   $titulo = "Consulta De Lotes Almacen";
-  $agregar = '<th width="6%" align="center"><img src="imagenes/nuevo.bmp" alt="Agregar" onclick="cons_inicio(\'vista_dotacion\', \'agregar\')" title="Agregar Registro" width="30px" height="30px" border="null"/></th>';
-  $cantidad = $listado->obtener_procesos('almacen',$vista);
 }
 
-if($vista=="vlo"){
+if ($vista == "vlo") {
   $titulo = "Consulta De Lotes Operaciones";
-  $agregar = '<th width="6%" align="center"><img src="imagenes/nuevo.bmp" alt="Agregar" onclick="cons_inicio(\'vista_recepcion\', \'agregar\')" title="Agregar Registro" width="30px" height="30px" border="null"/></th>';
-  $cantidad = $listado->obtener_procesos('operaciones',$vista);
 }
 
 if ($vista == "cla") {
   $titulo = "Recepcion De Lotes Almacen";
-  $agregar = "<th width='6%' align='center'></th>";
-  $cantidad = $listado->obtener_procesos('operaciones',$vista);
 }
 
 
 ?>
-
-<div align="center" class="etiqueta_title"> <?php echo $titulo; ?> </div>
-<hr />
-<div class="tabla_sistema listar"><table width="100%" border="0" align="center">
-    <tr>
-      <th width="10%">Codigo</th>
-      <th width="30%" style="max-width: 150px;">Observación</th>
-      <th width="15%">Fecha</th>
-      <th width="25%">Usuario Mod.</th>
-      <th width="10%">Status</th>
-      <th width="10%">Anulado</th>
-      <?php echo $agregar; ?>
-    </tr>
-    <?php
-    foreach ($cantidad as  $datos) {
-      if($vista=="clo"){
-        $contenido = '<tr title="Seleccione para ver detalles" onclick="llenar_consulta(\'' . $datos["codigo"] . '\',\''.$vista.'\', \'\')">';
-      }
+<div align="center" class="etiqueta_title"> <?php echo $titulo; ?></div>
+<span style="float:left;margin:15px;">
+  <form id="filtros" action="" onsubmit="event.preventDefault()" >
+    Fecha de Inicio: <input type="button" id="filtro_fecha" value="Buscar" onclick="crear_control(this.id,'f_d','f_h',()=>{crear_data('<?php echo $vista; ?>','filtros')})">
+    Codigo: <input type="text" name="filtro_codigo" id="filtro_codigo">
+    Status: <select name="filtro_status" id="filtro_status">
+      <option value="">TODOS</option>
+      <option value="01">INICIADO</option>
+      <?php foreach ($status as $key => $value) {
+      echo "<option value='".$value['codigo']."'>".$value['descripcion']."</option>";
+      }?>
       
-      if($vista=="vla"){
-        $contenido = '<tr title="Seleccione para ver detalles" onclick="llenar_consulta(\'' . $datos["codigo"] . '\',\'vista_dotacion\', \'\')">';
-      }
+    </select>
+    <input type="button" value="actualizar" onclick="crear_data('<?php echo $vista; ?>','filtros')">
+    <input type="hidden" name="f_d" id="f_d">
+    <input type="hidden" name="f_h" id="f_h">
+    <input type="hidden" name="vista" id="vista" value="<?php echo $vista; ?>">
+  </form>
+</span>
+<div id="tabla_info" class="tabla_sistema listar">
 
-      if($vista=="vlo"){
-        $contenido = '<tr title="Seleccione para ver detalles" onclick="llenar_consulta(\'' . $datos["codigo"] . '\',\'vista_recepcion\', \'\')">';
-      }
-      
-      if($vista=="cla"){
-        $contenido = '<tr title="Seleccione para ver detalles" onclick="llenar_consulta(\'' . $datos["codigo"] . '\',\''.$vista.'\', \'\')">';
-      }
-
-      $contenido.='
-      <td>' . $datos["codigo"] . '</td>
-      <td style="max-width: 200px; overflow: hidden;
-                text-overflow: ellipsis; white-space: nowrap;">'
-                 . $datos["observacion"] . '</td>
-      <td>' . $datos["fecha"] . '</td>
-      <td>' . $datos["nombre"] . '</td>
-      <td>' . $datos["estatus"] . '</td>
-      <td>' . $datos["anulado"] . '</td>
-      <td></td></tr>';
-      echo $contenido;
-    }
-    ?>
-  </table>
 </div>
+
+<script src="libs/control_fecha/fecha.js"></script>
