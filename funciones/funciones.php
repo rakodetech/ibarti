@@ -31,6 +31,19 @@ function get_client_ip() {
 }
 
 
+function devuelveArrayFechasEntreOtrasDos($fechaInicio, $fechaFin)
+{
+	$arrayFechas=array();
+	$fechaMostrar = $fechaInicio;
+
+	while(strtotime($fechaMostrar) <= strtotime($fechaFin)) {
+		$arrayFechas[]=$fechaMostrar;
+		$fechaMostrar = date("Y-m-d", strtotime($fechaMostrar . " + 1 day"));
+	}
+
+	return $arrayFechas;
+}  
+
 function mensajeria($mensaje) {
 	echo'<script language="javascript">
 	alert("'.$mensaje.'");
