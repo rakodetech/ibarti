@@ -21,6 +21,10 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 
 	var fecha_desde = document.getElementById("fecha_desde").value;
 	var fecha_hasta = document.getElementById("fecha_hasta").value;
+
+	var fecha1 = moment(fecha_desde.split('-').reverse().join('-'));
+	var fecha2 = moment(fecha_hasta.split('-').reverse().join('-'));
+
 	var rol         = document.getElementById("rol").value;
 	var region      = document.getElementById("region").value;
 	var estado      = document.getElementById("estado").value;
@@ -34,6 +38,11 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	var errorMessage = ' ';
 	if( fechaValida(fecha_desde) !=  true || fechaValida(fecha_hasta) != true){
 		var errorMessage = ' Campos De Fecha Incorrectas ';
+		var error = error+1;
+	}
+
+	if(fecha2.diff(fecha1, 'days')>31){
+		var errorMessage = ' El rango entre las fechas no puede ser mayor a 31 dias. ';
 		var error = error+1;
 	}
 
