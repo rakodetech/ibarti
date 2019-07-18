@@ -64,7 +64,7 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
 	}
 
- $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
+ $sql = " SELECT DISTINCT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
                  v_ficha.rol, v_ficha.cod_ficha,
                  v_ficha.cedula, v_ficha.nombres AS trabajador,
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
