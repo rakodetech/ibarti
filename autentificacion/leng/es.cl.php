@@ -26,7 +26,9 @@ $leng =  array("rif" =>"Rut" ,
                "pre_emp_fec" =>"Fecha de Examen Preempleo" ,
                "pre_emp_desc" =>"Chequeo Examen Preempleo" ,
                "pre_emp_observ" =>"Observaci&oacute;n Chequeo Examen Preempleo" ,
-               
+               "pem_fec" =>"Fecha de Examen Medico" ,
+               "pem_desc" =>"Examen Medico" ,
+               "pem_observ" =>"Observaci&oacute;n Examen Medico",
                "aprobado" =>"Aprobado" ,
                "reprobado" =>"Reprobado" ,
                "condiccional" =>"Condiccional",
@@ -54,5 +56,6 @@ $leng =  array("rif" =>"Rut" ,
                "rotacion" => "Rotacion De Turnos ",
                "dia_habil" => "D&iacute;a Habil ",
                "planificacion" => " Planificaci&oacute;n ",
+               
              );
  ?>

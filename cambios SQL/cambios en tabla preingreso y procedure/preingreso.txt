@@ -1,0 +1,13 @@
+Agregar campos a tabla preingreso
+
+fec_pem	date	0	0	0	0	0	0	0		0	Examen Medico				0	0
+pem_apto	varchar	1	0	0	0	0	0	0	'I'	0	Indica si apto de examen medico	utf8	utf8_spanish_ci		0	0
+pem_observacion	varchar	120	0	0	0	0	0	0		0	Observación Medica	utf8	utf8_spanish_ci		0	0
+reff01_nombre	varchar	60	0	0	0	0	0	0	'N/S'	0	Nombre para la referencia personal 1	utf8	utf8_spanish_ci		0	0
+reff01_ocupacion	varchar	60	0	0	0	0	0	0		0	Ocupación para la referencia personal 1	utf8	utf8_spanish_ci		0	0
+reff01_telf	varchar	60	0	0	0	0	0	0	'N/S'	0	Teléfono para la referencia personal 1	utf8	utf8_spanish_ci		0	0
+reff01_parentezco	varchar	60	0	0	0	0	0	0	'N/S'	0	Parentesco para la referencia personal 1	utf8	utf8_spanish_ci		0	0
+reff01_direccion	varchar	255	0	0	0	0	0	0		0	Dirección para la referencia personal 1	utf8	utf8_spanish_ci		0	0
+reff01_observacion	text	0	0	0	0	0	0	0		0	Observación para la referencia personal 1	utf8	utf8_spanish_ci		0	0
+reff01_apto	varchar	2	0	0	0	0	0	0	'S'	0	Apto para la referencia personal 1	utf8	utf8_spanish_ci		0	0
+
