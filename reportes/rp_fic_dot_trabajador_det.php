@@ -33,8 +33,9 @@ if(isset($reporte)){
                  AND v_prod_dot_max2.cod_ubicacion = clientes_ubicacion.codigo
                  AND v_prod_dot_max2.cod_linea = prod_lineas.codigo
                  AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
-                 AND v_prod_dot_max2.cod_producto = productos.codigo
-				 AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo  ";
+                 AND v_prod_dot_max2.cod_producto = productos.item
+				 AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo
+				 AND productos.cod_talla = tallas.codigo ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_prod_dot_max2.cod_rol = '$rol' ";
@@ -65,11 +66,11 @@ if(isset($reporte)){
 					   v_prod_dot_max2.cod_ficha, v_prod_dot_max2.ap_nombre ,
 					   clientes.nombre AS ciente,  clientes_ubicacion.descripcion AS ubicacion,
 					   prod_lineas.descripcion AS linea, prod_sub_lineas.descripcion AS sub_linea,
-					   v_prod_dot_max2.cod_producto, productos.descripcion AS producto,
+					   v_prod_dot_max2.cod_producto, CONCAT(productos.descripcion,' ',tallas.descripcion) AS producto,
 					   v_prod_dot_max2.cantidad
                   FROM v_prod_dot_max2 , roles, regiones, estados,
                        ciudades, contractos, clientes, clientes_ubicacion,
-	                   prod_lineas, prod_sub_lineas, productos, control
+	                   prod_lineas, prod_sub_lineas, productos, control,tallas
                $where
 			  ORDER BY ap_nombre ASC  ";
 	if($reporte== 'excel'){
