@@ -52,7 +52,7 @@ if($trabajador != NULL){
 	// QUERY A MOSTRAR //
 $sql = "SELECT  v_ficha.rol,v_ficha.region,v_ficha.estado,v_ficha.ciudad,
 v_ficha.contracto,v_ficha.cedula,v_ficha.cod_ficha,v_ficha.ap_nombre,v_ficha.cliente,
-v_ficha.ubicacion FROM v_ficha, control 
+v_ficha.ubicacion,v_ficha.fec_ingreso FROM v_ficha, control 
 $where
 ORDER BY 3 DESC  ";
 
@@ -67,12 +67,12 @@ ORDER BY 3 DESC  ";
 
  	 echo "<tr><th> ".$leng['rol']." </th><th> ".$leng['region']." </th> <th> ".$leng['estado']." </th>
 	           <th> ".$leng['ciudad']." </th><th> ".$leng['contrato']." </th><th> ".$leng['ci']." </th><th> ".$leng['ficha']." </th>
-			   <th> ".$leng['trabajador']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th></tr>";
+			   <th> ".$leng['trabajador']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th><th> Fecha Ingreso </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
 		 echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
 		           <td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>'".$row01[7]."</td>
-				   <td>".$row01[8]."</td><td>".$row01[9]."</td></tr>";
+				   <td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td></tr>";
 		}
 		 echo "</table>";
 	}
@@ -98,6 +98,7 @@ require_once('../'.ConfigDomPdf);
             <th width='13%'>".$leng['estado']."</th>
             <th width='13%'>".$leng['ficha']."</th>
             <th width='30%'>".$leng['trabajador']."</th>
+             <th width='13%'>Fecha Ingreso/th>
             </tr>";
 
             $f=0;
@@ -110,7 +111,8 @@ require_once('../'.ConfigDomPdf);
     echo   "<td width='13%'>".$row[0]."</td>
             <td width='13%'>".$row[2]."</td>
             <td width='13%'>".$row[6]."</td>
-            <td width='30%'>".$row[7]."</td></tr>";
+            <td width='30%'>".$row[7]."</td>
+            <td width='13%'>".$row[10]."</td></tr>";
 
              $f++;
          }

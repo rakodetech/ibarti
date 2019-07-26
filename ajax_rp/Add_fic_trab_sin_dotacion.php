@@ -43,19 +43,21 @@ if($trabajador != NULL){
 }
 
 	// QUERY A MOSTRAR //
-$sql = "SELECT  v_ficha.* FROM v_ficha, control 
+$sql = "SELECT  v_ficha.rol,v_ficha.region,v_ficha.estado,v_ficha.ciudad,
+v_ficha.contracto,v_ficha.cedula,v_ficha.cod_ficha,v_ficha.ap_nombre,v_ficha.cliente,
+v_ficha.ubicacion,v_ficha.fec_ingreso FROM v_ficha, control 
 $where
 ORDER BY 3 DESC  ";
 
 ?>
 <table width="100%" border="0" align="center">
 	<tr class="fondo00">
-		<th width="18%" class="etiqueta"><?php echo $leng['rol']?></th>
 		<th width="18%" class="etiqueta"><?php echo $leng['estado']?></th>
 		<th width="18%" class="etiqueta"><?php echo $leng['cliente']?> </th>
 		<th width="18%" class="etiqueta"><?php echo $leng['ubicacion']?> </th>
 		<th width="18%" class="etiqueta"><?php echo $leng['ficha']?> </th>
 		<th width="18%" class="etiqueta"><?php echo $leng['trabajador']?></th>
+		<th width="18%" class="etiqueta">Fecha de Ingreso</th>
 	</tr>
 	<?php
 	$valor = 0;
@@ -70,12 +72,12 @@ ORDER BY 3 DESC  ";
 			$valor = 0;
 		}
 		echo '<tr class="'.$fondo.'">
-		<td class="texto">'.longitud($datos["rol"]).'</td>
 		<td class="texto">'.longitud($datos["estado"]).'</td>
 		<td class="texto">'.longitud($datos["cliente"]).'</td>
 		<td class="texto">'.longitud($datos["ubicacion"]).'</td>
 		<td class="texto">'.$datos["cod_ficha"].'</td>
 		<td class="texto">'.longitud($datos["ap_nombre"]).'</td>
+		<td class="texto">'.$datos["fec_ingreso"].'</td>
 		</tr>';
 	};?>
 </table>
