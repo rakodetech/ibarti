@@ -13,7 +13,6 @@ $region          = $_POST['region'];
 $estado          = $_POST['estado'];
 $cliente         = $_POST['cliente'];
 $contrato        = $_POST['contrato'];
-
 $trabajador      = $_POST['trabajador'];
 
 
@@ -36,6 +35,16 @@ if($contrato != "TODOS"){
 }
 if($cliente != "TODOS"){
 	$where .= " AND v_ficha.cod_cliente = '$cliente' ";
+}
+
+if($_POST['fecha_desde'] != ""){
+	$fecha_D         = conversion($_POST['fecha_desde']);
+	$where .= " AND v_ficha.fec_ingreso >= \"$fecha_D\" ";
+}
+
+if($_POST['fecha_hasta'] != ""){
+	$fecha_H         = conversion($_POST['fecha_hasta']);
+	$where .= " AND v_ficha.fec_ingreso <= \"$fecha_H\" ";
 }
 
 if($trabajador != NULL){

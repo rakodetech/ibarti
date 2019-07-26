@@ -45,6 +45,16 @@ if($cliente != "TODOS"){
 	$where .= " AND v_ficha.cod_cliente = '$cliente' ";
 }
 
+if($_POST['fecha_desde'] != ""){
+	$fecha_D         = conversion($_POST['fecha_desde']);
+	$where .= " AND v_ficha.fec_ingreso >= \"$fecha_D\" ";
+}
+
+if($_POST['fecha_hasta'] != ""){
+	$fecha_H         = conversion($_POST['fecha_hasta']);
+	$where .= " AND v_ficha.fec_ingreso <= \"$fecha_H\" ";
+}
+
 if($trabajador != NULL){
 	$where  .= " AND v_ficha.cod_ficha = '$trabajador' ";
 }
@@ -98,7 +108,7 @@ require_once('../'.ConfigDomPdf);
             <th width='13%'>".$leng['estado']."</th>
             <th width='13%'>".$leng['ficha']."</th>
             <th width='30%'>".$leng['trabajador']."</th>
-             <th width='13%'>Fecha Ingreso/th>
+             <th width='13%'>Fecha Ingreso</th>
             </tr>";
 
             $f=0;

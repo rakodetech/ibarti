@@ -18,6 +18,8 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	var estado      = $("#estado").val();
 	var contrato    = $("#contrato").val();
 	var cliente     = $("#cliente").val();
+	var fecha_desde = $( "#fecha_desde").val();
+	var fecha_hasta = $( "#fecha_hasta").val();
 
 	var trabajador  = document.getElementById("stdID").value;
 
@@ -31,6 +33,14 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	if(cliente == '') {
 		var error = error+1;
 		errorMessage = errorMessage + '  Debe Seleccionar un Rol  \n';
+	}
+	if( fechaValida(fecha_desde) !=  true && fecha_desde != ""){ 
+		var errorMessage = ' Campos De Fecha Inicial Incorrecta ';
+		var error = error+1;
+	}
+	if( fechaValida(fecha_hasta) != true && fecha_hasta != ""){
+		var errorMessage = ' Campos De Fecha Final Incorrectas ';
+		var error = error+1;
 	}
 	if(error == 0){
 		var contenido = "listar";
@@ -50,7 +60,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("rol="+rol+"&region="+region+"&estado="+estado+"&cliente="+cliente+"&contrato="+contrato+"&trabajador="+trabajador+"&status="+status+"");
+		ajax.send("rol="+rol+"&region="+region+"&estado="+estado+"&cliente="+cliente+"&contrato="+contrato+"&trabajador="+trabajador+"&status="+status+"&fecha_desde="+fecha_desde+"&fecha_hasta="+fecha_hasta+"");
 
 	}else{
 		alert(errorMessage);
@@ -62,7 +72,10 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 <div id="Contenedor01"></div>
 <form name="form_reportes" id="form_reportes" action="<?php echo $archivo;?>"  method="post" target="_blank" enctype="multipart/form-data">
 	<hr /><table width="100%" class="etiqueta">
-		<tr><td width="10%"><?php echo $leng['rol']?>:</td>
+		<tr><td width="10%">Fecha Ingreso Desde:</td>
+			<td width="14%" id="fecha01"><input type="text" name="fecha_desde" id="fecha_desde" size="9" onclick="javascript:muestraCalendario('form_reportes', 'fecha_desde');">&nbsp;<img src="imagenes/icono-calendario.gif" onclick="javascript:muestraCalendario('form_reportes', 'fecha_desde');" border="0" width="17px"></td>
+			<td width="10%">Fecha Ingreso Hasta:</td>
+			<td width="14%" id="fecha02"><input type="text" name="fecha_hasta" id="fecha_hasta" size="9" onclick="javascript:muestraCalendario('form_reportes', 'fecha_hasta');">&nbsp;<img src="imagenes/icono-calendario.gif" onclick="javascript:muestraCalendario('form_reportes', 'fecha_hasta');" border="0" width="17px"></td><td width="10%"><?php echo $leng['rol']?>:</td>
 			<td width="14%"><select name="rol" id="rol" style="width:120px;" required>
 				<?php
 				echo $select_rol;
@@ -78,6 +91,8 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 					while($row01=$bd->obtener_fila($query01,0)){
 						echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
 					}?></select></td>
+						</tr>
+						<tr>
 					<td width="10%"><?php echo $leng['estado']?>:</td>
 					<td width="14%"><select name="estado" id="estado" style="width:120px;">
 						<option value="TODOS">TODOS</option>
@@ -95,10 +110,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 							while($row01=$bd->obtener_fila($query01,0)){
 								echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
 							}?></select></td>
-
-							<td width="4%" id="cont_img"><img class="imgLink" src="imagenes/actualizar.png" border="0" onclick="Add_filtroX()"></td>
-						</tr>
-						<tr>
+					
 							
 
 							<td><?php echo $leng['cliente']?>: </td>
@@ -110,6 +122,10 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 								while($row01=$bd->obtener_fila($query01,0)){
 									echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
 								}?></select></td>
+								<td></td>
+															<td width="4%" id="cont_img"><img class="imgLink" src="imagenes/actualizar.png" border="0" onclick="Add_filtroX()"></td>
+									</tr>
+						<tr>
 								<td>Filtro. <?php echo $leng['trab']?>.:</td>
 								<td id="select01">
 									<select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">
