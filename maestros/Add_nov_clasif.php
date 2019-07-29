@@ -57,6 +57,7 @@ if($metodo == 'modificar'){
       </td>
     </tr>	
     <tr>
+		<td class="etiqueta">Check List.: </td>
     <td> 
       <select name="check_list" id="check_list"> 
         <option value="F" <?php echo Select($check_list,"F");?>>No</option> 
