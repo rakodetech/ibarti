@@ -30,6 +30,14 @@ function get_client_ip() {
 	return $ipaddress;
 }
 
+function Select($valor,$valido){ 
+	if (($valor == $valido)){ 
+		$result = 'selected'; 
+	}else{ 
+		$result = ''; 
+	} 
+	return $result; 
+} 
 
 function devuelveArrayFechasEntreOtrasDos($fechaInicio, $fechaFin)
 {
