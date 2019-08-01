@@ -839,6 +839,7 @@ function mod_apertura_planif() {
 					}
 					ac_apertura_planif(propiedades, () => {
 						$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`).hide();
+						$(`#cant_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`)[0].defaultValue = propiedades.cantidad;
 					})
 				}
 
