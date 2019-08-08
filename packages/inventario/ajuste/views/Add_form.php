@@ -55,7 +55,7 @@ if($metodo == 'modificar')
       </tr>
       <tr>
         <td > 
-          <input type="text" id="ped_codigo" style="width: 100px;" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
+          <input type="text" id="ped_codigo" style="width: 100px;" maxlength="160" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
         </td>
         <td ><input type="text" id="ped_referencia" title="Referencia"  placeholder="Referencia" value="<?php echo $ped['referencia'];?>" style="width: 200px;" required></td>
         <td> <input type="hidden" id="ped_cod_tipo" value="<?php echo $ped['cod_tipo'];?>">
