@@ -25,14 +25,14 @@ if(isset($_POST['proced'])){
 		$doc_old         = $_POST['documento_old'.$cod_doc.''];
 		$observ          = $_POST['observ_doc'.$cod_doc.''];
 	  $vencimiento     = $_POST['vencimiento'.$cod_doc.''];
-  	$fecha_venc      = $_POST['fecha_venc'.$cod_doc.''];
-		$fecha_venc_old  = $_POST['fecha_venc_old'.$cod_doc.''];
+  	$fecha_venc      = $_POST['fecha_venc'.$cod_doc.''] != "" ? $_POST['fecha_venc'.$cod_doc.''] : '0000-00-00';
+
+		$fecha_venc_old  = $_POST['fecha_venc_old'.$cod_doc.''] != "" ? $_POST['fecha_venc_old'.$cod_doc.''] : '0000-00-00';
 
 
 		 $sql02    = "$SELECT $proced('$metodo', '$codigo', '$cod_doc', '$doc_old',
 									                '$doc', '$observ', '$vencimiento', '$fecha_venc',
 																	'$fecha_venc_old',   '$usuario')";
-
 		 $query02  = $bd->consultar($sql02);
 		}
 }

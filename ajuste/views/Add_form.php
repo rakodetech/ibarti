@@ -105,6 +105,12 @@ if($metodo == 'modificar')
    <span class="art-button-l"> </span>
    <span class="art-button-r"> </span>
    <input  type="submit" title="Guardar Registro" class="readon art-button" value="Guardar" />
+   </span>
+
+   <span class="art-button-wrapper">
+   <span class="art-button-l"> </span>
+   <span class="art-button-r"> </span>
+   <input type="reset" title="Restaurar Valores" class="readon art-button"  value="Restaurar" />
    </span>';
  }else{
   if($anulado == "F"){

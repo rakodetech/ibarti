@@ -111,7 +111,7 @@ function eliminar_renglon(cod){
     if(error == 0){
 
         var parametros = { "metodo": "eliminar","codigo":ficha,"sub_linea" : cod, 
-        "cantidad":null,"talla":null, "proced":"p_ficha_dotacion", "usuario":usuario};
+        "cantidad":0,"talla":null, "proced":"p_ficha_dotacion", "usuario":usuario};
         $.ajax({
             data:  parametros,
             url:   'packages/ficha_dotacion/modelo/ficha_dotacion.php',

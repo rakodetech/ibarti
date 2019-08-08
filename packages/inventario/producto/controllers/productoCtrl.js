@@ -60,7 +60,6 @@ function Cons_producto(cod, met){
 }
 
 function save_producto(){
-
 	var error = 0;
 	var errorMessage 	= ' ';
 	var proced       	= "p_productos";
@@ -392,6 +391,11 @@ function Borrar_ean(intemsV){
  if(confirm("Esta seguro de borrar temporalmente este EAN?")){
     var error        = 0;
     var errorMessage = ' ';
+
+   // eanIsStock(cod_producto, ean, =>{
+
+   // });
+   console.log(eans[intemsV]);
     if(error == 0){
 
     var datos = eans;

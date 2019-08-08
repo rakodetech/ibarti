@@ -38,7 +38,9 @@ $psic_observacion = htmlspecialchars($_POST["psic_observacion"]);
 $fec_pol     = conversion($_POST["fec_pol"]);
 $pol_apto    = $_POST["pol_apto"];
 $pol_observacion = htmlspecialchars($_POST["pol_observacion"]);
+echo $_POST["fec_pre_emp"];
 $fec_pre_emp     = conversion($_POST["fec_pre_emp"]);
+echo $fec_pre_emp;
 $pre_emp_apto    = $_POST["pre_emp_apto"];
 $pre_emp_observacion = htmlspecialchars($_POST["pre_emp_observacion"]);
 $observacion     = htmlspecialchars($_POST["observacion"]);
@@ -71,8 +73,8 @@ $refl01_empresa  = htmlspecialchars($_POST["refl01_empresa"]);
 $refl01_telf     = htmlspecialchars($_POST["refl01_telf"]);
 $refl01_contacto = htmlspecialchars($_POST["refl01_contacto"]);
 $refl01_cargo    = htmlspecialchars($_POST["refl01_cargo"]);
-$refl01_sueldo_inic = htmlspecialchars($_POST["refl01_sueldo_inic"]);
-$refl01_sueldo_fin  = htmlspecialchars($_POST["refl01_sueldo_fin"]);
+$refl01_sueldo_inic = $refl01_sueldo_inic != "" ? htmlspecialchars($_POST["refl01_sueldo_inic"]) : 0;
+$refl01_sueldo_fin  = $refl01_sueldo_fin != "" ? htmlspecialchars($_POST["refl01_sueldo_fin"]) : 0;
 $refl01_fec_ingreso = conversion($_POST["refl01_fec_ingreso"]);
 $refl01_fec_egreso  = conversion($_POST["refl01_fec_egreso"]);
 $refl01_retiro    = htmlspecialchars($_POST["refl01_retiro"]);
@@ -83,8 +85,8 @@ $refl02_empresa  = htmlspecialchars($_POST["refl02_empresa"]);
 $refl02_telf     = htmlspecialchars($_POST["refl02_telf"]);
 $refl02_contacto = htmlspecialchars($_POST["refl02_contacto"]);
 $refl02_cargo    = htmlspecialchars($_POST["refl02_cargo"]);
-$refl02_sueldo_inic = htmlspecialchars($_POST["refl02_sueldo_inic"]);
-$refl02_sueldo_fin  = htmlspecialchars($_POST["refl02_sueldo_fin"]);
+$refl02_sueldo_inic =  $refl02_sueldo_inic != "" ? htmlspecialchars($_POST["refl02_sueldo_inic"]) : 0;
+$refl02_sueldo_fin  = $refl02_sueldo_fin != "" ? htmlspecialchars($_POST["refl02_sueldo_fin"]) : 0;
 $refl02_fec_ingreso = conversion($_POST["refl02_fec_ingreso"]);
 $refl02_fec_egreso  = conversion($_POST["refl02_fec_egreso"]);
 $refl02_retiro    = htmlspecialchars($_POST["refl02_retiro"]);
@@ -202,7 +204,7 @@ $metodo   = $_POST['metodo'];
 	 $query = $bd->consultar($sql);	  
 	 }
 	 
-	 if($metodo == "agregar"){
+	if($metodo == "agregar"){
 
 	echo '<script languaje="JavaScript" type="text/javascript">
 	if(confirm("¿Desea Agregar Fotos")) {

@@ -2,7 +2,7 @@
 define("SPECIALCONSTANT", true);
 include_once('../../../../funciones/funciones.php');
 require("../../../../autentificacion/aut_config.inc.php");
-require_once("../../../../".class_bdI);
+require_once("../../../../" . class_bdI);
 
 class Planificacion
 {
@@ -15,7 +15,8 @@ class Planificacion
 		$this->bd = new Database;
 	}
 
-	function get_cliente(){
+	function get_cliente()
+	{
 		$sql = "  SELECT clientes.codigo, IF(COUNT(clientes_contratacion.codigo) = 0, 'S/C - ' , '') sc,
 		clientes.abrev, clientes.nombre cliente
 		FROM clientes LEFT JOIN clientes_contratacion ON clientes.codigo = clientes_contratacion.cod_cliente
@@ -24,48 +25,52 @@ class Planificacion
 
 		$query = $this->bd->consultar($sql);
 
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function replicar_rot($cliente,$ubic,$contratacion,$apertura,$usuario){
+	function replicar_rot($cliente, $ubic, $contratacion, $apertura, $usuario)
+	{
 		$sql = "CALL p_planif_serv_rotacion('$cliente','$ubic',$contratacion,$apertura,'$usuario');";
 		$query = $this->bd->consultar($sql);
 		return $query;
 	}
 
-	function get_cl_contrato($cliente){
+	function get_cl_contrato($cliente)
+	{
 
 		$sql = "SELECT a.codigo, a.descripcion, a.fecha_inicio, a.fecha_fin FROM clientes_contratacion a
 		WHERE a.cod_cliente = '$cliente' AND a.`status` = 'T'
 		ORDER BY 1 DESC;";
 		$query = $this->bd->consultar($sql);
-		if($this->bd->obtener_num($query) > 0){
+		if ($this->bd->obtener_num($query) > 0) {
 			$query = $this->bd->consultar($sql);
-			while ($datos= $this->bd-> obtener_fila($query)){
+			while ($datos = $this->bd->obtener_fila($query)) {
 				$this->datos[] = $datos;
 			}
-		}else{
-			$this->datos[] = array('codigo' => '','descripcion' =>'Sin Contrato');
+		} else {
+			$this->datos[] = array('codigo' => '', 'descripcion' => 'Sin Contrato');
 		}
 		return $this->datos;
 	}
 
-	function get_planif_contrato($cliente){
+	function get_planif_contrato($cliente)
+	{
 		$this->datos  = array();
 		$sql = "SELECT codigo, descripcion,fecha_inicio
 		FROM clientes_contratacion 
 		WHERE cod_cliente = '$cliente' AND status = 'T'";
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd->obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function get_planif_ap($apertura){
+	function get_planif_ap($apertura)
+	{
 		$this->datos  = array();
 		$sql = " SELECT a.codigo, a.fecha_inicio, a.fecha_fin, a.`status`
 		FROM planif_clientes a
@@ -74,7 +79,8 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_planif_apertura($cliente,$contratacion){
+	function get_planif_apertura($cliente, $contratacion)
+	{
 		$this->datos  = array();
 		$sql = "SELECT a.*, CONCAT(b.apellido,' ', b.nombre) us_mod
 		FROM planif_clientes a LEFT JOIN men_usuarios b ON a.cod_us_mod = b.codigo
@@ -82,14 +88,15 @@ class Planificacion
 		ORDER BY 1 DESC";
 		$query = $this->bd->consultar($sql);
 
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
 
-	function get_planif_act($cliente,$contratacion){
+	function get_planif_act($cliente, $contratacion)
+	{
 		$this->datos = array();
 		$sql = "SELECT a.* FROM planif_clientes a
 		WHERE a.`status` = 'T' AND a.cod_cliente = '$cliente' AND a.cod_contratacion = '$contratacion'
@@ -97,13 +104,14 @@ class Planificacion
 		$query    = $this->bd->consultar($sql);
 
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function get_planif_ap_ubic($cliente,$contratacion){
+	function get_planif_ap_ubic($cliente, $contratacion)
+	{
 		$this->datos  = array();
 		$sql = "SELECT b.cod_ubicacion, c.descripcion
 		FROM  clientes_contratacion_det b , clientes_ubicacion c
@@ -113,13 +121,14 @@ class Planificacion
 		GROUP BY b.cod_ubicacion ORDER BY c.descripcion DESC ";
 
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function get_planif_ap_inicio($cliente,$contratacion){
+	function get_planif_ap_inicio($cliente, $contratacion)
+	{
 		$this->datos  = array();
 		$sql = "SELECT a.codigo, IFNULL (DATE_ADD(fecha_fin, INTERVAL 1 DAY), CURDATE()) fecha_inicio
 		FROM planif_clientes a WHERE a.cod_cliente = '$cliente' AND a.cod_contratacion = '$contratacion'
@@ -128,7 +137,8 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_contratacion_det($contratacion, $ubic){
+	function get_contratacion_det($contratacion, $ubic)
+	{
 		$this->datos  = array();
 		$sql = "SELECT b.descripcion ubicacion, c.nombre ub_puesto,
 		d.abrev turno_abrev, d.descripcion turno,
@@ -141,13 +151,14 @@ class Planificacion
 		AND a.cod_turno = d.codigo AND a.cod_cargo = e.codigo ORDER BY 2 DESC ";
 
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function get_planif_det($apertura, $ubic){
+	function get_planif_det($apertura, $ubic)
+	{
 
 		$sql = "SELECT c.codigo, a.fecha_inicio ap_fecha_inicio,  a.fecha_fin ap_fecha_fin,
 		b.cod_ficha, CONCAT (b.apellidos,' ',b.nombres,IF(d.cod_ficha,' (VETADO)','')) trabajador,
@@ -177,13 +188,14 @@ class Planificacion
 		ORDER BY 4 ASC ;";
 
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function get_ultima_mod($apertura, $ubic){
+	function get_ultima_mod($apertura, $ubic)
+	{
 
 		$sql = "SELECT MAX(a.fec_us_mod) fecha,CONCAT(b.apellido,' ',b.nombre) us_mod
 		FROM
@@ -192,10 +204,11 @@ class Planificacion
 		WHERE a.cod_planif_cl = '$apertura' AND a.cod_ubicacion = '$ubic'";
 
 		$query = $this->bd->consultar($sql);
-		return $datos= $this->bd-> obtener_fila($query);
+		return $datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_planif_trab_ap($cod_pl_trab){
+	function get_planif_trab_ap($cod_pl_trab)
+	{
 		$this->datos  = array();
 		$sql = "SELECT a.cod_planif_cl, planif_clientes.fecha_inicio,
 		planif_clientes.fecha_fin, planif_clientes.`status`,
@@ -219,7 +232,8 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_planif_trab_det($cod_pl_trab){
+	function get_planif_trab_det($cod_pl_trab)
+	{
 		$this->datos  = array();
 		$sql = "SELECT a.codigo, a.fecha, Dia_semana_abrev(a.fecha) d_semana,
 		a.cod_cliente, clientes.abrev cliente,
@@ -237,13 +251,14 @@ class Planificacion
 		ORDER BY a.fecha ASC";
 
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function get_planif_trabajador($aperuta, $ficha){
+	function get_planif_trabajador($aperuta, $ficha)
+	{
 		$this->datos  = array();
 		$sql = "SELECT a.codigo, a.fecha, Dia_semana_abrev(a.fecha) d_semana,
 		a.cod_cliente, clientes.abrev cliente,
@@ -261,13 +276,14 @@ class Planificacion
 		ORDER BY a.fecha ASC";
 
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function generar_planif($apertura, $ubic){
+	function generar_planif($apertura, $ubic)
+	{
 		$this->datos  = array();
 		$sql = "DELETE FROM planif_clientes_trab
 		WHERE planif_clientes_trab.cod_planif_cl = '$apertura'
@@ -280,7 +296,8 @@ class Planificacion
 		$query = $this->bd->consultar($sql);
 	}
 
-	function get_ubic_puesto($ubic){
+	function get_ubic_puesto($ubic)
+	{
 		$this->datos  = array();
 		$sql = "SELECT a.codigo, 		a.nombre
 		FROM clientes_ub_puesto AS a
@@ -289,27 +306,30 @@ class Planificacion
 		ORDER BY 2 DESC ";
 
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	function verificar_cl($cliente){
+	function verificar_cl($cliente)
+	{
 		$this->datos  = array();
 		$sql = "SELECT COUNT(codigo) contra FROM clientes_contratacion WHERE `status` = 'T' AND cod_cliente = '$cliente'";
 		$query = $this->bd->consultar($sql);
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function verificar_cont($cliente,$contratacion){
+	function verificar_cont($cliente, $contratacion)
+	{
 		$this->datos  = array();
 		$sql = "SELECT COUNT(codigo) apertura FROM planif_clientes WHERE `status` = 'T' AND cod_contratacion = '$contratacion' AND cod_cliente = '$cliente'";
 		$query = $this->bd->consultar($sql);
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_trab($cliente,$ubicacion){
+	function get_trab($cliente, $ubicacion)
+	{
 		$this->datos  = array();
 		$sql = "SELECT a.cod_ficha, a.cedula, CONCAT(a.apellidos,' ', a.nombres) ap_nomb
 		FROM ficha AS a ,	control
@@ -319,10 +339,78 @@ class Planificacion
 		ORDER BY a.cod_ficha ASC ";
 
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd-> obtener_fila($query)){
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-}?>
+	function get_dias_planif_apertura($cliente, $ubic, $contratacion, $apertura)
+	{
+		$this->datos  = array();
+		$sql = "SELECT
+		a.codigo,
+		a.fecha,
+		cl.nombre cliente,
+		cl.codigo cod_cliente,
+		cp.nombre puesto,
+		cp.codigo cod_puesto,
+		cu.descripcion ubicacion,
+		cu.codigo cod_ubicacion,
+		t.abrev turno,
+		t.codigo cod_turno,
+		c.descripcion cargo,
+		c.codigo cod_cargo,
+		a.cantidad
+		FROM
+		clientes_contratacion_ap AS a,
+		turno AS t,
+		horarios AS h,
+		dias_habiles,
+		dias_habiles_det,
+		dias_tipo,
+		clientes AS cl,
+		clientes_ubicacion AS cu,
+		clientes_ub_puesto AS cp,
+		cargos c
+		WHERE
+		a.cod_turno = t.codigo
+		AND t.cod_horario = h.codigo
+		AND c.codigo = a.cod_cargo
+		AND t.cod_dia_habil = dias_habiles.codigo
+		AND dias_habiles_det.cod_dias_habiles = dias_habiles.codigo
+		AND (
+		(
+			dias_habiles_det.cod_dias_tipo = dias_tipo.dia
+			AND Dia_semana (a.fecha) = dias_tipo.descripcion
+		)
+		OR (
+			dias_habiles_det.cod_dias_tipo = dias_tipo.dia
+			AND dias_tipo.tipo = 'D'
+		)
+		OR (
+			dias_habiles_det.cod_dias_tipo = dias_tipo.dia
+			AND DATE_FORMAT(a.fecha, '%d') = dias_tipo.descripcion
+		)
+		)
+		AND a.cod_cliente = cl.codigo
+		AND a.cod_ubicacion = cu.codigo
+		AND a.cod_ub_puesto = cp.codigo
+		AND a.cod_cliente = '$cliente'
+		AND a.cod_ubicacion = '$ubic'
+		AND a.cod_contratacion = '$contratacion'
+		AND a.cod_planif_cl = '$apertura'
+		AND a.`status` = 'T'
+		ORDER BY 2,3,5,4,6,7
+		";
+
+
+
+		$query = $this->bd->consultar($sql);
+		//$this->datos["sql"] = $sql;
+		while ($datos = $this->bd->obtener_fila($query, 0)) {
+			$this->datos[] = $datos;
+		}
+		return $this->datos;
+	}
+}

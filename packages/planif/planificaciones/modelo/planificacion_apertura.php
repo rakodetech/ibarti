@@ -23,12 +23,24 @@ if(isset($_POST['metodo'])){
       $sql  = "UPDATE planif_clientes SET `status` = 'F', cod_us_mod = '$usuario',
       fec_us_mod = CURRENT_TIMESTAMP
       WHERE codigo = '$codigo'";
+    }elseif ($metodo=="modificar_apertura"){
+      $sql  = "UPDATE clientes_contratacion_ap
+      SET clientes_contratacion_ap.cantidad = '$cantidad'
+      WHERE
+      clientes_contratacion_ap.codigo = '$apertura'
+      AND clientes_contratacion_ap.cod_cliente  = '$cliente'
+      AND clientes_contratacion_ap.cod_ubicacion = '$ubicacion'
+      AND clientes_contratacion_ap.cod_ub_puesto = '$puesto'
+      AND clientes_contratacion_ap.cod_turno = '$turno'
+      AND clientes_contratacion_ap.cod_cargo = '$cargo'
+      AND clientes_contratacion_ap.fecha = '$fecha'
+      ";
     }
 
     $query = $bd->consultar($sql);
 
     $result['sql'] = $sql;
-
+    $result['error']=false;
   }catch (Exception $e) {
    $error =  $e->getMessage();
    $result['error'] = true;

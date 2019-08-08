@@ -182,7 +182,7 @@ if($metodo == 'modificar' or $metodo == 'consultar'){
  // Agregar
 }elseif($metodo == "agregar"){
 	$archivo = "formularios/Cons_ficha2&Nmenu=410&mod=$mod";
-
+	$status_militar_obs = '';
 	$cod_ficha      = '';
 	$cod_contracto  = '';
 	$contracto      = 'Seleccione...';
@@ -320,13 +320,13 @@ if($metodo == 'modificar' or $metodo == 'consultar'){
 		$result = $bd->obtener_fila($query,0);
 		$existe =   $result[0];
 
-		if($existe >= 1){
+		/*if($existe >= 1){
 			echo '<script language="javascript" type="text/javascript">
 			alert("Ya Tiene un Trabajador Activo Para Esta Cedula: ('.$cedula.')");
 			Vinculo("inicio.php?area=formularios/Cons_ficha2&Nmenu='.$Nmenu.'&mod='.$mod.'");
 			</script>';
 			exit();
-		}
+		}*/
 
 		}else{   // $_SESSION['ficha_preingreso']=="N"
 		$ced_read='';
@@ -593,7 +593,12 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 					?>
 				</select>
 			</span>
-			<span width="50%" style="padding-left:10px; ">Observacion: <textarea   cols="50" name="militar_obs" ><?php echo $status_militar_obs; ?></textarea>
+			<span width="50%" style="padding-left:10px; ">Observacion: <textarea   cols="50" name="militar_obs" ><?php 
+			if(!$status_militar_obs){ 
+				echo '';
+			}else{
+				echo $status_militar_obs;
+			}?></textarea>
 				<span id="Counterror_mess5" class="texto">&nbsp;</span><br />
 				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 1024.</span></span>
 

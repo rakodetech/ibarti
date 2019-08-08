@@ -1,7 +1,7 @@
 <?php
 include_once "../funciones/funciones.php";
 require "../autentificacion/aut_config.inc.php";
-require "../".class_bd;
+require "../".class_bdI;
 require "../".Leng;
 $bd = new DataBase();
 

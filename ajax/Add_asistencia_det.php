@@ -6,10 +6,10 @@ $co_cont      = $_POST['contrato'];
 $cod_rol      = $_POST['rol'];
 $usuario      = $_POST['usuario'];
 $href         = "formularios/Cons_asistencia&Nmenu=$Nmenu&co_cont=$co_cont&rol=$cod_rol";
-
+define("SPECIALCONSTANT",true);
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
-require "../".class_bd;
+require "../".class_bdI;
 require "../".Leng;
 $bd = new DataBase();
 

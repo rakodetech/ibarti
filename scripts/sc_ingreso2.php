@@ -69,8 +69,9 @@ $refl01_empresa  = htmlspecialchars($_POST["refl01_empresa"]);
 $refl01_telf     = htmlspecialchars($_POST["refl01_telf"]);
 $refl01_contacto = htmlspecialchars($_POST["refl01_contacto"]);
 $refl01_cargo    = htmlspecialchars($_POST["refl01_cargo"]);
-$refl01_sueldo_inic = htmlspecialchars($_POST["refl01_sueldo_inic"]);
-$refl01_sueldo_fin  = htmlspecialchars($_POST["refl01_sueldo_fin"]);
+$refl01_sueldo_inic = $refl01_sueldo_inic != "" ? htmlspecialchars($_POST["refl01_sueldo_inic"]) : 0;
+$refl01_sueldo_fin  = $refl01_sueldo_fin != "" ? htmlspecialchars($_POST["refl01_sueldo_fin"]) : 0;
+
 $refl01_fec_ingreso = conversion($_POST["refl01_fec_ingreso"]);
 $refl01_fec_egreso  = conversion($_POST["refl01_fec_egreso"]);
 $refl01_retiro    = htmlspecialchars($_POST["refl01_retiro"]);
@@ -81,8 +82,8 @@ $refl02_empresa  = htmlspecialchars($_POST["refl02_empresa"]);
 $refl02_telf     = htmlspecialchars($_POST["refl02_telf"]);
 $refl02_contacto = htmlspecialchars($_POST["refl02_contacto"]);
 $refl02_cargo    = htmlspecialchars($_POST["refl02_cargo"]);
-$refl02_sueldo_inic = htmlspecialchars($_POST["refl02_sueldo_inic"]);
-$refl02_sueldo_fin  = htmlspecialchars($_POST["refl02_sueldo_fin"]);
+$refl02_sueldo_inic = $refl02_sueldo_inic != "" ? htmlspecialchars($_POST["refl02_sueldo_inic"]) : 0;
+$refl02_sueldo_fin  = $refl02_sueldo_fin != "" ? htmlspecialchars($_POST["refl02_sueldo_fin"]) : 0;
 $refl02_fec_ingreso = conversion($_POST["refl02_fec_ingreso"]);
 $refl02_fec_egreso  = conversion($_POST["refl02_fec_egreso"]);
 $refl02_retiro    = htmlspecialchars($_POST["refl02_retiro"]);
@@ -192,7 +193,7 @@ $metodo   = $_POST['metodo'];
 								'$refp02_observacion', '$refp02_apto', '$refp03_nombre', '$refp03_ocupacion', 
 								'$refp03_telf', '$refp03_parentezco', '$refp03_direccion', '$refp03_observacion', 
 								'$refp03_apto', '$refl01_empresa', '$refl01_telf', '$refl01_contacto',
-								'$refl01_cargo', '$refl01_sueldo_inic', '$refl01_sueldo_fin', '$refl01_fec_ingreso',                                '$refl01_fec_egreso', '$refl01_direccion', '$refl01_observacion', '$refl01_retiro',
+								'$refl01_cargo', '0', '$refl01_sueldo_fin', '$refl01_fec_ingreso',                                '$refl01_fec_egreso', '$refl01_direccion', '$refl01_observacion', '$refl01_retiro',
 								'$refl01_apto', '$refl02_empresa', '$refl02_telf', '$refl02_contacto',
 								'$refl02_cargo', '$refl02_sueldo_inic', '$refl02_sueldo_fin', '$refl02_fec_ingreso',
 								'$refl02_fec_egreso', '$refl02_direccion', '$refl02_observacion', '$refl02_retiro',
@@ -210,8 +211,9 @@ $metodo   = $_POST['metodo'];
 	}
 	</script>';	
 	}	
-	
- require_once('../funciones/sc_direccionar.php');  
+
+ require_once('../funciones/sc_direccionar.php'); 
+ 	
 ?>
 
 <body>

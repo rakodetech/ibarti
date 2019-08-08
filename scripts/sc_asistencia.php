@@ -1,7 +1,8 @@
 <?php
+define("SPECIALCONSTANT",true);
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
-require_once("../".class_bd);
+require_once("../".class_bdI);
 $bd = new DataBase();
 
 $tabla    = 'asistencia';
@@ -19,6 +20,18 @@ $horaN          = $_POST['horaN'];
 $vale           = $_POST['vale'];
 $feriado        = $_POST['feriado'];
 $NL             = $_POST['NL'];
+if($feriado == ""){
+	$feriado = 0;
+}
+if($NL == ""){
+	$NL = 0;
+}
+if($horaD == ""){
+	$horaD = 0.00;
+}
+if($horaN == ""){
+	$NL = 0.00;
+}
 
 $href     = $_POST['href'];
 $usuario  = $_POST['usuario'];

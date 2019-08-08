@@ -52,7 +52,7 @@ if(isset($_SESSION['usuario_cod'])){
 		<div class="modal-body">
 			<div id="modal_contenido">
 				<br>
-				<div align="center" class="etiqueta_title">Listado de Eans (<span id="cant_ing"></span>)</div>
+				<div align="center" class="etiqueta_title">Listado de Eans <span id="span_cant_ing">(<span id="cant_ing"></span>)</span></div>
 				<br>
 				<hr />
 				<table id="listar_eans">
@@ -66,15 +66,15 @@ if(isset($_SESSION['usuario_cod'])){
 						 </tbody>
 				</table>
 				<div align="center">
-					<span class="art-button-wrapper">
+					<span class="art-button-wrapper" id="boton_guardar_eans">
 						<span class="art-button-l"> </span>
 						<span class="art-button-r"> </span>
-						<input type="button" title="Anular Ajuste" class="readon art-button"  value="Procesar" onclick="guardarEans()" />
+						<input type="button" title="Anular Ajuste" id="boton_eans" class="readon art-button" value="Procesar"/>
 					</span>
 					<span class="art-button-wrapper">
 						<span class="art-button-l"> </span>
 						<span class="art-button-r"> </span>
-						<input type="button" title="Cancelar" class="readon art-button"  value="Cancelar" 
+						<input type="button" title="Cancelar" class="readon art-button"  value="Cerrar" 
 						onclick="eanCloseModal()" />
 					</span>
 				</div>

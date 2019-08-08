@@ -44,17 +44,16 @@ if(isset($_POST['proced'])){
 	'$descripcion',
 	'$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo')";
 	$query = $bd->consultar($sql);
-
 // procedimiento debe retonrar un valor pediente.. OJO ///
 // y eliminar el SELECT MAX
 
 	if($metodo == "agregar"){
 		$sql    = "SELECT MAX(prod_dotacion.codigo) codigo FROM prod_dotacion
 		WHERE cod_ficha = '$trabajador' ";
+	
 		$query = $bd->consultar($sql);
 		$datos = $bd->obtener_fila($query,0);
 		$codigo = $datos[0];
-
 		$sql = " SELECT a.n_ajuste FROM control a ";
 		$query = $bd->consultar($sql);
 		$data =$bd->obtener_fila($query,0);
@@ -64,7 +63,8 @@ if(isset($_POST['proced'])){
 		$sql = " INSERT INTO ajuste(codigo, cod_tipo,referencia, cod_proveedor,fecha,  motivo,
 		total, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
 		VALUES ($cod_ajuste, 'DOT','$codigo','9999', '$fecha', '$descripcion_ajuste',
-		'','$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP); ";
+		0,'$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP); ";
+	
 		$query = $bd->consultar($sql);
 		$sql = " UPDATE control SET n_ajuste = $cod_ajuste; ";
 		$query = $bd->consultar($sql);
@@ -86,18 +86,25 @@ if(isset($_POST['proced'])){
 			$almacen = $_POST['almacen_'.$i.''];
 				$sql = "$SELECT p_prod_dotacion_det('$metodo', '$codigo', '$producto', '$producto_old', '$almacen', '$cantidad')";
 				$query = $bd->consultar($sql);
+			
 			$sql = "SELECT cos_promedio
 			FROM ajuste_reng
 			WHERE ajuste_reng.cod_producto = '$producto' AND cod_almacen='$almacen'
 			ORDER BY cod_ajuste DESC,reng_num DESC
 			LIMIT 1";
+
+		
 			$query = $bd->consultar($sql);
 			$data =$bd->obtener_fila($query,0);
 			$cos_promedio   =  $data[0];
 			$neto = $cantidad * $cos_promedio;
+			if($nro_ajuste_c == ""){
+				$nro_ajuste_c = 0;
+			}
 			$sql = " INSERT INTO ajuste_reng (cod_ajuste, reng_num, cod_almacen,
 			cod_producto,fec_vencimiento,lote, cantidad,  costo,  neto, aplicar,anulado,cod_anulado) VALUES
-			($cod_ajuste, ".$i.", '$almacen', '$producto','','19830906',$cantidad, $cos_promedio, $neto, 'OUT','F','$nro_ajuste_c') ";
+			($cod_ajuste, ".$i.", '$almacen', '$producto','0000-00-00','19830906',$cantidad, $cos_promedio, $neto, 'OUT','F','$nro_ajuste_c') ";
+		
 			$query = $bd->consultar($sql);
 		}
 

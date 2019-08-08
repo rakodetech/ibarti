@@ -37,7 +37,7 @@ try {
         $sql = " UPDATE control SET n_ajuste = $nro_ajuste+2; ";
         $bd->consultar($sql);
 */
-                           foreach($ped_reng as $obj) {
+        foreach($ped_reng as $obj) {
      /* $sql = " INSERT INTO ajuste_reng (cod_ajuste, reng_num, cod_almacen, lote,
                                         cod_producto, cantidad,  precio,  neto) VALUES
                          ($nro_ajuste, '$obj->reng_num', 'alm_destino', '$obj->lote',
@@ -47,8 +47,8 @@ try {
 
                          $sql = "$SELECT $proced('$alm_origen', '$alm_destino','$obj->lote',
                          '$obj->cod_producto', $obj->cantidad, '$us')";
-
-                        $bd->consultar($sql);
+                         $result['sql'][] = $sql;
+                         $bd->consultar($sql);
                        }
 
                 /*                                  foreach($ped_reng as $obj) {
@@ -61,7 +61,6 @@ try {
                        }*/
 
 
-                       $result['sql'] = $sql;
                      }catch (Exception $e) {
                        $error =  $e->getMessage();
                        $result['error'] = true;

@@ -471,8 +471,8 @@ $bd = new DataBase();
 
 				echo'</select></td>
 			  <td id="conceptoX"><select name="concepto" id="concepto" style="width:75px"><option value="">Selec...</option>                  </select></td>
-			  <td><input type="text" name="horaD" id="horaD" style="width:45px" maxlength="5"/></td>
-  			  <td><input type="text" name="horaN" id="horaN" style="width:45px" maxlength="5"/></td>
+			  <td><input value="0.00" type="text" name="horaD" id="horaD" style="width:45px" maxlength="5"/></td>
+  			  <td><input value="0.00" type="text" name="horaN" id="horaN" style="width:45px" maxlength="5"/></td>
   			  <td><input type="text" name="vale"  id="vale" style="width:45px" value="0" maxlength="8"/></td>'; ?>
 			  <td align="center"><span class="art-button-wrapper">
                     <span class="art-button-l"> </span>

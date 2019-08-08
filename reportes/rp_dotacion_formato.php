@@ -58,11 +58,11 @@ switch ($vista) {
 
 
 
-require_once('../' . ConfigDomPdf);
+//require_once('../' . ConfigDomPdf);
 
-$dompdf = new DOMPDF();
+//$dompdf = new DOMPDF();
 
-ob_start();
+//ob_start();
 
 $titulo = 'LISTADO DE PAQUETES DE DOTACIONES <span class="etiqueta">(#' . $row["codigo"] . ')';
 require('../' . PlantillaDOM . '/header_ibarti_2.php');
@@ -169,7 +169,7 @@ echo '
 </div>
 
 ';
-$dompdf->load_html(ob_get_clean(), 'UTF-8');
+//$dompdf->load_html(ob_get_clean(), 'UTF-8');
 //		$dompdf->set_paper ('letter','landscape');
-$dompdf->render();
-$dompdf->stream($archivo, array('Attachment' => 0));
+//$dompdf->render();
+//$dompdf->stream($archivo, array('Attachment' => 0));

@@ -60,16 +60,22 @@ function mensajeria($mensaje) {
 
 function conversion($fecha){
 	if($fecha!=''){
-		$fecha_N1 = explode("-", $fecha);
-		$a   = $fecha_N1[0];
-		$m   = $fecha_N1[1];
-		$d   = $fecha_N1[2];
-
-		if(($a=='0000') or ($m=="") or ($d=="")){
-			$fecha='';
+		if($fecha == 'DD-MM-AAAA'){
+			$fecha='0000-00-00';
 		}else{
-			$fecha=$d."-".$m."-".$a;
+			$fecha_N1 = explode("-", $fecha);
+			$a   = $fecha_N1[0];
+			$m   = $fecha_N1[1];
+			$d   = $fecha_N1[2];
+
+			if(($a=='0000') or ($m=="") or ($d=="")){
+				$fecha='';
+			}else{
+				$fecha=$d."-".$m."-".$a;
+			}
 		}
+	}else{
+		$fecha='0000-00-00';
 	}
 	
 	return $fecha;

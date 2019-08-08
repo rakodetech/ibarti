@@ -5,8 +5,9 @@
 autentificacion/aut_config.inc.php
 bd/class_mysql.php
 
-#excluye carpeta documentos,fotos,temp y cedulas
+#excluye carpeta documentos,fotos,temp, cedulas y libreria dompdf.
 imagenes/fotos/*
 imagenes/cedula/*
 imagenes/documentos/*
 imagenes/temp/*
+dompdf/*

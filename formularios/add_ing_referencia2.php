@@ -168,10 +168,10 @@
    	</tr>
     <tr>
       <td class="etiqueta">Sueldo Inicial:</td>
-     <td id="input17_2"><input type="text" name="refl01_sueldo_inic" maxlength="60" size="16"
+     <td id="input17_2"><input type="decimal" name="refl01_sueldo_inic" maxlength="60" size="16"
                              value="<?php echo $refl01_sueldo_inic;?>"/> </td>
       <td class="etiqueta">Sueldo Final:</td>
-     <td id="input18_2"><input type="text" name="refl01_sueldo_fin" maxlength="60" size="16"
+     <td id="input18_2"><input type="decimal" name="refl01_sueldo_fin" maxlength="60" size="16"
                              value="<?php echo $refl01_sueldo_fin;?>"/> </td>
       <td class="etiqueta" colspan="2">&nbsp;</td>
    	</tr>
@@ -235,10 +235,10 @@
   	</tr>
     <tr>
       <td class="etiqueta">Sueldo Inicial:</td>
-     <td id="input23_2"><input type="text" name="refl02_sueldo_inic" maxlength="60" size="16"
+     <td id="input23_2"><input type="decimal" name="refl02_sueldo_inic" maxlength="60" size="16"
                              value="<?php echo $refl02_sueldo_inic;?>"/> </td>
       <td class="etiqueta">Sueldo Final:</td>
-     <td id="input24_2"><input type="text" name="refl02_sueldo_fin" maxlength="60" size="16"
+     <td id="input24_2"><input type="decimal" name="refl02_sueldo_fin" maxlength="60" size="16"
                              value="<?php echo $refl02_sueldo_fin;?>"/> </td>
       <td class="etiqueta" colspan="2">&nbsp;</td>
    	</tr>
