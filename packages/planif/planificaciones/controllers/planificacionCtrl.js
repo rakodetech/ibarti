@@ -3,6 +3,7 @@ var usuario = '';
 var apertura = '';
 var contratacion = '';
 
+var cerrar = true;
 $(function () {
 	Cons_planificacion_inicio();
 });
@@ -789,6 +790,7 @@ function mod_apertura_planif() {
 			// $("#cod_contratacion_serv").val($("#planif_contratacion").val());
 		},
 		success: function (response) {
+			
 			$("#modal_contenido").html("");
 			var resp = JSON.parse(response);
 			var tabla = d3.select("#modal_contenido").append("div").style("overflow", "scroll").style("max-height", "500px").append("table").attr("class", "tabla_sistema").attr("width", "100%");
@@ -802,7 +804,7 @@ function mod_apertura_planif() {
 			thead.append("th").text("Cargo").style("text-align", "center").style("border", "1px solid");
 			thead.append("th").text("Cantidad").style("text-align", "center").style("border", "1px solid");
 
-			var tr = tbody.selectAll('tr').data(resp).enter().append("tr").attr("id", (d) => "cod_" + d.codigo).attr('class', 'color')
+			var tr = tbody.selectAll('tr').data(resp).enter().append("tr").attr("id", (d) => "cod_" + d.codigo).attr('class', 'color').attr("title",(d)=>"ULTIMA MODIFICACION: "+d.fecha_mod+" ("+d.nombres+")");
 
 			tr.append("td").text((d) => d.fecha).style("border", "1px solid").style("vertical-align", "middle").attr("width", "10%");
 			tr.append("td").text((d) => d.cliente).style("border", "1px solid").style("vertical-align", "middle").attr("width", "16%");
@@ -818,7 +820,7 @@ function mod_apertura_planif() {
 					$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`).show();
 				}
 			}).on("keyup", (d, e, f) => {
-				if (Number(f[e].value) == Number(f[e].defaultValue)) {
+				if (Number(f[e].value) == Number(f[e].defaultValue)) {				
 					$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`).hide();
 				} else {
 					$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`).show();
@@ -835,11 +837,13 @@ function mod_apertura_planif() {
 						ubicacion: d.cod_ubicacion,
 						turno: d.cod_turno,
 						cargo: d.cod_cargo,
-						cantidad: $(`#cant_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`).val()
+						cantidad: $(`#cant_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`).val(),
+						usuario:$("#usuario").val()
 					}
 					ac_apertura_planif(propiedades, () => {
 						$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`).hide();
 						$(`#cant_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_puesto}_${d.cod_ubicacion}_${d.cod_turno}_${d.cod_cargo}`)[0].defaultValue = propiedades.cantidad;
+						cerrar=true;
 					})
 				}
 
@@ -879,8 +883,10 @@ function ac_apertura_planif(parametros, callback) {
 }
 
 function mostrar_icono_apertura(valor) {
+	
 	if (valor != '') {
 		$('#mod_ap_planif').show();
+		
 	} else {
 		$('#mod_ap_planif').hide();
 	}

@@ -35,6 +35,8 @@ if($metodo == 'modificar'){
 					preingreso.pol_observacion,
 					preingreso.fec_pre_emp, preingreso.pre_emp_apto,
 					preingreso.pre_emp_observacion,
+					preingreso.fec_pem, preingreso.pem_apto,
+					preingreso.pem_observacion,
                     preingreso.cod_t_camisas, preing_camisas.descripcion AS t_camisas,
                     preingreso.cod_t_pantalon, preing_pantalon.descripcion AS t_pantalon,
                     preingreso.cod_n_zapatos, preing_zapatos.descripcion AS n_zapatos,
@@ -61,6 +63,10 @@ if($metodo == 'modificar'){
 					preingreso.refl02_fec_ingreso, preingreso.refl02_fec_egreso,
 					preingreso.refl02_sueldo_inic, preingreso.refl02_sueldo_fin,
 					preingreso.refl02_retiro, preingreso.refl02_apto,
+					preingreso.reff01_nombre, preingreso.reff01_ocupacion,
+					preingreso.reff01_telf,
+					preingreso.reff01_parentezco, preingreso.reff01_direccion,
+					preingreso.reff01_observacion, preingreso.reff01_apto,
 					preingreso.campo01, preingreso.campo02,
 					preingreso.campo03, preingreso.campo04,
 					preingreso.cod_us_ing, CONCAT(men_usuarios.apellido,' ', men_usuarios.nombre) AS us_ing,
@@ -84,7 +90,6 @@ if($metodo == 'modificar'){
                 AND preingreso.cod_n_zapatos = preing_zapatos.codigo
 				AND preingreso.cod_ocupacion = ocupacion.codigo
                 AND preingreso.cedula = '$codigo' ";
-
 	$query  = $bd->consultar($sql);
 	$result = $bd->obtener_fila($query,0);
 
@@ -122,6 +127,9 @@ if($metodo == 'modificar'){
 	$fec_pre_emp        = conversion($result['fec_pre_emp']);
 	$pre_emp_apto       = $result['pre_emp_apto'];
 	$pre_emp_observacion = $result["pre_emp_observacion"];
+	$fec_pem       = conversion($result['fec_pem']);
+	$pem_apto       = $result['pem_apto'];
+	$pem_observacion = $result["pem_observacion"];
 
 	$observacion     = $result["observacion"];
 	$cod_status     = $result['cod_status'];
@@ -189,6 +197,14 @@ if($metodo == 'modificar'){
 	$refl02_fec_egreso  = conversion($result['refl02_fec_egreso']);
 	$refl02_retiro      = $result['refl02_retiro'];
 	$refl02_apto        = $result['refl02_apto'];
+
+	$reff01_nombre      = $result['reff01_nombre'];
+	$reff01_ocupacion   = $result['reff01_ocupacion'];
+	$reff01_telf        = $result['reff01_telf'];
+	$reff01_parentezco  = $result['reff01_parentezco'];
+	$reff01_direccion   = $result['reff01_direccion'];
+	$reff01_observacion = $result['reff01_observacion'];
+	$reff01_apto        = $result['reff01_apto'];
 
 // PARTE adiccional
 	$campo01    = $result["campo01"];

@@ -361,7 +361,9 @@ class Planificacion
 		t.codigo cod_turno,
 		c.descripcion cargo,
 		c.codigo cod_cargo,
-		a.cantidad
+		a.cantidad,
+		a.fec_us_mod fecha_mod,
+		CONCAT(mu.apellido,', ',mu.nombre) nombres
 		FROM
 		clientes_contratacion_ap AS a,
 		turno AS t,
@@ -372,9 +374,11 @@ class Planificacion
 		clientes AS cl,
 		clientes_ubicacion AS cu,
 		clientes_ub_puesto AS cp,
-		cargos c
+		cargos c,
+		men_usuarios mu
 		WHERE
 		a.cod_turno = t.codigo
+		AND mu.codigo = a.cod_us_mod
 		AND t.cod_horario = h.codigo
 		AND c.codigo = a.cod_cargo
 		AND t.cod_dia_habil = dias_habiles.codigo

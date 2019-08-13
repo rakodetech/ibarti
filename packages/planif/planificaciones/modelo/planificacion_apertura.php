@@ -25,7 +25,7 @@ if(isset($_POST['metodo'])){
       WHERE codigo = '$codigo'";
     }elseif ($metodo=="modificar_apertura"){
       $sql  = "UPDATE clientes_contratacion_ap
-      SET clientes_contratacion_ap.cantidad = '$cantidad'
+      SET clientes_contratacion_ap.cantidad = '$cantidad',clientes_contratacion_ap.cod_us_mod = '$usuario',clientes_contratacion_ap.fec_us_mod = CURRENT_TIMESTAMP
       WHERE
       clientes_contratacion_ap.codigo = '$apertura'
       AND clientes_contratacion_ap.cod_cliente  = '$cliente'
