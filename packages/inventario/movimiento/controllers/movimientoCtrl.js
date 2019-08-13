@@ -19,6 +19,7 @@ var stock_actual = 0;
 var sub_total  = 0;
 var total      = 0;
 var detalle = false;
+var eans = [];
 
 function Cons_movimiento() {
 	var parametros = { }
@@ -151,6 +152,7 @@ function Selec_producto(codigo) {
 		producto_cod = codigo;
 		producto_des = $("#ped_producto").val();
 		cantidad_maxima(alm_origen,codigo);
+		costo_promedio(codigo,alm_origen);
 	}else{
 		alert("debe seleccionar un porducto");
 	}
@@ -176,22 +178,22 @@ function cantidad_maxima(cod_almacen,cod_producto) {
 }
 
 function costo_promedio(codigo,cod_almacen) {
-    console.log(codigo,cod_almacen);
-    $.ajax({
-        data: { 'producto': codigo, 'almacen': cod_almacen },
-        url: 'packages/inventario/producto/views/Get_costo_prom.php',
-        type: 'post',
-        success: function(response) {
-            console.log(response);
+	console.log(codigo,cod_almacen);
+	$.ajax({
+		data: { 'codigo': codigo, 'almacen': cod_almacen },
+		url: 'packages/inventario/producto/views/Get_costo_prom.php',
+		type: 'post',
+		success: function(response) {
+			console.log(response);
            // console.log(response);
            var resp = JSON.parse(response);
            costo = resp[0];
        },
        error: function(xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
-    }
-});
+       	alert(xhr.status);
+       	alert(thrownError);
+       }
+   });
 }
 
 function Limpiar_producto() {
@@ -303,7 +305,8 @@ function Agregar_renglon(){
         	reng_num++;
         	var Ped_detalleX  = {reng_num:reng_num, cod_producto: producto_cod,
         		producto: producto_des, lote: lote, cantidad: cantidad  ,          
-        		costo: costo, neto: neto};
+        		costo: costo, neto: neto, 
+        		eans: []};
         		Ped_detalle.push(Ped_detalleX);
 
         		var tr = ('<tr id="tr_' + reng_num + '"></tr>');
@@ -411,7 +414,7 @@ function Cal_total(){
     //	alert(tasa +", "+incluye_iva);
     sub_total = 0;
     jQuery.each(Ped_detalle, function(i) {
-        sub_total = (parseFloat(sub_total) + parseFloat(Ped_detalle[i]["neto"]));
+    	sub_total = (parseFloat(sub_total) + parseFloat(Ped_detalle[i]["neto"]));
     });
 
     total = sub_total;
@@ -439,5 +442,217 @@ function Reng_ped(codigo){
 			alert(thrownError);
 		}
 	});
+
+}
+
+function Reng_ped_ean(ajuste,renglon,index_detalle) {
+    //console.log('Reng_ped_ean');
+    $.ajax({
+    	data: { 'ajuste': ajuste,'renglon': renglon },
+    	url: 'packages/inventario/ajuste/views/Add_renglon_eans.php',
+    	type: 'post',
+    	success: function(response) {
+            //console.log(response);
+            var resp = JSON.parse(response);
+            Ped_detalle[index_detalle]["eans"] = resp;
+            //console.log(Ped_detalle);
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+        	alert(xhr.status);
+        	alert(thrownError);
+        }
+    });
+
+}
+
+function cargarEANS(item,salida,almacen){
+    //console.log('cargarEANS');
+    var reng_num_ean = 0;
+    var salida = salida ? salida : null;
+    var almacen = almacen ? almacen : null;
+    //console.log('SALIDA: ', salida,'  ALMACEN:',almacen);
+    $.ajax({
+    	data: { 'codigo': item, 'salida':salida,'almacen':almacen },
+    	url: 'packages/inventario/ajuste/views/Add_EANS.php',
+    	type: 'post',
+    	success: function(response) {
+            //console.log(response);
+            eans = [];
+            $('#listar_eans').html('');
+            var resp = JSON.parse(response);
+            if(resp.length > 0){
+            	jQuery.each(resp, function(i) {
+            		reng_num_ean++;
+            		var tr = ('<tr id="tr_ean_' + reng_num_ean + '"></tr>');
+            		var td01 = ('<td><input type="text" id="reng_num_ean_' + reng_num_ean + '" value="' + resp[i].cod_ean + '" style="width:300px"></td>');
+            		var td02 = ('<td><input name="activo" id="p_activo" type="checkbox" value="T" onclick="selectEAN('+reng_num_ean+',this.checked)"/> </td>');
+
+            		$('#listar_eans').append(tr);
+            		$('#tr_ean_' + reng_num_ean + '').append(td01);
+            		$('#tr_ean_' + reng_num_ean + '').append(td02);
+            		$("#prod_ean").val("");
+            		$("#boton_guardar_eans").show();
+            		$("#span_cant_ing").show();
+            	});
+            	eanModalOpen();
+            }else{
+            	toastr.warning('Este producto no tiene EANS disponibles!.');
+            }
+
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+        	alert(xhr.status);
+        	alert(thrownError);
+        }
+    });
+}
+
+function getIfEAN(item,cantidad,actualizar,callback){
+    //console.log('getIfEAN');
+    //console.log(Ped_detalle,item);
+    var metodo = $("#ped_metodo").val();
+    $.ajax({
+    	data: {"codigo": item},
+    	url: 'packages/inventario/ajuste/views/Get_if_EAN.php',
+    	type: 'post',
+    	success: function(response) {
+    		var resp = JSON.parse(response);
+            //console.log('METODO',metodo);
+            if(resp[0] == 'T'){
+            	if(metodo == 'modificar'){
+            		callback();
+            	}else{
+            		if(actualizar){
+            			$("#boton_eans").attr("onclick","actualizarEans()");
+            		}else{
+            			$("#boton_eans").attr("onclick","guardarEans()");
+            		}
+                   //console.log($("#ped_aplicar").val());
+                   if($("#ped_aplicar").val() == "IN"){
+                   	cargarEANS(item,false);
+                   }else{
+                   	cargarEANS(item,true,$("#ped_almacen").val());
+                   }
+
+                   $("#cant_ing").html(cantidad);
+               }
+           }else{
+            //if(metodo != 'modificar'){
+            	callback();
+            //}
+        }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+    	alert(xhr.status);
+    	alert(thrownError);
+    }
+});
+}
+
+function guardarEans(){
+    //console.log('guardarEans');
+    if(cantidad == eans.length){
+    	reng_num++;
+    	var Ped_detalleX = {
+    		reng_num: reng_num,
+    		cod_producto: producto_cod,
+    		producto: producto_des,
+    		lote: lote,
+    		cod_almacen: almacen_cod,
+    		almacen: almacen_des,
+    		cantidad: cantidad,
+    		costo: costo,
+    		neto: neto,
+    		eans: eans
+    	};
+
+    	Ped_detalle.push(Ped_detalleX);
+    	var tr = ('<tr id="tr_' + reng_num + '"></tr>');
+    	var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + reng_num + '" readonly style="width:100px"></td>');
+    	var td02 = ('<td>' + producto_des + '</td>');
+    	var td03 = ('<td>' + almacen_des + '</td>');
+    	var td04 = ('<td><input type="text" id="cant_' + reng_num + '" value="' + cantidad + '" readonly style="width:100px"></td>');
+    	var td05 = ('<td><input type="text" id="costo_' + reng_num + '" value="' + costo + '" readonly style="width:100px"></td>');
+    	var td06 = ('<td><input type="text" id="neto_' + reng_num + '" value="' + neto + '" readonly style="width:150px"></td>');
+    	var td07 = ('<td><span class="art-button-wrapper"><span class="art-button-l"> </span><span class="art-button-r"> </span><input type="button"  title="Ver Eans" onclick = verEans('+reng_num+') class="readon art-button"  value="EANS" /></span><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
+
+    	$('#listar_ajuste').append(tr);
+    	$('#tr_' + reng_num + '').append(td01);
+    	$('#tr_' + reng_num + '').append(td02);
+    	$('#tr_' + reng_num + '').append(td03);
+    	$('#tr_' + reng_num + '').append(td04);
+    	$('#tr_' + reng_num + '').append(td05);
+    	$('#tr_' + reng_num + '').append(td06);
+    	$('#tr_' + reng_num + '').append(td07);
+    	Cal_total();
+    	Limpiar_producto();
+    	$("#ped_producto").val("");
+    	$("#ped_almacen").val("");
+    	eanCloseModal();
+
+    }else{
+    	alert("Debe seleccionar la cantidad correspondinete de EANS ("+cantidad+") ");
+    }
+}
+
+function actualizarEans(){
+    //console.log('actualizarEans');
+    if(cantidad == eans.length){
+    	var idX = index + 1;
+    	Ped_detalle[index]["cantidad"] = cantidad;
+    	Ped_detalle[index]["costo"] = costo;
+    	Ped_detalle[index]["neto"] = neto;
+    	Ped_detalle[index]["eans"] = eans;
+
+    	$("#cant_" + idX + "").val(cantidad);
+    	$("#costo_" + idX + "").val(costo);
+    	$("#neto_" + idX + "").val(neto);
+    	$("#ped_almacen").prop('disabled', false);
+    	Limpiar_producto();
+    	Cal_total();
+    	Cancelar_renglon();
+    	eanCloseModal();
+    }else{
+    	alert("Debe seleccionar la cantidad correspondinete de EANS ("+cantidad+") ");
+    }
+}
+
+function Cal_prod_neto(evento, valor) {
+    //console.log('Cal_prod_neto');
+    if ((valor == "") && (valor == "undefined")) {
+    	alert("Ingrese un valor");
+    } else {
+    	var valorX = parseFloat(valor);
+
+    	if (evento == "cantidad") {
+    		cantidad = valorX;
+    	}
+    	if (evento == "costo") {
+    		costo = valorX;
+    	}
+
+    	neto = parseFloat((cantidad * costo).toFixed(2));
+
+    	$('#ped_neto').val(neto);
+    	if (neto > 0) {
+    		$("#add_renglon").prop('disabled', false);
+    	} else {
+    		$("#add_renglon").prop('disabled', true);
+    	}
+
+    }
+
+}
+
+function Cal_total() {
+    //console.log('Cal_total');
+    //	alert(tasa +", "+incluye_iva);
+    sub_total = 0;
+    jQuery.each(Ped_detalle, function(i) {
+    	sub_total = (parseFloat(sub_total) + parseFloat(Ped_detalle[i]["neto"]));
+    });
+
+    total = sub_total;
+    $("#ped_total").val(parseFloat(total.toFixed(2)));
 
 }

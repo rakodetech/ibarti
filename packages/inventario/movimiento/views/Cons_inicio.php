@@ -1,9 +1,3 @@
-<script language="javascript">
-  $("#add_movimiento_form").on('submit', function(evt){
-    evt.preventDefault();
-    save_movimiento();
-  });
-</script>
 <?php
 require "../modelo/movimiento_modelo.php";
 require "../../../../".Leng;

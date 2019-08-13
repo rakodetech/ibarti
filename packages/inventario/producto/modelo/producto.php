@@ -18,9 +18,11 @@ $eans = $_POST["eans"];
 
 if(isset($_POST['proced'])){
   try {
+    if($fec_venc == 'DD-MM-AAAA') $fec_venc = '0000-00-00';
+    if($peso == "") $peso = 0;
+    if($piecubico == "") $piecubico = 0;
     $sql    = "$SELECT $proced('$metodo', '$codigo', '$linea', '$sub_linea', '$color', '$prod_tipo',
-    '$unidad',  '$proveedor','$procedencia','$almacen', '$iva','$item', '$descripcion', 
-    '$prec_vta1', '$prec_vta2',' $prec_vta3', '$prec_vta4',  '$prec_vta5',   
+    '$unidad',  '$proveedor','$procedencia','$almacen', '$iva','$item', '$descripcion',    
     '$garantia', '$talla','$peso', '$piecubico','$venc', '$fec_venc',
     '$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo','$ean')";
 
@@ -29,13 +31,13 @@ if(isset($_POST['proced'])){
     $result['sql'][] = $sql;
 
     if($ean == 'T'){
-        $sql = "DELETE FROM prod_ean WHERE cod_producto = '$item' AND cod_ean NOT IN (SELECT cod_ean FROM ajuste_reng_eans)";
+      $sql = "DELETE FROM prod_ean WHERE cod_producto = '$item' AND cod_ean NOT IN (SELECT cod_ean FROM ajuste_reng_eans)";
+      $query   = $bd->consultar($sql);
+      foreach($eans as $eanX) {
+        $sql = "INSERT INTO prod_ean(cod_producto,cod_ean,cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod) VALUES('$item','$eanX','$usuario','$fecha_actual','$usuario','$fecha_actual')";
         $query   = $bd->consultar($sql);
-        foreach($eans as $eanX) {
-          $sql = "INSERT INTO prod_ean(cod_producto,cod_ean,cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod) VALUES('$item','$eanX','$usuario','$fecha_actual','$usuario','$fecha_actual')";
-          $query   = $bd->consultar($sql);
-          $result['sql'][] = $sql;
-          $result['eans'][] = $ean;
+        $result['sql'][] = $sql;
+        $result['eans'][] = $ean;
       }
     }
 

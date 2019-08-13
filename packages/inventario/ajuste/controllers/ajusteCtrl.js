@@ -36,7 +36,7 @@ var reng_num = 0;
 var index = 0;
 var callbackAgregarRenglon;
 function buscarMovimiento(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
-    console.log('buscarMovimiento');
+    //console.log('buscarMovimiento');
     var error = 0;
     var errorMessage = ' ';
 
@@ -50,7 +50,7 @@ function buscarMovimiento(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
         var errorMessage = ' Campos De Fecha Incorrectas ';
         var error = error+1;
     }
-    console.log(fecha_desde,fecha_hasta);
+    //console.log(fecha_desde,fecha_hasta);
     if(error == 0){
         var parametros = {fecha_desde:fecha_desde, fecha_hasta:fecha_hasta,tipo_mov:tipo_mov,proveedor:proveedor,referencia:referencia};
         $.ajax({
@@ -75,7 +75,7 @@ function buscarMovimiento(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
 
 
 function Cons_ajuste() {
-    console.log('Cons_ajuste');
+    //console.log('Cons_ajuste');
 
     var parametros = {}
     $.ajax({
@@ -93,7 +93,7 @@ function Cons_ajuste() {
 }
 
 function Form_ajuste(cod, metodo, tipo,anulado) {
-    console.log('Form_ajuste');
+    //console.log('Form_ajuste');
     var error = 0;
     var errorMessage = ' ';
     ajuste_cod = cod;
@@ -130,7 +130,7 @@ function Form_ajuste(cod, metodo, tipo,anulado) {
 }
 
 function Form_ajuste_det(cod, metodo,tipo,callback) {
-    console.log('Form_ajuste_det');
+    //console.log('Form_ajuste_det');
     var error = 0;
     var errorMessage = ' ';
     Ped_detalle = [];
@@ -168,7 +168,7 @@ function Form_ajuste_det(cod, metodo,tipo,callback) {
 }
 
 function save_ajuste() {
-    console.log('save_ajuste');
+    //console.log('save_ajuste');
     if(confirm("Esta Seguro de que desea Guardar este movimiento?")){ 
         var error = 0;
         var errorMessage = ' ';
@@ -209,13 +209,13 @@ function save_ajuste() {
                 referencia:referencia
             };
             
-            console.log(parametros);
+            //console.log(parametros);
             $.ajax({
                 data: parametros,
                 url: 'packages/inventario/ajuste/modelo/ajuste.php',
                 type: 'post',
                 success: function(response) {
-                    console.log(response);
+                    //console.log(response);
                     var resp = JSON.parse(response);
                     if (resp.error) {
                         alert(resp.mensaje);
@@ -244,7 +244,7 @@ function save_ajuste() {
 }
 
 function anular_ajuste() {
-    console.log('anular_ajuste');
+    //console.log('anular_ajuste');
     if(confirm("Estas seguro de que deseas ANULAR este ajuste?")){
 
         ModalOpen();
@@ -253,7 +253,7 @@ function anular_ajuste() {
 }
 
 function anular(){
-    console.log('anular');
+    //console.log('anular');
     var descripcion = $("#ped_descripcion_anular").val();
     if(descripcion != ""){
         if(confirm("Desea continuar esta Operación?")){
@@ -278,7 +278,7 @@ function anular(){
           }else if($("#ped_aplicar").val() == "OUT"){
               aplicar = 'IN';  
           }
-          console.log(Ped_detalle);
+          //console.log(Ped_detalle);
           var ped_reng = JSON.stringify(Ped_detalle);
 
           var us = $("#usuario").val();
@@ -312,7 +312,7 @@ function anular(){
                     $("#anulador").attr("disabled",true);
                 },
                 success: function(response) {
-                    console.log(response);
+                    //console.log(response);
                     var resp = JSON.parse(response);
                     if (resp.error) {
                         alert(resp.mensaje);
@@ -339,7 +339,7 @@ function anular(){
 }
 }
 function Borrar_ajuste() {
-    console.log('Borrar_ajuste');
+    //console.log('Borrar_ajuste');
     if (confirm('Esta seguro que desea BORRAR este Registro?..')) {
         var proced = "p_ajuste";
         var codigo = $("#ped_codigo").val();
@@ -372,7 +372,7 @@ function Borrar_ajuste() {
 }
 
 function buscar_ajuste(isBuscar) {
-    console.log('buscar_ajuste');
+    //console.log('buscar_ajuste');
     var data = $('#data_buscar_ajuste').val() || '';
     $.ajax({
         data: { 'data': data },
@@ -393,14 +393,14 @@ function buscar_ajuste(isBuscar) {
 }
 //Funcion para ir a la vista Agregar, cuanto se esta en Modificar X
 function Agregarajuste() {
-    console.log('Agregarajuste');
+    //console.log('Agregarajuste');
     var msg = "Desea Agregar un NUEVO REGISTRO?.. ";
     if (confirm(msg)) Form_ajuste('', 'agregar');
 }
 
 
 function mostrar_costo_promedio(codigo,cod_almacen) {
-    console.log('mostrar_costo_promedio');
+    //console.log('mostrar_costo_promedio');
     $.ajax({
         data: { 'codigo': codigo, 'almacen': cod_almacen },
         url: 'packages/inventario/producto/views/Get_costo_prom.php',
@@ -418,7 +418,7 @@ function mostrar_costo_promedio(codigo,cod_almacen) {
 }
 
 function cantidad_maxima(cod_producto,cod_almacen) {
-    console.log('cantidad_maxima');
+    //console.log('cantidad_maxima');
     $.ajax({
         data: { 'producto': cod_producto, 'almacen':cod_almacen },
         url: 'packages/inventario/ajuste/views/Get_stock.php',
@@ -436,7 +436,7 @@ function cantidad_maxima(cod_producto,cod_almacen) {
 }
 
 function Selec_producto(codigo) {
-    console.log('Selec_producto');
+    //console.log('Selec_producto');
     cantidad = 0;
     costo = 0;
     neto = 0;
@@ -459,7 +459,7 @@ function Selec_producto(codigo) {
 }
 
 function Selec_tipo(codigo) {
-    console.log('Selec_tipo');
+    //console.log('Selec_tipo');
     if ((codigo != "") && (codigo != "undefined")) {
         if(codigo == "COM"){
             $("#etiqueta_proveedor").show();
@@ -479,7 +479,7 @@ function Selec_tipo(codigo) {
 }
 
 function Selec_almacen(codigo) {
-    console.log('Selec_almacen');
+    //console.log('Selec_almacen');
     if ((codigo != "") && (codigo != "undefined")) {
         almacen_cod = codigo;
         if($("#ped_aplicar").val() == 'OUT'){
@@ -493,7 +493,7 @@ function Selec_almacen(codigo) {
 }
 
 function Limpiar_producto() {
-    console.log('Limpiar_producto');
+    //console.log('Limpiar_producto');
   //cantidad = 0;
   //costo = 0;
   //neto = 0;
@@ -507,7 +507,7 @@ function Limpiar_producto() {
 }
 
 function get_almacenes(callback) {
-    console.log('get_almacenes');
+    //console.log('get_almacenes');
     $.ajax({
         data: {},
         url: 'packages/inventario/ajuste/views/Add_almacenes.php',
@@ -526,7 +526,7 @@ function get_almacenes(callback) {
 }
 
 function get_almacenes_stock(codigo) {
-    console.log('get_almacenes_stock');
+    //console.log('get_almacenes_stock');
     $.ajax({
         data: {'serial':codigo},
         url: 'packages/inventario/ajuste/views/Add_almacenes_stock.php',
@@ -543,7 +543,7 @@ function get_almacenes_stock(codigo) {
 
 
 function Cal_prod_neto(evento, valor) {
-    console.log('Cal_prod_neto');
+    //console.log('Cal_prod_neto');
     if ((valor == "") && (valor == "undefined")) {
         alert("Ingrese un valor");
     } else {
@@ -570,7 +570,7 @@ function Cal_prod_neto(evento, valor) {
 }
 
 function Agregar_renglon() {
-    console.log('Agregar_renglon');
+    //console.log('Agregar_renglon');
     var error = 0;
     var errorMessage = ' ';
     var cantidad = Number($("#ped_cantidad").val());
@@ -659,7 +659,7 @@ function Agregar_renglon() {
 
 
 function Modificar_renglon(codigo) {
-    console.log('Modificar_renglon');
+    //console.log('Modificar_renglon');
     index = codigo - 1;
     $("#ped_producto").prop('disabled', true);
     $("#ped_filtro_producto").prop('disabled', true);
@@ -694,7 +694,7 @@ function Modificar_renglon(codigo) {
 }
 
 function Cancelar_renglon() {
-    console.log('Cancelar_renglon');
+    //console.log('Cancelar_renglon');
     $("#ped_producto").prop('disabled', false);
     $("#ped_almacen").prop('disabled', false);
     $("#ped_filtro_producto").prop('disabled', false);
@@ -708,7 +708,7 @@ function Cancelar_renglon() {
 }
 
 function Actualizar_renglon() {
-    console.log('Actualizar_renglon');
+    //console.log('Actualizar_renglon');
     error = 0;
     errorMessage = "";
     if($("#ped_aplicar").val() == 'OUT'){
@@ -718,7 +718,7 @@ function Actualizar_renglon() {
         }
     }
     if(error == 0){
-        console.log(Ped_detalle[index]);
+        //console.log(Ped_detalle[index]);
         getIfEAN(Ped_detalle[index]["cod_producto"],cantidad,true,()=>{ 
             var idX = index + 1;
             Ped_detalle[index]["cantidad"] = cantidad;
@@ -739,7 +739,7 @@ function Actualizar_renglon() {
 }
 
 function Borrar_renglon(intemsV) {
-    console.log('Borrar_renglon');
+    //console.log('Borrar_renglon');
     var datos = Ped_detalle;
     $("#listar_ajuste").html("");
     Ped_detalle = [];
@@ -750,7 +750,7 @@ function Borrar_renglon(intemsV) {
             reng_num++;
             datos[i]["reng_num"] = reng_num;
             Ped_detalle.push(datos[i]);
-            console.log(datos[i]);
+            //console.log(datos[i]);
             var tr = ('<tr id="tr_' + reng_num + '">');
             var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + reng_num + '" readonly style="width:100px"></td>');
             var td02 = ('<td><' + datos[i]["producto"] + '</td>');
@@ -778,7 +778,7 @@ function Borrar_renglon(intemsV) {
 
 
 function Cal_total() {
-    console.log('Cal_total');
+    //console.log('Cal_total');
     //	alert(tasa +", "+incluye_iva);
     sub_total = 0;
     jQuery.each(Ped_detalle, function(i) {
@@ -791,7 +791,7 @@ function Cal_total() {
 }
 
 function Reng_ped(codigo) {
-    console.log('Reng_ped');
+    //console.log('Reng_ped');
     $.ajax({
         data: { 'codigo': codigo },
         url: 'packages/inventario/ajuste/views/Add_renglon.php',
@@ -801,7 +801,7 @@ function Reng_ped(codigo) {
             Ped_detalle = resp;
             reng_num = 0;
             jQuery.each(Ped_detalle, function(i) {
-                console.log(Ped_detalle[i]);
+                //console.log(Ped_detalle[i]);
                 getIfEAN(Ped_detalle[i]['cod_producto'],null,false,()=>{
                  Reng_ped_ean(Ped_detalle[i]['cod_ajuste'],Ped_detalle[i]['reng_num'],i)
              });
@@ -818,16 +818,16 @@ function Reng_ped(codigo) {
 }
 
 function Reng_ped_ean(ajuste,renglon,index_detalle) {
-    console.log('Reng_ped_ean');
+    //console.log('Reng_ped_ean');
     $.ajax({
         data: { 'ajuste': ajuste,'renglon': renglon },
         url: 'packages/inventario/ajuste/views/Add_renglon_eans.php',
         type: 'post',
         success: function(response) {
-            console.log(response);
+            //console.log(response);
             var resp = JSON.parse(response);
             Ped_detalle[index_detalle]["eans"] = resp;
-            console.log(Ped_detalle);
+            //console.log(Ped_detalle);
         },
         error: function(xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -839,7 +839,7 @@ function Reng_ped_ean(ajuste,renglon,index_detalle) {
 
 
 function consultar_rp() {
-    console.log('consultar_rp');
+    //console.log('consultar_rp');
     var fecha_desde = $("#fecha_desde").val();
     var fecha_hasta = $("#fecha_hasta").val();
     var almacen     = $("#almacen").val();
@@ -873,7 +873,7 @@ function consultar_rp() {
 }
 
 function Add_productos(almacen){
-    console.log('Add_productos');
+    //console.log('Add_productos');
     $.ajax({
         data: {"codigo": almacen},
         url: 'ajax/Add_stock_productos.php',
@@ -889,17 +889,17 @@ function Add_productos(almacen){
 }
 
 function cargarEANS(item,salida,almacen){
-    console.log('cargarEANS');
+    //console.log('cargarEANS');
     var reng_num_ean = 0;
     var salida = salida ? salida : null;
     var almacen = almacen ? almacen : null;
-    console.log('SALIDA: ', salida,'  ALMACEN:',almacen);
+    //console.log('SALIDA: ', salida,'  ALMACEN:',almacen);
     $.ajax({
         data: { 'codigo': item, 'salida':salida,'almacen':almacen },
         url: 'packages/inventario/ajuste/views/Add_EANS.php',
         type: 'post',
         success: function(response) {
-            console.log(response);
+            //console.log(response);
             eans = [];
             $('#listar_eans').html('');
             var resp = JSON.parse(response);
@@ -931,8 +931,8 @@ function cargarEANS(item,salida,almacen){
 }
 
 function getIfEAN(item,cantidad,actualizar,callback){
-    console.log('getIfEAN');
-    console.log(Ped_detalle,item);
+    //console.log('getIfEAN');
+    //console.log(Ped_detalle,item);
     var metodo = $("#ped_metodo").val();
     $.ajax({
         data: {"codigo": item},
@@ -940,7 +940,7 @@ function getIfEAN(item,cantidad,actualizar,callback){
         type: 'post',
         success: function(response) {
             var resp = JSON.parse(response);
-            console.log('METODO',metodo);
+            //console.log('METODO',metodo);
             if(resp[0] == 'T'){
                 if(metodo == 'modificar'){
                     callback();
@@ -950,7 +950,7 @@ function getIfEAN(item,cantidad,actualizar,callback){
                     }else{
                        $("#boton_eans").attr("onclick","guardarEans()");
                    }
-                   console.log($("#ped_aplicar").val());
+                   //console.log($("#ped_aplicar").val());
                    if($("#ped_aplicar").val() == "IN"){
                     cargarEANS(item,false);
                 }else{
@@ -973,7 +973,7 @@ function getIfEAN(item,cantidad,actualizar,callback){
 }
 
 function guardarEans(){
-    console.log('guardarEans');
+    //console.log('guardarEans');
     if(cantidad == eans.length){
         reng_num++;
         var Ped_detalleX = {
@@ -1019,7 +1019,7 @@ function guardarEans(){
 }
 
 function actualizarEans(){
-    console.log('actualizarEans');
+    //console.log('actualizarEans');
     if(cantidad == eans.length){
      var idX = index + 1;
      Ped_detalle[index]["cantidad"] = cantidad;
@@ -1041,19 +1041,19 @@ function actualizarEans(){
 }
 
 function eanModalOpen(){
-    console.log('eanModalOpen');
+    //console.log('eanModalOpen');
     $("#eanModal").show();
 }
 
 function eanCloseModal(){
-    console.log('eanCloseModal');
+    //console.log('eanCloseModal');
     $("#eanModal").hide();
 }
 
 function selectEAN(id,estado){
-    console.log('selectEAN');
+    //console.log('selectEAN');
     var ean = $('#reng_num_ean_'+id).val();
-    console.log(id,ean,estado);
+    //console.log(id,ean,estado);
     if(estado){
         var index = eans.indexOf(ean);
         if (index > -1) {
@@ -1065,11 +1065,11 @@ function selectEAN(id,estado){
       var index = eans.indexOf(ean);
       eans.splice(index, 1);
   }
-  console.log(eans);
+  //console.log(eans);
 }
 
 function verEans(index){
-    console.log(Ped_detalle[index-1]['eans']);
+    //console.log(Ped_detalle[index-1]['eans']);
     var reng_num_ean = 0;
     $('#listar_eans').html('');
     var resp = Ped_detalle[index-1]['eans'];
