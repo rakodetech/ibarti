@@ -35,7 +35,7 @@ LEFT JOIN conceptos ON horarios.cod_concepto = conceptos.codigo
 INNER JOIN horarios h2 ON conceptos.cod_horario = h2.codigo
 WHERE a.cod_cliente = '$cliente' AND a.cod_ubicacion = '$ubic' AND a.cod_planif_cl ='$apertura'
 GROUP BY a.cod_ubicacion,a.cod_puesto_trabajo,a.cod_ficha,a.cod_turno,a.fecha";
-
+$result['sql'][] = $sql;
 $qry  = $bd->consultar($sql);
 while($rows=$bd->obtener_name($qry)){
 	$result['servicio'][] = $rows;
@@ -70,12 +70,13 @@ WHERE
 GROUP BY a.cod_cliente, a.cod_ubicacion,a.cod_ub_puesto, a.cod_turno, a.fecha";
 */
 
-$sql = "SELECT Dia_semana(a.fecha) dia_semana, CONCAT(Mes(a.fecha),'-',DATE_FORMAT(a.fecha,'%Y')) mes_anio, cl.nombre cliente,
+$sql = "SELECT ca.codigo cod_cargo, ca.descripcion cargo,Dia_semana(a.fecha) dia_semana, CONCAT(Mes(a.fecha),'-',DATE_FORMAT(a.fecha,'%Y')) mes_anio, cl.nombre cliente,
  a.cod_ubicacion, a.cod_ub_puesto cod_puesto, cp.nombre puesto, cu.descripcion ubicacion, a.fecha, 
 (h.minutos_trabajo /60)*Sum(a.cantidad) horas, Sum(a.cantidad) AS cantidad, h.codigo AS cod_horario, h.nombre AS horario
- FROM clientes_contratacion_ap AS a,turno AS t, horarios AS h, dias_habiles, dias_habiles_det, dias_tipo,clientes AS cl,
+ FROM clientes_contratacion_ap AS a,turno AS t,cargos ca, horarios AS h, dias_habiles, dias_habiles_det, dias_tipo,clientes AS cl,
 clientes_ubicacion AS cu, clientes_ub_puesto AS cp
 WHERE a.cod_turno = t.codigo AND t.cod_horario = h.codigo AND t.cod_dia_habil = dias_habiles.codigo
+AND a.cod_cargo = ca.codigo
 AND dias_habiles_det.cod_dias_habiles = dias_habiles.codigo   
 AND ((dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND Dia_semana(a.fecha)= dias_tipo.descripcion) 
 OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND dias_tipo.tipo = 'D') 
@@ -84,7 +85,7 @@ AND a.cod_cliente = cl.codigo AND a.cod_ubicacion = cu.codigo AND a.cod_ub_puest
 AND a.cod_cliente = '$cliente' AND a.cod_ubicacion = '$ubic' AND a.cod_contratacion = '$contratacion' 
 AND a.cod_planif_cl = '$apertura' AND a.`status`='T'  
 GROUP BY a.cod_cliente, a.cod_ubicacion,a.cod_ub_puesto, a.cod_turno, a.fecha";
-
+$result['sql'][] = $sql;
 $query = $bd->consultar($sql);
 while($rows=$bd->obtener_name($query)){
 	$result['contrato'][] = $rows;
