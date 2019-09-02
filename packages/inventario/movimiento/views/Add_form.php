@@ -30,7 +30,7 @@ $reng       = $movimiento->get_mov_reng($codigo);
       <input type="hidden" name="producto" id="stdID" value=""/>
     </td>
     <td>
-     <input type="number" id="ped_cantidad" style="width:100px"  disabled  value="0" min="0"   placeholder="">
+     <input type="number" id="ped_cantidad" style="width:100px" onkeyup="Cal_prod_neto('cantidad', this.value)" onchange="Cal_prod_neto('cantidad', this.value)" disabled  value="0" min="0"   placeholder="">
    </td>
       <td align="center">
     <img  border="null" width="20px" height="20px" src="imagenes/ico_agregar.ico" id="add_renglon" onclick="Agregar_renglon()" disabled title="Agregar renglon" />

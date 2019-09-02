@@ -202,7 +202,7 @@ select04  = document.getElementById('almacen_'+numX+'').value;
 input01   = Number(document.getElementById('cantidad_'+numX+'').value);
 input01Max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
 
-mensaje05 = input01+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+input01Max;
+mensaje05 = input01+ " La Cantidad Supera el máximo permitido: "+input01Max;
 
 if(select01 == ""){
 	valido++;

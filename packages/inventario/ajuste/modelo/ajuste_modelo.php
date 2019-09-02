@@ -20,7 +20,7 @@ class Ajuste
     FROM ajuste a, prod_mov_tipo b, proveedores c
     WHERE a.cod_tipo = b.codigo
     AND a.cod_proveedor = c.codigo
-    ORDER BY a.codigo DESC LIMIT 100";
+    ORDER BY a.codigo LIMIT 100";
     $query = $this->bd->consultar($sql);
 
     while ($datos= $this->bd->  obtener_fila($query)) {

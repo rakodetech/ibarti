@@ -34,28 +34,28 @@ $queryp = $bd->consultar($sql02);
 
 if ($row = $bd->obtener_name($queryc))
 {
-/*
+
   $titulo= 'DOTACIÓN DE UNIFORMES Y EQUIPOS DE PROTECCIÓN PERSONAL';
   require_once('../'.PlantillaDOM.'/unicas/prod_dotacion_ibarti.php');
 
- // $dompdf->load_html(ob_get_clean(),'UTF-8');
- // $dompdf->render();
- // $pdf=$dompdf->output();
- // $dompdf->stream('prod_dotacion_ibarti.pdf', array('Attachment' => 1));*/
+ $dompdf->load_html(ob_get_clean(),'UTF-8');
+ $dompdf->render();
+ $pdf=$dompdf->output();
+ $dompdf->stream('prod_dotacion_ibarti.pdf', array('Attachment' => 1));
 
 
-// instantiate and use the dompdf class
-$dompdf = new Dompdf\Dompdf();
-$dompdf->loadHtml('hello world');
+// // instantiate and use the dompdf class
+// $dompdf = new Dompdf\Dompdf();
+// $dompdf->loadHtml('hello world');
 
-// (Optional) Setup the paper size and orientation
-$dompdf->setPaper('A4', 'landscape');
+// // (Optional) Setup the paper size and orientation
+// $dompdf->setPaper('A4', 'landscape');
 
-// Render the HTML as PDF
-$dompdf->render();
+// // Render the HTML as PDF
+// $dompdf->render();
 
-// Output the generated PDF to Browser
-$dompdf->stream();
+// // Output the generated PDF to Browser
+// $dompdf->stream();
 
 }else{
   echo "<h3>Error</h3>";

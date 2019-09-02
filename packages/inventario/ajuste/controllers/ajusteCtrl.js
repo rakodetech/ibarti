@@ -893,7 +893,7 @@ function cargarEANS(item,salida,almacen){
     var reng_num_ean = 0;
     var salida = salida ? salida : null;
     var almacen = almacen ? almacen : null;
-    //console.log('SALIDA: ', salida,'  ALMACEN:',almacen);
+    console.log('SALIDA: ', salida,'  ALMACEN:',almacen,' ITEM: ',item);
     $.ajax({
         data: { 'codigo': item, 'salida':salida,'almacen':almacen },
         url: 'packages/inventario/ajuste/views/Add_EANS.php',
@@ -931,8 +931,8 @@ function cargarEANS(item,salida,almacen){
 }
 
 function getIfEAN(item,cantidad,actualizar,callback){
-    //console.log('getIfEAN');
-    //console.log(Ped_detalle,item);
+    console.log('getIfEAN');
+    console.log(Ped_detalle,item);
     var metodo = $("#ped_metodo").val();
     $.ajax({
         data: {"codigo": item},
@@ -940,7 +940,7 @@ function getIfEAN(item,cantidad,actualizar,callback){
         type: 'post',
         success: function(response) {
             var resp = JSON.parse(response);
-            //console.log('METODO',metodo);
+            console.log('METODO',metodo);
             if(resp[0] == 'T'){
                 if(metodo == 'modificar'){
                     callback();

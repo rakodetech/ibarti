@@ -6,7 +6,7 @@ require("../../../../autentificacion/aut_config.inc.php");
 require_once("../../../../".class_bdI);
 $bd = new DataBase();
 $result = array();
-
+$eans = [];
 foreach($_POST as $nombre_campo => $valor){
   if($nombre_campo != "eans"){
     $variables = "\$".$nombre_campo."='".$valor."';";
@@ -14,7 +14,10 @@ foreach($_POST as $nombre_campo => $valor){
   }
 }
 $fecha_actual = date('Y-m-d H:i:s');
-$eans = $_POST["eans"];
+
+if(isset($_POST["eans"])){
+  $eans = $_POST["eans"];
+}
 
 if(isset($_POST['proced'])){
   try {
@@ -26,11 +29,11 @@ if(isset($_POST['proced'])){
     '$garantia', '$talla','$peso', '$piecubico','$venc', '$fec_venc',
     '$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo','$ean')";
 
-    $query   = $bd->consultar($sql);
 
     $result['sql'][] = $sql;
+    $query   = $bd->consultar($sql);
 
-    if($ean == 'T'){
+    if($ean == 'T' && isset($_POST["eans"])){
       $sql = "DELETE FROM prod_ean WHERE cod_producto = '$item' AND cod_ean NOT IN (SELECT cod_ean FROM ajuste_reng_eans)";
       $query   = $bd->consultar($sql);
       foreach($eans as $eanX) {
