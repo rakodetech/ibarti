@@ -160,6 +160,29 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 			});
 		});
 	});
+	trb = d3.select("#thead" + ubic.key).append("tr").attr('class', 'color');
+	res_horario_cont.forEach((ubic) => {
+		val_horarios = d3.map(ubic.values, (d) => d.key);
+		ubic.values.forEach((horario) => {
+			val_fechas = d3.map(horario.values, (d) => d.key);
+			trb = d3.select("#thead" + ubic.key).append("tr").attr('id', (d) => 'tbody_contrato_' + ubic.key + '_' + horario.key + "_total").attr('class', 'color');
+			trb.append('td').attr('colspan', 3).text((d) => `TOTAL: ${horario.values[0].values[0].horario}`);
+			val_ubic.get(ubic.key).values.forEach((f) => {
+
+				if (val_fechas.has(f.key)) {
+					val_fechas.get(f.key).values.forEach((d) => {
+						cantidad += Number(d.cantidad);
+					});
+				}
+
+				d3.select('#tbody_contrato_' + ubic.key + '_' + horario.key + "_total").append('td')
+					.attr('title', 'CANTIDAD DEMANDA ' + horario.values[0].values[0].horario + ' ' + f.key)
+					.attr('class', 'cantidad ' + f.values[0].values[0].mes_anio + ' ' + f.values[0].values[0].mes_anio + f.key.substring(8))
+					.text(cantidad);
+				cantidad = 0;
+			});
+		});
+	});
 	var theads = tablas.append('thead').attr('id', (d) => "thead_servicio_" + d.key);
 	var tbodys = tablas.append('tbody').attr("id", (d) => "tbody_servicio_" + d.key);
 	trh = theads.append('tr').attr('id', (d) => 'tr_servicio_fechas' + d.key);
@@ -167,7 +190,9 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 	trh.append('th').attr("colspan", 1).attr('class', 'etiqueta').text('CI');
 	trh.append('th').attr("colspan", 1).attr('class', 'etiqueta').text('Nombre');
 	val_ubic_f = d3.map(res_ficha, (d) => d.key);
+
 	res_fecha_cont.forEach((ubic, i) => {
+
 		d3.select("#tr_servicio_fechas" + ubic.key).selectAll(".fechas").data(ubic.values).enter().append("th")
 			.attr('title', (d) => d.values[0].values[0].dia_semana).attr('class', (d) => 'etiqueta fechas' +
 				d.values[0].values[0].mes_anio + d.key.substring(8)).text((d) => d.key.substring(8));
@@ -324,6 +349,30 @@ function rp_planif_serv_update(cod_ubicacion, tipo) {
 				d3.select('#td_' + cod_ubicacion + '_' + horario.key + "_" + cargo.key + "_" + fec.substring(8)).text(cantidad);
 				cantidad = 0;
 			});
+		});
+	});
+
+	map_res_horario_cont.get(cod_ubicacion).values.forEach((horario) => {
+		val_fechas = d3.map(horario.values, (d) => d.key);
+		trb = d3.select('#tbody_contrato_' + cod_ubicacion + '_' + horario.key + "_total").selectAll('.cantidad').remove();
+		trb.append('td').attr('colspan', 3).text((d) => horario.values[0].values[0].horario);
+		val_ubic.get(cod_ubicacion).values.forEach((f) => {
+
+			if (val_fechas.has(f.key)) {
+				val_fechas.get(f.key).values.forEach((d) => {
+					if (tipo == 'H') {
+						cantidad += Number(d.horas);
+					} else if (tipo == 'C') {
+						cantidad += Number(d.cantidad);
+					}
+				});
+			}
+
+			d3.select('#tbody_contrato_' + cod_ubicacion + '_' + horario.key + "_total").append('td')
+				.attr('title', 'CANTIDAD DEMANDA ' + horario.values[0].values[0].horario + ' ' + f.key)
+				.attr('class', 'cantidad ' + f.values[0].values[0].mes_anio + ' ' + f.values[0].values[0].mes_anio + f.key.substring(8))
+				.text(cantidad);
+			cantidad = 0;
 		});
 	});
 
@@ -546,23 +595,23 @@ function rp_planif_trab_serv_create_detalle(id_contenedor, callback) {
 		val_puestos = d3.map(ubic.values, (d) => d.key);
 		ubic.values.forEach((puesto) => {
 			val_horarios = d3.map(puesto.values, (d) => d.key);
-			puesto.values.forEach((horario,j) => {
-				horario.values.forEach((cargo,i) => {
+			puesto.values.forEach((horario, j) => {
+				horario.values.forEach((cargo, i) => {
 					val_fechas = d3.map(cargo.values, (d) => d.key);
 					trb = d3.select("#tbody" + ubic.key).append("tr").attr('id', 'tbody_contrato_' + ubic.key + '_' + puesto.key + '_' + horario.key + "_" + cargo.key).attr('class', 'color');
-					if(i==0){
-						if(j==0){
+					if (i == 0) {
+						if (j == 0) {
 							trb.append('td').attr('colspan', 2)
-							.attr("rowspan",()=>{
-								let suma = 0;
-								puesto.values.forEach((res)=>{
-									suma+=res.values.length;
-								});
-								return suma;
-							}).text((d) => cargo.values[0].values[0].puesto);
+								.attr("rowspan", () => {
+									let suma = 0;
+									puesto.values.forEach((res) => {
+										suma += res.values.length;
+									});
+									return suma;
+								}).text((d) => cargo.values[0].values[0].puesto);
 						}
-						
-						trb.append('td').attr('colspan', 1).attr("rowspan",horario.values.length).text((d) => horario.values[0].values[0].values[0].horario);
+
+						trb.append('td').attr('colspan', 1).attr("rowspan", horario.values.length).text((d) => horario.values[0].values[0].values[0].horario);
 					}
 					trb.append('td').attr('colspan', 1).text((d) => cargo.values[0].values[0].cargo);
 
@@ -583,10 +632,41 @@ function rp_planif_trab_serv_create_detalle(id_contenedor, callback) {
 						cantidad = 0;
 					});
 				});
-				
+
 			});
 		});
 	});
+	res_horario_cont.forEach((ubic) => {
+		val_puestos = d3.map(ubic.values, (d) => d.key);
+		ubic.values.forEach((puesto, i) => {
+			val_horarios = d3.map(puesto.values, (d) => d.key);
+			puesto.values.forEach((d) => {
+				d3.select("#tbody" + ubic.key).append("tr").attr('id', 'tbody_contrato_' + ubic.key + '_' + puesto.key + '_' + d.key + "_total").attr('class', 'color');
+			});
+
+			d3.select('#tbody_contrato_' + ubic.key + '_' + puesto.key + '_' + puesto.values[0].key + "_total").append('td').attr('rowspan', puesto.values.length)
+				.attr('colspan', 2).text(puesto.values[0].values[0].values[0].puesto);
+
+			puesto.values.forEach((d) => {
+				val_fechas = d3.map(d.values, (d) => d.key);
+				d3.select('#tbody_contrato_' + ubic.key + '_' + puesto.key + '_' + d.key + "_total").append('td').attr('colspan', 2).text(`TOTAL: ${d.values[0].values[0].horario}`);
+				val_ubic.get(ubic.key).values.forEach((f) => {
+					if (val_fechas.has(f.key)) {
+						val_fechas.get(f.key).values.forEach((d, i) => {
+							cantidad += Number(d.cantidad);
+						});
+					}
+
+					d3.select('#tbody_contrato_' + ubic.key + '_' + puesto.key + '_' + d.key + "_total").append('td')
+						.attr('title', 'CANTIDAD DEMANDA ' + d.values[0].values[0].puesto + ' (' + d.values[0].values[0].horario + ') ' + f.key)
+						.attr('class', 'cantidad ' + f.values[0].values[0].values[0].mes_anio + ' ' + f.values[0].values[0].values[0].mes_anio + f.key.substring(8))
+						.text(cantidad);
+					cantidad = 0;
+				});
+			});
+		});
+	});
+
 	var theads = tablas.append('thead').attr('id', (d) => "thead_servicio_" + d.key);
 	var tbodys = tablas.append('tbody').attr("id", (d) => "tbody_servicio_" + d.key);
 	trh = theads.append('tr').attr('id', (d) => 'tr_servicio_fechas_' + d.key);
@@ -804,6 +884,34 @@ function rp_planif_serv_update_detalle(cod_ubicacion, tipo) {
 			});
 		});
 
+	});
+
+	map_res_horario_cont.get(cod_ubicacion).values.forEach((puesto, i) => {
+		val_horarios = d3.map(puesto.values, (d) => d.key);
+		puesto.values.forEach((d) => {
+			trb = d3.select('#tbody_contrato_' + cod_ubicacion + '_' + puesto.key + '_' + d.key + "_total").selectAll('.cantidad').remove();
+		});
+
+		puesto.values.forEach((d) => {
+			val_fechas = d3.map(d.values, (d) => d.key);
+			val_ubic.get(cod_ubicacion).values.forEach((f) => {
+				if (val_fechas.has(f.key)) {
+					val_fechas.get(f.key).values.forEach((d, i) => {
+						if (tipo == 'H') {
+							cantidad += Number(d.horas);
+						} else if (tipo == 'C') {
+							cantidad += Number(d.cantidad);
+						}
+					});
+				}
+
+				d3.select('#tbody_contrato_' + cod_ubicacion + '_' + puesto.key + '_' + d.key+"_total").append('td')
+					.attr('title', 'CANTIDAD DEMANDA ' + d.values[0].values[0].puesto + ' (' + d.values[0].values[0].horario + ') ' + f.key)
+					.attr('class', 'cantidad ' + f.values[0].values[0].values[0].mes_anio + ' ' + f.values[0].values[0].values[0].mes_anio + f.key.substring(8))
+					.text(cantidad);
+				cantidad = 0;
+			});
+		});
 	});
 
 	val_ubic_f.get(cod_ubicacion).values.forEach((d) => {
