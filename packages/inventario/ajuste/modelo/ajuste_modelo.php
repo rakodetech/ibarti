@@ -134,7 +134,7 @@ public function get_tipo($cod){
   $this->datos   = array();
   $sql = " SELECT * FROM prod_mov_tipo a
   WHERE a.`status` = 'T' AND a.codigo <> '$cod'
-  AND a.codigo <> '9999'
+  AND a.codigo <> '9999' AND a.codigo <> 'TRAS' AND a.codigo <> 'TRAS-'
   ORDER BY 2 ASC ";
   $query = $this->bd->consultar($sql);
 
@@ -210,6 +210,31 @@ public function get_eans($cod,$salida,$almacen){
     AND a.cod_ean NOT IN (SELECT cod_ean FROM prod_ean WHERE inStock = 'T' AND cod_producto = '$cod')
     ORDER BY a.fec_us_mod DESC";
   }
+  $query = $this->bd->consultar($sql);
+
+  while ($datos= $this->bd->  obtener_fila($query)) {
+    $this->datos[] = $datos;
+  }
+  return $this->datos;
+}
+
+public function get_cantidad_mayor_a_stock_actual($cod_ajuste){
+  $sql = "
+  SELECT
+  ajuste_reng.cantidad
+  ,stock.stock_actual
+   ,stock.cod_producto
+  FROM 
+  ajuste_reng
+  ,stock 
+  WHERE 
+  ajuste_reng.cod_ajuste = '$cod_ajuste' AND
+  stock.cod_producto = ajuste_reng.cod_producto AND
+  stock.cod_almacen =ajuste_reng.cod_almacen
+  GROUP BY ajuste_reng.cod_almacen,ajuste_reng.cod_producto,ajuste_reng.cantidad
+  HAVING
+  ajuste_reng.cantidad>stock.stock_actual
+  ";
   $query = $this->bd->consultar($sql);
 
   while ($datos= $this->bd->  obtener_fila($query)) {

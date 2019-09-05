@@ -245,6 +245,7 @@ function save_movimiento() {
 	}
 
 	function habilitar_destino(codigo){
+		reset();
 		if(codigo != ""){
 			alm_origen = codigo;
 			$("#alm_destino").attr('disabled',false);		
@@ -261,7 +262,7 @@ function save_movimiento() {
 		var errorMessage = ' ';
 		var proced = "p_movimiento";
 		alm_destino = codigo;
-
+		console.log('ALMACENES: ',alm_origen,alm_destino);
 		if(alm_origen == alm_destino){
 			error=1;
 			errorMessage="Los almacenes(origen,destino) deben ser diferentes..";
@@ -335,6 +336,7 @@ function save_movimiento() {
 		Cal_total();
 		getIfEAN(producto_cod,cantidad,false,()=>{
 			reng_num++;
+			$("#ped_producto").val("");
 			var Ped_detalleX  = {reng_num:reng_num, cod_producto: producto_cod,
 				producto: producto_des, lote: lote, cantidad: cantidad  ,          
 				costo: costo, neto: neto, 

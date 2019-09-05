@@ -151,7 +151,7 @@ function save_producto(){
 						if(confirm("Actualización Exitosa!.. \n Desea AGREGAR un NUEVO REGISTRO?")){
 							Cons_producto("", "AGREGAR");
 						}else{
-							Cons_producto(codigo, "MODIFICAR");
+							Cons_producto(item, "MODIFICAR");
 						}
 					}else if(metodo == "MODIFICAR"){
 						alert("Actualización Exitosa!..");
