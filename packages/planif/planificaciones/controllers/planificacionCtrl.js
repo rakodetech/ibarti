@@ -716,6 +716,7 @@ function Borrar_trab_det(cod) {
 	}
 }
 
+
 function B_reporte(detalle) {
 	var errorMessage = '';
 	var ubicacion = $("#planf_ubicacion").val();
@@ -890,4 +891,64 @@ function mostrar_icono_apertura(valor) {
 	} else {
 		$('#mod_ap_planif').hide();
 	}
+}
+
+
+function guardar_cambio_concepto(id, valor, callback) {
+	if (id != "") {
+		var parametros = {
+			codigo: id,
+			turno: valor,
+			metodo: 'modificar_contrato',
+			usuario: $("#usuario").val()
+		}
+		$.ajax({
+			data: parametros,
+			url: 'packages/planif/planificaciones/modelo/planificacion_apertura.php',
+			type: 'post',
+			success: function (response) {
+				var resp = JSON.parse(response);
+				if (resp.error == false) {
+					toastr.success("GUARDADO CORRECTAMENTE");
+					// alert("GUARDADO CORRECTAMENTE");
+					if (typeof (callback) == "function") {
+						callback();
+					}
+				} else {
+					toastr.error("SE HA DETECTADO UN ERROR");
+					// alert("SE HA DETECTADO UN ERROR");
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		});
+	} else {
+		valor.codigo = "";
+		valor.metodo = "agregar";
+		$.ajax({
+			data: valor,
+			url: 'packages/planif/planificaciones/modelo/planificacion_trab_det.php',
+			type: 'post',
+			success: function (response) {
+				var resp = JSON.parse(response);
+				if (resp.error == false) {
+					// alert("GUARDADO CORRECTAMENTE");
+					toastr.success("GUARDADO CORRECTAMENTE");
+					if (typeof (callback) == "function") {
+						callback();
+					}
+				} else {
+					// alert("SE HA DETECTADO UN ERROR");
+					toastr.error("SE HA DETECTADO UN ERROR");
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		});
+	}
+
 }

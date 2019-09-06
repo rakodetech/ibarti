@@ -37,7 +37,7 @@ $result = array();
 
 	 $query = $bd->consultar($sql);
    $result['sql'] = $sql;
-
+$result['error']=false;
  		}catch (Exception $e) {
        $error =  $e->getMessage();
        $result['error'] = true;
@@ -48,5 +48,3 @@ $result = array();
 	}
 	print_r(json_encode($result));
 	return json_encode($result);
-
-?>

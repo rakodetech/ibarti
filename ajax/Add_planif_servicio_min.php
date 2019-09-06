@@ -10,6 +10,9 @@ $apertura = $_POST['apertura'];
 $usuario   = $_POST['usuario'];
 
 $sql = "SELECT 
+a.codigo cod_planif,
+a.cod_planif_cl_trab planif_cl_trab,
+a.cod_planif_cl planif_cl,
 CONCAT(Mes(a.fecha),'-',DATE_FORMAT(a.fecha,'%Y')) mes_anio,
 a.cod_cliente,
 a.cod_ubicacion,
@@ -24,7 +27,8 @@ a.fecha,
 CONCAT(ficha.apellidos,' ',ficha.nombres) ap_nombre, 
 ficha.cedula,
 h2.codigo cod_horario,
-h2.nombre concepto_horario
+h2.nombre concepto_horario,
+a.cod_turno
 FROM
 planif_clientes_trab_det AS a
 INNER JOIN clientes_ub_puesto ON a.cod_puesto_trabajo = clientes_ub_puesto.codigo
@@ -89,6 +93,21 @@ $result['sql'][] = $sql;
 $query = $bd->consultar($sql);
 while($rows=$bd->obtener_name($query)){
 	$result['contrato'][] = $rows;
+}
+
+$sql = "SELECT 
+t.codigo turno,
+t.descripcion,
+h.codigo horarios,
+c.abrev conceptos
+FROM 
+turno t INNER JOIN horarios h ON t.cod_horario = h.codigo
+LEFT JOIN conceptos c on h.cod_concepto = c.codigo
+";
+$result['sql'][] = $sql;
+$qry  = $bd->consultar($sql);
+while($rows=$bd->obtener_name($qry)){
+	$result['conceptos'][] = $rows;
 }
 
 print_r(json_encode($result));

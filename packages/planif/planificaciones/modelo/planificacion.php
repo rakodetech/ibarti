@@ -4,7 +4,6 @@ require "../../../../autentificacion/aut_config.inc.php";
 require "../../../../".class_bdI;
 $bd = new DataBase();
 $result = array();
-
   foreach($_POST as $nombre_campo => $valor){
     $variables = "\$".$nombre_campo."='".$valor."';";
     eval($variables);
