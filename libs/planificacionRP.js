@@ -1,6 +1,6 @@
 var val, val2, trh, trb, servicio, contrato, res_ficha, res_concepto, res_horario, res_fecha_cont, map_res_fec_cont,
 	res_horario_cont, map_res_horario_cont, map_res_horario, res_mes_anio, map_res_mes_anio, val_ubic, val_ubic_f, val_ubic_h,
-	val_horarios, res_fecha_cont_keys;
+	val_horarios, res_fecha_cont_keys, conceptos;
 var cantidad = 0, horas = 0, resultado = 0, factor = 0, trab_neces = 0, trab_activos = 0, excepcion = 0, sum_dia = 0;
 
 /* SIN PUESTO */
@@ -9,6 +9,7 @@ function rp_planif_trab_serv(data, id_contenedor, callback, formato) {
 		limpiarContenedor(id_contenedor);
 		servicio = data['servicio'];
 		contrato = data['contrato'];
+		conceptos = data['conceptos'];
 
 		res_ficha = d3.nest()
 			.key((d) => d.cod_ubicacion).sortKeys(d3.ascending)
@@ -70,13 +71,15 @@ function rp_planif_trab_serv(data, id_contenedor, callback, formato) {
 
 		map_res_mes_anio = d3.map(res_mes_anio, (d) => d.key);
 
-		rp_planif_trab_serv_create(id_contenedor, callback, formato);
+		rp_planif_trab_serv_create_cabecera(id_contenedor, callback, formato);
 	}
 }
 
-function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
-	var divs = d3.select('#' + id_contenedor).selectAll('div').data(res_fecha_cont).enter().append('div');
 
+
+function rp_planif_trab_serv_create_cabecera(id_contenedor, callback, formato) {
+	/////////////////Creacion de la tabla y cabecera
+	var divs = d3.select('#' + id_contenedor).selectAll('div').data(res_fecha_cont).enter().append('div');
 	if (formato == 'pdf') {
 		divs.append('span').attr('align', 'center').html((d) =>
 			'<img class="imgLink" title="imprimir planificacion(' +
@@ -91,6 +94,8 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 			')" width="25px" src="imagenes/excel.gif" border="0" onclick="rp_planif_serv_rp(\'excel\',\'table' +
 			d.key + '\')"> <select name="update" style="width:90px;" onchange="rp_planif_serv_update(' + d.key + ',this.value)">' +
 			'<option value="C"> CANTIDADES</option><option value="H">HORAS</option></select>');
+		divs.append('span').style("float",'right').html((d) =>
+			'<b>DOBLE CLICK PARA MODIFICAR</b>');
 	}
 
 	var tablas = divs.append('table').attr('id', (d) => "table" + d.key).attr('width', '100%').attr('class', 'tabla_planif').attr('align', 'center');
@@ -121,6 +126,11 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 			.attr('title', (d) => d.values[0].values[0].dia_semana).attr('class', (d) => 'etiqueta ' + d.values[0].values[0].mes_anio +
 				' ' + d.values[0].values[0].mes_anio + d.key.substring(8)).text((d) => d.key.substring(8))
 	});
+	rp_planif_trab_serv_contrato(tablas);
+}
+function rp_planif_trab_serv_contrato(tablas, callback) {
+
+	//////////////Creacion de necesidad dias por horario
 	res_fecha_cont_keys = d3.map(res_fecha_cont[0].values, (d) => d.key).keys();
 	val_ubic = d3.map(res_fecha_cont, (d) => d.key);
 
@@ -160,6 +170,8 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 			});
 		});
 	});
+
+	////////////////////////////////// Resumen de Totales por dia y horario
 	trb = d3.select("#thead" + ubic.key).append("tr").attr('class', 'color');
 	res_horario_cont.forEach((ubic) => {
 		val_horarios = d3.map(ubic.values, (d) => d.key);
@@ -183,6 +195,11 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 			});
 		});
 	});
+	rp_planif_trab_serv_trabajador(tablas);
+}
+
+function rp_planif_trab_serv_trabajador(tablas, callback) {
+	///////////////Creaccion de planificacion a trabajador
 	var theads = tablas.append('thead').attr('id', (d) => "thead_servicio_" + d.key);
 	var tbodys = tablas.append('tbody').attr("id", (d) => "tbody_servicio_" + d.key);
 	trh = theads.append('tr').attr('id', (d) => 'tr_servicio_fechas' + d.key);
@@ -205,16 +222,78 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 				trb.append('td').text(d.values[0].values[0].ap_nombre);
 				ubic.values.forEach((f) => {
 					if (val_fechas.has(f.key)) {
-						d3.select('#tr_ficha_' + ubic.key + '_' + d.key).append('td')
+						d3.select('#tr_ficha_' + ubic.key + '_' + d.key).append('td').attr('id', `cod_${val_fechas.get(f.key).values[0].cod_planif}`)
 							.attr('title', '(' + d.key + ') ' + d.values[0].values[0].ap_nombre + ' ' + f.key)
 							.attr('class', 'cantidad ' + f.values[0].values[0].mes_anio + ' ' + f.values[0].values[0].mes_anio + f.key.substring(8))
 							.on("mouseover", (d) => d3.selectAll('.' + f.values[0].values[0].mes_anio + f.key.substring(8)).classed('yellow', true))
 							.on("mouseout", () => d3.selectAll('.' + f.values[0].values[0].mes_anio + f.key.substring(8)).classed('yellow', false))
-							.text(val_fechas.get(f.key).values[0].concepto);
+							.on("dblclick", () => {
+
+								let datos_map = d3.map(d.values, (d) => d.key);
+
+								if (document.getElementById(`select_${datos_map.get(f.key).values[0].cod_planif}`) != null) {
+									d3.select(`#cod_${datos_map.get(f.key).values[0].cod_planif}`).text(`${datos_map.get(f.key).values[0].concepto}`);
+								} else {
+									let select = d3.select(`#cod_${datos_map.get(f.key).values[0].cod_planif}`)
+										.text("").append("select").attr("id", `select_${datos_map.get(f.key).values[0].cod_planif}`)
+										.style("width", "40px").on("change", () => {
+											let index = document.getElementById(`select_${datos_map.get(f.key).values[0].cod_planif}`).selectedIndex;
+											guardar_cambio_concepto(datos_map.get(f.key).values[0].cod_planif, conceptos[index].turno, () => {
+												B_reporte("F");
+											});
+										});
+									conceptos.forEach((d) => {
+										if (datos_map.get(f.key).values[0].cod_turno == d.turno) {
+											select.append("option").attr("value", d.turno).attr("selected", "selected").text(`${d.descripcion}(${d.conceptos})`);
+										} else {
+											select.append("option").attr("value", d.turno).text(`${d.descripcion}(${d.conceptos})`);
+										}
+
+									});
+								}
+
+
+							})
+							.text(`${val_fechas.get(f.key).values[0].concepto}`);
 					} else {
-						d3.select('#tr_ficha_' + ubic.key + '_' + d.key).append('td')
+
+						d3.select('#tr_ficha_' + ubic.key + '_' + d.key).append('td').attr("id", `cod_${d.values[0].values[0].ficha}_${f.key}`)
 							.attr('title', '(' + d.key + ') ' + d.values[0].values[0].ap_nombre + ' ' + f.key)
-							.attr('class', 'cantidad ' + f.values[0].values[0].mes_anio + ' ' + f.values[0].values[0].mes_anio + f.key.substring(8)).text('');
+							.attr('class', 'cantidad ' + f.values[0].values[0].mes_anio + ' ' + f.values[0].values[0].mes_anio + f.key.substring(8)).text('')
+							.on("dblclick", () => {
+
+								if (document.getElementById(`select_${d.values[0].values[0].ficha}_${f.key}`) != null) {
+									d3.select(`#cod_${d.values[0].values[0].ficha}_${f.key}`).text('');
+								} else {
+									let parametros = {
+										apertura: d.values[0].values[0].planif_cl,
+										planif_cl_trab: d.values[0].values[0].planif_cl_trab,
+										cliente: d.values[0].values[0].cod_cliente,
+										ubicacion: d.values[0].values[0].cod_ubicacion,
+										puesto_trab: d.values[0].values[0].cod_puesto,
+										turno: 0,
+										ficha: d.values[0].values[0].ficha,
+										fecha: f.key,
+										usuario: $("#usuario").val()
+
+									}
+
+									let select = d3.select(`#cod_${d.values[0].values[0].ficha}_${f.key}`)
+										.text("").append("select").attr("id", `select_${d.values[0].values[0].ficha}_${f.key}`)
+										.style("width", "40px").on("change", () => {
+											let index = document.getElementById(`select_${d.values[0].values[0].ficha}_${f.key}`).selectedIndex;
+											parametros.turno = conceptos[index].turno;
+
+											guardar_cambio_concepto("", parametros, () => {
+
+												B_reporte("F");
+											});
+										});
+									conceptos.forEach((d) => {
+										select.append("option").attr("value", d.turno).text(`${d.descripcion}(${d.conceptos})`);
+									});
+								}
+							});
 					}
 				});
 			});
@@ -223,7 +302,13 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 				.attr('colspan', (d) => 3 + Number(ubic.values.length));
 		}
 	});
+	rp_planif_trab_serv_conceptos(tablas);
+}
 
+
+function rp_planif_trab_serv_conceptos(tablas, callback) {
+
+	///////////////////////////////////Creacion de resumen de conceptos
 	tablas.append('tbody').attr('id', (d) => "thead_conceptos_" + d.key);
 
 	res_concepto.forEach((ubic, i) => {
@@ -250,7 +335,12 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 			}
 		});
 	});
+	rp_planif_trab_serv_horario(tablas);
+}
 
+function rp_planif_trab_serv_horario(tablas, callback) {
+
+	//////////////////////Creacion de resumen de Horarios
 	tablas.append('tbody').attr("id", (d) => "thead_horarios_" + d.key);
 
 	res_horario.forEach((ubic, i) => {
@@ -277,7 +367,10 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 			}
 		});
 	});
-
+	rp_planif_trab_serv_diferencia(tablas);
+}
+function rp_planif_trab_serv_diferencia(tablas, callback) {
+	////////////////// Creacion de tabla de diferencias
 	var theads = tablas.append('thead').attr('id', (d) => "thead_diferencia_" + d.key);
 
 	trh = theads.append('tr').attr("id", (d) => "tr_diferencia_" + d.key);
@@ -329,6 +422,7 @@ function rp_planif_trab_serv_create(id_contenedor, callback, formato) {
 			});
 		}
 	});
+	////////////777777777
 }
 
 function rp_planif_serv_update(cod_ubicacion, tipo) {
@@ -486,7 +580,7 @@ function rp_planif_trab_serv_detalle(data, id_contenedor, callback) {
 		limpiarContenedor(id_contenedor);
 		servicio = data['servicio'];
 		contrato = data['contrato'];
-
+		conceptos = data['conceptos'];
 		res_ficha = d3.nest()
 			.key((d) => d.cod_ubicacion).sortKeys(d3.ascending)
 			.key((d) => d.ficha).sortKeys(d3.ascending)
@@ -636,6 +730,9 @@ function rp_planif_trab_serv_create_detalle(id_contenedor, callback) {
 			});
 		});
 	});
+
+
+	///////////////////
 	res_horario_cont.forEach((ubic) => {
 		val_puestos = d3.map(ubic.values, (d) => d.key);
 		ubic.values.forEach((puesto, i) => {
@@ -689,16 +786,79 @@ function rp_planif_trab_serv_create_detalle(id_contenedor, callback) {
 				trb.append('td').text(d.values[0].values[0].puesto);
 				ubic.values.forEach((f) => {
 					if (val_fechas.has(f.key)) {
-						d3.select('#tr_ficha_' + ubic.key + '_' + d.key).append('td')
+						d3.select('#tr_ficha_' + ubic.key + '_' + d.key).append('td').attr('id', `cod_${val_fechas.get(f.key).values[0].cod_planif}`)
 							.attr('title', '(' + d.key + ') ' + d.values[0].values[0].ap_nombre + ' (' + d.values[0].values[0].puesto + ') ' + f.key)
 							.attr('class', 'cantidad ' + f.values[0].values[0].mes_anio + ' ' + f.values[0].values[0].mes_anio + f.key.substring(8))
 							.on("mouseover", (d) => d3.selectAll('.' + f.values[0].values[0].mes_anio + f.key.substring(8)).classed('yellow', true))
 							.on("mouseout", () => d3.selectAll('.' + f.values[0].values[0].mes_anio + f.key.substring(8)).classed('yellow', false))
+							.on("dblclick", () => {
+
+								let datos_map = d3.map(d.values, (d) => d.key);
+
+								if (document.getElementById(`select_${datos_map.get(f.key).values[0].cod_planif}`) != null) {
+									d3.select(`#cod_${datos_map.get(f.key).values[0].cod_planif}`).text(`${datos_map.get(f.key).values[0].concepto}`);
+								} else {
+									let select = d3.select(`#cod_${datos_map.get(f.key).values[0].cod_planif}`)
+										.text("").append("select").attr("id", `select_${datos_map.get(f.key).values[0].cod_planif}`)
+										.style("width", "40px").on("change", () => {
+											let index = document.getElementById(`select_${datos_map.get(f.key).values[0].cod_planif}`).selectedIndex;
+											guardar_cambio_concepto(datos_map.get(f.key).values[0].cod_planif, conceptos[index].turno, () => {
+												B_reporte("T");
+											});
+										});
+									conceptos.forEach((d) => {
+										if (datos_map.get(f.key).values[0].cod_turno == d.turno) {
+											select.append("option").attr("value", d.turno).attr("selected", "selected").text(`${d.descripcion}(${d.conceptos})`);
+										} else {
+											select.append("option").attr("value", d.turno).text(`${d.descripcion}(${d.conceptos})`);
+										}
+
+									});
+								}
+
+
+							})
 							.text(val_fechas.get(f.key).values[0].concepto);
 					} else {
-						d3.select('#tr_ficha_' + ubic.key + '_' + d.key).append('td')
+						d3.select('#tr_ficha_' + ubic.key + '_' + d.key).append('td').attr("id", `cod_${d.values[0].values[0].ficha}_${f.key}`)
 							.attr('title', '(' + d.key + ') ' + d.values[0].values[0].ap_nombre + ' (' + d.values[0].values[0].puesto + ') ' + f.key)
-							.attr('class', 'cantidad ' + f.values[0].values[0].mes_anio + ' ' + f.values[0].values[0].mes_anio + f.key.substring(8)).text('');
+							.attr('class', 'cantidad ' + f.values[0].values[0].mes_anio + ' ' + f.values[0].values[0].mes_anio + f.key.substring(8))
+
+							.on("dblclick", () => {
+
+								if (document.getElementById(`select_${d.values[0].values[0].ficha}_${f.key}`) != null) {
+									d3.select(`#cod_${d.values[0].values[0].ficha}_${f.key}`).text('');
+								} else {
+									let parametros = {
+										apertura: d.values[0].values[0].planif_cl,
+										planif_cl_trab: d.values[0].values[0].planif_cl_trab,
+										cliente: d.values[0].values[0].cod_cliente,
+										ubicacion: d.values[0].values[0].cod_ubicacion,
+										puesto_trab: d.values[0].values[0].cod_puesto,
+										turno: 0,
+										ficha: d.values[0].values[0].ficha,
+										fecha: f.key,
+										usuario: $("#usuario").val()
+
+									}
+
+									let select = d3.select(`#cod_${d.values[0].values[0].ficha}_${f.key}`)
+										.text("").append("select").attr("id", `select_${d.values[0].values[0].ficha}_${f.key}`)
+										.style("width", "40px").on("change", () => {
+											let index = document.getElementById(`select_${d.values[0].values[0].ficha}_${f.key}`).selectedIndex;
+											parametros.turno = conceptos[index].turno;
+
+											guardar_cambio_concepto("", parametros, () => {
+
+												B_reporte("F");
+											});
+										});
+									conceptos.forEach((d) => {
+										select.append("option").attr("value", d.turno).text(`${d.descripcion}(${d.conceptos})`);
+									});
+								}
+							})
+							.text('');
 					}
 				});
 			});
@@ -905,7 +1065,7 @@ function rp_planif_serv_update_detalle(cod_ubicacion, tipo) {
 					});
 				}
 
-				d3.select('#tbody_contrato_' + cod_ubicacion + '_' + puesto.key + '_' + d.key+"_total").append('td')
+				d3.select('#tbody_contrato_' + cod_ubicacion + '_' + puesto.key + '_' + d.key + "_total").append('td')
 					.attr('title', 'CANTIDAD DEMANDA ' + d.values[0].values[0].puesto + ' (' + d.values[0].values[0].horario + ') ' + f.key)
 					.attr('class', 'cantidad ' + f.values[0].values[0].values[0].mes_anio + ' ' + f.values[0].values[0].values[0].mes_anio + f.key.substring(8))
 					.text(cantidad);

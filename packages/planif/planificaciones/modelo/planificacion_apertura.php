@@ -35,6 +35,9 @@ if(isset($_POST['metodo'])){
       AND clientes_contratacion_ap.cod_cargo = '$cargo'
       AND clientes_contratacion_ap.fecha = '$fecha'
       ";
+    }elseif($metodo=="modificar_contrato"){
+      $sql = "UPDATE planif_clientes_trab_det SET planif_clientes_trab_det.cod_turno = '$turno' WHERE planif_clientes_trab_det.codigo = '$codigo'";
+      $result['sql'][]= $sql;
     }
 
     $query = $bd->consultar($sql);
