@@ -37,7 +37,7 @@ if(isset($_POST['proced'])){
       $sql = "DELETE FROM prod_ean WHERE cod_producto = '$item' AND cod_ean NOT IN (SELECT cod_ean FROM ajuste_reng_eans)";
       $query   = $bd->consultar($sql);
       foreach($eans as $eanX) {
-        $sql = "INSERT INTO prod_ean(cod_producto,cod_ean,cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod) VALUES('$item','$eanX','$usuario','$fecha_actual','$usuario','$fecha_actual')";
+        $sql = "INSERT INTO prod_ean(cod_producto,cod_ean,cod_almacen,cod_us_ing,fec_us_ing,cod_us_mod,fec_us_mod) VALUES('$item','$eanX','$almacen','$usuario','$fecha_actual','$usuario','$fecha_actual')";
         $query   = $bd->consultar($sql);
         $result['sql'][] = $sql;
         $result['eans'][] = $ean;
