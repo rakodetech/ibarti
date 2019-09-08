@@ -18,11 +18,12 @@ if(isset($_POST['proced'])){
     }else{
       $actualizar = 'T';
     }
-    $sql    = "$SELECT $proced('$metodo', '$codigo', '$contratacion', '$ubicacion',
+    if(!$codigo) $codigo = 0;
+    $sql    = "$SELECT $proced('$metodo', $codigo, '$contratacion', '$ubicacion',
     '$puesto', '$turno', '$cargo', '$cantidad','$fecha_inicio','$actualizar',
     '$usuario')";
-    $query = $bd->consultar($sql);
     $result['sql'] = $sql;
+    $query = $bd->consultar($sql);
   }catch (Exception $e) {
    $error =  $e->getMessage();
    $result['error'] = true;
