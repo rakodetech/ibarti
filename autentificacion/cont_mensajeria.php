@@ -41,8 +41,7 @@
 						           style="width:auto" '.CheckX(''.$row03[2].'', 'T').' /></td>
 			   </tr>';
  	}	
-echo '</tr></table>';	
-	   mysql_free_result($query);?>
+echo '</tr></table>';	?>
    <div align="center"><span class="art-button-wrapper">
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span>

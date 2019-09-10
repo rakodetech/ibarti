@@ -22,6 +22,7 @@ if($metodo == 'MODIFICAR' || ($metodo == "AGREGAR" && $codigo != ""))
   $titulo    = $metodo." PRODUCTO";
 }
 $activo = $prod['status'];
+$ean = $prod['ean'];
 ?>
 
 <div id="add_producto">
@@ -38,12 +39,14 @@ $activo = $prod['status'];
       <li class="TabbedPanelsTab">STOCK</li>
       <li class="TabbedPanelsTab">PRECIO</li>
       <li class="TabbedPanelsTab">ADICIONALES</li>
+      <li class="TabbedPanelsTab" id="tab_ean" style="display: none;">EAN</li>
     </ul>        
     <div class="TabbedPanelsContentGroup"> 
      <div class="TabbedPanelsContent"><?php include('add_productos.php');?></div>
      <div class="TabbedPanelsContent"><?php include('add_productos_stock.php');?></div>
      <div class="TabbedPanelsContent"><?php include('add_productos_precio.php');?></div>         
      <div class="TabbedPanelsContent"><?php include('add_productos_ad.php');?></div>
+     <div class="TabbedPanelsContent"><?php include('add_productos_EAN.php');?></div>
    </div>
  </div> 
  <input type="hidden" name="metodo" id="p_metodo">

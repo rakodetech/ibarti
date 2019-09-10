@@ -16,7 +16,7 @@ if($metodo == 'modificar')
   $anulado   = $_POST['anulado'];
   $codigo   = $_POST['codigo'];
   $titulo   = "Modificar Movimiento";
-  $ped      =  $ajuste->editar("$codigo");
+  $ped      =  $ajuste->editar($codigo);
 }else{
  $titulo    = "Agregar Movimiento";
  $ped       = $ajuste->inicio();
@@ -55,46 +55,47 @@ if($metodo == 'modificar')
       </tr>
       <tr>
         <td > 
-          <input type="text" id="ped_codigo" style="width: 100px;" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
+          <input type="text" id="ped_codigo" style="width: 100px;" maxlength="160" title="Este codigo es generado por el sistema, al guardar el movimiento"  placeholder="Código" value="<?php echo $ped['codigo'];?>" required readonly>
         </td>
         <td ><input type="text" id="ped_referencia" title="Referencia"  placeholder="Referencia" value="<?php echo $ped['referencia'];?>" style="width: 200px;" required></td>
-        <td> <select id="ped_tipo" required  onchange="Selec_tipo(this.value)">
-          <option value="<?php echo $ped['cod_tipo'];?>" style="width: 210px;" ><?php echo $ped['tipo'];?></option>
-          <?php
-          foreach ($tipo as  $datos) {
-           echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
-         }?>
-       </select>
-     </td>
-     <?php if(($metodo == 'modificar') && ($ped['cod_tipo'] == 'COM')){
-      echo '<td id="select_proveedor">';
-    }else{
-      echo '<td id="select_proveedor" style="display: none;">';
-    }
-    ?>
-    <select id="ped_proveedor" required>
-      <option value="<?php echo $ped['cod_proveedor'];?>" style="width: 210px;" ><?php echo $ped['proveedor'];?></option>
-      <?php
-      foreach ($proveedor as  $datos) {
-        echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
-      }?>
-    </select></td>
-    <td>   
-      <input type="date" id="ped_fecha" value="<?php echo $ped['fecha'];?>" placeholder="Fecha de Emisión"
-      required>
+        <td> <input type="hidden" id="ped_cod_tipo" value="<?php echo $ped['cod_tipo'];?>">
+          <select id="ped_tipo" required  onchange="Selec_tipo(this.value)">
+            <option value="<?php echo $ped['cod_tipo'];?>" style="width: 210px;" ><?php echo $ped['tipo'];?></option>
+            <?php
+            foreach ($tipo as  $datos) {
+             echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
+           }?>
+         </select>
+       </td>
+       <?php if(($metodo == 'modificar') && ($ped['cod_tipo'] == 'COM')){
+        echo '<td id="select_proveedor">';
+      }else{
+        echo '<td id="select_proveedor" style="display: none;">';
+      }
+      ?>
+      <select id="ped_proveedor" required>
+        <option value="<?php echo $ped['cod_proveedor'];?>" style="width: 210px;" ><?php echo $ped['proveedor'];?></option>
+        <?php
+        foreach ($proveedor as  $datos) {
+          echo '<option value="'.$datos["codigo"].'">'.$datos["descripcion"].'</option>';
+        }?>
+      </select></td>
+      <td>   
+        <input type="date" id="ped_fecha" value="<?php echo $ped['fecha'];?>" placeholder="Fecha de Emisión"
+        required>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="5" class="etiqueta">Descripcion</td>
+    </tr>
+    <tr>  <td colspan="5">  
+      <textarea id="ped_descripcion"  cols="100" rows="3"><?php echo $ped['motivo'];?></textarea>
     </td>
+
   </tr>
   <tr>
-    <td colspan="5" class="etiqueta">Descripcion</td>
+    <td height="8" colspan="5" align="center"><hr></td>
   </tr>
-  <tr>  <td colspan="5">  
-    <textarea id="ped_descripcion"  cols="100" rows="3"><?php echo $ped['motivo'];?></textarea>
-  </td>
-
-</tr>
-<tr>
-  <td height="8" colspan="5" align="center"><hr></td>
-</tr>
 </table>
 <div id="ajuste_det"></div>
 <br>
@@ -104,20 +105,16 @@ if($metodo == 'modificar')
    <span class="art-button-l"> </span>
    <span class="art-button-r"> </span>
    <input  type="submit" title="Guardar Registro" class="readon art-button" value="Guardar" />
-   </span>
-
-   <span class="art-button-wrapper">
-   <span class="art-button-l"> </span>
-   <span class="art-button-r"> </span>
-   <input type="reset" title="Restaurar Valores" class="readon art-button"  value="Restaurar" />
    </span>';
  }else{
-  if($anulado == "F"){
-    echo '<span class="art-button-wrapper">
-    <span class="art-button-l"> </span>
-    <span class="art-button-r"> </span>
-    <input type="button" title="Anular Ajuste" class="readon art-button" id="anulador" value="Anular" onclick="anular_ajuste()" />
-    </span>';
+  if($anulado == "F"){;
+    if(($ped['cod_tipo'] != "TRAS") && ($ped['cod_tipo'] != "TRAS-")){
+      echo '<span class="art-button-wrapper">
+      <span class="art-button-l"> </span>
+      <span class="art-button-r"> </span>
+      <input type="button" title="Anular Ajuste" class="readon art-button" id="anulador" value="Anular" onclick="anular_ajuste()" />
+      </span>';
+    }
   }
 }?>
 <span class="art-button-wrapper">

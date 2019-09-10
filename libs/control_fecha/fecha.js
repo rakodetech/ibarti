@@ -80,21 +80,21 @@ function mostrar_fecha(id, val, tipo) {
             break;
         case "mes":
             var mes_desde = String($('#m_d').val()).length < 2 ? "0" + String($('#m_d').val()) : String($('#m_d').val());
-            var año_desde = $('#a_d').val();
+            var anno_desde = $('#a_d').val();
             var mes_hasta = String($('#m_h').val()).length < 2 ? "0" + String($('#m_h').val()) : String($('#m_h').val());
-            var año_hasta = $('#a_h').val();
+            var anno_hasta = $('#a_h').val();
 
-            var fecha_desde = `01/${mes_desde}/${año_desde}`;
-            var ultimo_hasta = new Date(año_hasta, mes_hasta, 0);
-            var fecha_hasta = `${String(ultimo_hasta.getDate()).length < 2 ? "0" + String(ultimo_hasta.getDate()) : String(ultimo_hasta.getDate())}/${mes_hasta}/${año_hasta}`;
+            var fecha_desde = `01/${mes_desde}/${anno_desde}`;
+            var ultimo_hasta = new Date(anno_hasta, mes_hasta, 0);
+            var fecha_hasta = `${String(ultimo_hasta.getDate()).length < 2 ? "0" + String(ultimo_hasta.getDate()) : String(ultimo_hasta.getDate())}/${mes_hasta}/${anno_hasta}`;
             $('#label_desde').text(fecha_desde)
             $('#label_hasta').text(fecha_hasta)
             break;
         case "año":
-            var año_desde = $('#a_d').val();
-            var año_hasta = $('#a_h').val();
-            var fecha_desde = `01/01/${año_desde}`;
-            var fecha_hasta = `31/12/${año_hasta}`;
+            var anno_desde = $('#a_d').val();
+            var anno_hasta = $('#a_h').val();
+            var fecha_desde = `01/01/${anno_desde}`;
+            var fecha_hasta = `31/12/${anno_hasta}`;
             $('#label_desde').text(fecha_desde);
             $('#label_hasta').text(fecha_hasta);
             break;
@@ -138,11 +138,11 @@ function crear_escenarios(base, contenedor) {
 
             var input_mes_desde = "";
             var input_mes_hasta = "";
-            var input_año_desde = "";
-            var input_año_hasta = "";
+            var input_anno_desde = "";
+            var input_anno_hasta = "";
             for (i = Number(control_desde[2]) - 100; i < Number(control_desde[2]) + 100; i++) {
-                input_año_desde += `<option value="${i + 1}" ${(i + 1) == (Number(control_desde[2])) ? 'selected="selected"' : ''}>${i + 1}</option>`;
-                input_año_hasta += `<option value="${i + 1}" ${(i + 1) == (Number(control_hasta[2])) ? 'selected="selected"' : ''}>${i + 1}</option>`;
+                input_anno_desde += `<option value="${i + 1}" ${(i + 1) == (Number(control_desde[2])) ? 'selected="selected"' : ''}>${i + 1}</option>`;
+                input_anno_hasta += `<option value="${i + 1}" ${(i + 1) == (Number(control_hasta[2])) ? 'selected="selected"' : ''}>${i + 1}</option>`;
             }
             for (i = 0; i < 12; i++) {
                 input_mes_desde += `<option value="${i + 1}" ${(i + 1) == (Number(control_desde[1])) ? 'selected="selected"' : ''} >${meses[i]}</option>`;
@@ -157,8 +157,8 @@ function crear_escenarios(base, contenedor) {
                         Mes Hasta:
                     </section>
                     <section>
-                        <select name="" id="m_d" onchange="mostrar_fecha(this.id,this.value,'mes')">${input_mes_desde}</select> <select name="" id="a_d" onchange="mostrar_fecha(this.id,this.value,'mes')">${input_año_desde}</select> <br><br>
-                        <select name="" id="m_h" onchange="mostrar_fecha(this.id,this.value,'mes')">${input_mes_hasta}</select> <select name="" id="a_h" onchange="mostrar_fecha(this.id,this.value,'mes')">${input_año_hasta}</select>
+                        <select name="" id="m_d" onchange="mostrar_fecha(this.id,this.value,'mes')">${input_mes_desde}</select> <select name="" id="a_d" onchange="mostrar_fecha(this.id,this.value,'mes')">${input_anno_desde}</select> <br><br>
+                        <select name="" id="m_h" onchange="mostrar_fecha(this.id,this.value,'mes')">${input_mes_hasta}</select> <select name="" id="a_h" onchange="mostrar_fecha(this.id,this.value,'mes')">${input_anno_hasta}</select>
                     </section>
                     <section>
                         <button type="button" class="btn btn-large waves" id="control_mes" onclick="asignacion_fecha(this.id)">Aceptar</button>
@@ -191,11 +191,11 @@ function crear_escenarios(base, contenedor) {
         case "año":
             var control_desde = $('#label_desde').text().split('/');
             var control_hasta = $('#label_hasta').text().split('/');
-            var años_desde = "";
-            var años_hasta = "";
+            var annos_desde = "";
+            var annos_hasta = "";
             for (i = Number(control_desde[2]) - 100; i < Number(control_desde[2]) + 100; i++) {
-                años_desde += `<option value="${i + 1}" ${(i + 1) == (Number(control_desde[2])) ? 'selected="selected"' : ''}>${i + 1}</option>`;
-                años_hasta += `<option value="${i + 1}" ${(i + 1) == (Number(control_hasta[2])) ? 'selected="selected"' : ''}>${i + 1}</option>`;
+                annos_desde += `<option value="${i + 1}" ${(i + 1) == (Number(control_desde[2])) ? 'selected="selected"' : ''}>${i + 1}</option>`;
+                annos_hasta += `<option value="${i + 1}" ${(i + 1) == (Number(control_hasta[2])) ? 'selected="selected"' : ''}>${i + 1}</option>`;
             }
             $('#' + contenedor).append(/*html*/`
                 <section>
@@ -204,8 +204,8 @@ function crear_escenarios(base, contenedor) {
                         Año Hasta:
                     </section>
                     <section>
-                        <select id="a_d" onchange="mostrar_fecha(this.id,this.value,'año')">${años_desde}</select><br><br>
-                        <select id="a_h" onchange="mostrar_fecha(this.id,this.value,'año')">${años_hasta}</select>
+                        <select id="a_d" onchange="mostrar_fecha(this.id,this.value,'año')">${annos_desde}</select><br><br>
+                        <select id="a_h" onchange="mostrar_fecha(this.id,this.value,'año')">${annos_hasta}</select>
                     </section>
                     <section>
                         <button type="button" class="btn btn-large waves" id="control_año" onclick="asignacion_fecha(this.id)">Aceptar</button>

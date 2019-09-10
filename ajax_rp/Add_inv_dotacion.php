@@ -26,11 +26,11 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 			      AND productos.cod_talla = tallas.codigo
 			      AND productos.cod_sub_linea = prod_sub_lineas.codigo
 				  AND v_ficha.cod_ficha = prod_dotacion.cod_ficha 
-				  
 			      AND ajuste.referencia = prod_dotacion.codigo
 				AND ajuste_reng.cod_ajuste = ajuste.codigo
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
-				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto";
+				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto
+				AND (ajuste.cod_tipo = 'DOT' OR ajuste.cod_tipo = 'ANU_DOT') ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
@@ -64,17 +64,22 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
 	}
 
- $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
+ $sql = " SELECT DISTINCT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
                  v_ficha.rol, v_ficha.cod_ficha,
                  v_ficha.cedula, v_ficha.nombres AS trabajador,
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
                  prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',tallas.descripcion,') ') AS producto,
-                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto
+                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto,
+                 Valores(prod_dotacion.anulado) anulado
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng,tallas
           $where
-        ORDER BY 2 ASC ";
+        GROUP BY prod_dotacion.codigo,ajuste.codigo,prod_dotacion_det.cod_producto
+HAVING MAX(ajuste.codigo)
+ORDER BY 2 ASC ";
+
 ?>
+
 <table width="100%" border="0" align="center">
 		<tr class="fondo00">
   			<th width="9%" class="etiqueta">Codigo</th>
@@ -87,6 +92,7 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
             <th width="24%" class="etiqueta">Producto </th>
             <th width="5%" class="etiqueta">Cantidad</th>
             <?php echo ($restri=="F")?'<th width="5%" class="etiqueta">Importe</th>':'';?>
+             <th width="5%" class="etiqueta">Anulado</th>
 	</tr>
     <?php
 	$valor = 0;
@@ -112,6 +118,6 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 				  <td class="texto">'.$datos["cantidad"].'</td>
 				  ';
 				  echo ($restri=="F")?'<td class="texto">'.$datos["neto"].'</td>':'';
-           echo '</tr>';
+           echo '<td class="texto">'.$datos["anulado"].'</td></tr>';
         };?>
     </table>

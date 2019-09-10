@@ -73,11 +73,11 @@ if($pasaImgSize == true)
 			}
 			else
 				// error del lado del servidor
-				$mensajeFile = 'No se pudo subir el archivo';
+				$mensajeFile = 'No se pudo subir el archivo '.$_FILES['userfile']['tmp_name'].' a '.uploadURL.$imgFile ;
 		}
 		else
 			// error del lado del servidor
-			$mensajeFile = 'No se pudo subir el archivo';
+			$mensajeFile = 'No se pudo subir el archivo al directorio';
 	}
 	else
 		// Error en el tamaño y tipo de imagen

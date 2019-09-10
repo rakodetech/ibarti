@@ -20,7 +20,7 @@ if($metodo == "agregar"){
   <table width="95%" align="center">
     <tr>
       <td width="30%" class="etiqueta"><?php echo $leng['producto'];?>
-       <input type="hidden" name="trabajador" id="stdID" value=""/></td>
+      <input type="hidden" name="trabajador" id="stdID" value=""/></td>
       <td width="30%" class="etiqueta">Almacen</td>
       <td width="10%" class="etiqueta">Cantidad</td>
       <td width="10%" class="etiqueta">Costo</td>
@@ -32,26 +32,26 @@ if($metodo == "agregar"){
         <input type="text"id="ped_producto" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" style="width:250px"/>
       </td>
 
-    <td>
-      <select id="ped_almacen" onchange="Selec_almacen(this.value)"  style="width:250px" >
-        <option value="">Seleccione...</option>
-      </select>
+      <td>
+        <select id="ped_almacen" onchange="Selec_almacen(this.value)"  style="width:250px" >
+          <option value="">Seleccione...</option>
+        </select>
+      </td>
+      <td>
+       <input type="number" id="ped_cantidad" style="width:100px" onkeyup="Cal_prod_neto('cantidad', this.value)" onchange="Cal_prod_neto('cantidad', this.value)" disabled  value="0" min="0"   placeholder="">
+     </td>
+     <td>
+       <input type="number" id="ped_costo" style="width:100px" onkeyup="Cal_prod_neto('costo', this.value)" onchange="Cal_prod_neto('costo', this.value)" disabled value="0" min="0" step="any" placeholder="">
+     </td>
+     <td>
+       <input type="number" style="width:120px" id="ped_neto" value="0" step="any" placeholder="" readonly>
+     </td>
+     <td align="center">
+      <img  border="null" width="20px" height="20px" src="imagenes/ico_agregar.ico" id="add_renglon" onclick="Agregar_renglon()" disabled title="Agregar renglon" />
+      <img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" id="canc_renglon" onclick="Cancelar_renglon()" hidden title="Cancelar renglon" />
+      <img  border="null" width="20px" height="20px" src="imagenes/actualizar.bmp"  id="update_renglon" onclick="Actualizar_renglon()" hidden title="Actualizar renglon" />
     </td>
-    <td>
-     <input type="number" id="ped_cantidad" style="width:100px" onkeyup="Cal_prod_neto('cantidad', this.value)" onchange="Cal_prod_neto('cantidad', this.value)" disabled  value="0" min="0"   placeholder="">
-   </td>
-   <td>
-     <input type="number" id="ped_costo" style="width:100px" onkeyup="Cal_prod_neto('costo', this.value)" onchange="Cal_prod_neto('costo', this.value)" disabled value="0" min="0" step="any" placeholder="">
-   </td>
-   <td>
-     <input type="number" style="width:120px" id="ped_neto" value="0" step="any" placeholder="" readonly>
-   </td>
-   <td align="center">
-    <img  border="null" width="20px" height="20px" src="imagenes/ico_agregar.ico" id="add_renglon" onclick="Agregar_renglon()" disabled title="Agregar renglon" />
-    <img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" id="canc_renglon" onclick="Cancelar_renglon()" hidden title="Cancelar renglon" />
-    <img  border="null" width="20px" height="20px" src="imagenes/actualizar.bmp"  id="update_renglon" onclick="Actualizar_renglon()" hidden title="Actualizar renglon" />
-  </td>
-</tr>
+  </tr>
 </table>
 <?php }?>
 <table width="95%" class="tabla_sistema">
@@ -63,9 +63,7 @@ if($metodo == "agregar"){
       <th width="10%">Cantidad</th>
       <th width="10%">Costo</th>
       <th width="15%">Neto</th>
-      <?php if($metodo == "agregar"){?>
-        <th width="20%"></th>
-      <?php }?>
+      <th width="20%"></th>
     </tr>
   </thead>
   <tbody id="listar_ajuste">
@@ -74,16 +72,28 @@ if($metodo == "agregar"){
       echo '
       <tr id="tr_'.$datos["reng_num"].'">
       <td><input type="text" id="items_'.$datos["reng_num"].'" value="'.$datos["reng_num"].'" readonly style="width:100px"></td>
-      <td><input type="text" id="prod_'.$datos["reng_num"].'" value="'.$datos["producto"].'" readonly style="width:200px"></td>
-      <td><input type="text" id="alm_'.$datos["reng_num"].'" value="'.$datos["almacen"].'" readonly style="width:120px"></td>
+      <td><input type="hidden" id="prod_'.$datos["reng_num"].'" value="'.$datos["producto"].' '.$datos["serial"].'">
+      '.$datos["producto"].' ('.$datos["serial"].')</td>
+      <td><input type="hidden" id="alm_'.$datos["reng_num"].'" value="'.$datos["almacen"].'">'.$datos["almacen"].'</td>
       <td><input type="text" id="cant_'.$datos["reng_num"].'" value="'.$datos["cantidad"].'" readonly style="width:100px"></td>
       <td><input type="text" id="costo_'.$datos["reng_num"].'" value="'.$datos["costo"].'" readonly style="width:100px"></td>
       <td><input type="text" id="neto_'.$datos["reng_num"].'" value="'.$datos["neto"].'" readonly style="width:150px"></td>';
-      if($metodo == "agregar"){
-        echo '<td><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp"  id="update_renglon" onclick="Modificar_renglon('.$datos["reng_num"].')" title="Modificar Registro />&nbsp; <img class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp" id="canc_renglon" onclick="Borrar_renglon('.$datos["reng_num"].')" title="Borrar Registro" /></tr>';
-      }
-    } ?>
-  </tbody>
+      if($metodo == "modificar"){
+        if($datos["ean"] == 'T'){
+          echo '<td><span class="art-button-wrapper">
+          <span class="art-button-l"> </span>
+          <span class="art-button-r"> </span>
+          <input type="button"  title="Ver Eans" onclick = verEans('.$datos["reng_num"].') class="readon art-button"  value="EANS" />
+          </span></td>';
+        }else{
+         echo '<td></td>';
+       }
+     }
+     if($metodo == "agregar"){
+      echo '<td><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp"  id="update_renglon" onclick="Modificar_renglon('.$datos["reng_num"].')" title="Modificar Registro />&nbsp; <img class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp" id="canc_renglon" onclick="Borrar_renglon('.$datos["reng_num"].')" title="Borrar Registro" /></td></tr>';
+    }
+  } ?>
+</tbody>
 </table>
 <br>
 <div style="width: 95%" align="right">
@@ -101,4 +111,4 @@ if($metodo == "agregar"){
     }
     if (this.value.length < 1) return ;
     return "autocompletar/tb/producto_base_serial.php?q="+this.text.value +"&filtro=codigo"});
-</script>
+  </script>

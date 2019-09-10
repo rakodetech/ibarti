@@ -34,10 +34,10 @@ function parar(){
 
 
 
-function activar(){
+function activarNotif(){
 
 	var parametros = { };
-
+/*
 	$.ajax({
 		data:  parametros,
 		url:   'packages/notificaciones/views/Get_intervalo_nov.php',
@@ -86,8 +86,7 @@ function activar(){
 			alert(xhr.status);
 			alert(thrownError);}
 		});
-
-
+*/
 	//////////////////////////////////////
 }
 

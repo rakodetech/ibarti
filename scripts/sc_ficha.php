@@ -19,8 +19,12 @@ $experiencia    = htmlspecialchars($_POST["experiencia"]);
 $carnet         = $_POST['carnet'];
 $foto           = '';
 $fec_venc_carnet   = conversion($_POST['fec_venc_carnet']);
-$fec_ingreso    = conversion($_POST['fec_ingreso']);
 
+if($fec_venc_carnet == ''){
+	$fec_venc_carnet   = '0000-00-00';
+}
+
+$fec_ingreso    = conversion($_POST['fec_ingreso']);
 
 $sexo           = $_POST['sexo'];
 $telefono       = htmlspecialchars($_POST['telefono']);
@@ -66,6 +70,9 @@ if(isset($_POST['servicio_militar'])){
 	$servicio_militar 		  = 'F';
 	$status_militar_obs 	  = $_POST['militar_obs'];
 	$cod_ficha_status_militar = $_POST['cod_militar'];
+	if(!$status_militar_obs){
+		$status_militar_obs="";
+	}
 }
 
 

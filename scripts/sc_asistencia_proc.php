@@ -1,7 +1,8 @@
 <?php
+define("SPECIALCONSTANT",true);
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
-require_once("../".class_bd);
+require_once("../".class_bdI);
 $bd = new DataBase();
 
 $tabla    = 'asistencia';
@@ -117,5 +118,5 @@ if (isset($_POST['metodo'])) {
 	break;
 	}
 }
-require_once('../funciones/sc_direccionar.php');
+//require_once('../funciones/sc_direccionar.php');
 ?>

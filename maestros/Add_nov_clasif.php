@@ -58,10 +58,12 @@ if($metodo == 'modificar'){
     </tr>	
     <tr>
 		<td class="etiqueta">Check List.: </td>
-      	 <td id="radio01" class="texto"> SI <input type = "radio" name="check_list"  value = "T"
-                                                   style="width:auto"  <?php echo CheckX($check_list, 'T');?> /> NO <input
-            type = "radio" name="check_list"  value = "F" style="width:auto"  <?php echo CheckX($check_list, 'F');?> />
-            <br /><span class="radioRequiredMsg">Debe Seleccionar Un Campo.</span>
+    <td> 
+      <select name="check_list" id="check_list"> 
+        <option value="F" <?php echo Select($check_list,"F");?>>No</option> 
+        <option value="T" <?php echo Select($check_list,"T");?>>Check List</option> 
+        <option value="P" <?php echo Select($check_list,"P");?>>Check List Preingreso</option> 
+      </select> 
         </td>
 	</tr>
 	 <tr> 

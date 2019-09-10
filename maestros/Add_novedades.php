@@ -439,8 +439,8 @@ if ($metodo == 'modificar') {
 		var array_valores = [];
 		var array_cantidades = [];
 
-		if (codigo_novedad != '' && orden != '' && clasif != '' && tipo != '' && descripcion != '' && activo != '' && proced != '' && dias_v != '' && usuario != '' && metodo != '' && arreglo_valores.length >0) {
-
+		if (codigo_novedad != '' && orden != '' && clasif != '' && tipo != '' && descripcion != '' && activo != '' && proced != '' && dias_v != '' && usuario != '' && metodo != '' ) {
+			//&& arreglo_valores.length >0) {
 
 			arreglo_valores.forEach((res) => {
 				array_valores.push(res.id);
@@ -462,6 +462,7 @@ if ($metodo == 'modificar') {
 				"valor": array_valores,
 				"cantidad": array_cantidades
 			}
+
 			$.ajax({
 				data: parametros,
 				url: 'sc_maestros/sc_novedades.php',

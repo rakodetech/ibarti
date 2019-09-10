@@ -73,6 +73,10 @@ if(isset($_POST['motivo'])){
 	if (isset($_POST['proced'])) {
 
 		try {
+			if(!$limite_cred) $limite_cred=0;
+			if(!$plazo_pago) $plazo_pago=0;
+			if(!$desc_global) $desc_global=0;
+			if(!$desc_p_pago) $desc_p_pago=0;
 
 			$sql    = "$SELECT $proced('$metodo', '$codigo', '$cl_tipo', '$vendedor',
 																 '$region', '$abrev', '$rif', '$nit',

@@ -27,6 +27,31 @@ $entrega_uniforme = $_POST['entrega_uniforme'];
 $observacion     = htmlspecialchars($_POST['observacion']);
 $observacion2    = htmlspecialchars($_POST['observacion2']);
 $status          = $_POST['status'];
+if($p_fec_inicio == ''){
+	$p_fec_inicio='0000-00-00';
+}
+if($p_fec_culminacion == ''){
+	$p_fec_culminacion='0000-00-00';
+}
+if($d_p_laboral == ''){
+	$d_p_laboral='0';
+}
+if($d_p_cumplido == ''){
+	$d_p_cumplido='0';
+}
+if($importe == ''){
+	$importe='0';
+}
+if($fec_calculo == 'AAAA-MM-DD'){
+	$fec_calculo='0000-00-00';
+}
+if($fec_posible_pago == 'AAAA-MM-DD'){
+	$fec_posible_pago='0000-00-00';
+}
+if($fec_pago == 'AAAA-MM-DD'){
+	$fec_pago='0000-00-00';
+}
+
 
 $href     = $_POST['href'];
 $usuario  = $_POST['usuario'];

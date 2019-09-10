@@ -26,7 +26,7 @@
    $sql="SELECT count(nov_status.codigo) cantidad
    FROM nov_status";
    $query = $bd->consultar($sql);
-   $max_dias=$bd-> fetch_assoc($query);
+   $max_dias=$bd->obtener_fila($query);
 
    $sql = " SELECT nov_status.codigo, nov_status.control_notif_orden AS cod_nov , nov_status.descripcion, nov_status.control_notificaciones, nov_status.color_notificaciones,nov_status.control_notificaciones_res
    FROM nov_status

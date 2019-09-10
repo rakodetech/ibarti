@@ -29,6 +29,7 @@ $titulo  = " MOVIMIENTO DE INVENTARIO ";
     var fecha_hasta = $("#fecha_hasta").val();//'31-12-2018';
     var almacen     = $("#almacen").val();
     var producto    = $("#producto").val();
+    var referencia    = $("#referencia").val();
     var tipo    = $("#tipo").val();
 
     var error = 0;
@@ -39,7 +40,7 @@ $titulo  = " MOVIMIENTO DE INVENTARIO ";
     }
 
     if(error == 0){
-      var parametros = {"fecha_desde":fecha_desde, "fecha_hasta":fecha_hasta, "almacen": almacen, "producto":producto, "tipo": tipo};
+      var parametros = {"fecha_desde":fecha_desde, "fecha_hasta":fecha_hasta, "almacen": almacen, "producto":producto, "tipo": tipo, "referencia":referencia};
       $.ajax({
         data: parametros,
         url: 'ajax_rp/Add_inv_mov_inventario.php',
@@ -96,6 +97,8 @@ $titulo  = " MOVIMIENTO DE INVENTARIO ";
        echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
      }?></select>
    </td>
+   <td width="10%">Referencia:</td>
+    <td colspan="4"><input  id="referencia" name="referencia" type="text" style="width:250px"/>
  </tr>
 </table><hr />
 <div class="listar">

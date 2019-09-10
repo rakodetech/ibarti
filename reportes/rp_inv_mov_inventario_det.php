@@ -11,6 +11,7 @@ $fecha_H   = conversion($_POST['fecha_hasta']);
 $almacen   = $_POST['almacen'];
 $producto  = $_POST['producto'];
 $tipo      = $_POST['tipo'];
+$referencia  = $_POST['referencia'];
 $reporte   = $_POST['reporte'];
 $archivo         = "rp_inv_mov_inventario_".$date."";
 $titulo          = " REPORTE MOVIMIENTO DE INVENTARIO \n";
@@ -33,7 +34,11 @@ AND ajuste.fecha BETWEEN '$fecha_D' AND '$fecha_H' ";
 		$where .= " AND ajuste.cod_tipo= '$tipo' ";
 	}
 
-	$sql = " SELECT ajuste.codigo,ajuste.fecha,prod_mov_tipo.descripcion ajuste, almacenes.descripcion almacen, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion,'  (',productos.item ,')'), CONCAT(productos.descripcion,'  (',productos.item ,')' )) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
+	if($referencia != "" && $referencia != null){
+		$where .= " AND ajuste.referencia= '$referencia' ";
+	}
+
+	$sql = " SELECT ajuste.codigo,ajuste.referencia,ajuste.fecha,prod_mov_tipo.descripcion ajuste, almacenes.descripcion almacen, IF(prod_sub_lineas.talla = 'T', CONCAT(productos.descripcion,' ',tallas.descripcion,'  (',productos.item ,')'), CONCAT(productos.descripcion,'  (',productos.item ,')' )) producto ,ajuste_reng.cantidad,ajuste_reng.costo,ajuste_reng.neto,
 ajuste_reng.cant_acum,ajuste_reng.importe importe_acum,ajuste_reng.cos_promedio FROM ajuste,ajuste_reng,prod_mov_tipo,almacenes,productos,prod_sub_lineas,tallas
 $where
 ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
@@ -46,13 +51,13 @@ ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 		$query01  = $bd->consultar($sql);
 
 		echo "<table border=1>";
-		echo "<th> CODIGO</th><th> FECHA</th><th> AJUSTE </th><th> ALMACEN </th><th> PRODUCTO </th> <th> CANTIDAD </th>
+		echo "<th> CODIGO</th><th> REFERENCIA</th><th> FECHA</th><th> AJUSTE </th><th> ALMACEN </th><th> PRODUCTO </th> <th> CANTIDAD </th>
 		<th> COSTO </th> <th> IMPORTE </th> <th> CANTIDAD ACUMULADA </th> <th> IMPORTE ACUMULADO </th>
 		<th> COSTO PROMEDIO </th>
 		</tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
-			echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td><td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td></tr>";
+			echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td><td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -90,12 +95,12 @@ ORDER BY ajuste.fecha,ajuste_reng.cod_ajuste, ajuste_reng.reng_num  ASC ";
 				echo "<tr class='class= odd_row'>";
 			}
 			echo   "<td width='10%'>".$row[0]."</td>
-			<td width='10%'>".$row[1]."</td>
 			<td width='10%'>".$row[2]."</td>
-			<td width='15%'>".$row[3]."</td>
-			<td width='35%'>".$row[4]."</td>
-			<td width='10%'>".$row[5]."</td>
-			<td width='10%'>".$row[6]."</td></tr>";
+			<td width='10%'>".$row[3]."</td>
+			<td width='15%'>".$row[4]."</td>
+			<td width='35%'>".$row[5]."</td>
+			<td width='10%'>".$row[6]."</td>
+			<td width='10%'>".$row[7]."</td></tr>";
 
 			$f++;
 		}

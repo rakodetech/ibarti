@@ -26,7 +26,7 @@
               WHERE ficha_documentos.cod_ficha = '$codigo'
 		            AND ficha_documentos.cod_documento = documentos.codigo
                 AND documentos.`status` = 'T'
-			     ORDER BY descripcion ASC ";
+			    ORDER BY documentos.orden ASC ";
 			$query = $bd->consultar($sql);
 			while($datos=$bd->obtener_fila($query,0)){
 			extract($datos);

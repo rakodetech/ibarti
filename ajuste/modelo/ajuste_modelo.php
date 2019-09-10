@@ -20,7 +20,7 @@ class Ajuste
     FROM ajuste a, prod_mov_tipo b, proveedores c
     WHERE a.cod_tipo = b.codigo
     AND a.cod_proveedor = c.codigo
-    ORDER BY a.codigo ASC LIMIT 100";
+    ORDER BY a.codigo DESC LIMIT 100;";
     $query = $this->bd->consultar($sql);
 
     while ($datos= $this->bd->  obtener_fila($query)) {
@@ -102,7 +102,7 @@ class Ajuste
     return $this->datos;
   }
 
-  public function buscar($fecha_desde,$fecha_hasta,$mov_tipo,$proveedor){
+  public function buscar($fecha_desde,$fecha_hasta,$mov_tipo,$proveedor,$referencia){
  $WHERE = " WHERE a.cod_tipo = b.codigo
     AND a.cod_proveedor = c.codigo ";
     if($fecha_desde != '' && $fecha_hasta != ''){
@@ -114,6 +114,10 @@ class Ajuste
     if($proveedor != 'TODOS'){
       $WHERE .= " AND  c.codigo = '$proveedor'";
     }
+    if($referencia != '' AND $referencia != null){
+      $WHERE .= " AND  a.referencia = '$referencia'";
+    }
+
     $sql = "SELECT a.*, b.codigo cod_tipo, b.descripcion tipo,c.nombre proveedor
     FROM ajuste a, prod_mov_tipo b,proveedores c
     $WHERE       
@@ -159,9 +163,16 @@ class Ajuste
     return  $this->datos = $this->bd->obtener_fila($query);
   }
 
+  public function get_if_ean($cod){
+    $this->datos   = array();
+    $sql = " SELECT ean FROM productos WHERE item = '$cod'";
+    $query = $this->bd->consultar($sql);
+    return  $this->datos = $this->bd->obtener_fila($query);
+  }
+
   public function get_aj_reng($cod){
     $this->datos   = array();
-    $sql = " SELECT a.*, b.descripcion producto,c.descripcion almacen
+    $sql = " SELECT a.*, b.descripcion producto,c.descripcion almacen,b.item serial
     FROM ajuste_reng a , productos b,almacenes c
     WHERE a.cod_ajuste = $cod
     AND a.cod_producto = b.item
@@ -174,7 +185,6 @@ class Ajuste
     }
     return $this->datos;
   }
-
 
 }
 ?>

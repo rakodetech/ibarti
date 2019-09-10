@@ -140,7 +140,7 @@ $titulo = " CONTROL DE SISTEMA ";
       <td class="etiqueta"><?php echo $leng['cliente']?> Principal: </td>
       	<td id="select_1_02"><select name="cl_principal" style="width:200px">
 							<option value="<?php echo $cod_cliente;?>"><?php echo $cliente;?></option>
-          <?php  	$sql = " SELECT clientes.codigo, clientes.nombre FROM clientes  FROM clientes
+          <?php  	$sql = " SELECT clientes.codigo, clientes.nombre FROM clientes
 		                      WHERE status = 'T' AND clientes.codigo <> '$cod_cliente' ORDER BY 2 ASC ";
 		            $query = $bd->consultar($sql);
             		while($datos=$bd->obtener_fila($query,0)){

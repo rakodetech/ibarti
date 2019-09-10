@@ -30,6 +30,27 @@ function get_client_ip() {
 	return $ipaddress;
 }
 
+function Select($valor,$valido){ 
+	if (($valor == $valido)){ 
+		$result = 'selected'; 
+	}else{ 
+		$result = ''; 
+	} 
+	return $result; 
+} 
+
+function devuelveArrayFechasEntreOtrasDos($fechaInicio, $fechaFin)
+{
+	$arrayFechas=array();
+	$fechaMostrar = $fechaInicio;
+
+	while(strtotime($fechaMostrar) <= strtotime($fechaFin)) {
+		$arrayFechas[]=$fechaMostrar;
+		$fechaMostrar = date("Y-m-d", strtotime($fechaMostrar . " + 1 day"));
+	}
+
+	return $arrayFechas;
+}  
 
 function mensajeria($mensaje) {
 	echo'<script language="javascript">
@@ -39,16 +60,22 @@ function mensajeria($mensaje) {
 
 function conversion($fecha){
 	if($fecha!=''){
-		$fecha_N1 = explode("-", $fecha);
-		$a   = $fecha_N1[0];
-		$m   = $fecha_N1[1];
-		$d   = $fecha_N1[2];
-
-		if(($a=='0000') or ($m=="") or ($d=="")){
-			$fecha='';
+		if($fecha == 'DD-MM-AAAA'){
+			$fecha='0000-00-00';
 		}else{
-			$fecha=$d."-".$m."-".$a;
+			$fecha_N1 = explode("-", $fecha);
+			$a   = $fecha_N1[0];
+			$m   = $fecha_N1[1];
+			$d   = $fecha_N1[2];
+
+			if(($a=='0000') or ($m=="") or ($d=="")){
+				$fecha='';
+			}else{
+				$fecha=$d."-".$m."-".$a;
+			}
 		}
+	}else{
+		$fecha='0000-00-00';
 	}
 	
 	return $fecha;

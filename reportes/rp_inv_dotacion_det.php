@@ -39,7 +39,8 @@ if(isset($reporte)){
 			      AND ajuste.referencia = prod_dotacion.codigo
 				AND ajuste_reng.cod_ajuste = ajuste.codigo
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
-				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto ";
+				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto 
+				AND (ajuste.cod_tipo = 'DOT' OR ajuste.cod_tipo = 'ANU_DOT')";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
@@ -72,9 +73,8 @@ if(isset($reporte)){
 		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
 	}
 
- $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion, prod_dotacion.fec_us_ing,
-                 v_ficha.rol, v_ficha.cod_ficha,
-                 v_ficha.cedula, v_ficha.nombres AS trabajador,
+ $sql = " SELECT DISTINCT prod_dotacion.codigo, prod_dotacion.fec_dotacion, prod_dotacion.fec_us_ing, v_ficha.rol, v_ficha.cod_ficha,
+                 v_ficha.cedula, v_ficha.ap_nombre AS trabajador,
                  prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
                  prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',productos.cod_talla,') ') AS producto,
                  productos.item serial,
@@ -82,7 +82,11 @@ if(isset($reporte)){
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng
           $where
-        ORDER BY 2 ASC  ";
+        GROUP BY prod_dotacion.codigo,ajuste.codigo,prod_dotacion_det.cod_producto
+HAVING MAX(ajuste.codigo)
+ORDER BY 2 ASC ";
+
+
 
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";

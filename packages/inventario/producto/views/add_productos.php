@@ -1,3 +1,9 @@
+<?php
+$disabled_ean = '';
+if($ean == 'T'){
+	$disabled_ean = 'disabled = "disabled"';
+}
+?>
 <div id="Contenedor" class="mensaje"></div>
 <fieldset class="fieldset">
 	<legend>Datos Producto</legend>
@@ -6,7 +12,8 @@
 			<td class="etiqueta">C&oacute;digo:</td>
 			<td id="input01">
 				<input type="text" name="codigo" maxlength="11" id="p_codigo" size="20" value="<?php echo $prod['codigo']; ?>"/>
-				Activo: <input name="activo" id="p_activo" type="checkbox"  <?php echo statusCheck("$activo");?> value="T" /><br />
+				Activo: <input name="activo" id="p_activo" type="checkbox"  <?php echo statusCheck("$activo");?> value="T" />
+				EAN: <input name="ean" id="p_ean" type="checkbox" <?php echo statusCheck("$ean"); echo $disabled_ean;?> value="T" onchange="ActivarEan(this.checked)"/><br />
 				<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 			</td>
 		</tr>
@@ -140,7 +147,7 @@
 	<span class="art-button-wrapper">
 		<span class="art-button-l"> </span>
 		<span class="art-button-r"> </span>
-		<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />	
+		<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />
 	</span> 	
 </div>
 </fieldset>

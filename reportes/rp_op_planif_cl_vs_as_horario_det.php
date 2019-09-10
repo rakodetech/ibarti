@@ -1,9 +1,7 @@
 <?php
 session_start();
-$Nmenu   = 547;
 require("../autentificacion/aut_config.inc.php");
 include_once('../funciones/funciones.php');
-require_once('../autentificacion/aut_verifica_menu_02.php');
 
 $reporte         = $_POST['reporte'];
 

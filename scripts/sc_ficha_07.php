@@ -21,10 +21,10 @@ $metodo   = $_POST['metodo'];
 // $href     = $_POST['href'];
 
 if(isset($_POST['proced'])){
-echo     $sql    = "$SELECT $proced('$metodo', $codigo, '$cod_ficha', '$fecha',
-                                    '$contrato', '$observacion', '$usuario')";
-	 $query = $bd->consultar($sql);
-
-	}
-//	require_once('../funciones/sc_direccionar.php');
+	 $sql    = "$SELECT $proced('$metodo', $codigo, '$cod_ficha', '$fecha',
+	'$contrato', '$observacion', '$usuario')";
+	$query = $bd->consultar($sql);
+	echo $sql;
+}
+// require_once('../funciones/sc_direccionar.php');
 ?>

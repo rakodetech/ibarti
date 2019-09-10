@@ -23,8 +23,9 @@ $trabajador      = $_POST['trabajador'];
                   AND v_prod_dot_max2.cod_cliente = clientes.codigo
                   AND v_prod_dot_max2.cod_linea = prod_lineas.codigo
                   AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
-                  AND v_prod_dot_max2.cod_producto = productos.codigo
-	  			  AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo  ";
+                  AND v_prod_dot_max2.cod_producto = productos.item
+	  			  AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo 
+	  			  AND productos.cod_talla = tallas.codigo ";
 
 
 
@@ -56,10 +57,10 @@ $trabajador      = $_POST['trabajador'];
                        regiones.descripcion AS region,  contractos.descripcion AS contrato,
                        clientes.nombre AS ciente, prod_lineas.descripcion AS linea,
                        prod_sub_lineas.descripcion AS sub_linea, v_prod_dot_max2.cod_producto,
-                       productos.descripcion AS producto, v_prod_dot_max2.cantidad
+                       CONCAT(productos.descripcion,' ',tallas.descripcion) AS producto, v_prod_dot_max2.cantidad
                   FROM v_prod_dot_max2 , roles, regiones,  contractos,
                        clientes, prod_lineas, prod_sub_lineas, productos,
-					   control
+					   control,tallas
                   $where
 				  ORDER BY 3 DESC  ";
 ?><table width="100%" border="0" align="center">
@@ -92,7 +93,7 @@ $trabajador      = $_POST['trabajador'];
 				  <td class="texto">'.longitudMin($datos["cod_ficha"]).'</td>
 				  <td class="texto">'.longitud($datos["trabajador"]).'</td>
 				  <td class="texto">'.longitud($datos["sub_linea"]).'</td>
-				  <td class="texto">'.longitud($datos["producto"]).'</td>
+				  <td class="texto">'.$datos["producto"].'</td>
   				  <td class="texto">'.longitud($datos["cantidad"]).'</td>
               </tr>';
         };?>
