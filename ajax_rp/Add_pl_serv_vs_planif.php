@@ -34,6 +34,9 @@ if($ubicacion != "TODOS"){
 
 
 $sql = "SELECT 
+a.codigo cod_planif,
+a.cod_planif_cl_trab planif_cl_trab,
+a.cod_planif_cl planif_cl,
 CONCAT(Mes(a.fecha),'-',DATE_FORMAT(a.fecha,'%Y')) mes_anio,
 a.cod_cliente,
 a.cod_ubicacion,
@@ -48,7 +51,8 @@ a.fecha,
 CONCAT(ficha.apellidos,' ',ficha.nombres) ap_nombre, 
 ficha.cedula,
 h2.codigo cod_horario,
-h2.nombre concepto_horario
+h2.nombre concepto_horario,
+a.cod_turno
 FROM
 planif_clientes_trab_det AS a
 INNER JOIN clientes_ub_puesto ON a.cod_puesto_trabajo = clientes_ub_puesto.codigo
@@ -64,8 +68,11 @@ $qry  = $bd->consultar($sql);
 while($rows=$bd->obtener_name($qry)){
 	$result['servicio'][] = $rows;
 }
+$result['sql'][]= $sql;
 
 $sql = "SELECT
+ca.codigo cod_cargo, 
+ca.descripcion cargo,
 Dia_semana(a.fecha) dia_semana,
 CONCAT(Mes(a.fecha),'-',DATE_FORMAT(a.fecha,'%Y')) mes_anio,
 cl.nombre cliente,
@@ -81,6 +88,7 @@ h.nombre AS horario
 FROM
 clientes_contratacion_ap AS a
 INNER JOIN turno AS t ON a.cod_turno = t.codigo
+INNER JOIN cargos AS ca ON a.cod_cargo = ca.codigo
 INNER JOIN horarios AS h ON t.cod_horario = h.codigo
 INNER JOIN dias_habiles ON t.cod_dia_habil = dias_habiles.codigo
 INNER JOIN dias_habiles_det ON dias_habiles_det.cod_dias_habiles = dias_habiles.codigo
@@ -97,7 +105,8 @@ $query = $bd->consultar($sql);
 while($rows=$bd->obtener_name($query)){
 	$result['contrato'][] = $rows;
 }
-$result['sql']= $sql;
+$result['sql'][]= $sql;
+
 print_r(json_encode($result));
 return json_encode($result);
 
