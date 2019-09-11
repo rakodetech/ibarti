@@ -287,53 +287,101 @@ function anular(){
             errorMessage = "Debe de ingresar un articulo";
         }
 
-        Get_mayor_a_stock(codigo);
-        // if (error == 0) {
+        
+        if (error == 0) {
 
-        //     var parametros = {
-        //         nro_ajuste: codigo,
-        //         tipo: tipo,
-        //         fecha: fecha,
-        //         descripcion: descripcion,
-        //         total: total,
-        //         ped_reng: ped_reng,
-        //         proced: proced,
-        //         us: us,
-        //         metodo: metodo,
-        //         aplicar: aplicar,
-        //         referencia: referencia,
-        //         proveedor: proveedor
-        //     };
+            if($("#ped_aplicar").val() == "IN"){
+                Get_mayor_a_stock(codigo,()=>{
+                    var parametros = {
+                        nro_ajuste: codigo,
+                        tipo: tipo,
+                        fecha: fecha,
+                        descripcion: descripcion,
+                        total: total,
+                        ped_reng: ped_reng,
+                        proced: proced,
+                        us: us,
+                        metodo: metodo,
+                        aplicar: aplicar,
+                        referencia: referencia,
+                        proveedor: proveedor
+                    };
 
-        //     $.ajax({
-        //         data: parametros,
-        //         url: 'packages/inventario/ajuste/modelo/ajuste.php',
-        //         type: 'post',
-        //         beforeSend: function(){
-        //             $("#anulador").attr("disabled",true);
-        //         },
-        //         success: function(response) {
-        //             //console.log(response);
-        //             var resp = JSON.parse(response);
-        //             if (resp.error) {
-        //                 alert(resp.mensaje);
-        //             } else {
-        //                 alert("Actualización Exitosa!..");
-        //                 CloseModal();
-        //                 Cons_ajuste()
-        //             }
-        //             $("#ped_descripcion_anular").val("");
-        //             $("#anulador").attr("disabled",false);
-        //         },
-        //         error: function(xhr, ajaxOptions, thrownError) {
-        //             alert(xhr.status);
-        //             alert(thrownError);
-        //             $("#anulador").attr("disabled",false);
-        //         }
-        //     });
-        // } else {
-        //     alert(errorMessage);
-        // }
+                    $.ajax({
+                        data: parametros,
+                        url: 'packages/inventario/ajuste/modelo/ajuste.php',
+                        type: 'post',
+                        beforeSend: function(){
+                            $("#anulador").attr("disabled",true);
+                        },
+                        success: function(response) {
+                                //console.log(response);
+                                var resp = JSON.parse(response);
+                                if (resp.error) {
+                                    alert(resp.mensaje);
+                                } else {
+                                    alert("Actualización Exitosa!..");
+                                    CloseModal();
+                                    Cons_ajuste()
+                                }
+                                $("#ped_descripcion_anular").val("");
+                                $("#anulador").attr("disabled",false);
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert(xhr.status);
+                                alert(thrownError);
+                                $("#anulador").attr("disabled",false);
+                            }
+                        });
+                });
+            }else{
+                var parametros = {
+                    nro_ajuste: codigo,
+                    tipo: tipo,
+                    fecha: fecha,
+                    descripcion: descripcion,
+                    total: total,
+                    ped_reng: ped_reng,
+                    proced: proced,
+                    us: us,
+                    metodo: metodo,
+                    aplicar: aplicar,
+                    referencia: referencia,
+                    proveedor: proveedor
+                };
+
+                $.ajax({
+                    data: parametros,
+                    url: 'packages/inventario/ajuste/modelo/ajuste.php',
+                    type: 'post',
+                    beforeSend: function(){
+                        $("#anulador").attr("disabled",true);
+                    },
+                    success: function(response) {
+                    //console.log(response);
+                    var resp = JSON.parse(response);
+                    if (resp.error) {
+                        alert(resp.mensaje);
+                    } else {
+                        alert("Actualización Exitosa!..");
+                        CloseModal();
+                        Cons_ajuste()
+                    }
+                    $("#ped_descripcion_anular").val("");
+                    $("#anulador").attr("disabled",false);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                    $("#anulador").attr("disabled",false);
+                }
+            });
+            }
+            
+            
+        } else {
+            alert(errorMessage);
+        }
     }
 }else{
     alert("La descripcion es requerida");
@@ -1087,14 +1135,13 @@ function verEans(index){
     eanModalOpen();
 }
 
-function Get_mayor_a_stock(cod_ajuste) {
+function Get_mayor_a_stock(cod_ajuste,callback) {
     $.ajax({
         data: { 'codigo': cod_ajuste },
         url: 'packages/inventario/ajuste/views/Get_if_mayor_stock_actual.php',
         type: 'post',
         success: function(response) {
             var resp = JSON.parse(response);
-            console.log(resp);
             if(resp.length > 0){
                 var productos = "";
                 resp.forEach((d)=>{
