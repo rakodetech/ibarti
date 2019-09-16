@@ -21,7 +21,7 @@ $tipo       = $_POST['tipo'];
 $clasif     = $_POST['clasif'];
 $cedula    	= $_POST['stdID'];
 $reporte         = $_POST['reporte'];
-
+$detalle = $_POST['detalle'];
 $archivo         = "rp_nov_check_list_" . $_POST['fecha_desde'] . "";
 $titulo          = " REPORTE DE EVALUACION CHECKLIST FECHA: " . $fecha_D . " HASTA: " . $fecha_H . "\n";
 
@@ -61,13 +61,23 @@ if (isset($reporte)) {
 		ficha.nombres,
 		' ',
 		ficha.apellidos
-	) entrevistador,
-	SUM(
+	) entrevistador";
+	$sql .= ($detalle != "T" || $reporte=="pdf") ? "
+	,SUM(
 		nov_check_list_trab_det.valor
 	),
 	SUM(
 		nov_check_list_trab_det.valor_max
-	)
+	)" : ',
+	nov_check_list_trab_det.observacion,
+		nov_valores.abrev,
+		nov_check_list_trab_det.valor
+	,
+		nov_check_list_trab_det.valor_max,
+		nov_valores.descripcion,
+		novedades.descripcion
+	';
+	$sql .= "
 FROM
 	preingreso,
 	nov_check_list_trab,
@@ -75,18 +85,21 @@ FROM
 	nov_tipo,
 	nov_clasif,
 	ficha,
+	nov_valores,
 	novedades
 	WHERE nov_check_list_trab.fec_us_ing BETWEEN \"$fecha_D\" AND \"$fecha_H\" AND 
- nov_check_list_trab.cedula = preingreso.cedula
-AND nov_check_list_trab.cod_nov_clasif = nov_clasif.codigo
-AND nov_check_list_trab.cod_nov_tipo = nov_tipo.codigo
-AND nov_check_list_trab.codigo = nov_check_list_trab_det.cod_check_list 
-AND nov_check_list_trab.cod_ficha = ficha.cod_ficha
-AND nov_check_list_trab_det.cod_novedades = novedades.codigo
-$where
-GROUP BY
+	nov_check_list_trab.cedula = preingreso.cedula
+	AND nov_check_list_trab.cod_nov_clasif = nov_clasif.codigo
+	AND nov_check_list_trab.cod_nov_tipo = nov_tipo.codigo
+	AND nov_check_list_trab.codigo = nov_check_list_trab_det.cod_check_list 
+	AND nov_check_list_trab.cod_ficha = ficha.cod_ficha
+	AND nov_check_list_trab_det.cod_novedades = novedades.codigo
+	AND nov_valores.codigo = nov_check_list_trab_det.cod_valor
+$where";
+	$sql .= ($detalle != "T" || $reporte=="pdf") ?
+		"GROUP BY
 	nov_check_list_trab.codigo
-	";
+	" : '';
 
 
 	if ($reporte == 'excel') {
@@ -94,7 +107,8 @@ GROUP BY
 		header("Content-type: application/vnd.ms-excel");
 		header("Content-Disposition:  filename=\"$archivo.xls\";");
 
-		echo '
+
+		$mostrar = '
 			<table width="100%" align="center">
 				<tr class="fondo00">
 					<th  class="etiqueta">Codigo</th>
@@ -104,17 +118,19 @@ GROUP BY
 					<th  class="etiqueta">Documento</th>
 					<th  class="etiqueta">Trabajador</th>
 					<th  class="etiqueta">Ficha Entrevistador</th>
-					<th  class="etiqueta">Entrevistador</th>
+					<th  class="etiqueta">Entrevistador</th>';
+		$mostrar .= $detalle != "T" ? '
 					<th  class="etiqueta">Valor</th>
 					<th  class="etiqueta">Valor MAX</th>
-				</tr>
-			';
+			' : '
+			<th  class="etiqueta">Valor</th>
+					<th  class="etiqueta">Valor MAX</th>';
+		$mostrar .= "</tr>";
 		$query01  = $bd->consultar($sql);
+
 		//echo '<tr><td>'.json_encode($query01).'</td></tr>';
-
 		while ($datos = $bd->obtener_fila($query01, 0)) {
-
-			echo '<tr>
+			$mostrar .= '<tr>
 					<td>' . $datos[0] . '</td>
 					<td>' . $datos[1] . '</td>
 					<td>' . $datos[2] . '</td>
@@ -123,12 +139,21 @@ GROUP BY
 					<td>' . strtoupper($datos[5]) . '</td>
 					<td>' . $datos[6] . '</td>
 					<td>' . strtoupper($datos[7]) . '</td>
+					';
+			$mostrar .= $detalle != "T" ? '
 					<td>' . $datos[8] . '</td>
 					<td>' . $datos[9] . '</td>
-          		  </tr>';
+					</tr>' : '<td>' . $datos[13] . '</td>
+					<td>' . $datos[8] . '</td>
+					<td>' . $datos[9] . '</td>
+					<td>' . $datos[12] . '</td>
+					<td>' . $datos[10] . '</td>
+					<td>' . $datos[11] . '</td>
+					</tr>';
 		};
-		echo "</table>";
+		echo $mostrar;
 	}
+
 	if ($reporte == 'pdf') {
 
 		require_once('../' . ConfigDomPdf);
@@ -142,7 +167,7 @@ GROUP BY
 		require('../' . PlantillaDOM . '/header_ibarti_2.php');
 		include('../' . pagDomPdf . '/paginacion_ibarti.php');
 
-		echo '<br><div>
+		$mostrar3 = '<br><div>
         <table>
 		<tbody>
             <tr style="background-color: #4CAF50;">
@@ -150,36 +175,48 @@ GROUP BY
 					<th width="20%">Clasificacion</th>
 					<th width="20%">Evaluacion</th>
 					<th width="10%">Documento</th>
-					<th width="30%">Trabajador</th>
-					<th width="5%">Valor</th>
-					<th width="5%">Valor MAX</th>
+					<th width="20%">Trabajador</th>
+		';
+		$mostrar3 .= ($detalle != "T" || $reporte=="pdf") ? '
+					<th width="10%">Valor</th>
+					<th width="10%">Valor MAX</th>
 			</tr>
-			';
+			' : '
+				<th width="7%">Valor</th>
+					<th width="7%">Valor MAX</th>
+					</tr>';
 
 		$f = 0;
 		while ($datos = $bd->obtener_num($query01)) {
 			if ($f % 2 == 0) {
-				echo "<tr>";
+				$mostrar3 .= "<tr>";
 			} else {
-				echo "<tr class='class= odd_row'>";
+				$mostrar3 .= "<tr class='class= odd_row'>";
 			}
-			echo   "
+			$mostrar3 .= "
 				<td>$datos[1]</td>
 				<td>$datos[2]</td>
 				<td>$datos[3]</td>
 				<td>$datos[4]</td>
 				<td>" . strtoupper($datos[5]) . "</td>
+				";
+			$mostrar3 .= ($detalle != "T" || $reporte=="pdf") ? "
 				<td>$datos[8]</td>
-				<td>$datos[9]</td></tr>";
+				<td>$datos[9]</td>
+				</tr>" : "
+				
+				<td>$datos[10]</td>
+				<td>$datos[11]</td>
+				</tr>";
 
 			$f++;
 		}
-		echo "</tbody>
+		$mostrar3 .= "</tbody>
         </table>
 		</div>
 		</body>
 		</html>";
-
+		echo $mostrar3;
 		$dompdf->load_html(ob_get_clean(), 'UTF-8');
 		$dompdf->set_paper('letter', 'landscape');
 		$dompdf->render();

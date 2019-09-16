@@ -10,23 +10,25 @@ require_once('sql/sql_report.php');
 $bd = new DataBase();
 ?>
 <script language="JavaScript" type="text/javascript">
+	function llenar_nov_tipo(clasificacion) {
 
-function llenar_nov_tipo(clasificacion) {
-    
-    var parametros = { 'clasificacion': clasificacion, 'inicial': '' };
-    $.ajax({
-        data: parametros,
-        url: 'ajax/Add_novedades_tipo.php',
-        type: 'post',
-        success: function (response) {
-            $('#tipo').html(response);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr.status);
-            alert(thrownError);
-        }
-    });
-}
+		var parametros = {
+			'clasificacion': clasificacion,
+			'inicial': ''
+		};
+		$.ajax({
+			data: parametros,
+			url: 'ajax/Add_novedades_tipo.php',
+			type: 'post',
+			success: function(response) {
+				$('#tipo').html(response);
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		});
+	}
 
 	function Add_filtroX() { // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 		var clasif = $("#clasif").val();
@@ -134,7 +136,12 @@ function llenar_nov_tipo(clasificacion) {
 			<td colspan="3"><input id="stdName" type="text" style="width:300px" disabled="disabled" />
 				<input type="hidden" name="stdID" id="stdID" value="" /></td>
 
-			<td>&nbsp;<input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu; ?>" />
+			<td>Detalle.:</td>
+			<td> <select name="detalle" id="">
+					<option value="F" selected>NO</option>
+					<option value="T">SI</option>
+				</select>
+				<input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu; ?>" />
 				<input type="hidden" name="mod" id="mod" value="<?php echo $mod; ?>" />
 				<input type="hidden" name="archivo" id="archivo" value="<?php echo $archivo; ?>" />
 				<input type="hidden" name="r_rol" id="r_rol" value="<?php echo $_SESSION['r_rol']; ?>" />
@@ -163,7 +170,7 @@ function llenar_nov_tipo(clasificacion) {
 </form>
 <script type="text/javascript">
 	filtroValue = $("#paciFiltro").val();
-					
+
 	new Autocomplete("stdName", function() {
 		this.setValue = function(id) {
 			document.getElementById("stdID").value = id; // document.getElementsByName("stdID")[0].value = id;
