@@ -62,7 +62,7 @@ $query = $bd->consultar($sql);
 				  <td class="texo" style="text-align:center;">' . longitud($datos[2]) . '</td>
                   <td class="texo" style="text-align:center;">' . longitud($datos[3]) . '</td>
 				  <td class="texo" style="text-align:center;">' . strtoupper(longitud($datos[4])) . '</td>
-				  <td class="texo" style="text-align:center;">' . $datos[7] . '</td>
+				  <td class="texo" style="text-align:center;">' . $datos[7] . '.</td>
 			</tr>';
 	}
 
