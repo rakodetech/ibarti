@@ -123,6 +123,10 @@ $where";
 					<th  class="etiqueta">Valor</th>
 					<th  class="etiqueta">Valor MAX</th>
 			' : '
+			<th  class="etiqueta">pregunta</th>
+			<th  class="etiqueta">observacion</th>
+			<th  class="etiqueta">abr</th>
+			<th  class="etiqueta">respuesta</th>
 			<th  class="etiqueta">Valor</th>
 					<th  class="etiqueta">Valor MAX</th>';
 		$mostrar .= "</tr>";
