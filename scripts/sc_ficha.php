@@ -52,8 +52,8 @@ $observacion     = htmlspecialchars($_POST["observacion"]);
 $fec_profit     = conversion($_POST['fec_profit']);
 $campo01        = '';
 $campo02        = '';
-$campo03        = '';
-$campo04        = '';
+$campo03        = $_POST['latitud'];
+$campo04        = $_POST['longitud'];
 
 $href     = $_POST['href'];
 $usuario  = $_POST['usuario'];

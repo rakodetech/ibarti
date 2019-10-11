@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 define("SPECIALCONSTANT", true);
 require "../autentificacion/aut_config.inc.php";
 include_once "../".Funcion;
