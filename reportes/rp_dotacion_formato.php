@@ -87,9 +87,15 @@ $mostrar = '<div style="border: 1.5px solid #1B5E20;">
                 </td>
             </tr>
             <tr>
-                <td width="40%">
+                <td width="80%">
                     <span class="etiqueta">Fecha Produccion: </span>
                     <span class="texto">' . $row["fec_dotacion"] . '</span>
+                </td>
+                <td>
+                <span class="etiqueta">Origen: </span>
+                <span class="texto">';
+                $mostrar.=($vista=="vista_dotacion")?'ALMACÉN':'OPERACIONES';
+                $mostrar.='</span>
                 </td>
             </tr>
 
