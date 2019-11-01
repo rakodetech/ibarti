@@ -1,0 +1,48 @@
+Agregar Campos a clientes_ubicacion
+
+latitud	varchar	30	0	-1	0	0	0	0		0		utf8	utf8_spanish_ci		0	0
+longitud	varchar	30	0	-1	0	0	0	0		0		utf8	utf8_spanish_ci		0	0
+
+
+
+PROCEDURE:p_clientes_ubic
+
+definition
+
+BEGIN
+
+  IF (metodo = 'agregar') THEN
+    INSERT INTO clientes_ubicacion (codigo, cod_cliente, cod_estado, cod_ciudad, cod_calendario, cod_region, cod_zona, descripcion, 
+                                    contacto, cargo, telefono, email, direccion, observacion,
+                                    campo01, campo02, campo03, campo04, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, `status`,latitud,longitud)
+                            VALUES (NULL, cliente,  estado, ciudad,  calendario, region, zona, nombre,
+                                    contac, carg, telf, correo, dir, observ,                                     
+                                    cp01, cp02, cp03, cp04, usuario, current_date, usuario, current_date, act,latitud,longitud);
+  ELSEIF (metodo = 'modificar') THEN
+     UPDATE clientes_ubicacion SET      
+            cod_estado = estado,  cod_ciudad   = ciudad,
+            cod_region = region,  cod_zona     = zona,
+            cod_calendario = calendario,
+            descripcion = nombre, contacto   = contac,
+            cargo      = carg, 
+            telefono   = telf,    email      = correo,  
+            direccion  = dir,     observacion = observ,            
+						latitud  = latitud,     longitud = longitud,            
+            campo01    = cp01,    campo02 = cp02, 
+            campo03    = cp03,    campo04 = cp04, 
+            cod_us_mod = usuario, fec_us_mod = CURRENT_DATE, 
+            `status`   = act
+      WHERE codigo     = cod
+        AND cod_cliente = cliente;
+END IF;
+END
+ 
+
+Parameter:
+ 
+metodo VARCHAR(12), cod VARCHAR(12), cliente VARCHAR(12), estado VARCHAR(12),  
+                                                              ciudad VARCHAR(12), region VARCHAR(12), zona VARCHAR(11), calendario VARCHAR(12),
+                                                              nombre VARCHAR(60), contac VARCHAR(60), carg VARCHAR(60), telf VARCHAR(60), 
+                                                              correo VARCHAR(60), dir VARCHAR(255), observ text, 
+                                                              cp01 VARCHAR(60), cp02 VARCHAR(60), cp03 VARCHAR(60), cp04 VARCHAR(60),
+                                                              usuario VARCHAR(12), act VARCHAR(1),latitud VARCHAR(30),longitud VARCHAR(30)
