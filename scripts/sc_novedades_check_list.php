@@ -79,8 +79,24 @@ $metodo         = $_POST['metodo'];
 								'$cliente', '$ubicacion', '$trabajador', '$observacion',
 								'$repuesta',
 								'$campo01', '$campo02', '$campo03', '$campo04',  
-								'$usuario',  '$activo')";							  
-			 $query = $bd->consultar($sql);	 		
+								'$usuario',  '$activo')";		
+					  
+			 $query = $bd->consultar($sql);	 	
+
+			 foreach($check_list as $valorX){
+				if(isset($_POST["check_list_valor_".$valorX.""])){	 			
+	
+				$cod_valor    = $_POST["cod_valor_".$valorX.""]; 
+				$valor        = $_POST["check_list_valor_".$valorX.""];
+				$observacion  = htmlentities($_POST["observacion_".$valorX.""]); 
+	
+ 				 $sql    = "$SELECT $proced2('$metodo', '$codigo','$valorX',  '$valor',
+											 '$observacion')";							  
+				 $query = $bd->consultar($sql);
+				 
+				}
+			
+			}	
 		}
 	}
 require_once('../funciones/sc_direccionar.php');  					
