@@ -124,7 +124,7 @@ var error=0;
 					<option value="apellidos"> Apellido </option>
 				</select></td>
     <td colspan="3">
-			Campo:
+			Campos:
 		<select name="campo" id="campo" style="width:150px;margin-left: 5px;">
 			<option value="">TODOS</option>
 			<?php 
