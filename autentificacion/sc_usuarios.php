@@ -42,6 +42,8 @@ $metodo   = $_POST['metodo'];
 	}	
 	
 if(isset($_POST['proced'])){
+
+	
 	
 	if($check=='S'){
 		
@@ -76,8 +78,7 @@ if(isset($_POST['proced'])){
 					$href = "../autentificacion/aut_logout.php";			   
 					$metodo = "error";   
 			}
-		}}        
-
+		}}
 		 $sql    = "$SELECT $proced('$metodo', '$codigo', '$cedula', '$perfil',  
 									'$nombre', '$apellido','$login', '$check',
 									'$password', '$pass_ant','$email', '$as_orden',
@@ -85,5 +86,5 @@ if(isset($_POST['proced'])){
 									'$usuario',  '$status')";						  
 		 $query = $bd->consultar($sql);	 
 	}
+	echo $sql;
 require_once('../funciones/sc_direccionar.php');  
-?>
