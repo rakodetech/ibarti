@@ -32,6 +32,22 @@ $lim_credito = $_POST["lim_credito"];
 $plazo_pago = $_POST["plazo_pago"];
 $desc_global = $_POST["desc_global"];
 $desc_pago = $_POST["desc_pago"];
+
+if ($dias_credito == ''){
+	$dias_credito = 0;
+} 
+if ($lim_credito == ''){
+	$lim_credito = 0;
+} 
+if ($plazo_pago == ''){
+	$plazo_pago = 0;
+} 
+if ($desc_global == ''){
+	$desc_global = 0;
+} 
+if ($desc_pago == ''){
+	$desc_pago = 0;
+} 
 $campo01 = $_POST["campo01"];
 $campo02 = $_POST["campo02"];
 $campo03 = $_POST["campo03"];
@@ -52,7 +68,7 @@ $metodo   = $_POST['metodo'];
 							   '$direccion', '$email', '$website', '$contacto',
 							   '$dias_credito', '$lim_credito', '$plazo_pago', '$desc_global',
 							   '$desc_pago',                                        
-                               '$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$activo')";						  
+                               '$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$activo')";					  
 	 $query = $bd->consultar($sql);	  			   		
 
 	}
