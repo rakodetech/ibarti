@@ -80,8 +80,9 @@ $metodo         = $_POST['metodo'];
 								'$repuesta',
 								'$campo01', '$campo02', '$campo03', '$campo04',  
 								'$usuario',  '$activo')";		
-							
+					  
 			 $query = $bd->consultar($sql);	 	
+
 			 foreach($check_list as $valorX){
 				if(isset($_POST["check_list_valor_".$valorX.""])){	 			
 	
@@ -94,6 +95,7 @@ $metodo         = $_POST['metodo'];
 				 $query = $bd->consultar($sql);
 				 
 				}
+			
 			}	
 		}
 	}

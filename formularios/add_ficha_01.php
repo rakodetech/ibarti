@@ -111,7 +111,8 @@ if($metodo == 'modificar' or $metodo == 'consultar'){
 	ficha_n_contracto.descripcion  AS n_contracto,
 	ficha.cod_n_zapatos, preing_zapatos.descripcion AS n_zapatos,
 	ficha.cod_t_camisas , preing_camisas.descripcion AS t_camisas,
-	ficha.cod_t_pantalon , preing_pantalon.descripcion AS t_pantalon
+	ficha.cod_t_pantalon , preing_pantalon.descripcion AS t_pantalon,
+	ficha.campo03,ficha.campo04
 	FROM ficha, nacionalidad, estado_civil, ocupacion,
 	nivel_academico, turno, clientes, clientes_ubicacion,
 	bancos, ficha_n_contracto, preing_camisas, preing_pantalon, preing_zapatos, ficha_historial
@@ -161,6 +162,9 @@ if($metodo == 'modificar' or $metodo == 'consultar'){
 	$t_pantalon      = $result['t_pantalon'];
 	$cod_n_zapato    = $result['cod_n_zapatos'];
 	$n_zapato        = $result['n_zapatos'];
+
+	$latitud = $result['campo03'];
+	$longitud = $result['campo04'];
 
 	if($vencimiento == "T"){
 		$dias_venc_contrato = $dias_venc;
@@ -214,6 +218,8 @@ if($metodo == 'modificar' or $metodo == 'consultar'){
 	$fec_ingreso    = '';
 
 	$fic_read = ' ';
+	$latitud = ' ';
+	$longitud = ' ';
 
 	$sql = " SELECT ficha_status.codigo AS cod_status, ficha_status.descripcion AS status
 	FROM ficha_status , control
@@ -524,6 +530,14 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 			<span class="textareaMinCharsMsg">Debe Escribir mas de 4 caracteres.</span>
 			<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 255.</span></td>
 		</tr>
+		<tr>
+		<td class="etiqueta">Latitud: </td>
+		<td><input type="text" name="latitud" maxlength="60" size="26" value="<?php echo $latitud;?>"/>
+		</td>
+		<td class="etiqueta">Longitud: </td>
+		<td><input type="text" name="longitud" maxlength="60" size="26" value="<?php echo $longitud;?>"/>
+		</td>
+	</tr>
 		<tr>
 			<td class="etiqueta"><?php echo $leng["estado"];?>:</td>
 			<td id="select04"><select name="estado" style="width:200px" onchange="Add_ajax01(this.value, 'ajax/Add_ciudad.php', 'ciudad')">

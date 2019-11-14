@@ -179,11 +179,14 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
       </tr>
 </table><hr /><div id="listar"><table width="100%" border="0" align="center">
 		<tr class="fondo00">
-			<th width="12%" class="etiqueta">Fecha</th>
-    		<th width="22%" class="etiqueta"><?php echo $leng["cliente"];?></th>
-            <th width="26%" class="etiqueta"><?php echo $leng["ubicacion"];?></th>
-            <th width="10%" class="etiqueta"><?php echo $leng["ficha"];?></th>
-			<th width="30%" class="etiqueta"><?php echo $leng["trabajador"];?></th>
+			<th width="11%" class="etiqueta"><?php echo $leng["ci"];?></th>
+			<th width="8%" class="etiqueta"><?php echo $leng["ficha"];?></th>
+			<th width="18%" class="etiqueta"><?php echo $leng["trabajador"];?></th>
+    	<th width="18%" class="etiqueta"><?php echo $leng["cliente"];?></th>
+      <th width="16%" class="etiqueta"><?php echo $leng["ubicacion"];?></th>
+      <th width="12%" class="etiqueta">Fecha</th>
+      <th width="12%" class="etiqueta">Hora</th>
+	<th width="5%" class="etiqueta">Vetado</th>
 	</tr>
     <?php
 	 $valor = 0;
@@ -198,15 +201,36 @@ MODIFY COLUMN `huella`  varchar(100) CHARACTER SET utf8 COLLATE utf8_spanish_ci 
 $sql_ch = "	SELECT v_ch_identify.codigo,
 									 IFNULL(ficha.cedula, 'SIN CEDULA') cedula ,  IFNULL(ficha.cod_ficha, 'SIN FICHA') cod_ficha,
 									 IFNULL(CONCAT(ficha.apellidos,' ',ficha.nombres), v_ch_identify.huella) ap_nombre ,
-									 v_ch_identify.cod_dispositivo, clientes_ubicacion.descripcion ubicacion,
-									 clientes.nombre cliente, v_ch_identify.fechaserver,
-									 v_ch_identify.fecha, v_ch_identify.hora
+									 v_ch_identify.cod_dispositivo,  clientes_ubicacion.codigo cod_ubicacion, clientes_ubicacion.descripcion ubicacion,
+									  clientes.codigo cod_cliente, clientes.nombre cliente, v_ch_identify.fechaserver,
+									 v_ch_identify.fecha, v_ch_identify.hora, 'SI' vetado
 							FROM v_ch_identify LEFT JOIN ficha ON v_ch_identify.cedula = ficha.cedula AND ficha.cod_ficha_status = 'A',
-									 clientes_ub_ch, clientes_ubicacion, clientes
+									 clientes_ub_ch, clientes, clientes_ubicacion
 						 WHERE DATE_FORMAT(v_ch_identify.fecha, '%Y-%m-%d') = CURDATE()
 						   AND v_ch_identify.cod_dispositivo = clientes_ub_ch.cod_capta_huella
 							 AND clientes_ub_ch.cod_cl_ubicacion = clientes_ubicacion.codigo
 							 AND clientes_ubicacion.cod_cliente = clientes.codigo
+							 	                 AND ficha.cod_ficha IN (SELECT clientes_vetados.cod_ficha FROM  clientes_vetados 
+						WHERE clientes_vetados.cod_cliente = clientes_ubicacion.cod_cliente
+						AND clientes_vetados.cod_ubicacion = clientes_ubicacion.codigo
+						AND ficha.cod_ficha = clientes_vetados.cod_ficha)
+						UNION ALL
+						       SELECT v_ch_identify.codigo,
+									 IFNULL(ficha.cedula, 'SIN CEDULA') cedula ,  IFNULL(ficha.cod_ficha, 'SIN FICHA') cod_ficha,
+									 IFNULL(CONCAT(ficha.apellidos,' ',ficha.nombres), v_ch_identify.huella) ap_nombre ,
+									 v_ch_identify.cod_dispositivo,  clientes_ubicacion.codigo cod_ubicacion, clientes_ubicacion.descripcion ubicacion,
+									  clientes.codigo cod_cliente, clientes.nombre cliente, v_ch_identify.fechaserver,
+									 v_ch_identify.fecha, v_ch_identify.hora, 'NO' vetado
+							FROM v_ch_identify LEFT JOIN ficha ON v_ch_identify.cedula = ficha.cedula AND ficha.cod_ficha_status = 'A',
+									 clientes_ub_ch, clientes, clientes_ubicacion
+									 					 WHERE DATE_FORMAT(v_ch_identify.fecha, '%Y-%m-%d') = CURDATE()
+						   AND v_ch_identify.cod_dispositivo = clientes_ub_ch.cod_capta_huella
+							 AND clientes_ub_ch.cod_cl_ubicacion = clientes_ubicacion.codigo
+							 AND clientes_ubicacion.cod_cliente = clientes.codigo
+							 	                 AND ficha.cod_ficha NOT IN (SELECT clientes_vetados.cod_ficha FROM  clientes_vetados 
+						WHERE clientes_vetados.cod_cliente = clientes_ubicacion.cod_cliente
+						AND clientes_vetados.cod_ubicacion = clientes_ubicacion.codigo
+						AND ficha.cod_ficha = clientes_vetados.cod_ficha)
 					ORDER BY fecha DESC  ";
 //  AND DATE_FORMAT(v_ch_identify.fecha, '%Y-%m-%d') = CURDATE()
 		$query_ch  = $bd->consultar($sql_ch) or die ("error ch");
@@ -241,13 +265,16 @@ $sql_ch = "	SELECT v_ch_identify.codigo,
 		}
 	// $Modificar = "Add_Mod01('".$datos[0]."', 'modificar')";
 	   $Borrar = "Borrar01('".$datos[0]."')";
-        echo '<tr class="'.$fondo.'">
-                  <td>'.$datos["fecha"].'</td>
-				  <td>'.longitudMin($datos["cliente"]).'</td>
-				  <td>'.longitud($datos["ubicacion"]).'</td>
-				  <td>'.longitud($datos["cod_ficha"]).'</td>
-                  <td>'.longitudMax($datos["ap_nombre"]).'</td>
-            </tr>';
+			echo '<tr class="'.$fondo.'">
+			<td>'.longitudMin($datos["cedula"]).'</td>
+					  <td>'.longitudMin($datos["cod_ficha"]).'</td>
+						<td>'.longitudMin($datos["ap_nombre"]).'</td>
+						<td>'.longitudMin($datos["cliente"]).'</td>
+					  <td>'.longitud($datos["ubicacion"]).'</td>
+					  <td>'.longitudMin($datos["fecha"]).'</td>
+					  <td>'.longitud($datos["hora"]).'</td>
+					    <td>'.longitud($datos["vetado"]).'</td>
+				</tr>';
         }
 //	 $bd2->close();
      echo '<input type="hidden" name="tabla" id="tabla" value="'.$tabla.'"/>';

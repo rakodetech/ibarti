@@ -176,7 +176,7 @@ if(count($result) ==0){
                           <td id="radio05_5" class="texto">
                             En Espera <input type = "radio" name="calculo_status"  value = "N"  
                             style="width:auto" <?php echo CheckX($calculo_status, 'N');?> />
-                            Aprobado <input type = "radio" name="calculo"  value = "A" 
+                            Aprobado <input type = "radio" name="calculo_status"  value = "A" 
                             style="width:auto" <?php echo CheckX($calculo_status, 'A');?> /><br />
                             <span class="radioRequiredMsg">Debe seleccionar un Campo.</span></td>
                           </tr> 

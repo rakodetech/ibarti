@@ -1,6 +1,5 @@
 <?php
 define("SPECIALCONSTANT",true);
-session_start();
 require("../autentificacion/aut_config.inc.php");
 include_once('../'.Funcion);
 require_once("../".class_bdI);
@@ -28,26 +27,26 @@ while($row2 = $bd->obtener_num($query2)){
 	
 	if($row2[0]!=null){
 		$codigo = $row2[0];
-	$tomo 	= $row2[1];
+		$tomo 	= $row2[1];
 	}
 	
 }
 if($reporte == 'pdf'){
 	require_once('../'.ConfigDomPdf);
-$dompdf= new DOMPDF();
+	$dompdf= new DOMPDF();
 
-ob_start();
+	ob_start();
 
-require('../'.PlantillaDOM.'/header_oesvica_check.php');
-include('../'.pagDomPdf.'/paginacion_ibarti.php');
+	require('../'.PlantillaDOM.'/header_oesvica_check.php');
+	include('../'.pagDomPdf.'/paginacion_ibarti.php');
 
-$logo = "../imagenes/logo.jpg";
+	$logo = "../imagenes/logo.jpg";
 	
 
-  if (file_exists($logo)) {
-	 $logo_img =  '<img src="'.$logo.'1" />';
+	if (file_exists($logo)) {
+		$logo_img =  '<img src="'.$logo.'1" />';
 	} else {
-	 $logo_img  =  '<img src="../imagenes/img_no_disp.jpg"/>';
+		$logo_img  =  '<img src="../imagenes/img_no_disp.jpg"/>';
 	}
 
 	echo '
@@ -66,8 +65,9 @@ $logo = "../imagenes/logo.jpg";
 	<td style="border:1px solid" colspan="2"><b>Observacion:</b></td>
 	</tr>
 	</table>
-<p style="font-size:10px;">|
+	<p style="font-size:10px;">|
 	';
+
 	$sql = "SELECT e.abrev , e.descripcion from novedades a, nov_clasif b,nov_tipo c, nov_valores_det d, nov_valores e
 	where a.cod_nov_tipo = c.codigo
 	and a.cod_nov_clasif = b.codigo
@@ -78,36 +78,22 @@ $logo = "../imagenes/logo.jpg";
 	and e.codigo = d.cod_valores
 	and a.`status`= 'T'
 	GROUP BY e.codigo";
-		$query=$bd->consultar($sql);
-		while($row = $bd->obtener_num($query)){
-				echo "<b>".$row[0]."</b> : ".$row[1]." | ";
-		}
-echo '</p>';
+	$query=$bd->consultar($sql);
+	while($row = $bd->obtener_num($query)){
+		echo "<b>".$row[0]."</b> : ".$row[1]." | ";
+	}
+	echo '</p>';
 	echo '<table width="100%" border="1">
 	<tr style="background:#0f7517;color:white;"><td colspan="2">'.$titulo2.'</td></tr>';
-	/*
-	$arreglo = array();	
-	
-	while($rows = $bd->obtener_num($query2)){
-		$arreglo[] = $rows[0];	
-	}
-	$cantidad = count($arreglo);
-	$div = 30/$cantidad;
-	for($i=0;$i<$cantidad;$i++){
-		echo '<td width="'.$div.'">'.$arreglo[$i].'</td>';
-	}
-	echo'</tr>';
-	*/
 
+	$sql = "SELECT a.codigo,b.descripcion clasif, c.descripcion tipo, a.descripcion pregunta from novedades a, nov_clasif b,nov_tipo c
+	where a.cod_nov_tipo = c.codigo
+	and a.cod_nov_clasif = b.codigo
+	and b.codigo = '".$clasif."'
+	and c.codigo = '".$tipo."'
+	and a.`status` = 'T'";
 
-$sql = "SELECT a.codigo,b.descripcion clasif, c.descripcion tipo, a.descripcion pregunta from novedades a, nov_clasif b,nov_tipo c
-where a.cod_nov_tipo = c.codigo
-and a.cod_nov_clasif = b.codigo
-and b.codigo = '".$clasif."'
-and c.codigo = '".$tipo."'
-and a.`status` = 'T'";
-
-$query=$bd->consultar($sql);
+	$query=$bd->consultar($sql);
 	while($row = $bd->obtener_num($query)){
 		echo '<tr><td width="95%"><b>¿'.$row[3].'</b><br>Observacion: <img src="../imagenes/cuadro.jpg" border="1" width="80%" height="30px"></img><br></td>  ' ;
 
@@ -138,37 +124,39 @@ $query=$bd->consultar($sql);
 		//echo '<tr><td colspan="2"><b>Observacion:</b></td></tr>';
 		
 	}
+
 	$bd2->liberar();
 	$bd->liberar();
+
 	echo'
 	</tr>
 	<tr>
-			<td colspan="2"><br></td>
-			</tr>
-		<tr>
-		<td colspan="2" style="padding: 0px !important;">
-			<table width="100%" style="margin: 0px !important;padding: 0px !important;">
-				<tr>
-			<td width="50%" style="text-align:center;">Firma de Supervisor:<br><br><br></td>
-			<td width="50%" style="border-left:1px solid; text-align:center;">Firma de representante de la empresa:<br><br><br></td>
-				</tr>
-			</table>
-		</td>
-		</tr>
+	<td colspan="2"><br></td>
+	</tr>
+	<tr>
+	<td colspan="2" style="padding: 0px !important;">
+	<table width="100%" style="margin: 0px !important;padding: 0px !important;">
+	<tr>
+	<td width="50%" style="text-align:center;">Firma de Supervisor:<br><br><br></td>
+	<td width="50%" style="border-left:1px solid; text-align:center;">Firma de representante de la empresa:<br><br><br></td>
+	</tr>
+	</table>
+	</td>
+	</tr>
 	</table>
 
 	</div>
 	
 	';
-	echo '
-		</body>
-		</html>';
-	
-		$dompdf->load_html(ob_get_clean(),'UTF-8');
-//		$dompdf->set_paper ('letter','landscape');
-		$dompdf->render();
-		$dompdf->stream($archivo, array('Attachment' => 0));
 
+	echo '
+	</body>
+	</html>';
+	
+	$dompdf->load_html(ob_get_clean(),'UTF-8');
+	//$dompdf->set_paper('letter','landscape');
+	$dompdf->render();
+	$dompdf->stream($archivo, array('Attachment' => 0));
 }else{
 	echo $clasif;
 }

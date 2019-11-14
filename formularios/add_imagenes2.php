@@ -10,7 +10,7 @@ $titulo = " Guardar Imagen Y Recortar ";
 
 if( $tipo == "01"){
 $dst_w  = "200";
-$dst_h  = "240";	
+$dst_h  = "240";  
 $imgDST = "imagenes/fotos/";
 $img_src = "imagenes/temp/$usuario.jpg";
 
@@ -19,30 +19,30 @@ $img_src = "imagenes/temp/$usuario.jpg";
   $img_src = "imagenes/temp/$usuario.jpg";
 $dst_w  = "410";
 $dst_h  = "280";
-	}else{
-	 exit;
-	}
+  }else{
+   exit;
+  }
 
 ?>
 <script src="Jcrop/js/jquery.min.js"></script>
 <script src="Jcrop/js/jquery.Jcrop.js"></script>
 
 <script type="text/javascript">
-	  
+    
   jQuery(function($){
     // Create variables (in this scope) to hold the API and image size
     var jcrop_api,
  
        xsize = document.getElementById('dst_w').value, 
       ysize = document.getElementById('dst_h').value ;
-	   // alert(xsize);
-	   // alert(size); 
+     // alert(xsize);
+     // alert(size); 
     
     console.log('init',[xsize,ysize]);
     $('#fotografia').Jcrop({
       onChange: updatePreview,
       onSelect: updatePreview,
-	   onRelease:  clearCoords,
+     onRelease:  clearCoords,
       aspectRatio: xsize / ysize
     },function(){
       // Use the API to get the real image size
@@ -55,9 +55,9 @@ $dst_h  = "280";
       // Move the preview into the jcrop container for css positioning
    //    $preview.appendTo(jcrop_api.ui.holder);
     });
-	
-	
-	  $('#coords').on('change','input',function(e){
+  
+  
+    $('#coords').on('change','input',function(e){
       var x1 = $('#x1').val(),
           x2 = $('#x2').val(),
           y1 = $('#y1').val(),
@@ -67,13 +67,13 @@ $dst_h  = "280";
 
     function updatePreview(c)
     {
-	
-	$('#x1').val(c.x);
+  
+  $('#x1').val(c.x);
     $('#y1').val(c.y);
     $('#x2').val(c.x2);
     $('#y2').val(c.y2);
     $('#w').val(c.w);
-    $('#h').val(c.h);		
+    $('#h').val(c.h);   
     };
 
   function clearCoords(){
@@ -89,72 +89,72 @@ $dst_h  = "280";
   
       
   function SaveImg(){
-	var Contenedor = "Contenedor01";
-	var valor   = "jQueryUpLoadyPHP/includes/red_img.php"; 
+  var Contenedor = "Contenedor01";
+  var valor   = "jQueryUpLoadyPHP/includes/red_img.php"; 
 
 
-	var ext      = document.getElementById('ext').value;
-	var img_nomb  = document.getElementById('img_nomb').value;
-	var img_nomb_dst  = document.getElementById('img_nomb_dst').value;
-	var imgURL  = document.getElementById('imgURL').value;
-	var imgDST  = document.getElementById('imgDST').value;
+  var ext      = document.getElementById('ext').value;
+  var img_nomb  = document.getElementById('img_nomb').value;
+  var img_nomb_dst  = document.getElementById('img_nomb_dst').value;
+  var imgURL  = document.getElementById('imgURL').value;
+  var imgDST  = document.getElementById('imgDST').value;
     var imgURL   = imgURL+img_nomb+"."+ext; 
     var imgDST   = imgDST+img_nomb_dst+"."+ext;
-	var dst_w   = document.getElementById('dst_w').value;   
-	var dst_h   = document.getElementById('dst_h').value;
-	var x1      = document.getElementById('x1').value;
-	var x2      = document.getElementById('x2').value;
-	var y1      = document.getElementById('y1').value;
-	var y2      = document.getElementById('y2').value;
-	var w      = document.getElementById('w').value;
-	var h      = document.getElementById('h').value;
+  var dst_w   = document.getElementById('dst_w').value;   
+  var dst_h   = document.getElementById('dst_h').value;
+  var x1      = document.getElementById('x1').value;
+  var x2      = document.getElementById('x2').value;
+  var y1      = document.getElementById('y1').value;
+  var y2      = document.getElementById('y2').value;
+  var w      = document.getElementById('w').value;
+  var h      = document.getElementById('h').value;
 
 
-	var subida  = document.getElementById('subida').value;
-	
-	var campo01 = 1; 
+  var subida  = document.getElementById('subida').value;
+  
+  var campo01 = 1; 
     var errorMessage = 'Debe Seleccionar Todo Los Campos';
 
      if(subida!='SI') {
-     var errorMessage = 'Debe Subir Una Imagen';	 
-	 var campo01 = campo01+1; 
-	}  
+     var errorMessage = 'Debe Subir Una Imagen';   
+   var campo01 = campo01+1; 
+  }  
 
 
-	if(campo01 == 1){
+  if(campo01 == 1){
 
-	
-	ajax=nuevoAjax();
-	
-		ajax.open("POST", valor, true);
-		ajax.onreadystatechange=function()  
-		{ 
-			if (ajax.readyState==4){					
-			document.getElementById(Contenedor).innerHTML = ajax.responseText;
-			Mensaje();
-			
-			}
-		} 
-    alert("imgURL="+imgURL+"&imgDST="+imgDST+"&dst_w="+dst_w+"&dst_h="+dst_h+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2+"&w="+w+"&h="+h+"");
-		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");			
-	ajax.send("imgURL="+imgURL+"&imgDST="+imgDST+"&dst_w="+dst_w+"&dst_h="+dst_h+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2+"&w="+w+"&h="+h+"");
-	}else{
-	alert(errorMessage);
-	 }
+  
+  ajax=nuevoAjax();
+  
+    ajax.open("POST", valor, true);
+    ajax.onreadystatechange=function()  
+    { 
+      if (ajax.readyState==4){          
+      document.getElementById(Contenedor).innerHTML = ajax.responseText;
+      Mensaje();
+      
+      }
+    } 
+    // alert("imgURL="+imgURL+"&imgDST="+imgDST+"&dst_w="+dst_w+"&dst_h="+dst_h+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2+"&w="+w+"&h="+h+"");
+    ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");     
+  ajax.send("imgURL="+imgURL+"&imgDST="+imgDST+"&dst_w="+dst_w+"&dst_h="+dst_h+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2+"&w="+w+"&h="+h+"");
+  }else{
+  alert(errorMessage);
+   }
 }    
 
   function Mensaje(){
-		  
-	 var valor = document.getElementById('mensaje').value;
-	  var valor = document.getElementById('mensaje').value;
-// 	 var imgDST = document.getElementById('imgDST').value;
-//	 var img_nomb_dst = document.getElementById('img_nomb_dst').value;
-//	 var ext          = "jpg";
-//	 var src          = ""+imgDST+img_nomb_dst+"."+ext;		 
-	 alert(valor);
-	 window.history.go(-2);
+      
+   var valor = document.getElementById('mensaje').value;
+    var valor = document.getElementById('mensaje').value;
+//   var imgDST = document.getElementById('imgDST').value;
+//   var img_nomb_dst = document.getElementById('img_nomb_dst').value;
+//   var ext          = "jpg";
+//   var src          = ""+imgDST+img_nomb_dst+"."+ext;    
+   alert(valor);
+   window.history.go(-2);
 
-	} 
+  } 
 </script>
 <link rel="stylesheet" href="Jcrop/css/jquery.Jcrop.css" type="text/css" />
 <div align="center" class="etiqueta_title"><?php echo $titulo;?> </div><hr />
@@ -166,10 +166,10 @@ $dst_h  = "280";
                <div align="center"><span class="art-button-wrapper">
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span> 
-                      <input type="button" id="saveImg" onClick="SaveImg()" value="Guardar Imagen" class="readon art-button" />	
+                      <input type="button" id="saveImg" onClick="SaveImg()" value="Guardar Imagen" class="readon art-button" /> 
                 </span></div></tr>
 
-</table>	    
+</table>      
     <div class="inline-labels">
     <input type="hidden" size="4" id="x1" name="x1" /> 
     <input type="hidden" size="4" id="y1" name="y1" />
