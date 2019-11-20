@@ -43,7 +43,7 @@
 			{
 				if (ajax.readyState==4){
 					document.getElementById(Contenedor).innerHTML = ajax.responseText;
-				//window.location.href=""+href+"";
+				//window.location.href=""+href+s"";
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -67,7 +67,7 @@
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("apertura="+apertura+"&rol="+rol+"&contracto="+contracto+"&usuario="+usuario+"&metodo=replicar&proced=p_asistecia_proc&href=");
+			ajax.send("apertura="+apertura+"&rol="+rol+"&contracto="+contracto+"&usuario="+usuario+"&metodo=replicar&fec_diaria=&proced=p_asistecia_proc&href=");
 		} else{
 			return false;
 		}
@@ -163,7 +163,6 @@ function Ingresar(){
 			type:  'post',
 			success:  function (response) {
 				var resp = JSON.parse(response);
-				console.log(resp.data[0]);
 				if(Number(resp.data[0]) < 0){
 					toastr.error('No es posible registar a la ficha '+trab+', porque tiene su ultimo contrato vencido.');
 				}else{
@@ -224,7 +223,7 @@ function Borrar_Campo(auto){
 		var contrato      = document.getElementById("contracto").value;
 		var rol           = document.getElementById("rol").value;
 		var usuario       = document.getElementById("usuario").value;
-
+		var vencidos 	  = document.getElementById("vencido").value;
 		var valor = "ajax/Add_asistencia_det.php";
 		ajax=nuevoAjax();
 		ajax.open("POST", valor, true);
@@ -235,7 +234,7 @@ function Borrar_Campo(auto){
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("Nmenu="+Nmenu+"&mod="+mod+"&apertura="+apertura+"&contrato="+contrato+"&rol="+rol+"&usuario="+usuario+"");
+		ajax.send("Nmenu="+Nmenu+"&mod="+mod+"&apertura="+apertura+"&contrato="+contrato+"&vencido="+vencidos+"&rol="+rol+"&usuario="+usuario+"");
 	}
 
 	function CerrarDia(){
@@ -247,7 +246,6 @@ function Borrar_Campo(auto){
 			var rol       = document.getElementById("rol").value;
 			var contracto = document.getElementById("contracto").value;
 			var usuario   = document.getElementById("usuario").value;
-
 			ajax=nuevoAjax();
 			ajax.open("POST", valor, true);
 			ajax.onreadystatechange=function(){
@@ -363,6 +361,7 @@ AND trab_roles.cod_rol  =  '$cod_rol'
 AND ficha.cod_contracto = '$co_cont'
 AND '$fec_diaria' >= ficha.fec_ingreso
 AND ficha.cod_ficha = ficha_historial.cod_ficha
+AND DATEDIFF(ficha_historial.fec_fin,CURDATE()) > (-1)
 GROUP BY 1
 ORDER BY 2 ASC ";
 
@@ -462,6 +461,12 @@ ORDER BY 3 ASC ";
 					onclick="Replicar()" />
 				</span><br /></div></td>
 			</tr>
+			<tr>
+			<td>Mostrar Vencidos</td>
+			<td><select name="vencido" id="vencido" onchange="Asistencia_Det()" >
+			<option value="N">NO</option>
+			<option value="S">SI</option>
+			</select></td></tr>
 		</table><hr /><div id="listar"><form id="asistencia_01" name="asistencia_01"
 			action="scripts/sc_asistencia.php"
 			method="post"><div id="contenedor_listar"><table width="100%" border="0" align="center">
