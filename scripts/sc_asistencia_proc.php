@@ -26,7 +26,7 @@ if (isset($_POST['metodo'])) {
 	switch ($i) {
 
     case 'cerrar_as':
-   	 // $sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadores
+   	 // $sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadoress
      //           FROM trab_roles , ficha , control
      //          WHERE trab_roles.cod_ficha = ficha.cod_ficha
      //            AND trab_roles.cod_rol = '$rol'
@@ -44,7 +44,6 @@ $sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadores, DATEDIFF(MAX(ficha_h
 				AND '$fec_diaria' >= ficha.fec_ingreso
 				GROUP BY ficha.cod_ficha
 				HAVING dias > -1";
-
    	$query = $bd->consultar($sql);
     $row01 = $bd->obtener_fila($query,0);
 	$trab  = $row01[0];
@@ -117,8 +116,8 @@ $sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadores, DATEDIFF(MAX(ficha_h
 	break;
 
     case 'replicar':
-
 	$sql    = "$SELECT $proced('$metodo', '$apertura', '$fec_diaria', '$rol', '$contracto', '$usuario')";
+	echo $sql;
 	 $query = $bd->consultar($sql);
 
 	break;
@@ -126,11 +125,13 @@ $sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadores, DATEDIFF(MAX(ficha_h
 
 		$sql    = "SELECT ficha.cod_ficha, CONCAT(ficha.apellidos, ' ',ficha.nombres) AS trabajador,
                           IFNULL(asistencia.cod_ficha, 'NO') AS valor
-                     FROM ficha LEFT JOIN asistencia ON asistencia.cod_as_apertura = '$apertura'
+                     FROM ficha_historial,ficha LEFT JOIN asistencia ON asistencia.cod_as_apertura = '$apertura'
                       AND ficha.cod_ficha = asistencia.cod_ficha , control, trab_roles
 					WHERE ficha.cod_ficha_status = control.ficha_activo
                       AND ficha.cod_contracto = '$contracto'
                       AND ficha.cod_ficha = trab_roles.cod_ficha
+					  AND ficha_historial.cod_ficha = ficha.cod_ficha
+					  AND (DATEDIFF(ficha_historial.fec_fin,now())>(-1))
                       AND trab_roles.cod_rol = '$rol'
 											AND '$fec_diaria' >= ficha.fec_ingreso
 											AND IFNULL(asistencia.cod_ficha, 'NO') = 'NO'
@@ -138,13 +139,16 @@ $sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadores, DATEDIFF(MAX(ficha_h
 					  UNION
 			  SELECT ficha.cod_ficha, CONCAT(ficha.apellidos, '',ficha.nombres, ' ',' REPLICA') AS trabajador,
                      'NO' AS valor
-                FROM ficha, asistencia,  control, trab_roles
+                FROM ficha, asistencia,  control, trab_roles,ficha_historial
                WHERE asistencia.cod_as_apertura = '$apertura'
                  AND ficha.cod_ficha = asistencia.cod_ficha
                  AND asistencia.cod_concepto = control.concepto_rep
                  AND ficha.cod_contracto = '$contracto'
                  AND ficha.cod_ficha = trab_roles.cod_ficha
-                 AND trab_roles.cod_rol = '$rol' ";
+				 AND ficha_historial.cod_ficha = ficha.cod_ficha
+AND (DATEDIFF(ficha_historial.fec_fin,now())>0)
+				 AND trab_roles.cod_rol = '$rol' ";
+				//  echo $sql;
 	$query = $bd->consultar($sql);
 	while($row01 = $bd->obtener_fila($query,0)){
 		 $mensaje .= "ficha: ".$row01[0].", ".$row01[1]." \n ";
