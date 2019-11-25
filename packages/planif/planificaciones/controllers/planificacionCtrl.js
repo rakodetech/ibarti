@@ -204,6 +204,7 @@ function cargar_ubic() {
 }
 
 function cargar_planif(ap) {
+	cliente = $("#planf_cliente").val();
 	ubic = $("#planf_ubicacion").val();
 	if (ubic == '') {
 		$("#cont_contratacion_det").html("");
@@ -251,6 +252,51 @@ function cargar_contratacion_det(ubic) {
 		},
 		success: function (response) {
 			$("#cont_contratacion_det").html(response);
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}
+
+function trab_sin_planificar() {
+	var ubicacion = $("#planf_ubicacion").val();
+	var cliente = $("#planf_cliente").val();
+	var parametros = {
+		"cliente": cliente, "ubicacion": ubic,
+		'apertura': apertura
+	};
+	$.ajax({
+		data: parametros,
+		url: 'packages/planif/planificaciones/views/Add_trab_sin_planif.php',
+		type: 'post',
+		success: function (response) {
+			ModalOpen();
+			$("#modal_titulo").text("Trabajadores sin Planificacion");
+			$("#modal_contenido").html(response);
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}
+
+function cantidad_trab_sin_planificar() {
+	var ubicacion = $("#planf_ubicacion").val();
+	var cliente = $("#planf_cliente").val();
+	var parametros = {
+		"cliente": cliente, "ubicacion": ubic,
+		'apertura': apertura
+	};
+	$.ajax({
+		data: parametros,
+		url: 'packages/planif/planificaciones/views/Add_cant_trab_sin_planif.php',
+		type: 'post',
+		success: function (response) {
+			var resp = JSON.parse(response);
+			$("#cantidad_sin_planif").text(resp.cantidad);
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -308,6 +354,7 @@ function cargar_planif_det(ubic) {
 		},
 		success: function (response) {
 			$("#cont_planif_det").html(response);
+			cantidad_trab_sin_planificar(cliente, ubic, apertura);
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);

@@ -385,16 +385,16 @@ class Planificacion
 		AND dias_habiles_det.cod_dias_habiles = dias_habiles.codigo
 		AND (
 		(
-			dias_habiles_det.cod_dias_tipo = dias_tipo.dia
-			AND Dia_semana (a.fecha) = dias_tipo.descripcion
+		dias_habiles_det.cod_dias_tipo = dias_tipo.dia
+		AND Dia_semana (a.fecha) = dias_tipo.descripcion
 		)
 		OR (
-			dias_habiles_det.cod_dias_tipo = dias_tipo.dia
-			AND dias_tipo.tipo = 'D'
+		dias_habiles_det.cod_dias_tipo = dias_tipo.dia
+		AND dias_tipo.tipo = 'D'
 		)
 		OR (
-			dias_habiles_det.cod_dias_tipo = dias_tipo.dia
-			AND DATE_FORMAT(a.fecha, '%d') = dias_tipo.descripcion
+		dias_habiles_det.cod_dias_tipo = dias_tipo.dia
+		AND DATE_FORMAT(a.fecha, '%d') = dias_tipo.descripcion
 		)
 		)
 		AND a.cod_cliente = cl.codigo
@@ -416,5 +416,40 @@ class Planificacion
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
+	}
+
+
+	function get_trab_sin_planif($cliente, $ubic, $apertura)
+	{
+		$this->datos  = array();
+
+		$sql = "SELECT  v_ficha.rol, v_ficha.cod_ficha, v_ficha.cedula, 
+		v_ficha.ap_nombre, v_ficha.cargo
+		FROM v_ficha, control, clientes, clientes_ubicacion
+		WHERE v_ficha.cod_ficha_status = control.ficha_activo 
+		AND clientes.codigo = clientes_ubicacion.cod_cliente 
+		AND clientes_ubicacion.codigo = v_ficha.cod_ubicacion
+		AND v_ficha.cod_cliente = $cliente AND v_ficha.cod_ubicacion = $ubic
+		AND v_ficha.cod_ficha NOT IN (SELECT planif_clientes_trab_det.cod_ficha FROM planif_clientes_trab_det
+		WHERE planif_clientes_trab_det.cod_planif_cl = '$apertura' AND  planif_clientes_trab_det.cod_cliente = $cliente AND planif_clientes_trab_det.cod_ubicacion = $ubic)";
+
+		$query = $this->bd->consultar($sql);
+		while ($datos = $this->bd->obtener_fila($query, 0)) {
+			$this->datos[] = $datos;
+		}
+		return $this->datos;
+	}
+
+	function cantidad_trab_sin_planif($cliente, $ubic, $apertura)
+	{
+		$this->datos  = array();
+		$sql = "SELECT COUNT(v_ficha.cod_ficha) cantidad
+		FROM v_ficha, control
+		WHERE v_ficha.cod_ficha_status = control.ficha_activo 
+		AND v_ficha.cod_cliente = $cliente AND v_ficha.cod_ubicacion = $ubic
+		AND v_ficha.cod_ficha NOT IN (SELECT planif_clientes_trab_det.cod_ficha FROM planif_clientes_trab_det
+		WHERE planif_clientes_trab_det.cod_planif_cl = '$apertura' AND  planif_clientes_trab_det.cod_cliente = $cliente AND planif_clientes_trab_det.cod_ubicacion = $ubic)";
+		$query = $this->bd->consultar($sql);
+		return $this->datos = $this->bd->obtener_fila($query);
 	}
 }

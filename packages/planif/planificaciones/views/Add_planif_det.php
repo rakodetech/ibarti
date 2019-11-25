@@ -22,6 +22,7 @@ echo '</br><div align="center" class="etiqueta_title">Planificacion Detalle</div
 	</span>
 </div>
 <div align="right"><span class="etiqueta">Ultima Modificacion: </span> '.$mod["fecha"].' ('.$mod["us_mod"].')</div>
+<div align="right"><span class="etiqueta">Nro. de Trabajadores sin planificar: <h6 id="cantidad_sin_planif"></h6></div>
 <table width="100%" border="0" align="center">
 <tr>
 <th width="22%">'.$leng["trabajador"].' <img class="imgLink"

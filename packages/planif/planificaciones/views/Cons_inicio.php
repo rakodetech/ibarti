@@ -68,7 +68,11 @@ $cliente  =  $plan->get_cliente();
       <span class="art-button-r"> </span>
       <input type="button" id="volver" value="Servicios Trabajadores Detalle" onClick="B_reporte('T')" class="readon art-button" />
     </span>
-
+    <span class="art-button-wrapper">
+      <span class="art-button-l"> </span>
+      <span class="art-button-r"> </span>
+      <input type="button" id="volver" value="Trabajadores Sin Planificar" onClick="trab_sin_planificar()" class="readon art-button" />
+    </span>
     <input name="metodo" id="h_metodo" type="hidden" value="<?php echo $metodo; ?>" />
   </div>
 </form>
