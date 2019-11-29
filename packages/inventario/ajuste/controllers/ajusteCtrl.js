@@ -115,11 +115,11 @@ function Form_ajuste(cod, metodo, tipo,anulado) {
                     $("#add_renglon_etiqueta").hide();
                     $("#add_renglon").hide();
                     if(typeof tipo != "undefined"){
-                     Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
-                 }
-             }
-         },
-         error: function(xhr, ajaxOptions, thrownError) {
+                       Form_ajuste_det(cod,metodo,tipo,()=>Reng_ped(cod)); 
+                   }
+               }
+           },
+           error: function(xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
             alert(thrownError);
         }
@@ -254,6 +254,7 @@ function anular_ajuste() {
 
 function anular(){
     //console.log('anular');
+    $("#anulador").attr('disabled', true);
     var descripcion = $("#ped_descripcion_anular").val();
     if(descripcion != ""){
         if(confirm("Desea continuar esta Operación?")){
@@ -381,6 +382,7 @@ function anular(){
             
         } else {
             alert(errorMessage);
+            $("#anulador").attr('disabled', false);
         }
     }
 }else{
@@ -455,11 +457,11 @@ function mostrar_costo_promedio(codigo,cod_almacen) {
         url: 'packages/inventario/producto/views/Get_costo_prom.php',
         type: 'post',
         success: function(response) {
-           var resp = JSON.parse(response);
-           costo = resp[0];
-           $("#ped_costo").val(resp[0]);
-       },
-       error: function(xhr, ajaxOptions, thrownError) {
+         var resp = JSON.parse(response);
+         costo = resp[0];
+         $("#ped_costo").val(resp[0]);
+     },
+     error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
     }
@@ -473,11 +475,11 @@ function cantidad_maxima(cod_producto,cod_almacen) {
         url: 'packages/inventario/ajuste/views/Get_stock.php',
         type: 'post',
         success: function(response) {
-         var resp = JSON.parse(response);
-         stock_actual = resp[0];
-         $("#ped_cantidad").attr('max',resp[0]);
-     },
-     error: function(xhr, ajaxOptions, thrownError) {
+           var resp = JSON.parse(response);
+           stock_actual = resp[0];
+           $("#ped_cantidad").attr('max',resp[0]);
+       },
+       error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
     }
@@ -810,18 +812,18 @@ function Borrar_renglon(intemsV) {
             if(datos[i]["eans"].length > 0){
                 var td07 = ('<td><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
             }else{
-               var td07 = ('<td><span class="art-button-wrapper"><span class="art-button-l"> </span><span class="art-button-r"> </span><input type="button"  title="Ver Eans" onclick = verEans('+reng_num+') class="readon art-button"  value="EANS" /></span><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
-           }
-           $('#listar_ajuste').append(tr);
-           $('#tr_' + reng_num + '').append(td01);
-           $('#tr_' + reng_num + '').append(td02);
-           $('#tr_' + reng_num + '').append(td03);
-           $('#tr_' + reng_num + '').append(td04);
-           $('#tr_' + reng_num + '').append(td05);
-           $('#tr_' + reng_num + '').append(td06);
-           $('#tr_' + reng_num + '').append(td07);
-       }
-   });
+             var td07 = ('<td><span class="art-button-wrapper"><span class="art-button-l"> </span><span class="art-button-r"> </span><input type="button"  title="Ver Eans" onclick = verEans('+reng_num+') class="readon art-button"  value="EANS" /></span><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
+         }
+         $('#listar_ajuste').append(tr);
+         $('#tr_' + reng_num + '').append(td01);
+         $('#tr_' + reng_num + '').append(td02);
+         $('#tr_' + reng_num + '').append(td03);
+         $('#tr_' + reng_num + '').append(td04);
+         $('#tr_' + reng_num + '').append(td05);
+         $('#tr_' + reng_num + '').append(td06);
+         $('#tr_' + reng_num + '').append(td07);
+     }
+ });
     Cal_total();
 }
 
@@ -852,8 +854,8 @@ function Reng_ped(codigo) {
             jQuery.each(Ped_detalle, function(i) {
                 //console.log(Ped_detalle[i]);
                 getIfEAN(Ped_detalle[i]['cod_producto'],null,false,()=>{
-                 Reng_ped_ean(Ped_detalle[i]['cod_ajuste'],Ped_detalle[i]['reng_num'],i)
-             });
+                   Reng_ped_ean(Ped_detalle[i]['cod_ajuste'],Ped_detalle[i]['reng_num'],i)
+               });
                 reng_num = Ped_detalle[i]["reng_num"];
                 //reng_num++;
             });
@@ -928,9 +930,9 @@ function Add_productos(almacen){
         url: 'ajax/Add_stock_productos.php',
         type: 'post',
         success: function(response) {
-         $("#productos").html(response);
-     },
-     error: function(xhr, ajaxOptions, thrownError) {
+           $("#productos").html(response);
+       },
+       error: function(xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
     }
@@ -997,8 +999,8 @@ function getIfEAN(item,cantidad,actualizar,callback){
                     if(actualizar){
                         $("#boton_eans").attr("onclick","actualizarEans()");
                     }else{
-                       $("#boton_eans").attr("onclick","guardarEans()");
-                   }
+                     $("#boton_eans").attr("onclick","guardarEans()");
+                 }
                    //console.log($("#ped_aplicar").val());
                    if($("#ped_aplicar").val() == "IN"){
                     cargarEANS(item,false);
@@ -1070,21 +1072,21 @@ function guardarEans(){
 function actualizarEans(){
     //console.log('actualizarEans');
     if(cantidad == eans.length){
-     var idX = index + 1;
-     Ped_detalle[index]["cantidad"] = cantidad;
-     Ped_detalle[index]["costo"] = costo;
-     Ped_detalle[index]["neto"] = neto;
-     Ped_detalle[index]["eans"] = eans;
+       var idX = index + 1;
+       Ped_detalle[index]["cantidad"] = cantidad;
+       Ped_detalle[index]["costo"] = costo;
+       Ped_detalle[index]["neto"] = neto;
+       Ped_detalle[index]["eans"] = eans;
 
-     $("#cant_" + idX + "").val(cantidad);
-     $("#costo_" + idX + "").val(costo);
-     $("#neto_" + idX + "").val(neto);
-     $("#ped_almacen").prop('disabled', false);
-     Limpiar_producto();
-     Cal_total();
-     Cancelar_renglon();
-     eanCloseModal();
- }else{
+       $("#cant_" + idX + "").val(cantidad);
+       $("#costo_" + idX + "").val(costo);
+       $("#neto_" + idX + "").val(neto);
+       $("#ped_almacen").prop('disabled', false);
+       Limpiar_producto();
+       Cal_total();
+       Cancelar_renglon();
+       eanCloseModal();
+   }else{
     alert("Debe seleccionar la cantidad correspondinete de EANS ("+cantidad+") ");
 }
 }
