@@ -22,19 +22,19 @@ $i = $_POST['metodo'];
 //  PROBLEMAS CON LA FECHA EN APERTURA DE FECHA
 
 if (isset($_POST['metodo'])) {
-
+	
 	switch ($i) {
-
+		
 		case 'cerrar_as':
-   	 // $sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadoress
-     //           FROM trab_roles , ficha , control
-     //          WHERE trab_roles.cod_ficha = ficha.cod_ficha
-     //            AND trab_roles.cod_rol = '$rol'
-     //            AND ficha.cod_contracto = '$contracto'
-     //            AND ficha.cod_ficha_status = control.ficha_activo
-					// 			AND '$fec_diaria' >= ficha.fec_ingreso";
-
-		$sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadores, DATEDIFF(MAX(ficha_historial.fec_fin), CURDATE()) dias
+			// $sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadoress
+			//           FROM trab_roles , ficha , control
+			//          WHERE trab_roles.cod_ficha = ficha.cod_ficha
+			//            AND trab_roles.cod_rol = '$rol'
+			//            AND ficha.cod_contracto = '$contracto'
+			//            AND ficha.cod_ficha_status = control.ficha_activo
+			// 			AND '$fec_diaria' >= ficha.fec_ingreso";
+			
+			$sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadores, DATEDIFF(MAX(ficha_historial.fec_fin), CURDATE()) dias
 		FROM trab_roles , ficha , control, ficha_historial
 		WHERE trab_roles.cod_ficha = ficha.cod_ficha
 		AND trab_roles.cod_rol = '$rol'
@@ -47,9 +47,10 @@ if (isset($_POST['metodo'])) {
 		$query = $bd->consultar($sql);
 		$row01 = $bd->obtener_fila($query,0);
 		$trab  = $row01[0];
-
+		
+		
    	 // $sql = " SELECT COUNT(DISTINCT(asistencia.cod_ficha)) AS trab_reportados
-		   //      FROM trab_roles,ficha, asistencia , asistencia_apertura, control
+		//      FROM trab_roles,ficha, asistencia , asistencia_apertura, control
 	    //        WHERE trab_roles.cod_rol = '$rol'
 	    //          AND trab_roles.cod_ficha = ficha.cod_ficha
 		   //       AND ficha.cod_contracto = '$contracto'
@@ -73,7 +74,7 @@ if (isset($_POST['metodo'])) {
 		$query   = $bd->consultar($sql);
 		$row01   = $bd->obtener_fila($query,0);
 		$trab_as = $row01[0];
-
+		
    	 // 	$sql = " SELECT COUNT(DISTINCT(asistencia.cod_ficha)) AS concepto_rep
 		   //      FROM trab_roles,ficha, asistencia , asistencia_apertura, control
 	    //        WHERE trab_roles.cod_rol = '$rol'
@@ -96,7 +97,7 @@ if (isset($_POST['metodo'])) {
 		AND asistencia.cod_concepto = control.concepto_rep
 		AND ficha.cod_ficha = ficha_historial.cod_ficha
 		HAVING dias > -1";
-
+			
 		$query   = $bd->consultar($sql);
 		$row01   = $bd->obtener_fila($query,0);
 		$concepto_rep = $row01[0];
@@ -116,8 +117,8 @@ if (isset($_POST['metodo'])) {
 		break;
 
 		case 'replicar':
-		$sql    = "$SELECT $proced('$metodo', '$apertura', '$fec_diaria', '$rol', '$contracto', '$usuario')";
-		echo $sql;
+			$sql    = "$SELECT $proced('$metodo', '$apertura', '$fec_diaria', '$rol', '$contracto', '$usuario')";
+		
 		$query = $bd->consultar($sql);
 
 		break;
@@ -132,7 +133,7 @@ if (isset($_POST['metodo'])) {
 		AND ficha.cod_ficha = trab_roles.cod_ficha
 		AND ficha_historial.cod_ficha = ficha.cod_ficha
 		AND ficha.cod_n_contracto = ficha_n_contracto.codigo 
-		AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato AND (DATEDIFF(ficha_historial.fec_fin,now())>(-1) OR ficha_n_contracto.vencimiento = 'F') 
+		AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato AND (DATEDIFF(ficha_historial.fec_fin,'$fec_diaria')>(-1) OR ficha_n_contracto.vencimiento = 'F') 
 		AND trab_roles.cod_rol = '$rol'
 		AND '$fec_diaria' >= ficha.fec_ingreso
 		AND IFNULL(asistencia.cod_ficha, 'NO') = 'NO'
@@ -147,9 +148,8 @@ if (isset($_POST['metodo'])) {
 		AND ficha.cod_ficha = trab_roles.cod_ficha
 		AND ficha_historial.cod_ficha = ficha.cod_ficha
 		AND ficha.cod_n_contracto = ficha_n_contracto.codigo 
-		AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato AND (DATEDIFF(ficha_historial.fec_fin,now())>(-1) OR ficha_n_contracto.vencimiento = 'F') 
+		AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato AND (DATEDIFF(ficha_historial.fec_fin,'$fec_diaria')>(-1) OR ficha_n_contracto.vencimiento = 'F') 
 		AND trab_roles.cod_rol = '$rol' ";
-		echo $sql;
 		$query = $bd->consultar($sql);
 		while($row01 = $bd->obtener_fila($query,0)){
 			$mensaje .= "ficha: ".$row01[0].", ".$row01[1]." \n ";

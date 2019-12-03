@@ -57,7 +57,7 @@
 			var rol       = document.getElementById("rol").value;
 			var contracto = document.getElementById("contracto").value;
 			var usuario   = document.getElementById("usuario").value;
-
+			var fec_diaria = document.getElementById("fec_diaria").value;
 			ajax=nuevoAjax();
 			ajax.open("POST", valor, true);
 			ajax.onreadystatechange=function(){
@@ -67,7 +67,7 @@
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("apertura="+apertura+"&rol="+rol+"&contracto="+contracto+"&usuario="+usuario+"&metodo=replicar&fec_diaria=&proced=p_asistecia_proc&href=");
+			ajax.send("apertura="+apertura+"&rol="+rol+"&contracto="+contracto+"&usuario="+usuario+"&metodo=replicar&fec_diaria="+fec_diaria+"&proced=p_asistecia_proc&href=");
 		} else{
 			return false;
 		}
@@ -141,7 +141,7 @@ function Ingresar(){
 	var vale          = document.getElementById("vale").value;
 	var campo01 = 1;
 	var errorMessage = 'Debe Seleccionar Todo Los Campos';
-
+	var fec_diaria  = document.getElementById("fec_diaria").value;
 
 
 	if(trab=='') {
@@ -158,7 +158,7 @@ function Ingresar(){
 	}
 	if(campo01 == 1){
 		$.ajax({
-			data:  {'trabajador':trab, 'usuario':usuario},
+			data:  {'trabajador':trab, 'usuario':usuario, 'fec_diaria':fec_diaria},
 			url:   'ajax/Add_dias_vencimiento_contrato.php',
 			type:  'post',
 			success:  function (response) {
@@ -224,6 +224,7 @@ function Borrar_Campo(auto){
 		var rol           = document.getElementById("rol").value;
 		var usuario       = document.getElementById("usuario").value;
 		var vencidos 	  = document.getElementById("vencido").value;
+		var fec_diaria = document.getElementById("fec_diaria").value;
 		var valor = "ajax/Add_asistencia_det.php";
 		ajax=nuevoAjax();
 		ajax.open("POST", valor, true);
@@ -234,7 +235,7 @@ function Borrar_Campo(auto){
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("Nmenu="+Nmenu+"&mod="+mod+"&apertura="+apertura+"&contrato="+contrato+"&vencido="+vencidos+"&rol="+rol+"&usuario="+usuario+"");
+		ajax.send("Nmenu="+Nmenu+"&mod="+mod+"&apertura="+apertura+"&contrato="+contrato+"&vencido="+vencidos+"&fec_diaria="+fec_diaria+"&rol="+rol+"&usuario="+usuario+"");
 	}
 
 	function CerrarDia(){
@@ -353,15 +354,17 @@ $fecha_x    = mktime(0,0,0,$mes2,$dia2,$year2);
 //////  SQL CLIENTES Y NOMINA    //////////
 
 $SQL_TRAB = "SELECT ficha.cod_ficha, CONCAT( ficha.apellidos,' ', ficha.nombres) AS nombres,
-ficha.cedula, IF(DATEDIFF(MAX(ficha_historial.fec_fin),CURDATE()) < 0, 'CONTRATO VENCIDO', '')  vencido
-FROM  ficha , control,  trab_roles, ficha_historial
+ficha.cedula, IF(DATEDIFF(MAX(ficha_historial.fec_fin),'$fec_diaria') < 0 AND ficha_n_contracto.vencimiento != 'F', 'CONTRATO VENCIDO', '')  vencido
+FROM  ficha , control,  trab_roles, ficha_historial,ficha_n_contracto
 WHERE ficha.cod_ficha_status = ficha_activo
 AND ficha.cod_ficha     = trab_roles.cod_ficha
 AND trab_roles.cod_rol  =  '$cod_rol'
 AND ficha.cod_contracto = '$co_cont'
 AND '$fec_diaria' >= ficha.fec_ingreso
 AND ficha.cod_ficha = ficha_historial.cod_ficha
-AND DATEDIFF(ficha_historial.fec_fin,CURDATE()) > (-1)
+AND ficha.cod_n_contracto = ficha_n_contracto.codigo 
+	AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato 
+AND (DATEDIFF(ficha_historial.fec_fin,'$fec_diaria') > (-1) OR ficha_n_contracto.vencimiento = 'F')
 GROUP BY 1
 ORDER BY 2 ASC ";
 
