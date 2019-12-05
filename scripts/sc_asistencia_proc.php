@@ -34,21 +34,22 @@ if (isset($_POST['metodo'])) {
 			//            AND ficha.cod_ficha_status = control.ficha_activo
 			// 			AND '$fec_diaria' >= ficha.fec_ingreso";
 			
-			$sql = "SELECT COUNT(trab_roles.cod_ficha) AS trabajadores, DATEDIFF(MAX(ficha_historial.fec_fin), CURDATE()) dias
-		FROM trab_roles , ficha , control, ficha_historial
+			$sql = "SELECT IFNULL(COUNT(trab_roles.cod_ficha) ,0)AS trabajadores, DATEDIFF(MAX(ficha_historial.fec_fin), '$fec_diaria') dias, ficha_n_contracto.vencimiento v
+		FROM trab_roles , ficha , control, ficha_historial,ficha_n_contracto
 		WHERE trab_roles.cod_ficha = ficha.cod_ficha
 		AND trab_roles.cod_rol = '$rol'
 		AND ficha.cod_contracto = '$contracto'
 		AND ficha.cod_ficha_status = control.ficha_activo
-		AND ficha.cod_ficha = ficha_historial.cod_ficha
 		AND '$fec_diaria' >= ficha.fec_ingreso
-		GROUP BY ficha.cod_ficha
-		HAVING dias > -1";
+		AND ficha.cod_ficha = ficha_historial.cod_ficha
+		AND ficha.cod_n_contracto = ficha_n_contracto.codigo 
+		AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato 
+		HAVING dias > -1 OR v = 'F' ";
 		$query = $bd->consultar($sql);
 		$row01 = $bd->obtener_fila($query,0);
 		$trab  = $row01[0];
 		
-		
+		$trab = (isset($trab))?$trab:0;
    	 // $sql = " SELECT COUNT(DISTINCT(asistencia.cod_ficha)) AS trab_reportados
 		//      FROM trab_roles,ficha, asistencia , asistencia_apertura, control
 	    //        WHERE trab_roles.cod_rol = '$rol'
@@ -59,8 +60,8 @@ if (isset($_POST['metodo'])) {
 		   //       AND asistencia.cod_ficha = trab_roles.cod_ficha
 				 // AND asistencia.cod_concepto <> control.concepto_rep";
 
-		$sql = " SELECT COUNT(DISTINCT(asistencia.cod_ficha)) AS trab_reportados, DATEDIFF(MAX(ficha_historial.fec_fin), CURDATE()) dias
-		FROM trab_roles,ficha, asistencia , asistencia_apertura, control, ficha_historial
+		$sql = " SELECT IFNULL(COUNT(DISTINCT(asistencia.cod_ficha)),0) AS trab_reportados, DATEDIFF(MAX(ficha_historial.fec_fin), '$fec_diaria') dias, ficha_n_contracto.vencimiento v
+		FROM trab_roles,ficha, asistencia , asistencia_apertura, control, ficha_historial,ficha_n_contracto
 		WHERE trab_roles.cod_rol = '$rol'
 		AND trab_roles.cod_ficha = ficha.cod_ficha
 		AND ficha.cod_contracto = '$contracto'
@@ -68,13 +69,16 @@ if (isset($_POST['metodo'])) {
 		AND asistencia.cod_as_apertura = asistencia_apertura.codigo
 		AND asistencia.cod_ficha = trab_roles.cod_ficha
 		AND asistencia.cod_concepto <> control.concepto_rep
+		
 		AND ficha.cod_ficha = ficha_historial.cod_ficha
-		HAVING dias > -1";
+		AND ficha.cod_n_contracto = ficha_n_contracto.codigo 
+		AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato 
+		HAVING dias > -1 OR v = 'F'";
 
 		$query   = $bd->consultar($sql);
 		$row01   = $bd->obtener_fila($query,0);
 		$trab_as = $row01[0];
-		
+		$trab_as = (isset($trab_as))?$trab_as:0;
    	 // 	$sql = " SELECT COUNT(DISTINCT(asistencia.cod_ficha)) AS concepto_rep
 		   //      FROM trab_roles,ficha, asistencia , asistencia_apertura, control
 	    //        WHERE trab_roles.cod_rol = '$rol'
@@ -85,9 +89,9 @@ if (isset($_POST['metodo'])) {
 		   //       AND asistencia.cod_ficha = trab_roles.cod_ficha
 				 // AND asistencia.cod_concepto = control.concepto_rep";
 
-		$sql = " SELECT COUNT(DISTINCT(asistencia.cod_ficha)) AS concepto_rep,
-		DATEDIFF(MAX(ficha_historial.fec_fin), CURDATE()) dias
-		FROM trab_roles,ficha, asistencia , asistencia_apertura, control, ficha_historial
+		$sql = " SELECT IFNULL(COUNT(DISTINCT(asistencia.cod_ficha)),0) AS concepto_rep,
+		DATEDIFF(MAX(ficha_historial.fec_fin), '$fec_diaria') dias, ficha_n_contracto.vencimiento v
+		FROM trab_roles,ficha, asistencia , asistencia_apertura, control, ficha_historial,ficha_n_contracto
 		WHERE trab_roles.cod_rol = '$rol'
 		AND trab_roles.cod_ficha = ficha.cod_ficha
 		AND ficha.cod_contracto = '$contracto'
@@ -95,15 +99,18 @@ if (isset($_POST['metodo'])) {
 		AND asistencia.cod_as_apertura = asistencia_apertura.codigo
 		AND asistencia.cod_ficha = trab_roles.cod_ficha
 		AND asistencia.cod_concepto = control.concepto_rep
+		
 		AND ficha.cod_ficha = ficha_historial.cod_ficha
-		HAVING dias > -1";
+		AND ficha.cod_n_contracto = ficha_n_contracto.codigo 
+		AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato 
+		HAVING dias > -1 or v='F'";
 			
 		$query   = $bd->consultar($sql);
 		$row01   = $bd->obtener_fila($query,0);
 		$concepto_rep = $row01[0];
-
+		$concepto_rep = (isset($concepto_rep))?$concepto_rep:0;
 		if ($trab == $trab_as){
-			if ($concepto_rep == 0){
+			if ($concepto_rep == 0 || $concepto_rep == NULL){
 				$sql    = "$SELECT $proced('$metodo', '$apertura', '$fec_diaria', '$rol', '$contracto', '$usuario')";
 				$query = $bd->consultar($sql);
 				$mensaje = "SE CERRO CORRECTAMENTE LA ASISTENCIA";

@@ -280,6 +280,7 @@ function Borrar_Campo(auto){
 			if (ajax.readyState==4){
 				document.getElementById("Contendor01").innerHTML = ajax.responseText;
 				setInterval(alert(""+document.getElementById("mensaje_aj").value+""), 500);
+				console.log(document.getElementById("mensaje_aj").value)
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
