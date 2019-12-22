@@ -44,9 +44,13 @@ if($metodo == 'modificar')
 </div>
 
 <div id="add_cliente">
+<form id="pdf" name="pdf" action="reportes/rp_cliente.php" method="post" target="_blank">
+			 <input type="hidden" name="codigo" id="codPDF" value="<?php $codigo;?>">
+	
   <span class="etiqueta_title" id="title_cliente"><?php echo $titulo;?>
   </span>
     <span style="float: right;" align="center" >
+      <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/pdf.gif"  onclick="Pdf()" title="Imprimir Cliente" id="pdfC" />
       <img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" onclick="Borrar_cliente()" id="borrar_cliente" />
       <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" alt="Agregar" onclick="irAAgregarCliente()" title="Agregar Registro" id="agregar_cliente" />
       <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_cliente_title" onclick="irABuscarCliente()" />
@@ -124,8 +128,8 @@ if($metodo == 'modificar')
 
 </div>
 
-
 <script language="JavaScript" type="text/javascript">
+
   var tp1 = new Spry.Widget.TabbedPanels("tp1", { defaultTab:<?php echo $pag;?>});
   
   if($('#c_metodo').val()=="modificar"){
