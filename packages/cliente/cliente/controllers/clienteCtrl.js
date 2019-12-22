@@ -21,8 +21,10 @@ function Cons_cliente(cod, metodo) {
 
         if (metodo == "modificar") {
           //Desabilito el campo codigo, para evitar errores de INSERT
+          $("#codPDF").val(cod);
           $("#c_codigo").attr("disabled", true);
           //Si el metodo es modificar muestro los botones AGREGAR Y ELIMINAR
+          $("#pdfC").show();
           $("#borrar_cliente").show();
           $("#agregar_cliente").show();
         }
@@ -146,9 +148,11 @@ function save_cliente() {
             //Desabilito el campo Código hasta que el formulario sufra cambios
             $("#c_codigo").attr("disabled", true);
             //Ya que el metodo es modificar muestro los botones AGREGAR Y ELIMINAR
+            $("#pdfC").show();
             $("#borrar_cliente").show();
             $("#agregar_cliente").show();
           } else if (metodo == "modificar") {
+            $("#codPDF").val(codigo);
             alert("Actualización Exitosa!..");
           }
           //Cambio la propiedad type del boton de RESTABLECER de reset a button

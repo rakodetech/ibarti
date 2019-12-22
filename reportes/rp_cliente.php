@@ -11,8 +11,8 @@
 //Variable con que se ancla a la base de datos
 //$ficha='2435';
 
-$cliente=$_POST['codigo'];
 
+$cliente=$_POST['codigo'];
 
 ini_set("memory_limit", "128M");
 
@@ -43,7 +43,7 @@ AND clientes.codigo = '$cliente'  ";
 
     if(!$cliente = $bd->obtener_name($query)){
         echo "<h1>".strlen($cliente)."</h1>";
-    echo "<h1>Lo sentimos. No se pudo encontrar una coincidencia para esta ficha. Inténtelo de nuevo.</h1>";
+    echo "<h1>Lo sentimos. No se pudo encontrar una coincidencia para este cliente. Inténtelo de nuevo.</h1>";
     exit;
     };
 
