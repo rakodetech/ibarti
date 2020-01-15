@@ -1,4 +1,5 @@
-var tabla,titulo = "";
+var tabla = $('#tabla').val();
+var titulo = "";
 
 function Cons_maestro(cod, metodo,tb,tit){
 	var error        = 0;
@@ -64,8 +65,9 @@ function guardar_registro(){
 				toastr.error(resp.mensaje);
 			}else{
 				toastr.success("Actualizacion Exitosa!..");
-				if(metodo=="modificar"){
+				if(metodo==="modificar"){
 					Cons_maestro(codigo,metodo,tabla,titulo);
+					irAAgregarMaestro();
 				}else{
 					Cons_maestro("","agregar",tabla,titulo);
 				}

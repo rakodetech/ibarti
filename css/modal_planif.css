@@ -64,7 +64,7 @@
     padding: 0;
     padding: 2px 16px;
     /* overflow:auto; /* Determina si es necesario agregar barras de Scroll */
-    overflow::scroll;
+    overflow:scroll;
     overflow-y:auto;
     overflow-x:auto;
     width:97%;

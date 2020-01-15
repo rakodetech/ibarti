@@ -1,17 +1,17 @@
 <?php 
 
 require "../modelo/general_modelo.php";
-
+session_start();
 $metodo = $_POST['metodo'];
 $titulo = $_POST['titulo'];
 $tabla   = $_POST['tb'];
 $codigo  = $_POST['codigo'];
+$us = $_SESSION['usuario_cod'];
 if(isset($_GET['pagina'])){
 	$pag = $_GET['pagina'];	
 }else{
 	$pag = 0;
 }
-
 if($metodo == 'modificar'){
   $disabled = "disabled=\"disabled\"";
 	$codigo = $_POST['codigo'];
@@ -91,6 +91,8 @@ $disabled = "";
 			<img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" alt="Agregar" onclick="irAAgregarMaestro()" title="Agregar Registro" id="agregar_maestro" />
 			<span style="float: right;" align="center" >
 			<img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="B_maestros()" />
+			<input type="hidden" id="tabla" value="<?php echo $tabla;?>">
+			<input type="hidden" id="usuario" value="<?php echo $us;?>">
 			</span>'
 		</span>
 		<div class="TabbedPanels" id="tp1">	

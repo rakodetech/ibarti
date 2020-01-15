@@ -1,7 +1,5 @@
 $(function() {
-	Cons_upm_inicio(()=>{
-		
-	});
+	Cons_upm_inicio();
 });
 
 function Cons_upm_inicio(callback) {
@@ -13,7 +11,8 @@ function Cons_upm_inicio(callback) {
 		type:  'post',
 		success:  function (response) {
 			$("#contenedor").html(response);
-			llenar_tabla_militar();
+			// llenar_tabla_militar();
+			operar('agregar','');
 			if(typeof callback == 'function'){
 				callback();	
 			}
