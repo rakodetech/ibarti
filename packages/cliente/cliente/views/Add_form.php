@@ -46,7 +46,7 @@ if($metodo == 'modificar')
 <div id="add_cliente">
 <form id="pdf" name="pdf" action="reportes/rp_cliente.php" method="post" target="_blank">
 			 <input type="hidden" name="codigo" id="codPDF" value="<?php $codigo;?>">
-	
+	</form>
   <span class="etiqueta_title" id="title_cliente"><?php echo $titulo;?>
   </span>
     <span style="float: right;" align="center" >
