@@ -24,12 +24,12 @@ try {
     if(count($productos) > 0){
       $result['error'] = true;
       $result['mensaje'] = "No es posible eliminar esta Sub Linea, debido a que ya existen productos en la misma";
-    }
       print_r(json_encode($result));
       return json_encode($result);
+    }
   }
-  $sql  = "DELETE FROM $tabla  WHERE codigo = '$codigo' ";
 
+  $sql  = "DELETE FROM $tabla  WHERE codigo = '$codigo' ";
   $query = $bd->consultar($sql);
 
   $result['sql'] = $sql;
@@ -38,6 +38,7 @@ try {
  $error =  $e->getMessage();
  $result['error'] = true;
  $result['mensaje'] = $error;
+ $result['sql'] = $sql;
 
  $bd->log_error("Aplicacion", "sc_borrar.php",  "$usuario", "$error", "$sql");
 }
