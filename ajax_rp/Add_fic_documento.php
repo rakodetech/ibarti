@@ -1,7 +1,8 @@
 <?php
+define("SPECIALCONSTANT",true);
 include_once "../funciones/funciones.php";
 require "../autentificacion/aut_config.inc.php";
-require "../".class_bd;
+require "../".class_bdI;
 require "../".Leng;
 $bd = new DataBase();
 
@@ -74,7 +75,7 @@ $trabajador    = $_POST['trabajador'];
 					             CONCAT(ficha.apellidos,' ', ficha.nombres) AS ap_nombre, contractos.descripcion AS contrato,
 						           ficha_status.descripcion AS `status`, ficha_documentos.cod_documento,
 					             documentos.descripcion AS doc, StatusD(ficha_documentos.checks) checks,
-						           StatusD(ficha_documentos.vencimiento) vencimiento
+						           StatusD(ficha_documentos.vencimiento) vencimiento, ficha.fec_ingreso
                   FROM ficha , trab_roles, ficha_documentos , documentos , roles, regiones, estados, ciudades,
 			          		   contractos, ficha_status
                 $where
@@ -87,8 +88,8 @@ $trabajador    = $_POST['trabajador'];
             <th width="20%" class="etiqueta"><?php echo $leng['trabajador']?></th>
             <th width="20%" class="etiqueta">Documento</th>
             <th width="9%" class="etiqueta">Check</th>
-						<th width="9%" class="etiqueta">Vencimiento</th>
-
+			<th width="9%" class="etiqueta">Vencimiento</th>
+			<th width="9%" class="etiqueta">Fec. Ingreso</th>
   	</tr>
     <?php
 	$valor = 0;
@@ -109,6 +110,7 @@ $trabajador    = $_POST['trabajador'];
 				  <td class="texto">'.longitud($datos["doc"]).'</td>
 				  <td class="texto">'.$datos["checks"].'</td>
 				  <td class="texto">'.$datos["vencimiento"].'</td>
+				  <td class="texto">'.$datos["fec_ingreso"].'</td>
            </tr>';
         };?>
     </table>
