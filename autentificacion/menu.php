@@ -19,10 +19,9 @@ while ($rowMenu=$bd->obtener_fila($query,0)){
 		$sql = "SELECT DISTINCT men_modulos.codigo, men_modulos.descripcion,
 		men_modulos.link, men_modulos.orden
 		FROM men_modulos ,  men_perfil_menu, nov_perfiles
-		WHERE (men_modulos.status = 'T' 
+		WHERE men_modulos.status = 'T' 
 		AND men_perfil_menu.cod_men_perfil = '".$_SESSION['cod_perfil']."'
-		AND men_modulos.codigo = men_perfil_menu.cod_menu_modulo) OR (
-		men_modulos.status = 'T' AND nov_perfiles.cod_perfil = men_perfil_menu.cod_men_perfil)
+		AND men_modulos.codigo = men_perfil_menu.cod_menu_modulo
 		ORDER BY men_modulos.orden ASC";
 		$query02 = $bd->consultar($sql);
 
