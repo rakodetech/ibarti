@@ -54,7 +54,8 @@ class Ubicacion
                          'cod_region' => '',   'region' => 'Seleccione...',
                          'cod_calendario' => '', 'calendario' => 'Seleccione...',
 												 'direccion' => '',  'contacto' => '', 'cargo' => '',  'telefono' => '',
-												  'email' => '', 'observacion' => '',
+												 'cod_zona' => '', 'email' => '', 'observacion' => '',
+												 'latitud' => '', 'longitud' => '',
 												   'campo01' => '', 'campo02' => '', 'campo03' => '', 'campo04' => '',
 										     'cod_us_ing' => '', 'fec_us_ing' => '','cod_us_mod' => '', 'fec_us_mod' => '', 'status' => '');
 		return $this->datos;
