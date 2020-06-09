@@ -81,6 +81,7 @@ function save_proyecto() {
 				if (resp.error) {
 					alert(resp.mensaje);
 				} else {
+					toastr.success("GUARDADO CORRECTAMENTE");
 					Cons_proyecto_inicio();
 				}
 			},
@@ -124,53 +125,60 @@ function save_det(cod, metodo) {
 	var proyecto = $("#r_codigo").val();
 	var descripcion = $("#r_descripcion" + cod + "").val();
 	var usuario = $("#usuario").val();
-
-	if (error == 0) {
-		var parametros = {
-			"codigo": cod, "proyecto": proyecto,
-			"descripcion": descripcion,
-			"proced": proced, "usuario": usuario,
-			"metodo": metodo
-		};
-		$.ajax({
-			data: parametros,
-			url: 'packages/planif/proyecto/modelo/proyecto_det.php',
-			type: 'post',
-			success: function (response) {
-				var resp = JSON.parse(response);
-				if (resp.error) {
-					alert(resp.mensaje);
-				} else {
-					CargarDetalle(proyecto);
-				}
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
+	if (descripcion != "" && descripcion != null) {
+		if (error == 0) {
+			if (cod == '') {
+				cod = 0;
 			}
-		});
+			var parametros = {
+				"codigo": cod, "proyecto": proyecto,
+				"descripcion": descripcion,
+				"proced": proced, "usuario": usuario,
+				"metodo": metodo
+			};
+			$.ajax({
+				data: parametros,
+				url: 'packages/planif/proyecto/modelo/proyecto_det.php',
+				type: 'post',
+				success: function (response) {
+					var resp = JSON.parse(response);
+					if (resp.error) {
+						alert(resp.mensaje);
+					} else {
+						CargarDetalle(proyecto);
+						toastr.success("GUARDADO CORRECTAMENTE");
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+				}
+			});
 
+		} else {
+			alert(errorMessage);
+		}
 	} else {
-		alert(errorMessage);
+		alert("La actividad es obligatoria");
 	}
 }
 
 function Borrar_proyecto(cod) {
 	var usuario = $("#usuario").val();
 	var parametros = {
-		"codigo": cod, "tabla": "proyecto",
+		"codigo": cod, "tabla": "planif_proyecto",
 		"usuario": usuario
 	};
 	$.ajax({
 		data: parametros,
-		url: 'packages/planif/general/controllers/sc_borrar.php',
+		url: 'packages/general/controllers/sc_borrar.php',
 		type: 'post',
 		success: function (response) {
 			var resp = JSON.parse(response);
 			if (resp.error) {
 				alert(resp.mensaje);
 			} else {
-				Cons_turno_inicio();
+				Cons_proyecto_inicio();
 			}
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
