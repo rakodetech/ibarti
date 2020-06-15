@@ -121,19 +121,7 @@ var error=0;
 					<option value="nombres"> Nombre </option>
 					<option value="apellidos"> Apellido </option>
 				</select></td>
-    <td colspan="3">
-			Campos:
-		<select name="campo" id="campo" style="width:150px;margin-left: 5px;">
-			<option value="">TODOS</option>
-			<?php 
-				$sql= "SELECT campo  FROM audit_ficha_det GROUP BY campo ORDER BY 1 ASC";
-				$query = $bd->consultar($sql);
-				while ($datos=$bd->obtener_fila($query,0)){
-					echo "<option value='$datos[0]'>$datos[0]</option>";
-				}
-			?>
-		</select>
-
+    <td>
 			&nbsp; <input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu;?>" />
 			<input type="hidden" name="mod" id="mod" value="<?php echo $mod;?>" />
 		</td>            

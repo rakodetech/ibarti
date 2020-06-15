@@ -62,9 +62,9 @@ class Contratacion
 		$query = $this->bd->consultar($sql);
 
 		while ($datos = $this->bd->obtener_fila($query)) {
-			$this->datos[] = $datos;
+			$this->cont_det[] = $datos;
 		}
-		return $this->datos;
+		return $this->cont_det;
 	}
 
 	public function get_ubicacion($cliente){

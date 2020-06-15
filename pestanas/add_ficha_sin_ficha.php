@@ -35,15 +35,15 @@ $pag = 0;
     <div class="TabbedPanels" id="tp1">	
 	 <ul class="TabbedPanelsTabGroup">	 
 		<li class="TabbedPanelsTab">FICHA</li>
-		<!---<li class="TabbedPanelsTab">REFERENCIA DE UNIFORME</li>
+		<li class="TabbedPanelsTab">REFERENCIA DE UNIFORME</li>
 		<li class="TabbedPanelsTab">CARGA FARMILIAR</li>		
-		<li class="TabbedPanelsTab">RECEPCION DE DOCUMENTOS</li>--->
+		<li class="TabbedPanelsTab">RECEPCION DE DOCUMENTOS</li>
 	 </ul>				
 	  <div class="TabbedPanelsContentGroup"> 
-         <div class="TabbedPanelsContent"><?php include('formularios/add_ficha_01.php');?></div>         <!---
-  	  	 <div class="TabbedPanelsContent"><?php // include('formularios/add_ficha_02.php');?></div>
-		 <div class="TabbedPanelsContent"><?php // include('formularios/add_ficha2_03.php');?></div>
-		 <div class="TabbedPanelsContent"><?php // include('formularios/add_ficha2_04.php');?></div>-->
+         <div class="TabbedPanelsContent"><?php include('formularios/add_ficha_01.php');?></div>         
+  	  	 <div class="TabbedPanelsContent"><?php include('formularios/add_ficha_02.php');?></div>
+		 <div class="TabbedPanelsContent"><?php include('formularios/add_ficha2_03.php');?></div>
+		 <div class="TabbedPanelsContent"><?php include('formularios/add_ficha2_04.php');?></div>
 	  </div>
  </div> 
 <script language="JavaScript" type="text/javascript">

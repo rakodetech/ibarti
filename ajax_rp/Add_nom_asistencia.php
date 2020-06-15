@@ -1,8 +1,7 @@
 <?php
-define("SPECIALCONSTANT",true);
 include_once "../funciones/funciones.php";
 require "../autentificacion/aut_config.inc.php";
-require "../".class_bdI;
+require "../".class_bd;
 require "../".Leng;
 $bd = new DataBase();
 

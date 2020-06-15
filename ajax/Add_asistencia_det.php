@@ -5,7 +5,6 @@ $cod_apertura = $_POST['apertura'];
 $co_cont      = $_POST['contrato'];
 $cod_rol      = $_POST['rol'];
 $usuario      = $_POST['usuario'];
-$vencido 	  = isset($_POST['vencido'])?$_POST['vencido']:'N';
 $href         = "formularios/Cons_asistencia&Nmenu=$Nmenu&co_cont=$co_cont&rol=$cod_rol";
 define("SPECIALCONSTANT",true);
 include_once('../funciones/funciones.php');
@@ -15,26 +14,19 @@ require "../".Leng;
 $bd = new DataBase();
 
 //////  SQL CLIENTES Y NOMINA    //////////
-		$fec_diari = $_POST['fec_diaria'];
-		$tvencido = ($vencido=="N")? "AND (DATEDIFF(ficha_historial.fec_fin,'$fec_diari') > (-1) OR ficha_n_contracto.vencimiento = 'F')":"";
- 		 $SQL_TRAB = "SELECT ficha.cod_ficha, CONCAT( ficha.apellidos,' ', ficha.nombres) AS nombres,
-		  ficha.cedula, IF(DATEDIFF(MAX(ficha_historial.fec_fin),'$fec_diari') < 0 AND ficha_n_contracto.vencimiento != 'F', 'CONTRATO VENCIDO', '')  vencido
-		  FROM  ficha , control,  trab_roles, ficha_historial,ficha_n_contracto
-		  WHERE ficha.cod_ficha_status = ficha_activo
-		  AND ficha.cod_ficha     = trab_roles.cod_ficha
-		  AND trab_roles.cod_rol  =  '$cod_rol'
-		  AND ficha.cod_contracto = '$co_cont'
-		  AND ficha.cod_ficha = ficha_historial.cod_ficha
-		  AND '$fec_diari' >= ficha.fec_ingreso
-		  AND ficha.cod_ficha = ficha_historial.cod_ficha
-		AND ficha.cod_n_contracto = ficha_n_contracto.codigo 
-			AND ficha.cod_n_contracto = ficha_historial.cod_n_contrato 
-		
-		  ".$tvencido."
-		  GROUP BY 1
-		  ORDER BY 2 ASC";
 
-	$sql05 = "SELECT men_usuarios.asistencia_orden, asistencia_apertura.fec_diaria
+ 		 $SQL_TRAB = "SELECT ficha.cod_ficha, CONCAT( ficha.apellidos,' ', ficha.nombres) AS nombres,
+		                     ficha.cedula
+                       FROM  ficha , control, trab_roles
+                       WHERE ficha.cod_ficha_status = ficha_activo
+                         AND ficha.cod_ficha     = trab_roles.cod_ficha
+                         AND trab_roles.cod_rol  =  '$cod_rol'
+						 AND ficha.cod_contracto = '$co_cont'
+					ORDER BY 2 ASC ";
+
+
+
+	$sql05 = " SELECT men_usuarios.asistencia_orden, asistencia_apertura.fec_diaria
 	             FROM men_usuarios, asistencia_apertura
                 WHERE men_usuarios.codigo = '$usuario'
 				  AND asistencia_apertura.codigo = '$cod_apertura'
@@ -95,7 +87,7 @@ $bd = new DataBase();
 							   <option value="">seleccione...</option>';
 							   	$query03 = $bd->consultar($SQL_TRAB);
 							   while($row03=$bd->obtener_fila($query03,0)){
-									 echo '<option value="'.$row03[0].'">'.$row03[1].'&nbsp;('.$row03[0].'-'.$row03[3].')</option>';
+									 echo '<option value="'.$row03[0].'">'.$row03[1].'&nbsp;('.$row03[0].')</option>';
 							   } echo'</select></td>
 				<td><select name="cliente" id="cliente" style="width:160px;"
 							onchange="Actualizar02(this.value)">

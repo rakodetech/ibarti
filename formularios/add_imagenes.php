@@ -47,7 +47,7 @@ $dst_h  = "280";
 				},
 				onComplete: function(file, response){
 					// alert(response);
-					
+					console.log(response);
 					btn_firma.text('Cambiar Imagen');
 					
 					respuesta = $.parseJSON(response);

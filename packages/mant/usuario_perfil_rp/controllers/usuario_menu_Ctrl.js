@@ -123,7 +123,9 @@ function llenar_perfil_menu(){
 			//var num_modulo = 0;
 			if(data.length > 0){
 				var perfil = d3.nest()
-				.key((d) => d.perfil).sortKeys(d3.ascending).key((d)=>d.modulo).sortKeys(d3.ascending).key((d)=>d.seccion).sortKeys(d3.ascending)
+				.key((d) => d.perfil).sortKeys(d3.ascending)
+				.key((d)=>d.modulo).sortKeys(d3.ascending)
+				.key((d)=>d.seccion).sortKeys(d3.ascending)
 				.entries(data);
 
 				ModalOpen();
@@ -132,7 +134,7 @@ function llenar_perfil_menu(){
 				var div = d3.select('#modal_contenido').append('div');
 
 				perfil.forEach((modulo,j)=>{
-					div.append('img').attr('src','imagenes/excel.gif').attr('width','25px').attr('title',`imprimir ${modulo.key} a excel` ).on('click',()=>llenar_reporte(perfil[i].values[0].values[0].values[0].codigo));
+					div.append('img').attr('src','imagenes/excel.gif').attr('width','25px').attr('title',`imprimir ${modulo.key} a excel` ).on('click',()=>llenar_reporte(modulo.values[0].values[0].values[0].codigo));
 
 					var tablas = div.append('table').attr('class','tabla_planif').attr('id',perfil[j].values[0].values[0].values[0].codigo);
 					var theads = tablas.append('thead');

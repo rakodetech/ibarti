@@ -11,16 +11,17 @@ foreach($_POST as $nombre_campo => $valor){
   eval($variables);
 }
 
-$codigo      = htmlentities($codigo);
-
+$descripcion      = htmlentities($descripcion);
+if($metodo == 'agregar'){
+  $codigo = 0;
+}
 	if(isset($_POST['proced'])){
 
 		try {
- 	 $sql    = "$SELECT $proced('$metodo', '$codigo', '$cliente', '$descripcion',
+ 	 $sql    = "$SELECT $proced('$metodo', $codigo, '$cliente', '$descripcion',
 	                            '$fecha_inicio', '$usuario', '$status')";
 	 $query = $bd->consultar($sql);
 
-   $result['sql'] = $sql;
 
  		}catch (Exception $e) {
        $error =  $e->getMessage();
@@ -31,6 +32,8 @@ $codigo      = htmlentities($codigo);
    }
 
 	}
+
+   $result['sql'] = $sql;
 	print_r(json_encode($result));
 	return json_encode($result);
 ?>

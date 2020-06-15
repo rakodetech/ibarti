@@ -97,6 +97,16 @@ if(isset($_POST['proced'])){
 			$query = $bd->consultar($sql);
 			$data =$bd->obtener_fila($query,0);
 			$cos_promedio   =  $data[0];
+			if(is_null($cos_promedio)){
+				$sql = "SELECT cos_promedio
+				FROM ajuste_reng
+				WHERE ajuste_reng.cod_producto = '$producto' AND cod_almacen='001'
+				ORDER BY cod_ajuste DESC,reng_num DESC
+				LIMIT 1";
+			$query = $bd->consultar($sql);
+			$data =$bd->obtener_fila($query,0);
+			$cos_promedio   =  $data[0];
+			}
 			$neto = $cantidad * $cos_promedio;
 			if($nro_ajuste_c == ""){
 				$nro_ajuste_c = 0;

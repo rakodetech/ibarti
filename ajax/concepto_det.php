@@ -39,8 +39,8 @@ $bd = new DataBase();
 			echo'<tr  class="'.$fondo.'">
 
 					<td class="texto">'.$cod_concepto.' - '.$descripcion.'</td>
-					<td class="texto"><input type="text" name="'.$cod_concepto.'" id="'.$cod_concepto.'" maxlength="7"
-						onclick="spryValidarDec(this.id)" style="width:50px" value="'.$row03[0].'"/></td>
+					<td class="texto"><input type="text" name="'.$cod_concepto.'" id="'.$cod_concepto.'" maxlength="9"
+						onclick="spryValidarDec(this.id)" style="width:60px" value="'.$row03[0].'"/></td>
 					<td><input name="conceptos[]" type="checkbox" value="'.$cod_concepto.'" style="width:auto"
 					 '.CheckX(''.$row03[1].'', 'S').' " /></td>
 				</tr>';

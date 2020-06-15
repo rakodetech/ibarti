@@ -16,7 +16,7 @@ $perfil    = $_POST['perfil'];
 				$sql01    = "SELECT nov_clasif.codigo, nov_clasif.descripcion
                                FROM nov_cl_ubicacion , novedades, nov_clasif, nov_perfiles
                               WHERE nov_cl_ubicacion.cod_cl_ubicacion = '$ubicacion' 
-								AND nov_perfiles.cod_perfil = '$perfil'
+								-- AND nov_perfiles.cod_perfil = '$perfil'
                                 AND nov_perfiles.cod_nov_clasif = novedades.cod_nov_clasif
                                 AND nov_cl_ubicacion.cod_novedad = novedades.codigo 
                                 AND novedades.cod_nov_clasif = nov_clasif.codigo

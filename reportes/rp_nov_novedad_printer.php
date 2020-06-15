@@ -64,11 +64,11 @@ if(isset($reporte)){
 
 	if(($reporte=='pdf') || ($reporte=='printer')){
 
-		require_once('../'.ConfigDomPdf);
+		// require_once('../'.ConfigDomPdf);
 
-		$dompdf= new DOMPDF();
+		// $dompdf= new DOMPDF();
 
-		ob_start();
+		// ob_start();
 
 		require('../'.PlantillaDOM.'/header_ibarti_2.php');
 		include('../'.pagDomPdf.'/paginacion_ibarti.php');
@@ -140,10 +140,10 @@ if(isset($reporte)){
 			        </tbody>
 			        </table>";
 
-		    $dompdf->load_html(ob_get_clean(),'UTF-8');
-		    $dompdf->set_paper ('letter');
-		    $dompdf->render();
-		    $dompdf->stream($archivo, array('Attachment' => 0));
+		    // $dompdf->load_html(ob_get_clean(),'UTF-8');
+		    // $dompdf->set_paper ('letter');
+		    // $dompdf->render();
+		    // $dompdf->stream($archivo, array('Attachment' => 0));
 	}
 }
 ?>
