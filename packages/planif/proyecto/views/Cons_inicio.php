@@ -9,11 +9,11 @@ $matriz  =  $proyecto->get();
 <div align="center" class="etiqueta_title"> Consulta De <?php echo $titulo;?> </div> <hr />
 <div class="tabla_sistema"><table width="100%" border="0" align="center">
 		<tr>
-			<th width="10%">Codigo</th>
-  		<th width="15%">Abrev</th>
-			<th width="25%">Nombre</th>
-      <th width="45%" class="etiqueta">Status</th>
-  		<th width="5%" align="center"><img src="imagenes/nuevo.bmp" alt="Agregar" onclick="Cons_proyecto('', 'agregar')" title="Agregar Registro" width="30px" height="30px" border="null"/></th>
+			<th width="15%">Codigo</th>
+  		<th width="20%">Abrev</th>
+			<th width="45%">Nombre</th>
+      <th width="10%" class="etiqueta">Status</th>
+  		<th width="10%" align="center"><img src="imagenes/nuevo.bmp" alt="Agregar" onclick="Cons_proyecto('', 'agregar')" title="Agregar Registro" width="30px" height="30px" border="null"/></th>
 		</tr>
     <?php
       foreach ($matriz as  $datos) {

@@ -125,7 +125,7 @@ function save_det(cod, metodo) {
 	var proyecto = $("#r_codigo").val();
 	var descripcion = $("#r_descripcion" + cod + "").val();
 	var usuario = $("#usuario").val();
-	if (descripcion != "" && descripcion != null) {
+	if ((descripcion != "" && descripcion != null) || metodo == 'borrar') {
 		if (error == 0) {
 			if (cod == '') {
 				cod = 0;

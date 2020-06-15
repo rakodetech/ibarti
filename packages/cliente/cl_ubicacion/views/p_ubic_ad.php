@@ -59,7 +59,7 @@ $("#ub_form_ad").on('submit', function(evt){
            <span class="art-button-wrapper">
                   <span class="art-button-l"> </span>
                   <span class="art-button-r"> </span>
-              <input type="button" id="volver" value="Volver" onClick="CloseModal();" class="readon art-button" />
+              <input type="button" value="Volver" onClick="CloseModal();" class="readon art-button" />
               </span></div>
 
 </fieldset>

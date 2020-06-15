@@ -63,6 +63,7 @@ if($metodo == 'modificar')
       <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> ><?php echo $leng['ubicacion'];?></li>
       <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> ><?php echo $leng['contratacion'];?></li>
       <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> >Vetados</li>
+      <li class="TabbedPanelsTab" <?php echo'style="'.$vistas.'"'?> ><?php echo $leng['supervision'];?></li>
     </ul>
 
     <div class="TabbedPanelsContentGroup">
@@ -72,6 +73,7 @@ if($metodo == 'modificar')
      <div class="TabbedPanelsContent"><?php include('../../cl_ubicacion/index.php');?></div>
      <div class="TabbedPanelsContent"><?php include('../../cl_contratacion/index.php');?></div>
      <div class="TabbedPanelsContent"><?php include('../../cl_vetados/index.php');?></div>
+     <div class="TabbedPanelsContent"><?php include('../../cl_supervision/index.php');?></div>
    </div>
  </div>
 </div>

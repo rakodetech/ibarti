@@ -18,7 +18,7 @@
 	background: #FEFEFE;
 	border: 1px solid #7C7C7C;
 	text-align: left; 
-	z-index: 99; 
+	z-index: 200; 
 }
 
 .autocomplete_list, .autocomplete_list ol, .autocomplete_list li { 
@@ -45,5 +45,5 @@
 }
 
 .autocomplete_list span { 
-	color: #111; float: right; padding-left: 2em; 
+	color: #111; float: right; padding-left: 2em;
 }
