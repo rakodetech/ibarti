@@ -47,7 +47,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 		var cod_producto = document.getElementById("stdID" + auto + "").value;
 		var cantidad = document.getElementById("cantidad" + auto + "").value;
 		var dias = document.getElementById("dias" + auto + "").value;
-		var vencimiento = Status($('input:checkbox[id=vencimiento]:checked').val());
+		var vencimiento = Status($('input:checkbox[id=vencimiento'+auto+']:checked').val());
 		
 		var valor = "scripts/sc_cl_ubic_alcance.php";
 		var proced = "p_cl_ubic_alcance";
