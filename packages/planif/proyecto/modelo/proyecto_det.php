@@ -13,7 +13,7 @@ $result = array();
 	if(isset($_POST['proced'])){
 
 	try {
-    $sql    = "$SELECT $proced('$metodo', '$codigo',  '$proyecto', '$descripcion', '$usuario')";
+    $sql    = "$SELECT $proced('$metodo', '$codigo',  '$proyecto', '$descripcion', $minutos, '$principal', '$usuario')";
 	  $query   = $bd->consultar($sql);
 
  		}catch (Exception $e) {

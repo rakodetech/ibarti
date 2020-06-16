@@ -42,7 +42,8 @@ class Proyecto
 
 public function get_planif_actividad($proyecto){
   $this->datos   = array();
-  $sql = " SELECT planif_actividad.codigo, planif_actividad.descripcion
+  $sql = " SELECT planif_actividad.codigo, planif_actividad.descripcion,
+            planif_actividad.minutos, planif_actividad.principal
             FROM planif_actividad
             WHERE planif_actividad.cod_proyecto = '$proyecto'
           ORDER BY 1 ASC ";

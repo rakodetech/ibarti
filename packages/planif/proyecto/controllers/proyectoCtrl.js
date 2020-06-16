@@ -123,9 +123,11 @@ function save_det(cod, metodo) {
 	var errorMessage = ' ';
 	var proced = "p_proyecto_det";
 	var proyecto = $("#r_codigo").val();
-	var descripcion = $("#r_descripcion" + cod + "").val();
+	var descripcion = $("#descripcion" + cod + "").val();
+	var minutos = $("#minutos" + cod + "").val();
+	var principal = Status($('input:radio[id=principal' + cod + ']:checked').val())
 	var usuario = $("#usuario").val();
-	if ((descripcion != "" && descripcion != null) || metodo == 'borrar') {
+	if ((descripcion != "" && descripcion != null && minutos != "" && minutos != null) || metodo == 'borrar') {
 		if (error == 0) {
 			if (cod == '') {
 				cod = 0;
@@ -134,7 +136,8 @@ function save_det(cod, metodo) {
 				"codigo": cod, "proyecto": proyecto,
 				"descripcion": descripcion,
 				"proced": proced, "usuario": usuario,
-				"metodo": metodo
+				"metodo": metodo, "minutos": minutos,
+				"principal": principal
 			};
 			$.ajax({
 				data: parametros,
@@ -146,7 +149,7 @@ function save_det(cod, metodo) {
 						alert(resp.mensaje);
 					} else {
 						CargarDetalle(proyecto);
-						toastr.success("GUARDADO CORRECTAMENTE");
+						toastr.success("Actualizado correctamente");
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {

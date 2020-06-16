@@ -5,7 +5,8 @@ require_once("../".class_bd);
 require_once("../".Leng);
 $bd = new DataBase(); 
 $codigo      = $_POST['codigo'];
-	   $sql01 ="SELECT clientes_ub_alcance.cod_producto, productos.descripcion producto, clientes_ub_alcance.cantidad
+	   $sql01 ="SELECT clientes_ub_alcance.cod_producto, productos.descripcion producto, clientes_ub_alcance.cantidad,
+          clientes_ub_alcance.dias, clientes_ub_alcance.vencimiento
               FROM clientes_ub_alcance, productos WHERE clientes_ub_alcance.cod_producto = productos.item 
               AND clientes_ub_alcance.cod_cl_ubicacion = '$codigo'";
 ?>
@@ -26,16 +27,23 @@ $codigo      = $_POST['codigo'];
 			}
 			$modificar = 	 "'" . $i . "', 'modificar'";
 			$borrar    = 	 "'" . $i . "', 'eliminar' ";
-      echo '<tr class="' . $fondo . '">
-      <td>     
-              <input type="text" id="codigo_producto'.$i.'" value="'.$datos['producto'].'" disabled  style="width:450px"/>
-              <input type="hidden" name="trabajador" id="stdID'.$i.'" value="'.$datos['cod_producto'].'"/>
-            </td>
-            <td>
-             <input type="number" id="cantidad'.$i.'" style="width:100px"  value="'.$datos['cantidad'].'" min="1">
-     </td><td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarSubmit('.$modificar.')" />&nbsp;
-  <img src="imagenes/borrar.bmp" alt="Detalle" title="Borrar Registro" width="25" height="25" border="null"
-     onclick="Borrar(' . $borrar . ')" class="imgLink" />
-  </td>
-</tr>';
+			echo '<tr class="' . $fondo . '">
+				  <td>     
+                  <input type="text" id="codigo_producto'.$i.'" value="'.$datos['producto'].'" disabled  style="width:450px"/>
+                  <input type="hidden" name="trabajador" id="stdID'.$i.'" value="'.$datos['cod_producto'].'"/>
+                </td>
+                <td>
+                 <input type="number" id="cantidad'.$i.'" style="width:100px"  value="'.$datos['cantidad'].'" min="1">
+			   </td>
+			   <td>
+			   <input type="number" id="dias'.$i.'" style="width:100px"  value="'.$datos['dias'].'" min="0">
+			 </td>
+			 <td>
+                 <input type="checkbox" id="vencimiento'.$i.'" style="width:50px" '.statusCheck($datos["vencimiento"]).'/>
+			   </td>  
+			   <td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarSubmit('.$modificar.')" />&nbsp;
+		  <img src="imagenes/borrar.bmp" alt="Detalle" title="Borrar Registro" width="25" height="25" border="null"
+			   onclick="Borrar(' . $borrar . ')" class="imgLink" />
+		  </td>
+	</tr>';
         } mysql_free_result($query);?>

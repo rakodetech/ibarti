@@ -1,5 +1,6 @@
 <?php
-$sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion producto, clientes_ub_alcance.cantidad
+$sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion producto, clientes_ub_alcance.cantidad,
+				 clientes_ub_alcance.dias,  clientes_ub_alcance.vencimiento
                    FROM clientes_ub_alcance, productos
                   WHERE clientes_ub_alcance.cod_producto = productos.item
 				  AND clientes_ub_alcance.cod_cl_ubicacion = '$codigo'";
@@ -45,7 +46,9 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 		var usuario = document.getElementById("usuario").value;
 		var cod_producto = document.getElementById("stdID" + auto + "").value;
 		var cantidad = document.getElementById("cantidad" + auto + "").value;
-
+		var dias = document.getElementById("dias" + auto + "").value;
+		var vencimiento = Status($('input:checkbox[id=vencimiento]:checked').val());
+		
 		var valor = "scripts/sc_cl_ubic_alcance.php";
 		var proced = "p_cl_ubic_alcance";
 		ajax = nuevoAjax();
@@ -55,6 +58,11 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 				document.getElementById("Cont_mensaje").innerHTML = ajax.responseText;
 				if ((metodo == "agregar") || (metodo == "eliminar")) {
 					ActualizarDet(cod_ubic);
+					if(metodo == "agregar"){
+						$("#stdID").val("");
+						$("#codigo_producto").val("");
+						$("#cantidad").val(0)
+					}
 				}else{
 					toastr.success('Actualizado con exito.');
 				}
@@ -62,7 +70,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo=" + cod_ubic + "&cod_producto=" + cod_producto + "&cantidad=" + cantidad + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
+		ajax.send("codigo=" + cod_ubic + "&cod_producto=" + cod_producto + "&cantidad=" + cantidad + "&dias=" + dias + "&vencimiento=" + vencimiento + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 	}
 
 	function Borrar(auto, metodo) {
@@ -70,7 +78,8 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 			var cod_ubic = document.getElementById("codigo_ubic").value;
             var cod_producto = document.getElementById("stdID" + auto + "").value;
 			var cantidad = document.getElementById("cantidad" + auto + "").value;
-
+			var dias = document.getElementById("dias" + auto + "").value;
+			var vencimiento = Status($("#vencimiento:checked").val());
 			var ususario = "";
 
 			var valor = "scripts/sc_cl_ubic_alcance.php";
@@ -86,7 +95,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("codigo=" + cod_ubic + "&cod_producto=" + cod_producto + "&cantidad=" + cantidad + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
+			ajax.send("codigo=" + cod_ubic + "&cod_producto=" + cod_producto + "&cantidad=" + cantidad + "&dias=" + dias + "&vencimiento=" + vencimiento + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 		} else {
 			alert(errorMessage);
 		}
@@ -110,20 +119,28 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 <hr />
 <div id="Cont_mensaje" class="mensaje"></div>
 <div>
-     <table width="60%" border="0" align="center">
+     <table width="80%" border="0" align="center">
 		<tr class="fondo01">
 			<!-- <th width="20%" style="display:none" class="etiqueta">Codigo Ubicacion</th> -->
 			<th width="60%" class="etiqueta"><?php echo $leng['producto'];?>
             <input type="hidden" name="producto" id="stdID" value=""/></th>
-            <th width="20%" class="etiqueta">Cantidad</th>
-			<th width="20%"><img src="imagenes/loading2.gif" alt="Agregar Registro" width="40" height="40" title="Agregar Registro" border="null" class="imgLink" /></th>
+            <th width="14%" class="etiqueta">Cantdad</th>
+			<th width="14%" class="etiqueta">Dias para Reponer</th>
+			<th width="4%" class="etiqueta">Aplica Reposicion</th>
+			<th width="8%"><img src="imagenes/loading2.gif" alt="Agregar Registro" width="40" height="40" title="Agregar Registro" border="null" class="imgLink" /></th>
 		</tr>
 		<tr class="fondo02">
         <td>       
         <input type="text" id="codigo_producto" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" required style="width:450px"/>
       </td>
       <td>
-       <input type="number" id="cantidad" style="width:100px" value="1" min="1"  required placeholder="">
+       <input type="number" id="cantidad" style="width:100px" value="1" min="0"  required placeholder="">
+		</td>	
+		<td>
+       <input type="number" id="dias" style="width:100px" value="1" min="0"  required placeholder="">
+		</td>	
+		<td>
+       <input type="checkbox" id="vencimiento" checked="true" style="width:50px">
 		</td>	
 		<td><span class="art-button-wrapper">
 					<span class="art-button-l"> </span>
@@ -132,9 +149,9 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 				</span></td>
 		</tr>
 		</table>
-		<table id="Contenedor03" width="60%" border="0" align="center">
+		<table id="Contenedor03" width="80%" border="0" align="center">
 		<tr>
-			<td colspan="3" class="etiqueta_title">Listado</td>
+			<td colspan="5" class="etiqueta_title">Listado</td>
 		</tr>
 		<?php
 		$query = $bd->consultar($sql01);
@@ -158,7 +175,14 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
                 </td>
                 <td>
                  <input type="number" id="cantidad'.$i.'" style="width:100px"  value="'.$datos['cantidad'].'" min="1">
-			   </td><td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarSubmit('.$modificar.')" />&nbsp;
+			   </td>
+			   <td>
+			   <input type="number" id="dias'.$i.'" style="width:100px"  value="'.$datos['dias'].'" min="0">
+			 </td>
+			 <td>
+                 <input type="checkbox" id="vencimiento'.$i.'" style="width:50px" '.statusCheck($datos["vencimiento"]).'/>
+			   </td>  
+			   <td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarSubmit('.$modificar.')" />&nbsp;
 		  <img src="imagenes/borrar.bmp" alt="Detalle" title="Borrar Registro" width="25" height="25" border="null"
 			   onclick="Borrar(' . $borrar . ')" class="imgLink" />
 		  </td>

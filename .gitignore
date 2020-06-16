@@ -4,6 +4,7 @@
 #excluye archivos de configuracion a la bd aut_config_inc
 autentificacion/aut_config.inc.php
 bd/class_mysql.php
+bd/class_mysql2.php
 
 #excluye carpeta documentos,fotos,temp, cedulas y libreria dompdf.
 imagenes/fotos/*
