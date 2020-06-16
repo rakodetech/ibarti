@@ -22,7 +22,7 @@ $result = array();
     }else{
       $sql = "UPDATE planif_proyecto SET
              abrev          = '$abrev',     descripcion    = '$nombre',
-             cod_us_mod     = current_date, fec_us_mod     = '$usuario',
+             fec_us_mod     = current_date, cod_us_mod     = '$usuario',
              `status`       = '$status'
         WHERE codigo         = '$codigo'";
     }
