@@ -18,7 +18,7 @@
     		<tr>
 				<th width="37%"><?php echo $leng["ubicacion"];?></th>
 				<th width="37%">Turno:</th>
-            	<th width="14%">Cantidad:</th>
+            	<!-- <th width="14%">Cantidad:</th> -->
 				<th width="12%">Acciones</th>
 			</tr>
 			<tr>
@@ -37,8 +37,8 @@
             	echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
           	}
           ?>
-          </select></td>
-          <td><input type="number" id="superv_cantidad" required  style="width:100px;" min="1"></td>
+          </select><input type="hidden" id="superv_cantidad" required  style="width:100px;" value="1" min="1"></td>
+         <!--  <td><input type="number" id="superv_cantidad" required  style="width:100px;" min="1"></td> -->
 
 					  <td align="center"><span class="art-button-wrapper">
 		                    <span class="art-button-l"> </span>
@@ -66,12 +66,14 @@
 											if($datos["cod_turno"] <> $d_det[0])
 											echo '<option value="'.$d_det[0].'">'.$d_det[1].'</option>';
 										}
-										echo '</select></td>
-								<td align="center"><input type="number" id="superv_cantidad'.$cod_det.'" style="width:100px;" value="'.$datos["cantidad"].'" min="1"></td>
+										echo '</select>
+										<input type="hidden" id="superv_cantidad'.$cod_det.'" style="width:100px;" value="'.$datos["cantidad"].'" min="1"></td>
+								
     		        <td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="save_supervision_det(\''.$cod_det.'\',\'modificar\')" />&nbsp;<img src="imagenes/borrar.bmp" alt="Borrar" title="Borrar Registro" border="null" class="imgLink" width="20px" height="20px" onclick="save_supervision_det(\''.$cod_det.'\',\'borrar\')"/></td>
                 </td>
     				</tr>';
-          }
+		  }
+/* 		  <td align="center"><input type="number" id="superv_cantidad'.$cod_det.'" style="width:100px;" value="'.$datos["cantidad"].'" min="1"></td> */
 		 ?></table>
 		 </div>
   </form>
