@@ -113,13 +113,13 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 <hr />
 <div id="Cont_mensaje" class="mensaje"></div>
 <div>
-     <table width="80%" border="0" align="center">
+     <table width="60%" border="0" align="center">
 		<tr class="fondo01">
 			<!-- <th width="20%" style="display:none" class="etiqueta">Codigo Ubicacion</th> -->
-			<th width="60%" class="etiqueta"><?php echo $leng['producto'];?>
+			<th width="70%" class="etiqueta"><?php echo $leng['producto'];?>
             <input type="hidden" name="producto" id="stdIDuniforme" value=""/></th>
-            <th width="14%" class="etiqueta">cantidad_uniforme</th>
-			<th width="8%"><img src="imagenes/loading2.gif" alt="Agregar Registro" width="40" height="40" title="Agregar Registro" border="null" class="imgLink" /></th>
+            <th width="18%" class="etiqueta">Cantidad</th>
+			<th width="12%"><img src="imagenes/loading2.gif" alt="Agregar Registro" width="40" height="40" title="Agregar Registro" border="null" class="imgLink" /></th>
 		</tr>
 		<tr class="fondo02">
         <td>       
@@ -135,7 +135,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 				</span></td>
 		</tr>
 		</table>
-		<table id="Contenedor04" width="80%" border="0" align="center">
+		<table id="Contenedor04" width="60%" border="0" align="center">
 		<tr>
 			<td colspan="5" class="etiqueta_title">Listado</td>
 		</tr>
