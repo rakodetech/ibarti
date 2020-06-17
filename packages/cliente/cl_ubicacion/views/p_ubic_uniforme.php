@@ -109,7 +109,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 		ajax.send("codigo=" + codigo + "");
 	}
 </script>
-<div align="center" class="etiqueta_title"> ALCANCE </div>
+<div align="center" class="etiqueta_title"> UNIFORME </div>
 <hr />
 <div id="Cont_mensaje" class="mensaje"></div>
 <div>
