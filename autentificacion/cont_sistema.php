@@ -31,11 +31,12 @@ $titulo = " CONTROL DE SISTEMA ";
 					control.cl_campo_04_act, control.cl_campo_04_desc,
                     control.cod_turno_dl, turno.descripcion AS turno_dl ,
                     control.control_arma_linea AS cod_ar_linea, prod_lineas.descripcion AS ar_linea,
+                    control.control_uniforme_linea AS cod_uniforme_linea, pl.descripcion AS uniforme_linea,
                     control.cod_nov_clasif_sms, nov_clasif.descripcion AS nov_clasif_sms ,
 					control.url_doc, control.rop_meses,control.dias_nov_notif,control.min_nov_notif
                FROM control, paises, clientes, ficha_status,
 			        conceptos, conceptos AS r, conceptos AS cest, conceptos AS hora_ex_d, conceptos AS hora_ex_n,
-					roles, cargos, turno, prod_lineas, nov_clasif
+					roles, cargos, turno, prod_lineas, prod_lineas pl, nov_clasif
               WHERE control.cod_pais = paises.codigo
                 AND control.oesvica = clientes.codigo
                 AND control.ficha_activo = ficha_status.codigo
@@ -48,6 +49,7 @@ $titulo = " CONTROL DE SISTEMA ";
 				AND control.cod_superv_cargo = cargos.codigo
                 AND control.cod_turno_dl = turno.codigo
                 AND control.control_arma_linea = prod_lineas.codigo
+                AND control.control_uniforme_linea = pl.codigo
 			AND control.cod_nov_clasif_sms = nov_clasif.codigo  ";
 
 	$query = $bd->consultar($sql);
@@ -94,7 +96,9 @@ $titulo = " CONTROL DE SISTEMA ";
 	$cod_turno_dl    = $result['cod_turno_dl'];
 	$turno_dl        = $result['turno_dl'];
 	$cod_ar_linea    = $result['cod_ar_linea'];
-	$ar_linea        = $result['ar_linea'];
+  $ar_linea        = $result['ar_linea'];
+  $cod_uniforme_linea    = $result['cod_uniforme_linea'];
+	$uniforme_linea        = $result['uniforme_linea'];
 	$cod_clasif_sms  = $result['cod_nov_clasif_sms'];
 	$clasif_sms      = $result['nov_clasif_sms'];
 	$url_doc         = $result['url_doc'];
@@ -212,6 +216,19 @@ $titulo = " CONTROL DE SISTEMA ";
                              </select><br />
         	<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>
     <tr>
+    <tr>
+      <td class="etiqueta">Uniforme Linea: </td>
+      	<td id="select_1_05"><select name="uniforme_linea" style="width:200px">
+							         <option value="<?php echo $cod_uniforme_linea;?>"><?php echo $uniforme_linea;?></option>
+          <?php  	$sql = " SELECT codigo, descripcion FROM prod_lineas
+		                      WHERE status = 'T' AND codigo <> '$cod_uniforme_linea' ORDER BY 2 ASC ";
+		            $query = $bd->consultar($sql);
+            		while($datos=$bd->obtener_fila($query,0)){	 ?>
+          <option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
+          <?php }?>
+                             </select><br />
+        	<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>
+    <tr>
      <tr>
         <td height="8" colspan="2" align="center"><hr></td>
      </tr>
@@ -252,4 +269,6 @@ var select_1_01 = new Spry.Widget.ValidationSelect("select_1_01", {validateOn:["
 var select_1_02 = new Spry.Widget.ValidationSelect("select_1_02", {validateOn:["blur", "change"]});
 var select_1_03 = new Spry.Widget.ValidationSelect("select_1_03", {validateOn:["blur", "change"]});
 var select_1_04 = new Spry.Widget.ValidationSelect("select_1_04", {validateOn:["blur", "change"]});
+var select_1_05 = new Spry.Widget.ValidationSelect("select_1_05", {validateOn:["blur", "change"]});
+var select_1_06 = new Spry.Widget.ValidationSelect("select_1_06", {validateOn:["blur", "change"]});
 </script>

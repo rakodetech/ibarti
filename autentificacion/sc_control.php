@@ -34,6 +34,7 @@ $cl_campo_04    = $_POST['cl_campo_04'];
 $cl_campo_04_d  = $_POST['cl_campo_04_d'];
 $turno_dl       = $_POST['turno_dl'];
 $ar_linea       = $_POST['ar_linea'];
+$uniforme_linea = $_POST['uniforme_linea'];
 $nov_clasif_sms = $_POST['nov_clasif_sms'];
 $url_doc        = $_POST['url_doc'];
 $rop_meses      = $_POST['rop_meses'];
@@ -65,7 +66,7 @@ $metodo   = $_POST['metodo'];
 								'$vale_monto', '$c_cestaticket', '$c_hora_extras_d', '$c_hora_extras_n',
 								'$c_replica', '$c_retirado', '$d_proyeccion', '$lim_plantilla', 
 								'$nota_unif', '$nota_doc', '$s_cargo', '$cl_campo_04', 
-								'$cl_campo_04_d', '$turno_dl', '$ar_linea', '$ficha_preingreso',
+								'$cl_campo_04_d', '$turno_dl', '$ar_linea', '$uniforme_linea', '$ficha_preingreso',
 								'$nov_clasif_sms', '$url_doc', '$rop_meses','$host_smtp',
 								'$puerto_smtp', '$protocolo_smtp', '$cuenta_smtp','$password_smtp',$dias_nov_notif,$min_nov_notif)";	
 				  
