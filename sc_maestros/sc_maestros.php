@@ -21,6 +21,7 @@ $campo03 = $_POST['campo03'];
 $campo04 = $_POST['campo04'];	
 
 $activo      = statusbd($_POST['activo']);
+$planificable = statusbd($_POST['planificable']);
 
 $href     = $_POST['href'];
 $usuario  = $_POST['usuario']; 
@@ -30,22 +31,32 @@ $usuario  = $_POST['usuario'];
 		$i = $_POST['metodo'];	
 		switch ($i) {
 		case 'agregar':
-	
- 			    $sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
+				if ($tabla == 'cargos'){
+					$sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
+					cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status, planificable) 
+					VALUES ('$codigo', '$descripcion',
+							'$campo01', '$campo02', '$campo03', '$campo04', 
+							'$usuario', '$date', '$usuario','$date' , '$activo', '$planificable')";
+				}else{
+ 			    	$sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
                                             cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
                                     VALUES ('$codigo', '$descripcion',
 									        '$campo01', '$campo02', '$campo03', '$campo04', 
-									        '$usuario', '$date', '$usuario','$date' , '$activo')";	
+											'$usuario', '$date', '$usuario','$date' , '$activo')";
+				}	
 			    $query = $bd->consultar($sql);	  			   	
 		break;					
 		case 'modificar':			
-					$sql ="UPDATE $tabla SET   
+				$sql ="UPDATE $tabla SET   
 						          codigo          = '$codigo',     descripcion    = '$descripcion',
 								  campo01     = '$campo01',    campo02        = '$campo02',
 								  campo03     = '$campo03',    campo04        = '$campo04', 
 						          cod_us_mod  = '$usuario',    fec_us_mod     = '$date',
-								  status      = '$activo'
-						    WHERE codigo = '$codigo'";
+								  status      = '$activo'";
+					if ($tabla == 'cargos'){
+						$sql .= " ,planificable = '$planificable' ";
+					}
+					$sql .= " WHERE codigo = '$codigo'";
 			    $query = $bd->consultar($sql);	
 		break;
 		case 'borrar':			

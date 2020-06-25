@@ -1,16 +1,16 @@
 <?php
-$sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion producto, clientes_ub_uniforme.cantidad
-                   FROM clientes_ub_uniforme, productos
-                  WHERE clientes_ub_uniforme.cod_producto = productos.item
+$sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion sub_linea, clientes_ub_uniforme.cantidad
+                   FROM clientes_ub_uniforme, prod_sub_lineas
+                  WHERE clientes_ub_uniforme.cod_sub_linea = prod_sub_lineas.codigo
 				  AND clientes_ub_uniforme.cod_cl_ubicacion = '$codigo'";
 ?>
 <script language="javascript">
     function agregarProductoUniforme(auto, metodo) {
-        var cod_producto = document.getElementById("stdIDuniforme" + auto + "").value;
+        var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
 		var codigo = document.getElementById("codigo_ubic").value;
         var errorMessage = 'Debe Ingresar minimo 1 producto ';
         var campo01 = 0;
-        if (!cod_producto) {
+        if (!cod_sub_linea) {
             campo01++;
 		}
 		if (cantidad_uniforme == 0) {
@@ -28,12 +28,12 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
                     if (ajax.responseText == 0) {
                         ValidarSubmitUniforme(auto, metodo);
                     } else {
-                        alert("Ya Existe este Registro (" + cod_producto + ")");
+                        alert("Ya Existe este Registro (" + cod_sub_linea + ")");
                     }
                 }
             }
             ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            ajax.send("cod_producto=" + cod_producto + "&codigo=" + codigo + "");
+            ajax.send("cod_sub_linea=" + cod_sub_linea + "&codigo=" + codigo + "");
         } else {
             alert(errorMessage);
         }
@@ -42,7 +42,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 	function ValidarSubmitUniforme(auto, metodo) {
 		var cod_ubic = document.getElementById("codigo_ubic").value;
 		var usuario = document.getElementById("usuario").value;
-		var cod_producto = document.getElementById("stdIDuniforme" + auto + "").value;
+		var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
 		var cantidad_uniforme = document.getElementById("cantidad_uniforme" + auto + "").value;
 		
 		var valor = "scripts/sc_cl_ubic_uniforme.php";
@@ -56,7 +56,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 					ActualizarDetUniforme(cod_ubic);
 					if(metodo == "agregar"){
 						$("#stdIDuniforme").val("");
-						$("#codigo_producto_uniforme").val("");
+						$("#codigo_sub_linea_uniforme").val("");
 						$("#cantidad_uniforme").val(0)
 					}
 				}else{
@@ -66,13 +66,13 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo=" + cod_ubic + "&cod_producto=" + cod_producto + "&cantidad=" + cantidad_uniforme  + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
+		ajax.send("codigo=" + cod_ubic + "&cod_sub_linea=" + cod_sub_linea + "&cantidad=" + cantidad_uniforme  + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 	}
 
 	function Borrar(auto, metodo) {
 		if (confirm("� Esta Seguro Eliminar Este Registro")) {
 			var cod_ubic = document.getElementById("codigo_ubic").value;
-            var cod_producto = document.getElementById("stdIDuniforme" + auto + "").value;
+            var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
 			var cantidad_uniforme = document.getElementById("cantidad_uniforme" + auto + "").value;
 			var ususario = "";
 
@@ -89,7 +89,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("codigo=" + cod_ubic + "&cod_producto=" + cod_producto + "&cantidad=" + cantidad_uniforme + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
+			ajax.send("codigo=" + cod_ubic + "&cod_sub_linea=" + cod_sub_linea + "&cantidad=" + cantidad_uniforme + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 		} else {
 			alert(errorMessage);
 		}
@@ -116,14 +116,14 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
      <table width="60%" border="0" align="center">
 		<tr class="fondo01">
 			<!-- <th width="20%" style="display:none" class="etiqueta">Codigo Ubicacion</th> -->
-			<th width="70%" class="etiqueta"><?php echo $leng['producto'];?>
+			<th width="70%" class="etiqueta">Sub Linea
             <input type="hidden" name="producto" id="stdIDuniforme" value=""/></th>
             <th width="18%" class="etiqueta">Cantidad</th>
 			<th width="12%"><img src="imagenes/loading2.gif" alt="Agregar Registro" width="40" height="40" title="Agregar Registro" border="null" class="imgLink" /></th>
 		</tr>
 		<tr class="fondo02">
         <td>       
-        <input type="text" id="codigo_producto_uniforme" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" required style="width:450px"/>
+        <input type="text" id="codigo_sub_linea_uniforme" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" required style="width:450px"/>
       </td>
       <td>
        <input type="number" id="cantidad_uniforme" style="width:100px" value="1" min="0"  required placeholder="">
@@ -156,8 +156,8 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 			$borrar    = 	 "'" . $i . "', 'eliminar' ";
 			echo '<tr class="' . $fondo . '">
 				  <td>     
-                  <input type="text" id="codigo_producto_uniforme'.$i.'" value="'.$datos['producto'].'" disabled  style="width:450px"/>
-                  <input type="hidden" name="trabajador" id="stdIDuniforme'.$i.'" value="'.$datos['cod_producto'].'"/>
+                  <input type="text" id="codigo_sub_linea_uniforme'.$i.'" value="'.$datos['sub_linea'].'" disabled  style="width:450px"/>
+                  <input type="hidden" name="trabajador" id="stdIDuniforme'.$i.'" value="'.$datos['cod_sub_linea'].'"/>
                 </td>
                 <td>
                  <input type="number" id="cantidad_uniforme'.$i.'" style="width:100px"  value="'.$datos['cantidad'].'" min="1">
@@ -181,10 +181,10 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_producto, productos.descripcion produc
 <br />
 
 <script language="JavaScript" type="text/javascript">
-  new Autocomplete("codigo_producto_uniforme", function() { 
+  new Autocomplete("codigo_sub_linea_uniforme", function() { 
     this.setValue = function(id) {
       $("#stdIDuniforme").val(id);
     }
     if (this.value.length < 1) return ;
-    return "autocompletar/tb/producto_base_serial_uniforme.php?q="+this.text.value +"&filtro=codigo"});
+    return "autocompletar/tb/sub_linea_base_serial_uniforme.php?q="+this.text.value +"&filtro=codigo"});
   </script>

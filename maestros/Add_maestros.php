@@ -7,11 +7,18 @@ $archivo2 = "../inicio.php?area=maestros/Cons_$archivo&Nmenu=".$_GET['Nmenu']."&
 
 if($metodo == 'modificar'){
 	$codigo = $_GET['codigo'];
-	$bd = new DataBase();
+  $bd = new DataBase();
+  if($tabla == 'cargos'){
+    $sql = " SELECT $tabla.codigo, $tabla.descripcion,
+    $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
+    $tabla.status, $tabla.planificable
+    FROM $tabla WHERE codigo = '$codigo' ";
+  }else{
 	$sql = " SELECT $tabla.codigo, $tabla.descripcion,
 	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
 				    $tabla.status
-	           FROM $tabla WHERE codigo = '$codigo' ";
+             FROM $tabla WHERE codigo = '$codigo' ";
+  }
 	$query = $bd->consultar($sql);
 	$result=$bd->obtener_fila($query,0);
 	  	   
@@ -22,7 +29,10 @@ if($metodo == 'modificar'){
 	$campo02     = $result['campo02'];
 	$campo03     = $result['campo03'];
 	$campo04     = $result['campo04'];
-	$status      = $result['status'];
+  $status      = $result['status'];
+  if($tabla == 'cargos'){
+    $planificable      = $result['planificable'];
+  }
   $readonly = 'readonly="readonly"';
 	}else{
   $readonly = '';
@@ -45,7 +55,13 @@ if($metodo == 'modificar'){
       <td class="etiqueta">C&oacute;digo:</td>
       <td id="input01"><input type="text" name="codigo" maxlength="11" style="width:120px"
                               value="<?php echo $codigo;?>" onblur="<?php echo $codigo_onblur;?>" <?php echo $readonly;?>/>
-        Activo: <input name="activo" type="checkbox"  <?php echo statusCheck("$status");?> value="T"/><br />
+        Activo: <input name="activo" type="checkbox"  <?php echo statusCheck("$status");?> value="T"/>
+        <?php
+          if($tabla == 'cargos'){
+            echo 'Planificable: <input name="planificable" type="checkbox" '.statusCheck("$planificable").' value="T"/>';
+          }
+       ?>
+       <br />
 		   <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
 	 </tr>
