@@ -10,6 +10,8 @@ $bd = new DataBase();
 
 $region          = $_POST['region'];
 $estado          = $_POST['estado'];
+$ubicacion          = $_POST['ubicacion'];
+$cliente          = $_POST['cliente'];
 $rol             = $_POST['rol'];
 $contrato        = $_POST['contrato'];
 
@@ -24,7 +26,7 @@ $titulo          = " REPORTE TRABAJADOR CARNET \n";
 
 if(isset($reporte)){
 
-		$where = " WHERE v_ficha.cod_ficha_status = control.ficha_activo ";
+	$where = " WHERE v_ficha.cod_ficha_status = control.ficha_activo ";
 
 	if($region != "TODOS"){
 		$where .= " AND v_ficha.cod_region = '$region' ";
@@ -36,6 +38,14 @@ if(isset($reporte)){
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
+	}
+
+	if($cliente != "TODOS"){
+		$where .= " AND v_ficha.cod_cliente = '$cliente' ";
+	}
+
+	if($ubicacion != "TODOS"){
+		$where .= " AND v_ficha.cod_ubicacion = '$ubicacion' ";
 	}
 
 	if($contrato != "TODOS"){

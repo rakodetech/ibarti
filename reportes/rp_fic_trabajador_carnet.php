@@ -16,6 +16,8 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	var rol         = $( "#rol").val();
 	var region      = $( "#region").val();
 	var estado      = $( "#estado").val();
+	var cliente      = $( "#cliente").val();
+	var ubicacion     = $( "#ubicacion").val();
 	var contrato    = $( "#contrato").val();
 	var carnet_vencido = $( "#carnet_vencido").val();
 	var foto        = $( "#foto").val();
@@ -39,11 +41,12 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 						"rol" : rol,
 						"region" : region,
 						"estado" : estado,
+						"cliente" : cliente,
+						"ubicacion" : ubicacion,
 						"contrato" : contrato,
 						"carnet_vencido" : carnet_vencido,
 						"foto" : foto,
 						"trabajador":trabajador,
-
 						"Nmenu" : Nmenu,
 						"mod" : mod,
 						"archivo": archivo
@@ -101,7 +104,10 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 		 		while($row01=$bd->obtener_fila($query01,0)){
 					 echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
 			   }?></select></td>
-
+			         <td width="4%" id="cont_img"><img class="imgLink" id="img_actualizar" src="imagenes/actualizar.png" border="0"
+                                        onclick=" Add_filtroX()" ></td>
+</tr>
+<tr>
 			   <td width="10%"><?php echo $leng['contrato']?>: </td>
 			<td width="14%"><select name="contrato" id="contrato" style="width:120px;">
 					<option value="TODOS">TODOS</option>
@@ -110,24 +116,33 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 		 		while($row01=$bd->obtener_fila($query01,0)){
 					 echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
 			   }?></select></td>
-        
-      <td width="4%" id="cont_img"><img class="imgLink" id="img_actualizar" src="imagenes/actualizar.png" border="0"
-                                        onclick=" Add_filtroX()" ></td>
-        </tr>
-        <tr>
-		 
 		 <td>Carnet Vencido:</td>
 		<td><select name="carnet_vencido" id="carnet_vencido" style="width:120px;">
      		         <option value="S">SI</option>
                     <option value="TODOS"> TODOS</option>
             </select></td>
-		 <td>Fotos:</td>
+			<td>Fotos:</td>
 		<td><select name="foto" id="foto" style="width:120px;">
      		        <option value="TODOS"> TODOS</option>
                     <option value="S">SI</option>
                     <option value="N">NO</option>
 
             </select></td>
+			<td><?php echo $leng['cliente']?>:</td>
+			<td><select name="cliente" id="cliente" style="width:120px;" onchange="Add_Cl_Ubic(this.value, 'contenido_ubic', 'T', '120')" required>
+
+					<?php
+                echo $select_cl;
+	   			$query01 = $bd->consultar($sql_cliente);
+		 		while($row01=$bd->obtener_fila($query01,0)){
+					 echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
+			   }?></select></td>
+			</tr>
+			<tr>
+			<td>Ubicacion: </td>
+			<td id="contenido_ubic"><select name="ubicacion" id="ubicacion" style="width:120px;">
+					                        <option value="TODOS">TODOS</option>
+                                    </select></td>
            <td>Filtro <?php echo $leng['trab']?>.:</td>
 		<td id="select01">
 			<select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">

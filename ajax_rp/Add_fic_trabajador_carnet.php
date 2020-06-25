@@ -8,6 +8,8 @@ $bd = new DataBase();
 
 $region          = $_POST['region'];
 $estado          = $_POST['estado'];
+$cliente          = $_POST['estado'];
+$ubicacion          = $_POST['ubicacion'];
 $rol             = $_POST['rol'];
 $contrato        = $_POST['contrato'];
 $carnet_vencido  = $_POST['carnet_vencido'];
@@ -23,6 +25,14 @@ $trabajador      = $_POST['trabajador'];
 
 	if($estado != "TODOS"){
 		$where .= " AND v_ficha.cod_estado = '$estado' ";  // cambie AND asistencia.co_cont = '$contracto'
+	}
+
+	if($cliente != "TODOS"){
+		$where .= " AND v_ficha.cod_cliente = '$cliente' ";
+	}
+	
+	if($ubicacion != "TODOS"){
+		$where .= " AND v_ficha.cod_ubicacion = '$ubicacion' ";
 	}
 
 	if($rol != "TODOS"){
