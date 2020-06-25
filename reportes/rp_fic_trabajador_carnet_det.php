@@ -61,11 +61,11 @@ if(isset($reporte)){
 	}
 	// QUERY A MOSTRAR //
 	    $sql = "SELECT v_ficha.region, v_ficha.rol,
-                       v_ficha.estado,v_ficha.cliente,
-					   v_ficha.ubicacion, v_ficha.ciudad,
+                       v_ficha.estado, v_ficha.ciudad,
                        v_ficha.contracto, v_ficha.cargo,
 					   v_ficha.cod_ficha, v_ficha.cedula,
-					   v_ficha.ap_nombre, v_ficha.fec_carnet
+					   v_ficha.ap_nombre, v_ficha.fec_carnet,
+					   v_ficha.cliente,v_ficha.ubicacion
                   FROM v_ficha, control
                   $where
               ORDER BY 2 ASC ";
@@ -117,10 +117,9 @@ if(isset($reporte)){
 			$imprimir = "NO";
 		}
 		if($imprimir == "SI"){
-		 echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
-				   <td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
-				   <td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$fot."</td>
-				   <td>".$row01[10]."</td><td>".$row01[11]."</td></tr>";
+		 echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[10]."</td>
+				   <td>".$row01[11]."</td><td>".$row01[3]."</td><td>".$row01[4]."</td><td>".$row01[5]."</td>
+				   <td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$fot."</td></tr>";
 		}}
 		 echo "</table>";
 	}
