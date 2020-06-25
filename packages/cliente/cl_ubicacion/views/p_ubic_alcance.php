@@ -6,7 +6,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 				  AND clientes_ub_alcance.cod_cl_ubicacion = '$codigo'";
 ?>
 <script language="javascript">
-    function agregarProducto(auto, metodo) {
+    function agregarAlcance(auto, metodo) {
         var cod_producto = document.getElementById("stdID" + auto + "").value;
 		var codigo = document.getElementById("codigo_ubic").value;
 		var cantidad = document.getElementById("cantidad").value;
@@ -28,7 +28,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
                     // document.getElementById("Cont_mensaje").innerHTML = ajax.responseText;
                     //window.location.href=""+href+"";
                     if (ajax.responseText == 0) {
-                        ValidarSubmit(auto, metodo);
+                        ValidarAlcance(auto, metodo);
                     } else {
                         alert("Ya Existe este Registro (" + cod_producto + ")");
                     }
@@ -41,7 +41,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
         }
     }
 
-	function ValidarSubmit(auto, metodo) {
+	function ValidarAlcance(auto, metodo) {
 		var cod_ubic = document.getElementById("codigo_ubic").value;
 		var usuario = document.getElementById("usuario").value;
 		var cod_producto = document.getElementById("stdID" + auto + "").value;
@@ -73,13 +73,13 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 		ajax.send("codigo=" + cod_ubic + "&cod_producto=" + cod_producto + "&cantidad=" + cantidad + "&dias=" + dias + "&vencimiento=" + vencimiento + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 	}
 
-	function Borrar(auto, metodo) {
+	function BorrarAlcance(auto, metodo) {
 		if (confirm("� Esta Seguro Eliminar Este Registro")) {
 			var cod_ubic = document.getElementById("codigo_ubic").value;
             var cod_producto = document.getElementById("stdID" + auto + "").value;
 			var cantidad = document.getElementById("cantidad" + auto + "").value;
 			var dias = document.getElementById("dias" + auto + "").value;
-			var vencimiento = Status($("#vencimiento:checked").val());
+			var vencimiento = Status($('input:checkbox[id=vencimiento'+auto+']:checked').val());
 			var ususario = "";
 
 			var valor = "scripts/sc_cl_ubic_alcance.php";
@@ -145,7 +145,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 		<td><span class="art-button-wrapper">
 					<span class="art-button-l"> </span>
 					<span class="art-button-r"> </span>
-					<input type="button" name="submit" id="submit" value="Agregar" class="readon art-button" onclick="agregarProducto('', 'agregar')" />
+					<input type="button" name="submit" id="submit" value="Agregar" class="readon art-button" onclick="agregarAlcance('', 'agregar')" />
 				</span></td>
 		</tr>
 		</table>
@@ -182,9 +182,9 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 			 <td>
                  <input type="checkbox" id="vencimiento'.$i.'" style="width:50px" '.statusCheck($datos["vencimiento"]).'/>
 			   </td>  
-			   <td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarSubmit('.$modificar.')" />&nbsp;
+			   <td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarAlcance('.$modificar.')" />&nbsp;
 		  <img src="imagenes/borrar.bmp" alt="Detalle" title="Borrar Registro" width="25" height="25" border="null"
-			   onclick="Borrar(' . $borrar . ')" class="imgLink" />
+			   onclick="BorrarAlcance(' . $borrar . ')" class="imgLink" />
 		  </td>
 	</tr>';
 		} ?>

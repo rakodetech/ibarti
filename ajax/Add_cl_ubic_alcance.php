@@ -41,9 +41,9 @@ $codigo      = $_POST['codigo'];
 			 <td>
                  <input type="checkbox" id="vencimiento'.$i.'" style="width:50px" '.statusCheck($datos["vencimiento"]).'/>
 			   </td>  
-			   <td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarSubmit('.$modificar.')" />&nbsp;
+			   <td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarAlcance('.$modificar.')" />&nbsp;
 		  <img src="imagenes/borrar.bmp" alt="Detalle" title="Borrar Registro" width="25" height="25" border="null"
-			   onclick="Borrar(' . $borrar . ')" class="imgLink" />
+			   onclick="BorrarAlcance(' . $borrar . ')" class="imgLink" />
 		  </td>
 	</tr>';
         } mysql_free_result($query);?>
