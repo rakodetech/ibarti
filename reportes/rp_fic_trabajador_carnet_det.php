@@ -128,7 +128,7 @@ if(isset($reporte)){
 		$query01  = $bd->consultar($sql);
 		 echo "<table border=1>";
 
- 	 echo "<tr><th> ".$leng['region']." </th> <th> ".$leng['rol']." </th><th> ".$leng['estado']." </th><th> ".$leng['ciudad']." </th>
+ 	 echo "<tr><th> ".$leng['region']." </th> <th> ".$leng['rol']." </th><th> ".$leng['estado']." </th><th> ".$leng['cliente']." </th><th> Ubicacion </th><th> ".$leng['ciudad']." </th>
 	           <th> ".$leng['contrato']." </th><th> Cargo </th><th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th>
 			   <th> ".$leng['trabajador']." </th><th> Fecha Venc. Carnet </th><th> Foto </th></tr>";
 
@@ -167,7 +167,7 @@ if(isset($reporte)){
 
 		if($imprimir == "SI"){
 
-	 echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
+	 echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td><td>".$row01[3]."</td>
 			   <td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
 			   <td>".$row01[8]."</td><td>".$row01[9]."</td><td>";
 		$filename = "../imagenes/fotos/".$row01[7].".jpg";
