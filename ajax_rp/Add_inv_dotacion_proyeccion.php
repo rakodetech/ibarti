@@ -11,18 +11,23 @@ $estado       = $_POST['estado'];
 $contrato     = $_POST['contrato'];
 $linea        = $_POST['linea'];
 $sub_linea    = $_POST['sub_linea'];
+$cliente    = $_POST['cliente'];
+$ubicacion    = $_POST['ubicacion'];
 $fecha_desde  = $_POST['fecha_desde'];
 $trabajador   = $_POST['trabajador'];
 
 $fecha_D   = conversion($_POST['fecha_desde']);
 
-$where = "  WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), INTERVAL control.dias_proyeccion DAY) < DATE_ADD('$fecha_D', INTERVAL '$d_proyeccion' DAY)
-              AND v_prod_dot_max2.cod_rol = roles.codigo
-              AND v_prod_dot_max2.cod_contracto = contractos.codigo
-              AND v_prod_dot_max2.cod_linea = prod_lineas.codigo
-              AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
-              AND v_prod_dot_max2.cod_producto = productos.item
-			  AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo  ";
+$where = " WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), INTERVAL control.dias_proyeccion DAY) < DATE_ADD('2020-06-30', INTERVAL '0' DAY)
+			AND v_prod_dot_max2.cod_rol = roles.codigo
+			AND v_prod_dot_max2.cod_contracto = contractos.codigo
+			AND v_prod_dot_max2.cod_linea = prod_lineas.codigo
+			AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
+			AND v_prod_dot_max2.cod_producto = productos.item
+			AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo 
+			AND v_prod_dot_max2.cod_cliente = clientes.codigo
+			AND v_prod_dot_max2.cod_ubicacion = clientes_ubicacion.codigo
+			AND v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea  ";
 
 
 
@@ -72,31 +77,42 @@ $where = "  WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), I
 	if($sub_linea != "TODOS"){
 		$where  .= " AND v_prod_dot_max2.cod_sub_linea = '$sub_linea' ";
 	}
+	
+	
+	if($cliente != "TODOS"){
+		$where  .= " AND v_prod_dot_max2.cod_cliente = '$cliente' ";
+	}
+
+	
+	if($ubicacion != "TODOS"){
+		$where  .= " AND v_prod_dot_max2.cod_ubicacion = '$ubicacion' ";
+	}
 
 	if($trabajador != NULL){
 		$where  .= " AND v_prod_dot_max2.cod_ficha = '$trabajador' ";
 	}
 
 
- $sql = "SELECT v_prod_dot_max2.cod_dotacion,
-                v_prod_dot_max2.fecha_max AS fecha, v_prod_dot_max2.cod_ficha,
-                v_prod_dot_max2.ap_nombre, roles.descripcion AS rol,
+ $sql = "SELECT v_prod_dot_max2.cod_dotacion, v_prod_dot_max2.fecha_max AS fecha, 
+ 				v_prod_dot_max2.cod_ficha, v_prod_dot_max2.ap_nombre,
                 contractos.descripcion AS contrato, prod_lineas.descripcion AS linea,
                 prod_sub_lineas.descripcion AS sub_linea, v_prod_dot_max2.cod_producto,
-                productos.descripcion AS producto, v_prod_dot_max2.cantidad
+                productos.descripcion AS producto, v_prod_dot_max2.cantidad,
+								clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion
            FROM v_prod_dot_max2 , roles,  contractos, prod_lineas,
-		        prod_sub_lineas, productos, control
-          $where
-	       ORDER BY ap_nombre ASC  ";
+		        prod_sub_lineas, productos, control, clientes, clientes_ubicacion, clientes_ub_uniforme
+			$where
+	       ORDER BY ap_nombre ASC   ";
 ?>
 <table width="100%" border="0" align="center">
 		<tr class="fondo00">
   			<th width="10%" class="etiqueta">Fecha</th>
             <th width="10%" class="etiqueta"><?php echo $leng['ficha']?></th>
-            <th width="20%" class="etiqueta"><?php echo $leng['rol']?></th>
-            <th width="25%" class="etiqueta">Sub Linea</th>
-            <th width="30%" class="etiqueta">Producto </th>
-            <th width="5%" class="etiqueta">Cantidad</th>
+			<th width="15%" class="etiqueta"><?php echo $leng['cliente']?></th>
+			<th width="15%" class="etiqueta"><?php echo $leng['ubicacion']?></th>
+            <th width="15%" class="etiqueta">Sub Linea</th>
+            <th width="20%" class="etiqueta">Producto </th>
+            <th width="5%" class="etiqueta">Cant.</th>
 	</tr>
     <?php
 	$valor = 0;
@@ -113,7 +129,8 @@ $where = "  WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), I
         echo '<tr class="'.$fondo.'">
 			      <td class="texto">'.$datos["fecha"].'</td>
 				  <td class="texto">'.$datos["cod_ficha"].'</td>
-				  <td class="texto">'.longitud($datos["rol"]).'</td>
+				  <td class="texto">'.longitud($datos["cliente"]).'</td>
+				  <td class="texto">'.longitud($datos["ubicacion"]).'</td>
 				  <td class="texto">'.longitud($datos["sub_linea"]).'</td>
 				  <td class="texto">'.longitudMax($datos["producto"]).'</td>
 				  <td class="texto">'.$datos["cantidad"].'</td>

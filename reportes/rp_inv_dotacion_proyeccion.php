@@ -20,6 +20,8 @@ function Add_filtroX(){ // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	var fecha_desde  = document.getElementById("fecha_desde").value;
 	var d_proyeccion = document.getElementById("d_proyeccion").value;
 	var rol          = document.getElementById("rol").value;
+	var cliente          = document.getElementById("cliente").value;
+	var ubicacion          = document.getElementById("ubicacion").value;
 	var estado       = document.getElementById("estado").value;
 	var contrato     = document.getElementById("contrato").value;
 	var linea        = document.getElementById("linea").value;
@@ -58,7 +60,7 @@ function Add_filtroX(){ // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("rol="+rol+"&d_proyeccion="+d_proyeccion+"&estado="+estado+"&contrato="+contrato+"&linea="+linea+"&sub_linea="+sub_linea+"&trabajador="+trabajador+"&fecha_desde="+fecha_desde+"");
+			ajax.send("rol="+rol+"&d_proyeccion="+d_proyeccion+"&estado="+estado+"&contrato="+contrato+"&cliente="+cliente+"&ubicacion="+ubicacion+"&linea="+linea+"&sub_linea="+sub_linea+"&trabajador="+trabajador+"&fecha_desde="+fecha_desde+"");
 
 	}else{
 	 	alert(errorMessage);
@@ -71,7 +73,7 @@ function Add_filtroX(){ // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 <hr />
 	<table width="100%" class="etiqueta">
 		<tr><td width="10%">Fecha:</td>
-		 <td width="14%" id="fecha01"><input type="text" name="fecha_desde" id="fecha_desde" size="12" required onclick="javascript:muestraCalendario('form_reportes', 'fecha_desde');">&nbsp;<img src="imagenes/icono-calendario.gif" onclick="javascript:muestraCalendario('form_reportes', 'fecha_desde');" border="0" width="17px"></td>
+		 <td width="16%" id="fecha01"><input type="text" name="fecha_desde" id="fecha_desde" size="12" required onclick="javascript:muestraCalendario('form_reportes', 'fecha_desde');">&nbsp;<img src="imagenes/icono-calendario.gif" onclick="javascript:muestraCalendario('form_reportes', 'fecha_desde');" border="0" width="17px"></td>
         <td width="10%">Dias Proyec.:</td>
 		 <td width="14%" id="integer01"><input type="text" id="d_proyeccion" name="d_proyeccion" maxlength="12" size="10"
                                                value="<?php echo $d_proyeccion;?>" /></td>
@@ -92,17 +94,17 @@ function Add_filtroX(){ // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 					 echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
 			   }?></select></td>
       <td width="4%" id="cont_img"><img class="imgLink" src="imagenes/actualizar.png" border="0" onclick="Add_filtroX()"></td>
-        </tr>
-        <tr>
-		 
-		 	<td><?php echo $leng['contrato']?>: </td>
-			<td><select name="contrato" id="contrato" style="width:120px;">
-					<option value="TODOS">TODOS</option>
-					<?php
-	   			$query01 = $bd->consultar($sql_contrato);
-		 		while($row01=$bd->obtener_fila($query01,0)){
-					 echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
-			   }?></select></td>
+	  <tr><td class="etiqueta"><?php echo $leng['cliente']?> :</td>
+									<td><select name="cliente" id="cliente" style="width:120px;" onchange="Add_Cl_Ubic(this.value, 'contenido_ubic', 'T', '120')">
+										<option value="TODOS"> TODOS</option>
+										<?php $query02 = $bd->consultar($sql_cliente);
+										while($row02=$bd->obtener_fila($query02,0)){
+											echo '<option value="'.$row02[0].'">'.$row02[1].'</option>';
+										}?></select></td>
+										<td class="etiqueta"><?php echo $leng['ubicacion'];?> : </td>
+										<td id="contenido_ubic"><select name="ubicacion" id="ubicacion" style="width:120px;">
+											<option value="TODOS">TODOS</option>
+										</select></td>
              <td>Linea: </td>
 			<td><select name="linea" id="linea" style="width:120px;">
 					<option value="TODOS">TODOS</option>
@@ -111,7 +113,7 @@ function Add_filtroX(){ // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 		 		while($row01=$bd->obtener_fila($query01,0)){
 					 echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
 			   }?></select></td>
-            <td>Sub Linea:</td>
+			   			<td>Sub Linea:</td>
 			<td><select name="sub_linea" id="sub_linea" style="width:120px;">
 					<option value="TODOS">TODOS</option>
 					<?php
@@ -119,10 +121,16 @@ function Add_filtroX(){ // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 		 		while($row01=$bd->obtener_fila($query01,0)){
 					 echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
 			   }?></select></td>
-
-			<td>&nbsp;</td>
-      </tr>
-        <tr>
+			</tr>
+			<tr>
+			   		 	<td><?php echo $leng['contrato']?>: </td>
+			<td><select name="contrato" id="contrato" style="width:120px;">
+					<option value="TODOS">TODOS</option>
+					<?php
+	   			$query01 = $bd->consultar($sql_contrato);
+		 		while($row01=$bd->obtener_fila($query01,0)){
+					 echo '<option value="'.$row01[0].'">'.$row01[1].'</option>';
+			   }?></select></td>
              <td>Filtro <?php echo $leng['trab']?>.:</td>
 			<td><select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">
 				<option value="TODOS"> TODOS</option>

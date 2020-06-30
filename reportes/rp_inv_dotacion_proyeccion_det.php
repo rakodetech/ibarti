@@ -17,6 +17,8 @@ $estado       = $_POST['estado'];
 $contrato     = $_POST['contrato'];
 $linea        = $_POST['linea'];
 $sub_linea    = $_POST['sub_linea'];
+$cliente    = $_POST['cliente'];
+$ubicacion    = $_POST['ubicacion'];
 $fecha_desde  = $_POST['fecha_desde'];
 $trabajador   = $_POST['trabajador'];
 
@@ -28,15 +30,17 @@ $titulo       = "  PROYECCION DE DOTACION DE TRABAJADOR \n";
 
 if(isset($reporte)){
 
-	$where = "  WHERE  DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), INTERVAL control.dias_proyeccion DAY) < DATE_ADD('$fecha_D', INTERVAL '$d_proyeccion' DAY)
+	$where = " WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), INTERVAL control.dias_proyeccion DAY) < DATE_ADD('2020-06-30', INTERVAL '0' DAY)
 	AND v_prod_dot_max2.cod_rol = roles.codigo
-	AND v_prod_dot_max2.cod_estado = estados.codigo
 	AND v_prod_dot_max2.cod_contracto = contractos.codigo
-	AND v_prod_dot_max2.cod_cliente = clientes.codigo
 	AND v_prod_dot_max2.cod_linea = prod_lineas.codigo
 	AND v_prod_dot_max2.cod_sub_linea = prod_sub_lineas.codigo
 	AND v_prod_dot_max2.cod_producto = productos.item
-	AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo  ";
+	AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo 
+	AND v_prod_dot_max2.cod_cliente = clientes.codigo
+	AND v_prod_dot_max2.cod_ubicacion = clientes_ubicacion.codigo
+	AND v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea
+	AND v_prod_dot_max2.cod_estado = estados.codigo  ";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_prod_dot_max2.cod_rol = '$rol' ";
@@ -48,6 +52,15 @@ if(isset($reporte)){
 
 	if($contrato != "TODOS"){
 		$where .= " AND v_prod_dot_max2.cod_contracto = '$contrato' ";
+	}
+
+	if($cliente != "TODOS"){
+		$where  .= " AND v_prod_dot_max2.cod_cliente = '$cliente' ";
+	}
+
+	
+	if($ubicacion != "TODOS"){
+		$where  .= " AND v_prod_dot_max2.cod_ubicacion = '$ubicacion' ";
 	}
 
 	if($linea != "TODOS"){
@@ -62,19 +75,17 @@ if(isset($reporte)){
 		$where  .= " AND v_prod_dot_max2.cod_ficha = '$trabajador' ";
 	}
 
-
-	$sql = "SELECT v_prod_dot_max2.fecha_max AS fecha,  roles.descripcion AS rol,
-	estados.descripcion AS estado, clientes.nombre AS cliente,
-	contractos.descripcion AS contrato, v_prod_dot_max2.cod_ficha,
-	v_prod_dot_max2.cedula, v_prod_dot_max2.ap_nombre,
-	prod_lineas.descripcion AS linea,  prod_sub_lineas.descripcion AS sub_linea,
-	v_prod_dot_max2.cod_producto, productos.descripcion AS producto,
-	v_prod_dot_max2.cantidad
-	FROM v_prod_dot_max2 , roles,  contractos, estados,
-	clientes, prod_lineas, prod_sub_lineas, productos,
-	control
-	$where
-	ORDER BY ap_nombre ASC  ";
+	$sql = "SELECT v_prod_dot_max2.fecha_max AS fecha,roles.descripcion AS rol,
+			estados.descripcion AS estado, clientes.nombre cliente,  clientes_ubicacion.descripcion ubicacion,
+			contractos.descripcion AS contrato,  v_prod_dot_max2.cod_ficha,
+			v_prod_dot_max2.cedula, v_prod_dot_max2.ap_nombre,
+			prod_lineas.descripcion AS linea, prod_sub_lineas.descripcion AS sub_linea,  
+			v_prod_dot_max2.cod_producto, productos.descripcion AS producto, 
+			v_prod_dot_max2.cantidad
+			FROM v_prod_dot_max2 , roles,  contractos, prod_lineas,
+			prod_sub_lineas, productos, control, clientes, clientes_ubicacion, clientes_ub_uniforme, estados
+			$where
+			ORDER BY ap_nombre ASC   ";
 
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
@@ -84,16 +95,16 @@ if(isset($reporte)){
 		$query01  = $bd->consultar($sql);
 		echo "<table border=1>";
 
-		echo "<tr><th> Fecha </th><th> ".$leng['rol']." </th><th> ".$leng['estado']." </th><th> ".$leng['cliente']." </th>
+		echo "<tr><th> Fecha </th><th> ".$leng['rol']." </th><th> ".$leng['estado']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th>
 		<th>".$leng['contrato']."</th> <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th>
 		<th> Linea </th><th> Sub Linea </th><th> Cod. Producto</th> <th> Producto </th>
 		<th> Cantidad </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
 			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
-			<td>".$row01[4]."</td><td>'".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
+			<td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
 			<td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td>
-			<td>".$row01[12]."</td></tr>";
+			<td>".$row01[12]."</td><td>".$row01[13]."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -131,10 +142,10 @@ if(isset($reporte)){
 			}
 			echo   " <td width='20%'>".$row[0]."</td>
 			<td width='15%'>".$row[1]."</td>
-			<td width='10%'>".$row[5]."</td>
-			<td width='30%'>".$row[7]."</td>
-			<td width='15%'>".$row[11]."</td>
-			<td width='10%'>".$row[12]."</td></tr>";
+			<td width='10%'>".$row[6]."</td>
+			<td width='30%'>".$row[8]."</td>
+			<td width='15%'>".$row[12]."</td>
+			<td width='10%'>".$row[13]."</td></tr>";
 
 			$f++;
 		}
