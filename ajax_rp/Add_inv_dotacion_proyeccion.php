@@ -18,7 +18,7 @@ $trabajador   = $_POST['trabajador'];
 
 $fecha_D   = conversion($_POST['fecha_desde']);
 
-$where = " WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), INTERVAL control.dias_proyeccion DAY) < DATE_ADD('2020-06-30', INTERVAL '0' DAY)
+$where = " WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), INTERVAL control.dias_proyeccion DAY) < DATE_ADD('2020-06-30', INTERVAL '$d_proyeccion' DAY)
 			AND v_prod_dot_max2.cod_rol = roles.codigo
 			AND v_prod_dot_max2.cod_contracto = contractos.codigo
 			AND v_prod_dot_max2.cod_linea = prod_lineas.codigo
@@ -104,6 +104,7 @@ $where = " WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), IN
 		        prod_sub_lineas, productos, control, clientes, clientes_ubicacion, clientes_ub_uniforme
 			$where
 		   ORDER BY ap_nombre ASC   ";
+
 ?>
 <table width="100%" border="0" align="center">
 		<tr class="fondo00">
