@@ -40,6 +40,7 @@ if(isset($reporte)){
 	AND v_prod_dot_max2.cod_cliente = clientes.codigo
 	AND v_prod_dot_max2.cod_ubicacion = clientes_ubicacion.codigo
 	AND v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea
+	AND v_prod_dot_max2.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
 	AND v_prod_dot_max2.cod_estado = estados.codigo  ";
 
 	if($rol != "TODOS"){

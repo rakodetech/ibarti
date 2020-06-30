@@ -27,7 +27,8 @@ $where = " WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), IN
 			AND v_prod_dot_max2.cod_ficha_status = control.ficha_activo 
 			AND v_prod_dot_max2.cod_cliente = clientes.codigo
 			AND v_prod_dot_max2.cod_ubicacion = clientes_ubicacion.codigo
-			AND v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea  ";
+			AND v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea
+			AND v_prod_dot_max2.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion ";
 
 
 
@@ -102,7 +103,7 @@ $where = " WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), IN
            FROM v_prod_dot_max2 , roles,  contractos, prod_lineas,
 		        prod_sub_lineas, productos, control, clientes, clientes_ubicacion, clientes_ub_uniforme
 			$where
-	       ORDER BY ap_nombre ASC   ";
+		   ORDER BY ap_nombre ASC   ";
 ?>
 <table width="100%" border="0" align="center">
 		<tr class="fondo00">
