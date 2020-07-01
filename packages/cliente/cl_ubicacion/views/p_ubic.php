@@ -101,11 +101,11 @@
 			</tr>
 			<tr>
 				<td class="etiqueta">Latitud: </td>
-				<td id="input03"><input type="text" id="ub_latitud" maxlength="30" size="30" value="<?php echo $ubic["latitud"]; ?>" required /><br />
+				<td id="input03"><input type="number" id="ub_latitud" step="any" value="<?php echo $ubic["latitud"]; ?>" required /><br />
 					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 				</td>
 				<td class="etiqueta">Longitud: </td>
-				<td id="input04"><input type="text" id="ub_longitud" maxlength="30" size="30" value="<?php echo $ubic["longitud"]; ?>" required />
+				<td id="input04"><input type="number" id="ub_longitud" step="any" value="<?php echo $ubic["longitud"]; ?>" required />
 				</td>
 
 			</tr>

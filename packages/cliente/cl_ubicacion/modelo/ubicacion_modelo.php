@@ -24,7 +24,7 @@ class Ubicacion
 		                  clientes_ubicacion.cod_calendario, nom_calendario.descripcion AS calendario,
 		                  clientes_ubicacion.descripcion, clientes_ubicacion.direccion,
 		                  clientes_ubicacion.contacto, clientes_ubicacion.telefono,
-		                  clientes_ubicacion.email,
+		                  clientes_ubicacion.email,  clientes_ubicacion.latitud,  clientes_ubicacion.longitud,
 		        clientes_ubicacion.campo01, clientes_ubicacion.campo02,
 		        clientes_ubicacion.campo03, clientes_ubicacion.campo04,
 		        clientes_ubicacion.`status`
@@ -70,7 +70,7 @@ class Ubicacion
 										clientes_ubicacion.cod_zona, zonas.descripcion  zona,
 					          clientes_ubicacion.cod_calendario, nom_calendario.descripcion calendario,
 	                  clientes_ubicacion.descripcion, clientes_ubicacion.direccion,
-	                  clientes_ubicacion.contacto,'' latitud,'' longitud, clientes_ubicacion.cargo,
+	                  clientes_ubicacion.contacto,clientes_ubicacion.latitud,clientes_ubicacion.longitud, clientes_ubicacion.cargo,
 						        clientes_ubicacion.telefono,
 	                  clientes_ubicacion.email, clientes_ubicacion.observacion,
 						        clientes_ubicacion.campo01, clientes_ubicacion.campo02,

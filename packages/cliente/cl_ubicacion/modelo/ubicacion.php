@@ -15,7 +15,7 @@ $codigo  = htmlentities($codigo);
       $sql    = "$SELECT $proced('$metodo', '$codigo', '$cliente', '$estado',
    	                             '$ciudad', '$region', '$zona', '$calendario',
                                  '$nombre', '$contacto', '$cargo', '$telefono',
-                                 '$email', '$direccion', '$observ',
+                                 '$email', '$direccion', '$observ', '$latitud', '$longitud',
    								               '$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";
    	 $query = $bd->consultar($sql);
      $result['sql'] = $sql;
