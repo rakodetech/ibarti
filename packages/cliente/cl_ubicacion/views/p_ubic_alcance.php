@@ -234,7 +234,6 @@ const autoCompletejs = new autoComplete({
       return !!query.replace(/ /g, "").length && query !== "hamburger";
     },
   },
-  placeHolder: "Producto",
   selector: "#codigo_producto",
   debounce: 0,
   searchEngine: "strict",

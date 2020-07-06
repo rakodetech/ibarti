@@ -136,7 +136,6 @@ function mostrar_dotacion_ficha(cod_ficha){
 		type:  'post',
 		success:  function (response) {
 			var nuevafila= "";
-			console.log(response);
 			var resp = JSON.parse(response);
 			$("#datos_dotacion_detalle").html("");
 			if(resp.length > 0){
@@ -146,6 +145,7 @@ function mostrar_dotacion_ficha(cod_ficha){
 					$("#cliente_ficha").val("");
 				} else {
 					resp.forEach((d,i)=>{
+						var aplica = d.aplica == null ? 'NO' : 'SI';
 						if(i==0){
 							$("#cliente_ficha").val(d.cod_cliente);
 							$("#ubicacion_ficha").val(d.cod_ubicacion);
@@ -154,7 +154,8 @@ function mostrar_dotacion_ficha(cod_ficha){
 						d.sub_linea + "</td><td>" +
 						d.talla + "</td><td>" +
 						d.cantidad  + "</td><td>" +
-						d.ult_dotacion  + "</td></tr>";
+						d.ult_dotacion  + "</td><td>" +
+						aplica + "</td></tr>";
 
 						$("#datos_dotacion_detalle").append(nuevafila);
 					});
@@ -163,7 +164,7 @@ function mostrar_dotacion_ficha(cod_ficha){
 			}
 		}else{
 			$("#linea_1").attr('disabled',true);
-			nuevafila= '<tr><td colspan="4">Sin Configuracion</td></tr>';
+			nuevafila= '<tr><td colspan="5">Sin Configuracion</td></tr>';
 			$("#datos_dotacion_detalle").append(nuevafila);
 			$("#cliente_ficha").val("");
 			$("#ubicacion_ficha").val("");
@@ -178,6 +179,40 @@ function mostrar_dotacion_ficha(cod_ficha){
 
 function borrar2(num) {
 	borrarElement("Contenedor02", "Tabla"+num+"");
+}
+
+function validarAlcance(numX) {
+	var sub_linea = $("#sub_linea_"+numX).val()
+	var ficha = $("#stdID").val()
+	
+	if (numX) {
+		var parametros = { "sub_linea": sub_linea, "ficha": ficha };
+		$.ajax({
+			data: parametros,
+			url: 'packages/cliente/cl_ubicacion/views/validarUniforme.php',
+			type: 'post',
+			success: function (response) {
+				var resp = JSON.parse(response);
+				if(resp.error){
+					toast.danger(resp.mensaje);
+				}else{
+					if(resp.length > 0){
+						prod_dotacion_det(numX);
+					}else{	
+						if(confirm("Esta sub linea no aplica para el alcance de la ubicación. Desea continuar?")){
+							prod_dotacion_det(numX);
+						}
+					}
+				}
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		});
+	} else {
+		alert("Error en Data para aperturar");
+	}
 }
 
 function validarCamp(metodo){
@@ -225,13 +260,13 @@ if(input01 == ""){
 	mensaje += mensaje04;
 }
 
-if(input01 > input01Max){
+/* if(input01 > input01Max){
 	valido++;
 	mensaje += mensaje05;
-}
+} */
      /////  validar ///
      if(valido ==  1){
-     	prod_dotacion_det(numX);
+		validarAlcance(numX);
      }else{
      	toastr.error(mensaje);
      }
@@ -317,19 +352,28 @@ if($metodo == 'modificar'){
 
 	$sql = "SELECT  CONCAT(prod_sub_lineas.descripcion,' (',prod_sub_lineas.codigo,') ') sub_linea,tallas.descripcion talla,
 	ficha_dotacion.cantidad,
-	IFNULL((SELECT MAX(prod_dotacion.fec_us_mod) FROM prod_dotacion, prod_dotacion_det
-	WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
-	AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
-	AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha
-	and productos.codigo = prod_dotacion_det.cod_producto) ,'SIN DOTACION') ult_dotacion
-	FROM ficha_dotacion ,
-	productos,prod_sub_lineas,tallas
-	WHERE
-	ficha_dotacion.cod_ficha = '$ficha'
-	AND ficha_dotacion.cod_sub_linea = productos.cod_sub_linea
-	AND ficha_dotacion.cod_sub_linea = prod_sub_lineas.codigo
-	AND ficha_dotacion.cod_talla = tallas.codigo
-	GROUP BY ficha_dotacion.cod_sub_linea";
+   IFNULL((SELECT CONCAT(MAX(prod_dotacion.fec_us_mod),'  (',prod_dotacion_det.cantidad,')') FROM prod_dotacion, prod_dotacion_det
+   WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
+   AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
+   AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha) ,'SIN DOTACION') ult_dotacion
+   ,ficha.cod_cliente,ficha.cod_ubicacion,
+	   (
+		   SELECT
+			   clientes_ub_uniforme.cod_cl_ubicacion
+		   FROM				
+			   clientes_ub_uniforme
+		   WHERE prod_sub_lineas.codigo = clientes_ub_uniforme.cod_sub_linea
+		   AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+	   ) aplica
+   FROM ficha_dotacion LEFT JOIN
+   productos ON 
+	ficha_dotacion.cod_sub_linea = productos.cod_sub_linea,prod_sub_lineas,tallas,ficha
+   WHERE
+   ficha_dotacion.cod_ficha = '$ficha'
+   AND ficha_dotacion.cod_sub_linea = prod_sub_lineas.codigo
+   AND ficha_dotacion.cod_talla = tallas.codigo
+   AND ficha_dotacion.cod_ficha = ficha.cod_ficha
+   GROUP BY ficha_dotacion.cod_sub_linea";
 	$query_dot         = $bd->consultar($sql);
 
 }else{
@@ -403,14 +447,19 @@ $proced      = "p_prod_dotacion";
 										<th>SubLinea</th>
 										<th>Talla</th>
 										<th>Cantidad</th>
-										<th>Ultima Dotacion</th>
+										<th>Ultima Dotación</th>
+										<th>Aplica</th>
 									</tr>
 								</thead>
 								<tbody id="datos_dotacion_detalle">
 									<?php 
 									if($metodo == "modificar"){
 										while ($datos= $bd->obtener_fila($query_dot,0)) {
-											echo "<tr><td>" .$datos[0]."</td><td>"  .$datos[1]."</td><td>"  .$datos[2]. "</td><td>"  .$datos[3]. "</td></tr>";
+											$aplica = 'NO';
+											if($datos[3] != null){
+												$aplica = 'SI';
+											}
+											echo "<tr><td>" .$datos[0]."</td><td>"  .$datos[1]."</td><td>"  .$datos[2]. "</td><td>"  .$datos[3]. "</td><td>"  .$aplica. "</td></tr>";
 										}	
 									}
 									?>

@@ -184,7 +184,6 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 new autoComplete({
 	data: {
 		src: async function () {
-		// Loading placeholder text
 		const query = document.querySelector("#codigo_sub_linea_uniforme").value;
 		// Fetch External Data Source
 		const source = await fetch("packages/cliente/cl_ubicacion/views/uniformeGET.php?q="+query+"");
@@ -214,7 +213,6 @@ new autoComplete({
 		return !!query.replace(/ /g, "").length && query !== "hamburger";
 		},
 	},
-	placeHolder: "Producto",
 	selector: "#codigo_sub_linea_uniforme",
 	debounce: 0,
 	searchEngine: "strict",

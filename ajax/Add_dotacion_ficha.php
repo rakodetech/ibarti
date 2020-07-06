@@ -14,7 +14,15 @@ IFNULL((SELECT CONCAT(MAX(prod_dotacion.fec_us_mod),'  (',prod_dotacion_det.cant
 WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
 AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
 AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha) ,'SIN DOTACION') ult_dotacion
-,ficha.cod_cliente,ficha.cod_ubicacion
+,ficha.cod_cliente,ficha.cod_ubicacion,
+	(
+		SELECT
+			clientes_ub_uniforme.cod_cl_ubicacion
+		FROM				
+			clientes_ub_uniforme
+		WHERE prod_sub_lineas.codigo = clientes_ub_uniforme.cod_sub_linea
+		AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+	) aplica
 FROM ficha_dotacion LEFT JOIN
 productos ON 
  ficha_dotacion.cod_sub_linea = productos.cod_sub_linea,prod_sub_lineas,tallas,ficha
