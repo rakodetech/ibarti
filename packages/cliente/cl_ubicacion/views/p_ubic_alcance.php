@@ -131,8 +131,8 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 		</tr>
 		<tr class="fondo02">
         <td>       
-        <input type="text" id="codigo_producto" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" required style="width:450px"/>
-      </td>
+        <input type="text" id="codigo_producto" tabindex="1" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" required style="width:450px"/>
+	</td>
       <td>
        <input type="number" id="cantidad" style="width:100px" value="1" min="0"  required placeholder="">
 		</td>	
@@ -201,10 +201,72 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 <br />
 
 <script language="JavaScript" type="text/javascript">
-  new Autocomplete("codigo_producto", function() { 
-    this.setValue = function(id) {
-      $("#stdID").val(id);
+const autoCompletejs = new autoComplete({
+  data: {
+    src: async function () {
+      // Loading placeholder text
+      const query = document.querySelector("#codigo_producto").value;
+      // Fetch External Data Source
+	  const source = await fetch("packages/cliente/cl_ubicacion/views/alcanceGET.php?q="+query+"");
+      const data = await source.json();
+      // Returns Fetched data
+      return data;
+    },
+    key: ["descripcionFull"],
+  },
+  sort: function (a, b) {
+    if (a.match < b.match) {
+      return -1;
     }
-    if (this.value.length < 1) return ;
-    return "autocompletar/tb/producto_base_serial.php?q="+this.text.value +"&filtro=codigo"});
+    if (a.match > b.match) {
+      return 1;
+    }
+    return 0;
+  },
+  query: {
+    manipulate: function (query) {
+      return query.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    },
+  },
+  trigger: {
+    event: ["input","focusin", "focusout"],
+    condition: function (query) {
+      return !!query.replace(/ /g, "").length && query !== "hamburger";
+    },
+  },
+  placeHolder: "Producto",
+  selector: "#codigo_producto",
+  debounce: 0,
+  searchEngine: "strict",
+  highlight: true,
+  maxResults: 10,
+  resultsList: {
+    render: true,
+    container: function (source) {
+	  source.setAttribute("id", "autoComplete_list");
+    },
+    element: "ul",
+    destination: document.querySelector("#codigo_producto"),
+    position: "afterend",
+  },
+  resultItem: {
+    content: function (data, source) {
+      	source.innerHTML = data.match;
+    },
+    element: "li",
+  },
+  noResults: function () {
+	
+  },
+  onSelection: function (feedback) {
+	document.querySelector("#codigo_producto").blur();
+    const selection = feedback.selection.value.descripcionFull;
+    // Clear Input
+    document.querySelector("#codigo_producto").value = "";
+    // Change placeholder with the selected value
+    document.querySelector("#codigo_producto").setAttribute("placeholder", selection);
+	$("#stdID").val(feedback.selection.value.item);
+  },
+}); 
+
   </script>

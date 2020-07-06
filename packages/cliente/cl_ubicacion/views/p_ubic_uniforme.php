@@ -181,10 +181,72 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 <br />
 
 <script language="JavaScript" type="text/javascript">
-  new Autocomplete("codigo_sub_linea_uniforme", function() { 
-    this.setValue = function(id) {
-      $("#stdIDuniforme").val(id);
-    }
-    if (this.value.length < 1) return ;
-    return "autocompletar/tb/sub_linea_base_serial_uniforme.php?q="+this.text.value +"&filtro=codigo"});
+new autoComplete({
+	data: {
+		src: async function () {
+		// Loading placeholder text
+		const query = document.querySelector("#codigo_sub_linea_uniforme").value;
+		// Fetch External Data Source
+		const source = await fetch("packages/cliente/cl_ubicacion/views/uniformeGET.php?q="+query+"");
+		const data = await source.json();
+		// Returns Fetched data
+		return data;
+		},
+		key: ["descripcion"],
+	},
+	sort: function (a, b) {
+		if (a.match < b.match) {
+		return -1;
+		}
+		if (a.match > b.match) {
+		return 1;
+		}
+		return 0;
+	},
+	query: {
+		manipulate: function (query) {
+		return query.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+		},
+	},
+	trigger: {
+		event: ["input","focusin", "focusout"],
+		condition: function (query) {
+		return !!query.replace(/ /g, "").length && query !== "hamburger";
+		},
+	},
+	placeHolder: "Producto",
+	selector: "#codigo_sub_linea_uniforme",
+	debounce: 0,
+	searchEngine: "strict",
+	highlight: true,
+	maxResults: 10,
+	resultsList: {
+		render: true,
+		container: function (source) {
+		source.setAttribute("id", "autoComplete_list");
+		},
+		element: "ul",
+		destination: document.querySelector("#codigo_sub_linea_uniforme"),
+		position: "afterend",
+	},
+	resultItem: {
+		content: function (data, source) {
+			source.innerHTML = data.match;
+		},
+		element: "li",
+	},
+	noResults: function () {
+		
+	},
+	onSelection: function (feedback) {
+		document.querySelector("#codigo_sub_linea_uniforme").blur();
+		const selection = feedback.selection.value.descripcion;
+		// Clear Input
+		document.querySelector("#codigo_sub_linea_uniforme").value = "";
+		// Change placeholder with the selected value
+		document.querySelector("#codigo_sub_linea_uniforme").setAttribute("placeholder", selection);
+		$("#stdIDuniforme").val(feedback.selection.value.codigo);
+	},
+}); 
+
   </script>
