@@ -95,7 +95,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 </table>
 </fieldset>
 </form>
-<div id="listar"><table width="100%" border="0" align="center">
+<div id="listar" class="listar"><table width="100%" border="0" align="center">
 		<tr class="fondo00">
 			  <th width="8%" class="etiqueta">Codigo</th>
             <th width="8%" class="etiqueta">Fecha</th>
@@ -131,12 +131,12 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	// $Modificar = "Add_Mod01('".$datos[0]."', 'modificar')";
 	   $Borrar = "Borrar01('".$datos[0]."')";
         echo '<tr class="'.$fondo.'">
-                  <td class="texo">'.$datos["codigo"].'</td>
-				  <td class="texo">'.longitudMin($datos["fec_dotacion"]).'</td>
-				  <td class="texo">'.longitud($datos["rol"]).'</td>
-                  <td class="texo">'.$datos["cod_ficha"].'</td>
-				  <td class="texo">'.longitud($datos["trabajador"]).'</td>
-				  <td class="texo">'.longitud($datos["descripcion"]).'</td>
+                  <td class="texto">'.$datos["codigo"].'</td>
+				  <td class="texto">'.longitudMin($datos["fec_dotacion"]).'</td>
+				  <td class="texto">'.longitud($datos["rol"]).'</td>
+                  <td class="texto">'.$datos["cod_ficha"].'</td>
+				  <td class="texto">'.longitud($datos["trabajador"]).'</td>
+				  <td class="texto">'.longitud($datos["descripcion"]).'</td>
 			      <td align="center"><a href="'.$vinculo.'&codigo='.$datos[0].'&metodo=modificar"><img src="imagenes/actualizar.bmp" alt="Modificar" title="Modificar Registro" width="20" height="20" border="null"/></a>&nbsp;<img src="imagenes/borrar.bmp"  width="20px" height="20px" title="Borrar Registro" border="null" onclick="'.$Borrar.'" class="imgLink"/></td>
             </tr>';
         }
