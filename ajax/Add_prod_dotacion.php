@@ -62,12 +62,12 @@ $ficha      = $_POST['ficha'];
 			$valor = 0;
 		}
 		echo'<tr class="'.$fondo.'">
-			  <td class="texo">'.$row02["codigo"].'</td>
-			  <td class="texo">'.$row02["fec_dotacion"].'</td>
-			  <td class="texo">'.longitud($row02["rol"]).'</td>
-			  <td class="texo">'.$row02["cod_ficha"].'</td>
-			  <td class="texo">'.longitud($row02["trabajador"]).'</td>
-			  <td class="texo">'.longitud($row02["descripcion"]).'</td>
+			  <td class="texto">'.$row02["codigo"].'</td>
+			  <td class="texto">'.$row02["fec_dotacion"].'</td>
+			  <td class="texto">'.longitud($row02["rol"]).'</td>
+			  <td class="texto">'.$row02["cod_ficha"].'</td>
+			  <td class="texto">'.longitud($row02["trabajador"]).'</td>
+			  <td class="texto">'.longitud($row02["descripcion"]).'</td>
 			  <td class="texto"><a href="'.$vinculo.'&codigo='.$row02['codigo'].'&metodo=modificar"><img src="imagenes/detalle.bmp" alt="Modificar" title="Modificar Registro" width="20px" height="20px" border="null"/></a>&nbsp;<img src="imagenes/borrar.bmp"  width="20px" height="20px" title="Borrar Registro" border="null" onclick="'.$Borrar.'" class="imgLink"/></td>
 		</tr>';
 		}
