@@ -6,10 +6,12 @@ $bd = new DataBase();
 
 $codigo        = $_POST['codigo']; 
 $cod_sub_linea        = $_POST['cod_sub_linea']; 
+$cod_cargo       = $_POST['cod_cargo'];
 
      $sql    = "SELECT COUNT(clientes_ub_uniforme.cod_sub_linea) FROM clientes_ub_uniforme
                  WHERE clientes_ub_uniforme.cod_cl_ubicacion = '$codigo'
-                 AND clientes_ub_uniforme.cod_sub_linea = '$cod_sub_linea'";						  
+                 AND clientes_ub_uniforme.cod_sub_linea = '$cod_sub_linea'
+                 AND clientes_ub_uniforme.cod_cargo = '$cod_cargo'";						  
 	 $query = $bd->consultar($sql);	 
 	 $datos=$bd->obtener_fila($query,0);	
 	echo $datos[0];

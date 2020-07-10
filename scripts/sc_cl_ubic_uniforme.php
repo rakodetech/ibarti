@@ -6,6 +6,7 @@ $bd = new DataBase();
 
 $codigo        = $_POST['codigo']; 
 $cod_sub_linea     = $_POST['cod_sub_linea'];
+$cod_cargo     = $_POST['cod_cargo'];
 $cantidad     = $_POST['cantidad'];
 
 $href     = $_POST['href'];
@@ -14,7 +15,7 @@ $metodo   = $_POST['metodo'];
 $usuario  = $_POST['usuario'];
 
 if(isset($_POST['proced'])){
-     $sql    = "$SELECT $proced('$metodo', '$codigo', '$cod_sub_linea', $cantidad, '$usuario')";						  
+     $sql    = "$SELECT $proced('$metodo', '$codigo', '$cod_sub_linea', '$cod_cargo', $cantidad, '$usuario')";						  
 	 $query = $bd->consultar($sql);	 
 	}
 	require_once('../funciones/sc_direccionar.php');  	 
