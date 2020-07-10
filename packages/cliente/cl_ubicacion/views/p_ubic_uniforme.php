@@ -8,9 +8,13 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
     function agregarProductoUniforme(auto, metodo) {
         var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
 		var codigo = document.getElementById("codigo_ubic").value;
+		var cod_cargo = document.getElementById("codigo_cargo"+auto+"").value;
         var errorMessage = 'Debe Ingresar minimo 1 producto ';
         var campo01 = 0;
         if (!cod_sub_linea) {
+            campo01++;
+		}
+		if (!cod_cargo) {
             campo01++;
 		}
 		if (cantidad_uniforme == 0) {
@@ -33,7 +37,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
                 }
             }
             ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            ajax.send("cod_sub_linea=" + cod_sub_linea + "&codigo=" + codigo + "");
+            ajax.send("cod_sub_linea=" + cod_sub_linea + "&codigo=" + codigo + "&cod_cargo="+ cod_cargo + "");
         } else {
             alert(errorMessage);
         }
@@ -43,6 +47,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 		var cod_ubic = document.getElementById("codigo_ubic").value;
 		var usuario = document.getElementById("usuario").value;
 		var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
+		var cod_cargo = document.getElementById("codigo_cargo" + auto + "").value;
 		var cantidad_uniforme = document.getElementById("cantidad_uniforme" + auto + "").value;
 		
 		var valor = "scripts/sc_cl_ubic_uniforme.php";
@@ -57,6 +62,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 					if(metodo == "agregar"){
 						$("#stdIDuniforme").val("");
 						$("#codigo_sub_linea_uniforme").val("");
+						$("#codigo_cargo").val("");
 						$("#cantidad_uniforme").val(0)
 					}
 				}else{
@@ -66,12 +72,13 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo=" + cod_ubic + "&cod_sub_linea=" + cod_sub_linea + "&cantidad=" + cantidad_uniforme  + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
+		ajax.send("codigo=" + cod_ubic + "&cod_cargo=" + cod_cargo + "&cod_sub_linea=" + cod_sub_linea + "&cantidad=" + cantidad_uniforme  + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 	}
 
 	function Borrar(auto, metodo) {
 		if (confirm("� Esta Seguro Eliminar Este Registro")) {
 			var cod_ubic = document.getElementById("codigo_ubic").value;
+			var cod_cargo = document.getElementById("codigo_cargo" + auto + "").value;
             var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
 			var cantidad_uniforme = document.getElementById("cantidad_uniforme" + auto + "").value;
 			var ususario = "";
@@ -85,11 +92,12 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 				if (ajax.readyState == 4) {
 					document.getElementById("Cont_mensaje").innerHTML = ajax.responseText;
 					ActualizarDetUniforme(cod_ubic);
+					toastr.success('Actualizado con exito.');
 					//window.location.href=""+href+"";
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("codigo=" + cod_ubic + "&cod_sub_linea=" + cod_sub_linea + "&cantidad=" + cantidad_uniforme + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
+			ajax.send("codigo=" + cod_ubic + "&cod_sub_linea=" + cod_sub_linea + "&cod_cargo="+ cod_cargo + "&cantidad=" + cantidad_uniforme + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 		} else {
 			alert(errorMessage);
 		}
@@ -101,7 +109,6 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 		ajax.open("POST", valor, true);
 		ajax.onreadystatechange = function() {
 			if (ajax.readyState == 4) {
-				toastr.success('Actualizado con exito.');
 				document.getElementById("Contenedor04").innerHTML = ajax.responseText;
 			}
 		}
@@ -116,17 +123,29 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
      <table width="60%" border="0" align="center">
 		<tr class="fondo01">
 			<!-- <th width="20%" style="display:none" class="etiqueta">Codigo Ubicacion</th> -->
-			<th width="70%" class="etiqueta">Sub Linea
+			<th width="40%" class="etiqueta">Sub Linea
             <input type="hidden" name="producto" id="stdIDuniforme" value=""/></th>
-            <th width="18%" class="etiqueta">Cantidad</th>
-			<th width="12%"><img src="imagenes/loading2.gif" alt="Agregar Registro" width="40" height="40" title="Agregar Registro" border="null" class="imgLink" /></th>
+			<th width="30%" class="etiqueta">Cargo</th>
+            <th width="15%" class="etiqueta">Cantidad</th>
+			<th width="15%"><img src="imagenes/loading2.gif" alt="Agregar Registro" width="40" height="40" title="Agregar Registro" border="null" class="imgLink" /></th>
 		</tr>
 		<tr class="fondo02">
         <td>       
-        <input type="text" id="codigo_sub_linea_uniforme" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" required style="width:450px"/>
+        <input type="text" id="codigo_sub_linea_uniforme" value="" placeholder="Sub Linea de Uniforme" required style="width:250px"/>
       </td>
+		<td>
+		<select style="width:250px" id="codigo_cargo" required>
+		<option value="">Seleccione</option>
+		<?php
+			$sqlcargo =	"SELECT codigo, descripcion FROM cargos WHERE `status` = 'T';";
+			$querycargo = $bd->consultar($sqlcargo);
+			while ($datos = $bd->obtener_fila($querycargo, 0)) {
+				echo '<option value="' . $datos[0] . '">' . $datos[1] . '</option>';
+			} 
+		?>
+		</select></td>
       <td>
-       <input type="number" id="cantidad_uniforme" style="width:100px" value="1" min="0"  required placeholder="">
+       <input type="number" id="cantidad_uniforme" style="width:50px" value="1" min="0"  required placeholder="">
 		</td>	
 		<td><span class="art-button-wrapper">
 					<span class="art-button-l"> </span>
@@ -136,38 +155,6 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 		</tr>
 		</table>
 		<table id="Contenedor04" width="60%" border="0" align="center">
-		<tr>
-			<td colspan="5" class="etiqueta_title">Listado</td>
-		</tr>
-		<?php
-		$query = $bd->consultar($sql01);
-		$i = 0;
-		$valor = 0;
-		while ($datos = $bd->obtener_fila($query, 0)) {
-			$i++;
-			if ($valor == 0) {
-				$fondo = 'fondo01';
-				$valor = 1;
-			} else {
-				$fondo = 'fonddo02';
-				$valor = 0;
-			}
-			$modificar = 	 "'" . $i . "', 'modificar'";
-			$borrar    = 	 "'" . $i . "', 'eliminar' ";
-			echo '<tr class="' . $fondo . '">
-				  <td>     
-                  <input type="text" id="codigo_sub_linea_uniforme'.$i.'" value="'.$datos['sub_linea'].'" disabled  style="width:450px"/>
-                  <input type="hidden" name="trabajador" id="stdIDuniforme'.$i.'" value="'.$datos['cod_sub_linea'].'"/>
-                </td>
-                <td>
-                 <input type="number" id="cantidad_uniforme'.$i.'" style="width:100px"  value="'.$datos['cantidad'].'" min="1">
-			   </td>
-			   <td align="center"><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarSubmitUniforme('.$modificar.')" />&nbsp;
-		  <img src="imagenes/borrar.bmp" alt="Detalle" title="Borrar Registro" width="25" height="25" border="null"
-			   onclick="Borrar(' . $borrar . ')" class="imgLink" />
-		  </td>
-	</tr>';
-		} ?>
 	</table>
 </div>
 <div align="center">
@@ -247,4 +234,6 @@ new autoComplete({
 	},
 }); 
 
+var cod_ubic_base = document.getElementById("codigo_ubic").value;
+ActualizarDetUniforme(cod_ubic_base);
   </script>

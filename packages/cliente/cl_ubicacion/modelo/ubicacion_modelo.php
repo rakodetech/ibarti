@@ -125,6 +125,20 @@ class Ubicacion
     return $this->datos;
 	}
 
+	public function get_cargo($cod){
+		$this->datos   = array();
+	  $sql = " SELECT a.codigo, a.descripcion
+	             FROM cargos AS a
+	            WHERE a.`status` = 'T'
+	              AND a.codigo <> '$cod'; ";
+    $query = $this->bd->consultar($sql);
+
+    while ($datos= $this->bd->obtener_fila($query)) {
+      $this->datos[] = $datos;
+    }
+    return $this->datos;
+	}
+
 	public function get_zona($cod){
 		$this->datos   = array();
 	  $sql = " SELECT a.codigo, a.descripcion FROM zonas a

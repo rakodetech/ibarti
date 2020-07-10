@@ -19,6 +19,7 @@ if ($metodo == 'modificar') {
   $ubic      =  $ubicacion->inicio();
 }
 
+$cargo     = $ubicacion->get_cargo("");
 $region     = $ubicacion->get_region($ubic['cod_region']);
 $estado     = $ubicacion->get_estado($ubic['cod_estado']);
 $ciudad     = $ubicacion->get_ciudad($ubic['cod_ciudad'], $ubic['cod_estado']);
