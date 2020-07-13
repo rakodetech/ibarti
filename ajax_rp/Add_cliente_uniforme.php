@@ -51,19 +51,21 @@ if($estado != "TODOS"){
 	clientes.nombre cliente, 
 	clientes_ubicacion.descripcion ubicacion,
 	prod_sub_lineas.descripcion sub_linea,
+	IFNULL(cargos.descripcion,'SIN CARGO') cargo,
 	clientes_ub_uniforme.cantidad
-	FROM clientes_ub_uniforme, prod_sub_lineas, clientes_ubicacion, clientes, regiones, estados, ciudades
+	FROM clientes_ub_uniforme  LEFT JOIN cargos  ON clientes_ub_uniforme.cod_cargo = cargos.codigo , prod_sub_lineas, clientes_ubicacion, clientes, regiones, estados, ciudades
 	$where
 	ORDER BY 5,6 ASC;";
 
 	?><table width="100%" border="0" align="center">
 		<tr class="fondo00">
 			<th width="15%" class="etiqueta"><?php echo $leng['region']?></th>
-			<th width="15%" class="etiqueta"><?php echo $leng['estado']?> </th>
-			<th width="15%" class="etiqueta"><?php echo $leng['ciudad']?> </th>
+			<th width="10%" class="etiqueta"><?php echo $leng['estado']?> </th>
+			<th width="10%" class="etiqueta"><?php echo $leng['ciudad']?> </th>
 			<th width="15%" class="etiqueta"><?php echo $leng['cliente']?> </th>
 			<th width="10%" class="etiqueta"><?php echo $leng['ubicacion']?> </th>
-			<th width="15%" class="etiqueta"><?php echo $leng['producto']?> </th>
+			<th width="10%" class="etiqueta"><?php echo $leng['producto']?> </th>
+			<th width="10%" class="etiqueta">Cargo</th>
 			<th width="5%" class="etiqueta">Cantidad</th>
 		</tr>
 		<?php
@@ -85,6 +87,7 @@ if($estado != "TODOS"){
 			<td class="texto">'.$datos["cliente"].'</td>
 			<td class="texto">'.$datos["ubicacion"].'</td>
 			<td class="texto">'.$datos["sub_linea"].'</td>
+			<td class="texto">'.$datos["cargo"].'</td>
 			<td class="texto">'.$datos["cantidad"].'</td>
 			</tr>';
 		};?>
