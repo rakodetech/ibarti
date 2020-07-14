@@ -37,7 +37,7 @@ if ($row = $bd->obtener_name($queryc))
 
   $titulo= 'DOTACIÓN DE UNIFORMES Y EQUIPOS DE PROTECCIÓN PERSONAL';
   require_once('../'.PlantillaDOM.'/unicas/prod_dotacion_ibarti.php');
-
+ $dompdf = new DOMPDF();
  $dompdf->load_html(ob_get_clean(),'UTF-8');
  $dompdf->render();
  $pdf=$dompdf->output();
