@@ -56,8 +56,9 @@ if($estado != "TODOS"){
 	clientes.nombre cliente, 
 	clientes_ubicacion.descripcion ubicacion,
 	prod_sub_lineas.descripcion sub_linea,
+	IFNULL(cargos.descripcion,'SIN CARGO') cargo,
 	clientes_ub_uniforme.cantidad
-	FROM clientes_ub_uniforme, prod_sub_lineas, clientes_ubicacion, clientes, regiones, estados, ciudades
+	FROM clientes_ub_uniforme  LEFT JOIN cargos  ON clientes_ub_uniforme.cod_cargo = cargos.codigo , prod_sub_lineas, clientes_ubicacion, clientes, regiones, estados, ciudades
 	$where
 	ORDER BY 5,6 ASC;";
 
@@ -70,11 +71,11 @@ if($estado != "TODOS"){
 		echo "<table border=1>";
 
 		echo "<tr><th>".$leng['region']." </th><th> ".$leng['estado']."  </th> <th> ".$leng['ciudad']."  </th>
-		<th> ".$leng['cliente']."  </th><th> ".$leng['ubicacion']."  </th> <th> Sub Linea </th> <th> Cantidad </th></tr>";
+		<th> ".$leng['cliente']."  </th><th> ".$leng['ubicacion']."  </th> <th> Sub Linea </th> <th> Cargo </th> <th> Cantidad </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
 			echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
-			<td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td></tr>";
+			<td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -100,7 +101,8 @@ if($estado != "TODOS"){
 		<th width='10%'>".$leng['ciudad']."</th>
 		<th width='12%'>".$leng['cliente']." </th>
 		<th width='12%'>".$leng['ubicacion']." </th>
-		<th width='28%'>Sub Linea</th>
+		<th width='14%'>Sub Linea</th>
+		<th width='14%'>Cargo</th>
 		<th width='5%'>Cantidad</th>
 		</tr>";
 
@@ -117,7 +119,8 @@ if($estado != "TODOS"){
 			<td>".$row[3]."</td>
 			<td>".$row[4]."</td>
 			<td>".$row[5]."</td>
-			<td>".$row[6]."</td></tr>";
+			<td>".$row[6]."</td>
+			<td>".$row[7]."</td></tr>";
 
 			$f++;
 		}
