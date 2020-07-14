@@ -30,16 +30,11 @@ if(isset($_POST['metodo'])){
       clientes_supervision_ap.codigo = '$apertura'
       AND clientes_supervision_ap.cod_cliente  = '$cliente'
       AND clientes_supervision_ap.cod_ubicacion = '$ubicacion'
-      AND clientes_supervision_ap.cod_ub_puesto = '$puesto'
       AND clientes_supervision_ap.cod_turno = '$turno'
-      AND clientes_supervision_ap.cod_cargo = '$cargo'
       AND clientes_supervision_ap.fecha = '$fecha'
       ";
-    }elseif($metodo=="modificar_contrato"){
-      $sql = "UPDATE planif_clientes_superv_trab_det SET planif_clientes_superv_trab_det.cod_turno = '$turno' WHERE planif_clientes_superv__trab_det.codigo = '$codigo'";
-      $result['sql'][]= $sql;
     }
-
+    
     $query = $bd->consultar($sql);
 
     $result['sql'] = $sql;

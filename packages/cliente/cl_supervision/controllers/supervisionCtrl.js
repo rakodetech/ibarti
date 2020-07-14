@@ -3,43 +3,14 @@ var cliente = "";
 
 $(function () {
 	cliente = $("#superv_cliente").val();
-	CargarDetalleSuperv(cliente);
+	Cons_supervision("", "agregar");
 });
-
-function Cons_supervision_inicio() {
-
-	usuario = $("#usuario").val();
-	cliente = $("#superv_cliente").val();
-
-	var error = 0;
-	var errorMessage = ' ';
-	if (error == 0) {
-		var parametros = { "cliente": cliente };
-
-		$.ajax({
-			data: parametros,
-			url: 'packages/cliente/cl_supervision/views/Cons_inicio.php',
-			type: 'post',
-			success: function (response) {
-				$("#superv_supervision").html(response);
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
-			}
-		});
-
-	} else {
-		alert(errorMessage);
-	}
-
-}
 
 function Cons_supervision(cod, metodo) {
 	var error = 0;
 	var errorMessage = ' ';
 	if (error == 0) {
-		var parametros = { "codigo": cod, "metodo": metodo };
+		var parametros = { "codigo": cod, "metodo": metodo, "cliente": cliente };
 		$.ajax({
 			data: parametros,
 			url: 'packages/cliente/cl_supervision/views/Add_form.php',

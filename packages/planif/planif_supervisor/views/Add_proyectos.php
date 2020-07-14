@@ -2,11 +2,10 @@
 require "../modelo/planificacion_modelo.php";
 require "../../../../".Leng;
 
-$cliente     = $_POST['cliente'];
 $plan   = new Planificacion;
-$ubicaciones  =  $plan->get_planif_ap_ubic($cliente);
+$proyectos  =  $plan->get_proyectos();
 	echo '<option value="">Seleccione...</option>';
-foreach ($ubicaciones as  $datos)
+foreach ($proyectos as  $datos)
 {
 	echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
 }?>

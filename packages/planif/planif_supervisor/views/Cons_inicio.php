@@ -19,10 +19,10 @@ $cliente  =  $plan->get_cliente();
             echo '<option value="' . $datos[0] . '">' . $datos[1] . ' ' . $datos[3] . '</option>';
           } ?>
         </select></td>
-        <td width="9%" class="etiqueta"><span id="ubicacion_texto"><?php echo $leng['ubicacion'] ?>:</span> </td>
+<!--         <td width="9%" class="etiqueta"><span id="ubicacion_texto"><?php // echo $leng['ubicacion'] ?>:</span> </td>
       <td width="21%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onclick="cargar_planif_superv($('#planf_apertura').val())" style="width:200px">
             <option value="">Seleccione</option>
-          </select></span></td>
+          </select></span></td> -->
           <td width="9%" class="etiqueta"><span id="apertura_texto">Apertura:</span></td>
       <td width="21%"><span id="apertura_cont"><select id="planf_apertura" onchange="mostrar_icono_apertura(this.value)" required onclick="cargar_planif_superv(this.value)" style="width:200px">
             <option value="">Seleccione</option>
@@ -36,11 +36,8 @@ $cliente  =  $plan->get_cliente();
     </tr>
   </table>
   <div id="cont_supervision_det"></div>
-  <!-- borrar
-  <div id="cont_planif_pl" class="tabla_sistema"></div>
-
--->
-  <div id="cont_planif_det" class="tabla_sistema"></div>
+  <div id="cont_planif_det"></div>
+  <!-- class="tabla_sistema" -->
   <div align="center">
     <span class="art-button-wrapper">
       <span class="art-button-l"> </span>
@@ -55,30 +52,8 @@ $cliente  =  $plan->get_cliente();
     <span class="art-button-wrapper">
       <span class="art-button-l"> </span>
       <span class="art-button-r"> </span>
-      <input type="button" id="volver" value="Servicios Trabajadores" onClick="B_reporte('F')" class="readon art-button" />
-    </span>
-    <span class="art-button-wrapper">
-      <span class="art-button-l"> </span>
-      <span class="art-button-r"> </span>
-      <input type="button" id="volver" value="Servicios Trabajadores Detalle" onClick="B_reporte('T')" class="readon art-button" />
-    </span>
-    <span class="art-button-wrapper">
-      <span class="art-button-l"> </span>
-      <span class="art-button-r"> </span>
-      <input type="button" id="volver" value="Trabajadores Sin Planificar" onClick="trab_sin_planificar()" class="readon art-button" />
+      <input type="button" value="Supervisores Sin Planificar" onClick="trab_sin_planificar()" class="readon art-button" />
     </span>
     <input name="metodo" id="h_metodo" type="hidden" value="<?php echo $metodo; ?>" />
   </div>
-</form>
-<form action="packages/planif/planificaciones/views/rp_planif_trab.php" method="post" name="add_planif_det" id="add_planif_det" method="post" target="_blank">
-  <input type="hidden" name="apertura" id="cod_apertura" value="">
-  <input type="hidden" name="ficha" id="cod_ficha" value="">
-  <input type="hidden" name="reporte" id="reporte" value="">
-</form>
-<form action="packages/planif/planificaciones/views/rp_planif_serv.php" method="post" name="add_planif_serv" id="add_planif_serv" method="post" target="_blank">
-  <input type="hidden" name="supervision" id="cod_supervision_serv" value="">
-  <input type="hidden" name="apertura" id="cod_apertura_serv" value="">
-  <input type="hidden" name="ubicacion" id="cod_ubic_serv" value="">
-  <input type="hidden" name="usuario" id="cod_usuario_serv" value="">
-  <input type="hidden" name="reporte" id="reporte_serv" value="">
 </form>

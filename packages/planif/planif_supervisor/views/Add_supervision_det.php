@@ -2,9 +2,9 @@
 require "../modelo/planificacion_modelo.php";
 require "../../../../".Leng;
 
-$ubic   = $_POST['ubicacion'];
+$cliente   = $_POST['cliente'];
 $plan   = new Planificacion;
-$cont = $plan->get_supervision_det($ubic);
+$cont = $plan->get_supervision_det($cliente);
 
 echo '<div align="center" class="etiqueta_title">Detalle de Supervision</div><table width="90%" border="0" align="center">
 				<tr>
