@@ -66,7 +66,7 @@ if(isset($_SESSION['usuario_cod'])){
 <div id="myModal" class="modal">
 	<div class="modal-content">
 		<div class="modal-header">
-			<span class="close" onclick="CloseModal()" >&times;</span>
+			<span class="close" onclick="cerrarModal()" >&times;</span>
 			<span id="modal_titulo"></span>
 		</div>
 		<div class="modal-body">

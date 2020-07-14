@@ -228,7 +228,7 @@ function cl_apertura() {
 	});
 }
 
-function verificar_cl(cl) {
+function verificar_cl(cl, modal) {
 	usuario = $("#usuario").val();
 
 	if (cl == '') {
@@ -248,8 +248,10 @@ function verificar_cl(cl) {
 			success: function (response) {
 				var resp = JSON.parse(response);
 				if (resp[0]['contra'] == 0) {
-					Ocultar_all();
-					B_supervision();
+					if (!modal) {
+						Ocultar_all();
+						B_supervision();
+					}
 				} else {
 					cl_apertura();
 				}
@@ -527,6 +529,9 @@ function cargar_planif_superv_det(apertura) {
 				eventClick: function (arg) {
 					eventActual = arg.event;
 					metodo = "modificar";
+					var hoy = new Date();
+					var isafter = moment(arg.event.start).isAfter(hoy);
+					console.log(isafter);
 					editarActividad(eventActual);
 					/* 		
 						if (confirm('Are you sure you want to delete this event?')) {
@@ -541,6 +546,8 @@ function cargar_planif_superv_det(apertura) {
 				nowIndicator: true,
 				height: 'auto',
 				drop: function (arg) {
+					var isafter = moment(arg.event.start).isAfter(hoy);
+					console.log(arg.event.start, hoy, isafter);
 					validarFecha(moment(arg.date).format("YYYY-MM-DD"), cliente, apertura, (fechas) => {
 						if (fechas.length > 0) {
 							$("#planf_ubicacionRP").html("");
@@ -732,6 +739,14 @@ function B_planif_apertura() {
 			alert(thrownError);
 		}
 	});
+}
+
+function cerrarModal() {
+	$("#myModal").hide();
+	var cliente = $("#planf_cliente").val();
+	if (cliente) {
+		verificar_cl(cliente, true);
+	}
 }
 
 function Cons_Apertura() {

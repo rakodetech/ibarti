@@ -84,7 +84,8 @@ table {
              <td>
              <span class="texto"><?php echo $producto['cantidad'];?></span>
             </td>
-              <td style="text-align: center;font-size: 9px;">
+            <!-- text-align: center; -->
+              <td style="font-size: 9px;">
                 ___________________
             </td>
              </tr>
