@@ -34,14 +34,14 @@ $queryp = $bd->consultar($sql02);
 
 if ($row = $bd->obtener_name($queryc))
 {
-
+  ob_start();
   $titulo= 'DOTACIÓN DE UNIFORMES Y EQUIPOS DE PROTECCIÓN PERSONAL';
   require_once('../'.PlantillaDOM.'/unicas/prod_dotacion_ibarti.php');
- $dompdf = new DOMPDF();
- $dompdf->load_html(ob_get_clean(),'UTF-8');
- $dompdf->render();
- $pdf=$dompdf->output();
- $dompdf->stream('prod_dotacion_ibarti.pdf', array('Attachment' => 1));
+ //$dompdf = new DOMPDF();
+ //$dompdf->load_html(ob_get_clean(),'UTF-8');
+ //$dompdf->render();
+ //$pdf=$dompdf->output();
+ //$dompdf->stream('prod_dotacion_ibarti.pdf', array('Attachment' => 1));
 
 
 // // instantiate and use the dompdf class
