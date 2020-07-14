@@ -113,7 +113,7 @@ if(isset($_SESSION['usuario_cod'])){
 		<td class="etiqueta"><span id="hora_texto">Hora de Fin:</span> </td>
       <td ><input type="time" name="hora_fin" id="planf_hora_finRP" step="30" readonly="readonly"></td></tr>
 	</table>
-	<div align="center"><span class="art-button-wrapper">
+	<div align="center" id="guardarActividad"><span class="art-button-wrapper">
       <span class="art-button-l"> </span>
       <span class="art-button-r"> </span>
       <input type="button" id="guardar_actividad" value="Guardar" onclick="saveActividad()" class="readon art-button" />

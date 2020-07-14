@@ -10,6 +10,7 @@ var fecha_fin = null;
 var actividades = [];
 var metodo = "agregar";
 var typeCalendar = "timeGridWeek";
+var isafter = true;
 $(function () {
 	Cons_planificacion_inicio();
 	cargar_proyectos();
@@ -511,6 +512,9 @@ function cargar_planif_superv_det(apertura) {
 				},
 				eventDidMount: function (info) {
 					eventActual = info.event;
+					if (!isafter) {
+						eventActual.remove();
+					}
 				},
 				initialDate: fechas.fecha_inicio,
 				navLinks: true,
@@ -530,8 +534,12 @@ function cargar_planif_superv_det(apertura) {
 					eventActual = arg.event;
 					metodo = "modificar";
 					var hoy = new Date();
-					var isafter = moment(arg.event.start).isAfter(hoy);
-					console.log(isafter);
+					var isafter = moment(arg.dateStr).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"));
+					if (isafter) {
+						$("#guardarActividad").show();
+					} else {
+						$("#guardarActividad").hide();
+					}
 					editarActividad(eventActual);
 					/* 		
 						if (confirm('Are you sure you want to delete this event?')) {
@@ -546,37 +554,42 @@ function cargar_planif_superv_det(apertura) {
 				nowIndicator: true,
 				height: 'auto',
 				drop: function (arg) {
-					var isafter = moment(arg.event.start).isAfter(hoy);
-					console.log(arg.event.start, hoy, isafter);
-					validarFecha(moment(arg.date).format("YYYY-MM-DD"), cliente, apertura, (fechas) => {
-						if (fechas.length > 0) {
-							$("#planf_ubicacionRP").html("");
-							$("#planf_ubicacionRP").append('<option value="">Seleccione</option>');
-							var hora_entrada = fechas[0].hora_entrada;
-							var hora_salida = fechas[0].hora_salida;
-							$("#planf_horaRP").prop("min", hora_entrada);
-							$("#planf_hora_finRP").prop("min", hora_entrada);
-							$("#planf_hora_finRP").prop("max", hora_salida);
-							fechas.forEach((f) => {
-								if (f.hora_entrada < hora_entrada) {
-									var hora_entrada = f.hora_entrada;
-									$("#planf_horaRP").prop("min", hora_entrada);
-									$("#planf_hora_finRP").prop("min", hora_entrada);
-								}
-								if (f.hora_salida > hora_salida) {
-									var hora_salida = fechas[0].hora_salida;
-									$("#planf_hora_finRP").prop("max", hora_salida);
-								}
-								$("#planf_ubicacionRP").append('<option value=' + f.cod_ubicacion + '>' + f.ubicacion + '</option>');
-							});
-							metodo = "agregar";
-							modalActividad();
-						} else {
-							toastr.error("Esta fecha no aplica!.");
-							eventActual.remove();
-						}
-					});
-
+					var hoy = new Date();
+					eventActual = arg.event;
+					isafter = moment(arg.dateStr).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"));
+					if (isafter) {
+						validarFecha(moment(arg.date).format("YYYY-MM-DD"), cliente, apertura, (fechas) => {
+							if (fechas.length > 0) {
+								$("#planf_ubicacionRP").html("");
+								$("#planf_ubicacionRP").append('<option value="">Seleccione</option>');
+								var hora_entrada = fechas[0].hora_entrada;
+								var hora_salida = fechas[0].hora_salida;
+								$("#planf_horaRP").prop("min", hora_entrada);
+								$("#planf_hora_finRP").prop("min", hora_entrada);
+								$("#planf_hora_finRP").prop("max", hora_salida);
+								fechas.forEach((f) => {
+									if (f.hora_entrada < hora_entrada) {
+										var hora_entrada = f.hora_entrada;
+										$("#planf_horaRP").prop("min", hora_entrada);
+										$("#planf_hora_finRP").prop("min", hora_entrada);
+									}
+									if (f.hora_salida > hora_salida) {
+										var hora_salida = fechas[0].hora_salida;
+										$("#planf_hora_finRP").prop("max", hora_salida);
+									}
+									$("#planf_ubicacionRP").append('<option value=' + f.cod_ubicacion + '>' + f.ubicacion + '</option>');
+								});
+								metodo = "agregar";
+								modalActividad();
+							} else {
+								toastr.error("Esta fecha no aplica!.");
+								eventActual.remove();
+							}
+						});
+						$("#guardarActividad").show();
+					} else {
+						toastr.info("No es posible planificar actividades sobre fechas pasadas.");
+					}
 				},
 				dayMaxEvents: true,
 				dayHeaderFormat: { weekday: 'short' },
