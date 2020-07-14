@@ -65,10 +65,11 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 						$("#codigo_cargo").val("");
 						$("#cantidad_uniforme").val(0)
 					}
+					toastr.success('Guardado con exito.');
 				}else{
 					toastr.success('Actualizado con exito.');
 				}
-				//window.location.href=""+href+"";
+				$("#codigo_sub_linea_uniforme").setAttribute("placeholder", "Sub Linea de Uniforme");
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
