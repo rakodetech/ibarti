@@ -7,9 +7,10 @@
 
 <style>
 #supervisor-wrap{
-	width: 15vw;
+	width: 19vw;
 	left: 0px;
 	position: absolute;
+	height: 500px;
 }
 #external-events {
 	padding: 0 10px;

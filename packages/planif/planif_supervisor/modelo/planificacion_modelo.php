@@ -533,7 +533,6 @@ class Planificacion
 			)";
 		};
 		$sql .= " HAVING hora_inicio <= '$hora_inicio' AND hora_fin >= '$hora_fin'";
-
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query, 0)) {
 			$this->datos[] = $datos;

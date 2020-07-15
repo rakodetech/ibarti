@@ -341,6 +341,21 @@ label {
 					min-height:150px; /* Altura minima del Cuadro */
 				}
 
+				
+				.scroll {
+					/* overflow:auto; /* Determina si es necesario agregar barras de Scroll */
+					overflow:scroll;
+					overflow-y:auto;
+					overflow-x:auto;
+					border-style: inset;
+					border-color:  #009900;
+					border-width: 1px;
+
+					display:block; /* No tocar */
+					padding:3px; /* Relleno del cuadro */
+					min-height:150px; /* Altura minima del Cuadro */
+				}
+
 				.tabla_sistema table 		 {
 					border-spacing: 1;
 					border-collapse: collapse;

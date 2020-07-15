@@ -17,7 +17,7 @@ $result['html'] = '</br><div align="center" class="etiqueta_title">Planificacion
 <div align="right"><span class="etiqueta">Nro. de Supervisores sin planificar en este cliente: <h6 id="cantidad_sin_planif"></h6></div>
 <div id="wrap">
 
-<div id="supervisor-wrap">
+<div id="supervisor-wrap" class="scroll">
 <div id="external-events">
 <h4>Supervisores:</h4>
 
