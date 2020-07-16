@@ -364,6 +364,7 @@ if($metodo == 'modificar'){
 			   clientes_ub_uniforme
 		   WHERE prod_sub_lineas.codigo = clientes_ub_uniforme.cod_sub_linea
 		   AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+		   AND clientes_ub_uniforme.cod_cargo = ficha.cod_cargo
 	   ) aplica
    FROM ficha_dotacion LEFT JOIN
    productos ON 
