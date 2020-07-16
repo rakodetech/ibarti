@@ -197,8 +197,8 @@ class Planificacion
 		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
 			pcst.cod_ubicacion, cu.descripcion ubicacion, pcst.cod_proyecto, pp.descripcion proyecto,
 			pcstd.cod_actividad, pa.descripcion actividad,
-			pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos, f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
-			pa.principal
+			pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
+			pa.principal, pcstd.realizado
 			FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 				clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
 			WHERE pcst.cod_ficha = f.cod_ficha
@@ -259,23 +259,29 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_planif_trab_det($cod_pl_trab)
+	function get_planif_trab_det($apertura, $cliente, $ficha)
 	{
 		$this->datos  = array();
-		$sql = "SELECT a.codigo, a.fecha, Dia_semana_abrev(a.fecha) d_semana,
-		a.cod_cliente, clientes.abrev cliente,
-		a.cod_ubicacion, clientes_ubicacion.descripcion ubicacion,
-		a.cod_puesto_trabajo, clientes_ub_puesto.nombre puesto_trabajo,
-		ficha.cod_ficha, CONCAT(ficha.apellidos,' ',ficha.nombres) ap_nombre,
-		a.cod_turno,turno.abrev tuno_abrev, turno.descripcion turno
-		FROM planif_clientes_superv_trab_det a, turno, clientes_ub_puesto, ficha, clientes, clientes_ubicacion
-		WHERE a.cod_planif_cl_trab = '$cod_pl_trab'
-		AND a.cod_turno = turno.codigo
-		AND a.cod_puesto_trabajo =clientes_ub_puesto.codigo
-		AND a.cod_ficha = ficha.cod_ficha
-		AND a.cod_cliente = clientes.codigo
-		AND a.cod_ubicacion = clientes_ubicacion.codigo
-		ORDER BY a.fecha ASC";
+		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
+		pcst.cod_ubicacion, cu.descripcion ubicacion, pcst.cod_proyecto, pp.descripcion proyecto,
+		pcstd.cod_actividad, pa.descripcion actividad,
+		pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
+		pa.principal, pcstd.realizado
+		FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
+			clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
+		WHERE pcst.cod_ficha = f.cod_ficha
+		AND f.cod_ficha_status= control.ficha_activo
+		AND pcst.cod_cliente = '$cliente'
+		AND pcst.cod_planif_cl = $apertura
+		AND pcst.cod_ficha = '$ficha'
+		AND f.cod_cargo = c.codigo
+		AND c.planificable = 'T'
+		AND pcst.cod_cliente = cl.codigo
+		AND pcst.cod_ubicacion = cu.codigo
+		AND pcst.cod_proyecto = pp.codigo
+		AND pcstd.cod_planif_cl_trab = pcst.codigo
+		AND pcstd.cod_actividad = pa.codigo
+		ORDER BY codigo ASC, principal DESC";;
 
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {

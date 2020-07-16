@@ -4,6 +4,7 @@ var apertura = '';
 var supervision = '';
 var calendar = null;
 var calendarSuperv = null;
+var calendarTrab = null;
 var cerrar = true;
 var eventActual = null;
 var fecha_fin = null;
@@ -450,6 +451,7 @@ function cargar_planif_superv_det(apertura) {
 					},
 					timeGridDay: {
 						editable: false,
+						slotDuration: '00:05:00',
 						eventContent: function (arg) {
 							var result = "<label>En proceso<?label>";
 							if (arg.event.id) {
@@ -526,7 +528,6 @@ function cargar_planif_superv_det(apertura) {
 				},
 				allDaySlot: false,
 				slotEventOverlap: true,
-				slotDuration: '00:30:00',
 				dateClick: function (info) {
 					//calendar.formatIso(info.date)
 				},
@@ -569,15 +570,15 @@ function cargar_planif_superv_det(apertura) {
 								$("#planf_hora_finRP").prop("max", hora_salida);
 								fechas.forEach((f) => {
 									if (f.hora_entrada < hora_entrada) {
-										var hora_entrada = f.hora_entrada;
+										hora_entrada = f.hora_entrada;
 										$("#planf_horaRP").prop("min", hora_entrada);
 										$("#planf_hora_finRP").prop("min", hora_entrada);
 									}
 									if (f.hora_salida > hora_salida) {
-										var hora_salida = fechas[0].hora_salida;
+										hora_salida = f.hora_salida;
 										$("#planf_hora_finRP").prop("max", hora_salida);
 									}
-									$("#planf_ubicacionRP").append('<option value=' + f.cod_ubicacion + '>' + f.ubicacion + '</option>');
+									$("#planf_ubicacionRP").append('<option value=' + f.cod_ubicacion + '>' + f.ubicacion + ' (' + hora_entrada + ' - ' + hora_salida + ')</option>');
 								});
 								metodo = "agregar";
 								modalActividad();
@@ -672,43 +673,93 @@ function cargar_planif_superv_det(apertura) {
 	});
 }
 
-function cargar_planif_superv_trab_det(cod, evento_det) {
-	if (evento_det == "NO") {
-		var codigo = $("#det_codigo" + cod + "").val();
-	} else if (evento_det == "SI") {
-		var codigo = cod;
+function cargar_planif_superv_trab_det(ficha) {
+	if (calendarTrab) {
+		calendarTrab.destroy();
 	}
-
-
-	var error = 0;
-	var errorMessage = '';
-
-	if (codigo == "") {
-		var error = 1;
-		var errorMessage = 'Debe Ingresar Todos los Datos para ver su Detalle';
-	}
-	var parametros = {
-		"apertura": apertura, "codigo": codigo,
-		"metodo": "agregar", "usuario": usuario
-	}
-	if (error == 0) {
-		$.ajax({
-			data: parametros,
-			url: 'packages/planif/planif_supervisor/views/Cons_planif_trab_det.php',
-			type: 'post',
-			success: function (response) {
-				ModalOpen();
-				$("#modal_titulo").text("Detalle De planificacion de Trabajador");
-				$("#modal_contenido").html(response);
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
+	var parametros = { "codigo": apertura, "cliente": cliente, "ficha": ficha, "usuario": usuario };
+	$.ajax({
+		data: parametros,
+		url: 'packages/planif/planif_supervisor/views/Add_planif_trab_det.php',
+		type: 'post',
+		success: function (response) {
+			var resp = JSON.parse(response);
+			if (resp["data"].length > 0) {
+				var fechas = resp["fechas"];
+				var calendarTrabEl = document.getElementById('calendarTrab');
+				calendarTrab = new FullCalendar.Calendar(calendarTrabEl, {
+					initialView: "listMonth",
+					views: {
+						listMonth: {
+							eventContent: function (arg) {
+								var result = "<div>(" + arg.event.extendedProps.codigo + ") " + moment(arg.event.start).format("HH: mm") + " - " + moment(arg.event.end).format("HH: mm") + '<br>';
+								result += arg.event.title + "<br>";
+								result += arg.event.extendedProps.ubicacion + "<br>";
+								result += arg.event.extendedProps.proyecto + " (" + arg.event.extendedProps.abrev_proyecto + ")<br>";
+								arg.event.extendedProps.actividades.forEach((act, i) => {
+									result += "<span>" + (i + 1) + ": " + act.actividad + "</span><br>";
+								});
+								result += "</div>";
+								return {
+									html: result
+								}
+							},
+						},
+					},
+					editable: false,
+					selectable: false,
+					initialDate: fechas.fecha_inicio,
+					navLinks: true,
+					dayMaxEvents: true,
+					locale: 'es',
+					validRange: {
+						start: fechas.fecha_inicio,
+						end: fechas.fecha_fin
+					},
+					allDaySlot: false,
+					slotEventOverlap: true,
+					selectMirror: true,
+					nowIndicator: true,
+					height: 'auto',
+					dayMaxEvents: true,
+					dayHeaderFormat: { weekday: 'short' },
+				});
+				var res_eventos = d3.nest()
+					.key((d) => d.codigo)
+					.entries(resp["data"]);
+				$("#titulo_detalle_trab").html("Agenda de " + res_eventos[0].values[0].trabajador);
+				res_eventos.forEach(d => {
+					calendarTrab.addEvent({
+						id: d.key,
+						title: d.values[0].trabajador,
+						start: d.values[0].fecha_inicio,
+						end: d.values[0].fecha_fin,
+						extendedProps: {
+							codigo: d.key,
+							cod_ficha: d.values[0].cod_ficha,
+							cedula: d.values[0].cedula,
+							trabajador: d.values[0].trabajador,
+							proyecto: d.values[0].proyecto,
+							cod_proyecto: d.values[0].cod_proyecto,
+							abrev_proyecto: d.values[0].abrev_proyecto,
+							actividades: d.values,
+							cod_cliente: d.values[0].cod_cliente,
+							cliente: d.values[0].cliente,
+							ubicacion: d.values[0].ubicacion,
+							cod_ubicacion: d.values[0].cod_ubicacion
+						},
+					});
+				});
+				calendarTrab.render();
+			} else {
+				$("#titulo_detalle_trab").html("Sin Agenda");
 			}
-		});
-	} else {
-		alert(errorMessage);
-	}
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
 }
 
 function B_supervision() {
@@ -947,12 +998,13 @@ function modalActividad() {
 	$("#planf_ubicacionRP").attr("disabled", false);
 	$("#planf_proyectoRP").attr("disabled", false);
 	$("#planf_fechaRP").html(moment(eventActual.start).format('YYYY-MM-DD'));
-	$("#cedulaRP").html(eventActual.extendedProps.cedula);
+	$("#cedulaRP").html(eventActual.extendedProps.cod_ficha + " - " + eventActual.extendedProps.cedula);
 	$("#planf_actividadRP").html("");
 	$("#planf_horaRP").val(moment(eventActual.start).format("HH:mm:00"));
 	$("#planf_hora_finRP").val("");
 	$("#fotoRP").attr("src", "imagenes/fotos/" + eventActual.extendedProps.cedula + ".jpg");
 	$('#modalRP').show();
+	cargar_planif_superv_trab_det(eventActual.extendedProps.cod_ficha);
 }
 
 function editarActividad(event) {
@@ -981,7 +1033,7 @@ function editarActividad(event) {
 			$("#planf_fechaRP").html(moment(event.start).format('YYYY-MM-DD'));
 			$("#planf_ubicacionRP").val(event.extendedProps.cod_ubicacion);
 			$("#planf_horaRP").val(moment(event.start).format("HH:mm:00"));
-			$("#cedulaRP").html(event.extendedProps.cedula);
+			$("#cedulaRP").html(event.extendedProps.cod_ficha + " - " + event.extendedProps.cedula);
 			cargar_actividades(event.extendedProps.cod_proyecto, () => {
 				$('#modalRP').show();
 				event.extendedProps.actividades.forEach(act => {

@@ -122,6 +122,13 @@ if(isset($_SESSION['usuario_cod'])){
 	<br>
 			</div>
 		</div>
+		<br>
+		<div>
+		<label id="titulo_detalle_trab"></label>
+		<br><br>
+		<div id="calendarTrab" style="width:90%;"></div>
+		</div>
+		<br>
 	</div>
 </div>
 <div id="Cont_planificacion"></div>
