@@ -10,7 +10,7 @@
 	width: 19vw;
 	left: 0px;
 	position: absolute;
-	height: 500px;
+	height: 470px;
 }
 #external-events {
 	padding: 0 10px;
