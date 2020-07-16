@@ -198,7 +198,7 @@ class Planificacion
 			pcst.cod_ubicacion, cu.descripcion ubicacion, pcst.cod_proyecto, pp.descripcion proyecto,
 			pcstd.cod_actividad, pa.descripcion actividad,
 			pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
-			pa.principal, pcstd.realizado
+			pa.principal, pcstd.realizado, pcst.completado
 			FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 				clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
 			WHERE pcst.cod_ficha = f.cod_ficha
@@ -266,7 +266,7 @@ class Planificacion
 		pcst.cod_ubicacion, cu.descripcion ubicacion, pcst.cod_proyecto, pp.descripcion proyecto,
 		pcstd.cod_actividad, pa.descripcion actividad,
 		pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
-		pa.principal, pcstd.realizado
+		pa.principal, pcstd.realizado, pcst.completado
 		FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 			clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
 		WHERE pcst.cod_ficha = f.cod_ficha

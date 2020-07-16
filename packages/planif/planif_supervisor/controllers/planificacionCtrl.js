@@ -481,7 +481,7 @@ function cargar_planif_superv_det(apertura) {
 						eventContent: function (arg) {
 							var result = "<label>En proceso<?label>";
 							if (arg.event.id) {
-								result = "<div>(" + arg.event.extendedProps.codigo + ") " + moment(arg.event.start).format("HH: mm") + " - " + moment(arg.event.end).format("HH: mm") + '<br>';
+								result = "<div class='fc-event-main'>(" + arg.event.extendedProps.codigo + ") " + moment(arg.event.start).format("HH: mm") + " - " + moment(arg.event.end).format("HH: mm") + '<br>';
 								result += arg.event.title + "<br>";
 								result += arg.event.extendedProps.ubicacion + "<br>";
 								result += arg.event.extendedProps.proyecto + " (" + arg.event.extendedProps.abrev_proyecto + ")<br>";
@@ -655,7 +655,8 @@ function cargar_planif_superv_det(apertura) {
 						cod_cliente: d.values[0].cod_cliente,
 						cliente: d.values[0].cliente,
 						ubicacion: d.values[0].ubicacion,
-						cod_ubicacion: d.values[0].cod_ubicacion
+						cod_ubicacion: d.values[0].cod_ubicacion,
+						completado: (d.values[0].completado === 'T')
 					},
 				});
 			});
@@ -746,7 +747,8 @@ function cargar_planif_superv_trab_det(ficha) {
 							cod_cliente: d.values[0].cod_cliente,
 							cliente: d.values[0].cliente,
 							ubicacion: d.values[0].ubicacion,
-							cod_ubicacion: d.values[0].cod_ubicacion
+							cod_ubicacion: d.values[0].cod_ubicacion,
+							completado: (d.values[0].completado === 'T')
 						},
 					});
 				});
