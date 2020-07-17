@@ -513,6 +513,7 @@ class Planificacion
 
 	function validar_ingreso($apertura, $cliente, $ubic, $proyecto, $actividades, $fecha, $hora_inicio, $hora_fin)
 	{
+		$horas = array();
 		$this->datos  = array();
 		$sql = "SELECT MIN(h.hora_entrada) hora_inicio, MAX(h.hora_salida) hora_fin
 		FROM clientes_supervision_ap  a,turno  t,horarios  h, dias_habiles, dias_habiles_det, dias_tipo, clientes_ubicacion cu
@@ -522,28 +523,47 @@ class Planificacion
 		OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND dias_tipo.tipo = 'D') 
 		OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND DATE_FORMAT(a.fecha,'%d') = dias_tipo.descripcion))
 		AND a.cod_ubicacion = cu.codigo AND a.cod_cliente = '$cliente' AND a.cod_ubicacion = '$ubic'
-		AND a.cod_planif_cl = $apertura AND a.`status`='T'  AND a.fecha = '$fecha'";
-		foreach ($actividades as $key => $value) {
-			$sql .= " AND a.cod_ubicacion NOT IN (
-				SELECT p.cod_ubicacion
+		AND a.cod_planif_cl = $apertura AND a.`status`='T'  AND a.fecha = '$fecha'
+		HAVING (hora_inicio <= '$hora_inicio' AND hora_fin >= '$hora_fin') OR (hora_inicio = hora_fin)";
+		$query = $this->bd->consultar($sql);
+		while ($datos = $this->bd->obtener_fila($query, 0)) {
+			$this->datos[] = $datos;
+		}
+		if(count($this->datos) > 0){
+
+			$sql2 = " SELECT p.cod_ubicacion
 				FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd
 				WHERE p.codigo = pd.cod_planif_cl_trab 
 				AND p.cod_cliente = '$cliente'
 				AND p.cod_ubicacion = '$ubic'
 				AND p.cod_planif_cl = $apertura
 				AND p.cod_proyecto = $proyecto
-				AND pd.cod_proyecto = p.cod_proyecto
-				AND pd.cod_actividad = $value
-				AND DATE_FORMAT(p.fecha_inicio,'%Y-%m-%d') = '$fecha'
-				HAVING MIN(DATE_FORMAT(p.fecha_inicio, '%H:%m')) >= '$hora_inicio'
-				AND MAX(DATE_FORMAT(p.fecha_fin, '%H:%m')) <= '$hora_fin'
-			)";
-		};
-		$sql .= " HAVING hora_inicio <= '$hora_inicio' AND hora_fin >= '$hora_fin'";
-		$query = $this->bd->consultar($sql);
-		while ($datos = $this->bd->obtener_fila($query, 0)) {
-			$this->datos[] = $datos;
+				AND pd.cod_proyecto = p.cod_proyecto 
+				";
+			$i = 0;
+			foreach ($actividades as $key => $value) {
+				if($i == 0){
+					$sql2 .= " AND (pd.cod_actividad = $value ";
+				}else{
+					$sql2 .= " OR pd.cod_actividad = $value ";
+				}
+				$i++;
+			};
+			$sql2 .= " ) AND DATE_FORMAT(p.fecha_inicio,'%Y-%m-%d') = '$fecha'
+			HAVING MIN(DATE_FORMAT(p.fecha_inicio, '%H:%m')) >= '$hora_inicio'
+			AND MAX(DATE_FORMAT(p.fecha_fin, '%H:%m')) <= '$hora_fin'";
+	 		$query2 = $this->bd->consultar($sql2);
+			while ($datos = $this->bd->obtener_fila($query2, 0)) {
+				$horas[] = $datos;
+			}
+				if(count($horas) > 0){
+					return [];
+				} else {
+					return $this->datos;
+				}
+
+		}else{
+			return $this->datos;
 		}
-		return $this->datos;
 	}
 }
