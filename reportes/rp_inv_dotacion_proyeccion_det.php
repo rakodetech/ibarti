@@ -30,6 +30,7 @@ $titulo       = "  PROYECCION DE DOTACION DE TRABAJADOR \n";
 
 if(isset($reporte)){
 
+/* 
 	$where = " WHERE DATE_ADD(DATE_FORMAT(v_prod_dot_max2.fecha_max, '%Y-%m-%d'), INTERVAL control.dias_proyeccion DAY) < DATE_ADD('2020-06-30', INTERVAL '$d_proyeccion' DAY)
 	AND v_prod_dot_max2.cod_rol = roles.codigo
 	AND v_prod_dot_max2.cod_contracto = contractos.codigo
@@ -86,8 +87,178 @@ if(isset($reporte)){
 			FROM v_prod_dot_max2 , roles,  contractos, prod_lineas,
 			prod_sub_lineas, productos, control, clientes, clientes_ubicacion, clientes_ub_uniforme, estados
 			$where
-			ORDER BY ap_nombre ASC   ";
+			ORDER BY ap_nombre ASC   "; 
+*/
 
+$where = " INNER JOIN prod_sub_lineas ON clientes_ub_uniforme.cod_sub_linea = prod_sub_lineas.codigo";
+
+if($sub_linea != "TODOS"){
+	$where  .= " AND prod_sub_lineas.codigo = '$sub_linea' ";
+}
+
+$where .= " INNER JOIN prod_lineas ON prod_lineas.codigo = prod_sub_lineas.cod_linea";
+
+if($linea != "TODOS"){
+	$where .= " AND prod_lineas.codigo = '$linea' ";  // cambie AND asistencia.co_cont = '$contracto'
+}
+
+$where .= " INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo";
+
+if($trabajador != NULL){
+	$where  .= " AND ficha.cod_ficha = '$trabajador' ";
+}
+
+if($rol != "TODOS"){
+	$where .= " AND ficha.cod_rol = '$rol' ";
+}
+
+$where .= " INNER JOIN cargos ON clientes_ub_uniforme.cod_cargo = cargos.codigo AND ficha.cod_cargo = cargos.codigo
+INNER JOIN clientes_ubicacion ON clientes_ub_uniforme.cod_cl_ubicacion = clientes_ubicacion.codigo
+AND ficha.cod_ubicacion = clientes_ubicacion.codigo";
+
+if($ubicacion != "TODOS"){
+	$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
+}
+
+if($estado != "TODOS"){
+	$where .= " AND clientes_ubicacion.cod_estado = '$estado' ";
+}
+
+$where .= " INNER JOIN estados ON clientes_ubicacion.cod_estado = estados.codigo ";
+
+if($estado != "TODOS"){
+	$where .= " AND estados.codigo = '$estado' ";
+}
+
+$where .= " LEFT JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente";
+
+if($cliente != "TODOS"){
+	$where  .= " AND clientes.codigo = '$cliente' ";
+}
+
+$where .= " LEFT JOIN v_prod_dot_max2 ON v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea
+AND v_prod_dot_max2.cod_ficha_status = 'A' AND ficha.cod_ficha = v_prod_dot_max2.cod_ficha
+";
+
+if($rol != "TODOS"){
+	$where .= " AND v_prod_dot_max2.cod_rol = '$rol' ";
+}
+
+if($estado != "TODOS"){
+	$where .= " AND v_prod_dot_max2.cod_estado = '$estado' ";
+}
+
+if($contrato != "TODOS"){
+	  $where .= " AND v_prod_dot_max2.cod_contracto = '$contrato' ";
+}
+
+if($linea != "TODOS"){
+	$where .= " AND v_prod_dot_max2.cod_linea = '$linea' ";  // cambie AND asistencia.co_cont = '$contracto'
+}
+
+if($sub_linea != "TODOS"){
+	$where  .= " AND v_prod_dot_max2.cod_sub_linea = '$sub_linea' ";
+}
+
+
+if($cliente != "TODOS"){
+	$where  .= " AND v_prod_dot_max2.cod_cliente = '$cliente' ";
+}
+
+
+if($ubicacion != "TODOS"){
+	$where  .= " AND v_prod_dot_max2.cod_ubicacion = '$ubicacion' ";
+}
+
+if($trabajador != NULL){
+	$where  .= " AND v_prod_dot_max2.cod_ficha = '$trabajador' ";
+}
+
+$where .= "	LEFT JOIN roles ON v_prod_dot_max2.cod_rol = roles.codigo";
+
+if($rol != "TODOS"){
+	$where .= " AND roles.codigo = '$rol' ";
+}
+
+$where .= "	LEFT JOIN contractos ON v_prod_dot_max2.cod_contracto = contractos.codigo";
+
+if($contrato != "TODOS"){
+	$where .= " AND contractos.codigo= '$contrato' ";
+}
+  
+  $where .= " LEFT JOIN productos ON v_prod_dot_max2.cod_producto = productos.item
+AND clientes_ub_uniforme.cod_sub_linea = productos.cod_sub_linea, ";
+
+$sql = "SELECT
+IFNULL(
+ v_prod_dot_max2.fecha_max,
+ 'SIN DOTAR'
+) AS fecha,
+estados.descripcion estado,
+clientes.codigo cod_cliente,
+clientes.nombre cliente,
+clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
+clientes_ubicacion.descripcion ubicacion,
+contractos.descripcion AS contrato,
+IFNULL(
+ v_prod_dot_max2.cod_ficha,
+ ficha.cod_ficha
+) cod_ficha,
+IFNULL(
+ v_prod_dot_max2.cedula,
+ ficha.cedula
+) cedula,
+v_prod_dot_max2.ap_nombre,
+
+prod_lineas.codigo cod_linea,
+prod_lineas.descripcion AS linea,
+clientes_ub_uniforme.cod_sub_linea,
+prod_sub_lineas.descripcion AS sub_linea,
+v_prod_dot_max2.cod_producto,
+IFNULL(
+ productos.descripcion,
+ 'SIN DOTAR'
+) AS producto,
+IFNULL(
+ SUM(v_prod_dot_max2.cantidad),
+ 0
+) cantidad,
+clientes_ub_uniforme.cantidad alcance,
+(
+ clientes_ub_uniforme.cantidad - IFNULL(
+	 SUM(v_prod_dot_max2.cantidad),
+	 0
+ )
+) diff,
+DATE_ADD(
+ DATE_FORMAT(
+	 IFNULL(
+		 v_prod_dot_max2.fecha_max,
+		 '0001-01-01'
+	 ),
+	 '%Y-%m-%d'
+ ),
+ INTERVAL control.dias_proyeccion DAY
+) < DATE_ADD(
+ '$fecha_D',
+ INTERVAL $d_proyeccion DAY
+) vencido
+FROM
+clientes_ub_uniforme
+".$where."
+control
+GROUP BY
+cod_cliente,
+cod_ubicacion,
+cod_ficha,
+cod_linea,
+cod_sub_linea,
+cod_producto
+HAVING
+vencido = 1
+ORDER BY
+fecha ASC, ap_nombre ASC, producto ASC
+";
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
 		header("Content-type: application/vnd.ms-excel");
@@ -96,16 +267,16 @@ if(isset($reporte)){
 		$query01  = $bd->consultar($sql);
 		echo "<table border=1>";
 
-		echo "<tr><th> Fecha </th><th> ".$leng['rol']." </th><th> ".$leng['estado']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th>
+		echo "<tr><th> Fecha </th><th> ".$leng['estado']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th>
 		<th>".$leng['contrato']."</th> <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th>
 		<th> Linea </th><th> Sub Linea </th><th> Cod. Producto</th> <th> Producto </th>
-		<th> Cantidad </th></tr>";
+		<th> Cantidad </th><th> Alcance </th><th> Diferencia </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
-			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
-			<td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
-			<td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td>
-			<td>".$row01[12]."</td><td>".$row01[13]."</td></tr>";
+			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[3]."</td><td>".$row01[5]."</td>
+			<td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td>
+			<td>".$row01[11]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td>
+			<td>".$row01[16]."</td><td>".$row01[17]."</td><td>".$row01[18]."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -127,11 +298,13 @@ if(isset($reporte)){
 		<tbody>
 		<tr style='background-color: #4CAF50;'>
 		<th width='20%'>Fecha</th>
-		<th width='15%'>".$leng['rol']."</th>
+		<th width='15%'>".$leng['cliente']."</th>
 		<th width='10%'>".$leng['ficha']."</th>
 		<th width='30%'>".$leng['trabajador']."</th>
 		<th width='15%'>Producto</th>
-		<th width='10%''>Cantidad</th>
+		<th width='10%''>Cant.</th>
+		<th width='10%'>Alc.</th>
+		<th width='10%'>Dif.</th>
 		</tr>";
 
 		$f=0;
@@ -142,11 +315,13 @@ if(isset($reporte)){
 				echo "<tr class='class= odd_row'>";
 			}
 			echo   " <td width='20%'>".$row[0]."</td>
-			<td width='15%'>".$row[1]."</td>
-			<td width='10%'>".$row[6]."</td>
-			<td width='30%'>".$row[8]."</td>
-			<td width='15%'>".$row[12]."</td>
-			<td width='10%'>".$row[13]."</td></tr>";
+			<td width='15%'>".$row[3]."</td>
+			<td width='10%'>".$row[7]."</td>
+			<td width='20%'>".$row[9]."</td>
+			<td width='25%'>".$row[15]."</td>
+			<td width='10%'>".$row[16]."</td>
+			<td width='10%'>".$row[17]."</td>
+			<td width='10%'>".$row[18]."</td></tr>";
 
 			$f++;
 		}
@@ -158,6 +333,7 @@ if(isset($reporte)){
 		</html>";
 
 		$dompdf->load_html(ob_get_clean(),'UTF-8');
+		$dompdf->set_paper('letter','landscape');
 		$dompdf->render();
 		$dompdf->stream($archivo, array('Attachment' => 0));
 	}
