@@ -29,7 +29,7 @@ $fecha_D   = conversion($_POST['fecha_desde']);
 		$where .= " AND prod_lineas.codigo = '$linea' ";  // cambie AND asistencia.co_cont = '$contracto'
 	}
 
-	$where .= " INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo";
+	$where .= " INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo AND ficha.cod_ficha_status = 'A'";
 
 	if($trabajador != NULL){
 		$where  .= " AND ficha.cod_ficha = '$trabajador' ";

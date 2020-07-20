@@ -102,7 +102,7 @@ if($linea != "TODOS"){
 	$where .= " AND prod_lineas.codigo = '$linea' ";  // cambie AND asistencia.co_cont = '$contracto'
 }
 
-$where .= " INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo";
+$where .= " INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo AND ficha.cod_ficha_status = 'A'";
 
 if($trabajador != NULL){
 	$where  .= " AND ficha.cod_ficha = '$trabajador' ";
@@ -259,6 +259,7 @@ vencido = 1
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
+
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
 		header("Content-type: application/vnd.ms-excel");

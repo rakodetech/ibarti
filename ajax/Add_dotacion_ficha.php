@@ -22,6 +22,7 @@ AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha) ,'SIN DOTACION') ult_dot
 			clientes_ub_uniforme
 		WHERE prod_sub_lineas.codigo = clientes_ub_uniforme.cod_sub_linea
 		AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+		AND ficha.cod_cargo = clientes_ub_uniforme.cod_cargo
 	) aplica
 FROM ficha_dotacion LEFT JOIN
 productos ON 

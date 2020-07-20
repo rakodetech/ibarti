@@ -431,7 +431,7 @@ $proced      = "p_prod_dotacion";
 							<td colspan="2">
 								<input  id="stdName" type="text" size="36" value="<?php echo $trabajador;?>"/>
 								<span id="input03"><input type="hidden" name="trabajador" id="stdID" value="<?php echo $ficha;?>"/>
-									<input type="hidden" name="cliente" id="cliente_ficha">"
+									<input type="hidden" name="cliente" id="cliente_ficha">
 									<input type="hidden" name="ubicacion" id="ubicacion_ficha"><br />
 									<span class="textfieldRequiredMsg">Debe De Seleccionar Un Campo De la Lista.</span>
 									<span class="textfieldInvalidFormatMsg">El Formato es Invalido</span> </span></td>
