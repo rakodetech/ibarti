@@ -17,174 +17,187 @@ $fecha_desde  = $_POST['fecha_desde'];
 $trabajador   = $_POST['trabajador'];
 $fecha_D   = conversion($_POST['fecha_desde']);
 	
-	$where = " INNER JOIN prod_sub_lineas ON clientes_ub_uniforme.cod_sub_linea = prod_sub_lineas.codigo";
+$where = " INNER JOIN prod_sub_lineas ON clientes_ub_uniforme.cod_sub_linea = prod_sub_lineas.codigo";
 
-	if($sub_linea != "TODOS"){
-		$where  .= " AND prod_sub_lineas.codigo = '$sub_linea' ";
-	}
+if($sub_linea != "TODOS"){
+	$where  .= " AND prod_sub_lineas.codigo = '$sub_linea' ";
+}
 
-	$where .= " INNER JOIN prod_lineas ON prod_lineas.codigo = prod_sub_lineas.cod_linea";
+$where .= " INNER JOIN prod_lineas ON prod_lineas.codigo = prod_sub_lineas.cod_linea";
 
-	if($linea != "TODOS"){
-		$where .= " AND prod_lineas.codigo = '$linea' ";  // cambie AND asistencia.co_cont = '$contracto'
-	}
+if($linea != "TODOS"){
+	$where .= " AND prod_lineas.codigo = '$linea' ";  // cambie AND asistencia.co_cont = '$contracto'
+}
 
-	$where .= " INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo AND ficha.cod_ficha_status = 'A'";
+$where .= " INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo AND ficha.cod_ficha_status = 'A'";
 
-	if($trabajador != NULL){
-		$where  .= " AND ficha.cod_ficha = '$trabajador' ";
-	}
+if($trabajador != NULL){
+	$where  .= " AND ficha.cod_ficha = '$trabajador' ";
+}
 
-	if($rol != "TODOS"){
-		$where .= " AND ficha.cod_rol = '$rol' ";
-	}
+if($rol != "TODOS"){
+	$where .= " AND ficha.cod_rol = '$rol' ";
+}
 
-	$where .= " INNER JOIN cargos ON clientes_ub_uniforme.cod_cargo = cargos.codigo AND ficha.cod_cargo = cargos.codigo
-	INNER JOIN clientes_ubicacion ON clientes_ub_uniforme.cod_cl_ubicacion = clientes_ubicacion.codigo
-	AND ficha.cod_ubicacion = clientes_ubicacion.codigo";
+$where .= " INNER JOIN cargos ON clientes_ub_uniforme.cod_cargo = cargos.codigo AND ficha.cod_cargo = cargos.codigo
+INNER JOIN clientes_ubicacion ON clientes_ub_uniforme.cod_cl_ubicacion = clientes_ubicacion.codigo
+AND ficha.cod_ubicacion = clientes_ubicacion.codigo";
 
-	if($ubicacion != "TODOS"){
-		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
-	}
+if($ubicacion != "TODOS"){
+	$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
+}
 
-	if($estado != "TODOS"){
-		$where .= " AND clientes_ubicacion.cod_estado = '$estado' ";
-	}
+if($estado != "TODOS"){
+	$where .= " AND clientes_ubicacion.cod_estado = '$estado' ";
+}
 
-	$where .= " INNER JOIN estados ON clientes_ubicacion.cod_estado = estados.codigo ";
-	
-	if($estado != "TODOS"){
-		$where .= " AND estados.codigo = '$estado' ";
-	}
+$where .= " INNER JOIN estados ON clientes_ubicacion.cod_estado = estados.codigo ";
 
-	$where .= " LEFT JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente";
+if($estado != "TODOS"){
+	$where .= " AND estados.codigo = '$estado' ";
+}
 
-	if($cliente != "TODOS"){
-		$where  .= " AND clientes.codigo = '$cliente' ";
-	}
+$where .= " LEFT JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente";
 
-	$where .= " LEFT JOIN v_prod_dot_max2 ON v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea
-	AND v_prod_dot_max2.cod_ficha_status = 'A' AND ficha.cod_ficha = v_prod_dot_max2.cod_ficha
-	";
+if($cliente != "TODOS"){
+	$where  .= " AND clientes.codigo = '$cliente' ";
+}
 
-	if($rol != "TODOS"){
-		$where .= " AND v_prod_dot_max2.cod_rol = '$rol' ";
-	}
+$where .= " LEFT JOIN v_prod_dot_max2 ON v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea
+AND v_prod_dot_max2.cod_ficha_status = 'A' AND ficha.cod_ficha = v_prod_dot_max2.cod_ficha
+";
 
-	if($estado != "TODOS"){
-		$where .= " AND v_prod_dot_max2.cod_estado = '$estado' ";
-	}
+if($rol != "TODOS"){
+	$where .= " AND v_prod_dot_max2.cod_rol = '$rol' ";
+}
 
-	if($contrato != "TODOS"){
-		  $where .= " AND v_prod_dot_max2.cod_contracto = '$contrato' ";
-	}
+if($estado != "TODOS"){
+	$where .= " AND v_prod_dot_max2.cod_estado = '$estado' ";
+}
 
-	if($linea != "TODOS"){
-		$where .= " AND v_prod_dot_max2.cod_linea = '$linea' ";  // cambie AND asistencia.co_cont = '$contracto'
-	}
+if($contrato != "TODOS"){
+	  $where .= " AND v_prod_dot_max2.cod_contracto = '$contrato' ";
+}
 
-	if($sub_linea != "TODOS"){
-		$where  .= " AND v_prod_dot_max2.cod_sub_linea = '$sub_linea' ";
-	}
-	
-	
-	if($cliente != "TODOS"){
-		$where  .= " AND v_prod_dot_max2.cod_cliente = '$cliente' ";
-	}
+if($linea != "TODOS"){
+	$where .= " AND v_prod_dot_max2.cod_linea = '$linea' ";  // cambie AND asistencia.co_cont = '$contracto'
+}
 
-	
-	if($ubicacion != "TODOS"){
-		$where  .= " AND v_prod_dot_max2.cod_ubicacion = '$ubicacion' ";
-	}
+if($sub_linea != "TODOS"){
+	$where  .= " AND v_prod_dot_max2.cod_sub_linea = '$sub_linea' ";
+}
 
-	if($trabajador != NULL){
-		$where  .= " AND v_prod_dot_max2.cod_ficha = '$trabajador' ";
-	}
 
-	$where .= "	LEFT JOIN roles ON v_prod_dot_max2.cod_rol = roles.codigo";
+if($cliente != "TODOS"){
+	$where  .= " AND v_prod_dot_max2.cod_cliente = '$cliente' ";
+}
 
-	if($rol != "TODOS"){
-		$where .= " AND roles.codigo = '$rol' ";
-	}
 
-	$where .= "	LEFT JOIN contractos ON v_prod_dot_max2.cod_contracto = contractos.codigo";
+if($ubicacion != "TODOS"){
+	$where  .= " AND v_prod_dot_max2.cod_ubicacion = '$ubicacion' ";
+}
 
-	if($contrato != "TODOS"){
-		$where .= " AND contractos.codigo= '$contrato' ";
-	}
-	  
-  	$where .= " LEFT JOIN productos ON v_prod_dot_max2.cod_producto = productos.item
-	AND clientes_ub_uniforme.cod_sub_linea = productos.cod_sub_linea, ";
+if($trabajador != NULL){
+	$where  .= " AND v_prod_dot_max2.cod_ficha = '$trabajador' ";
+}
 
- $sql = "SELECT
- IFNULL(
-	 v_prod_dot_max2.fecha_max,
-	 'SIN DOTAR'
- ) AS fecha,
- estados.descripcion estado,
- clientes.codigo cod_cliente,
- clientes.nombre cliente,
- clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
- clientes_ubicacion.descripcion ubicacion,
- contractos.descripcion AS contrato,
- IFNULL(
-	 v_prod_dot_max2.cod_ficha,
-	 ficha.cod_ficha
- ) cod_ficha,
- IFNULL(
-	 v_prod_dot_max2.cedula,
-	 ficha.cedula
- ) cedula,
- v_prod_dot_max2.ap_nombre,
+$where .= "	LEFT JOIN roles ON v_prod_dot_max2.cod_rol = roles.codigo";
 
- prod_lineas.codigo cod_linea,
- prod_lineas.descripcion AS linea,
- clientes_ub_uniforme.cod_sub_linea,
- prod_sub_lineas.descripcion AS sub_linea,
- v_prod_dot_max2.cod_producto,
- IFNULL(
-	 productos.descripcion,
-	 'SIN DOTAR'
- ) AS producto,
- IFNULL(
+if($rol != "TODOS"){
+	$where .= " AND roles.codigo = '$rol' ";
+}
+
+$where .= "	LEFT JOIN contractos ON v_prod_dot_max2.cod_contracto = contractos.codigo";
+
+if($contrato != "TODOS"){
+	$where .= " AND contractos.codigo= '$contrato' ";
+}
+  
+  $where .= " LEFT JOIN productos ON v_prod_dot_max2.cod_producto = productos.item
+AND clientes_ub_uniforme.cod_sub_linea = productos.cod_sub_linea, ";
+
+$sql = "SELECT
+IFNULL(
+ v_prod_dot_max2.fecha_max,
+ 'SIN DOTAR'
+) AS fecha,
+estados.descripcion estado,
+clientes.codigo cod_cliente,
+clientes.nombre cliente,
+clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
+clientes_ubicacion.descripcion ubicacion,
+contractos.descripcion AS contrato,
+IFNULL(
+ v_prod_dot_max2.cod_ficha,
+ ficha.cod_ficha
+) cod_ficha,
+IFNULL(
+ v_prod_dot_max2.cedula,
+ ficha.cedula
+) cedula,
+IFNULL(
+	v_prod_dot_max2.ap_nombre,
+ CONCAT(ficha.apellidos, ' ', ficha.nombres)
+) ap_nombre,
+prod_lineas.codigo cod_linea,
+prod_lineas.descripcion AS linea,
+clientes_ub_uniforme.cod_sub_linea,
+prod_sub_lineas.descripcion AS sub_linea,
+v_prod_dot_max2.cod_producto,
+IFNULL(
+ productos.descripcion,
+ 'SIN DOTAR'
+) AS producto,
+IFNULL(
+ SUM(v_prod_dot_max2.cantidad),
+ 0
+) cantidad,
+clientes_ub_uniforme.cantidad alcance,
+(
+ clientes_ub_uniforme.cantidad - IFNULL(
 	 SUM(v_prod_dot_max2.cantidad),
 	 0
- ) cantidad,
- clientes_ub_uniforme.cantidad alcance,
- (
-	 clientes_ub_uniforme.cantidad - IFNULL(
-		 SUM(v_prod_dot_max2.cantidad),
-		 0
-	 )
- ) diff,
- DATE_ADD(
-	 DATE_FORMAT(
-		 IFNULL(
-			 v_prod_dot_max2.fecha_max,
-			 '0001-01-01'
-		 ),
-		 '%Y-%m-%d'
+ )
+) diff,
+(
+	IFNULL(
+ SUM(v_prod_dot_max2.cantidad),
+ 0
+)+ (
+ clientes_ub_uniforme.cantidad - IFNULL(
+	 SUM(v_prod_dot_max2.cantidad),
+	 0
+ )
+)
+) cant_a_dotar,
+DATE_ADD(
+ DATE_FORMAT(
+	 IFNULL(
+		 v_prod_dot_max2.fecha_max,
+		 '0001-01-01'
 	 ),
-	 INTERVAL control.dias_proyeccion DAY
- ) < DATE_ADD(
-	 '$fecha_D',
-	 INTERVAL $d_proyeccion DAY
- ) vencido
+	 '%Y-%m-%d'
+ ),
+ INTERVAL control.dias_proyeccion DAY
+) < DATE_ADD(
+ '$fecha_D',
+ INTERVAL $d_proyeccion DAY
+) vencido
 FROM
- clientes_ub_uniforme
+clientes_ub_uniforme
 ".$where."
 control
 GROUP BY
- cod_cliente,
- cod_ubicacion,
- cod_ficha,
- cod_linea,
- cod_sub_linea,
- cod_producto
+cod_cliente,
+cod_ubicacion,
+cod_ficha,
+cod_linea,
+cod_sub_linea,
+cod_producto
 HAVING
- vencido = 1
+vencido = 1
 ORDER BY
- fecha ASC, ap_nombre ASC, producto ASC
+fecha ASC, ap_nombre ASC, producto ASC
 ";
 ?>
 <table width="100%" border="0" align="center">
@@ -198,6 +211,7 @@ ORDER BY
             <th width="5%" class="etiqueta">Cant.</th>
 			<th width="5%" class="etiqueta">Alc.</th>
 			<th width="5%" class="etiqueta">Dif.</th>
+			<th width="5%" class="etiqueta">Cant. a dotar</th>
 	</tr>
     <?php
 	$valor = 0;
@@ -221,6 +235,7 @@ ORDER BY
 				  <td class="texto">'.$datos["cantidad"].'</td>
 				  <td class="texto">'.$datos["alcance"].'</td>
 				  <td class="texto">'.$datos["diff"].'</td>
+				  <td class="texto">'.$datos["cant_a_dotar"].'</td>
            </tr>';
         };?>
     </table>

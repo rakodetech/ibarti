@@ -208,8 +208,10 @@ IFNULL(
  v_prod_dot_max2.cedula,
  ficha.cedula
 ) cedula,
-v_prod_dot_max2.ap_nombre,
-
+IFNULL(
+	v_prod_dot_max2.ap_nombre,
+ CONCAT(ficha.apellidos, ' ', ficha.nombres)
+) ap_nombre,
 prod_lineas.codigo cod_linea,
 prod_lineas.descripcion AS linea,
 clientes_ub_uniforme.cod_sub_linea,
@@ -230,6 +232,17 @@ clientes_ub_uniforme.cantidad alcance,
 	 0
  )
 ) diff,
+(
+	IFNULL(
+ SUM(v_prod_dot_max2.cantidad),
+ 0
+)+ (
+ clientes_ub_uniforme.cantidad - IFNULL(
+	 SUM(v_prod_dot_max2.cantidad),
+	 0
+ )
+)
+) cant_a_dotar,
 DATE_ADD(
  DATE_FORMAT(
 	 IFNULL(
@@ -271,13 +284,13 @@ fecha ASC, ap_nombre ASC, producto ASC
 		echo "<tr><th> Fecha </th><th> ".$leng['estado']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th>
 		<th>".$leng['contrato']."</th> <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th>
 		<th> Linea </th><th> Sub Linea </th><th> Cod. Producto</th> <th> Producto </th>
-		<th> Cantidad </th><th> Alcance </th><th> Diferencia </th></tr>";
+		<th> Cantidad </th><th> Alcance </th><th> Diferencia </th><th> Cant. A Dotar </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
 			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[3]."</td><td>".$row01[5]."</td>
 			<td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td>
 			<td>".$row01[11]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td>
-			<td>".$row01[16]."</td><td>".$row01[17]."</td><td>".$row01[18]."</td></tr>";
+			<td>".$row01[16]."</td><td>".$row01[17]."</td><td>".$row01[18]."</td><td>".$row01[19]."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -298,14 +311,15 @@ fecha ASC, ap_nombre ASC, producto ASC
 		<table>
 		<tbody>
 		<tr style='background-color: #4CAF50;'>
-		<th width='20%'>Fecha</th>
-		<th width='15%'>".$leng['cliente']."</th>
+		<th width='12%'>Fecha</th>
+		<th width='20%'>".$leng['cliente']."</th>
 		<th width='10%'>".$leng['ficha']."</th>
-		<th width='30%'>".$leng['trabajador']."</th>
-		<th width='15%'>Producto</th>
-		<th width='10%''>Cant.</th>
-		<th width='10%'>Alc.</th>
-		<th width='10%'>Dif.</th>
+		<th width='20%'>".$leng['trabajador']."</th>
+		<th width='18%'>Producto</th>
+		<th width='5%''>Cant.</th>
+		<th width='5%'>Alc.</th>
+		<th width='5%'>Dif.</th>
+		<th width='5%'>Cant. a dotar</th>
 		</tr>";
 
 		$f=0;
@@ -315,14 +329,15 @@ fecha ASC, ap_nombre ASC, producto ASC
 			}else{
 				echo "<tr class='class= odd_row'>";
 			}
-			echo   " <td width='20%'>".$row[0]."</td>
-			<td width='15%'>".$row[3]."</td>
+			echo   " <td width='12%'>".$row[0]."</td>
+			<td width='20%'>".$row[3]."</td>
 			<td width='10%'>".$row[7]."</td>
 			<td width='20%'>".$row[9]."</td>
-			<td width='25%'>".$row[15]."</td>
-			<td width='10%'>".$row[16]."</td>
-			<td width='10%'>".$row[17]."</td>
-			<td width='10%'>".$row[18]."</td></tr>";
+			<td width='18%'>".$row[15]."</td>
+			<td width='5%'>".$row[16]."</td>
+			<td width='5%'>".$row[17]."</td>
+			<td width='5%'>".$row[18]."</td>
+			<td width='5%'>".$row[19]."</td></tr>";
 
 			$f++;
 		}
