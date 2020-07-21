@@ -211,7 +211,7 @@ fecha ASC, ap_nombre ASC, producto ASC
             <th width="5%" class="etiqueta">Cant.</th>
 			<th width="5%" class="etiqueta">Alc.</th>
 			<th width="5%" class="etiqueta">Dif.</th>
-			<th width="5%" class="etiqueta">Cant. a dotar</th>
+			<th width="5%" class="etiqueta">Dotar</th>
 	</tr>
     <?php
 	$valor = 0;
