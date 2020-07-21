@@ -124,6 +124,10 @@ if($estado != "TODOS"){
 	$where .= " AND clientes_ubicacion.cod_estado = '$estado' ";
 }
 
+if($cliente != "TODOS"){
+	$where  .= " AND clientes_ubicacion.cod_cliente = '$cliente' ";
+}
+
 $where .= " INNER JOIN estados ON clientes_ubicacion.cod_estado = estados.codigo ";
 
 if($estado != "TODOS"){
