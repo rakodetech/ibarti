@@ -154,10 +154,15 @@ class Planificacion
 	function get_actividades($proyecto)
 	{
 		$this->datos  = array();
-		$sql = "SELECT p.codigo, p.descripcion, p.minutos, p.principal
-		FROM  planif_actividad p
-		WHERE  p.`status` = 'T' AND p.cod_proyecto = $proyecto 
-		ORDER BY p.principal DESC, p.descripcion DESC";
+		$where = " WHERE pa.`status` = 'T' AND pa.cod_proyecto = pp.codigo";
+		if($proyecto != null){
+			$sql .= " AND pa.cod_proyecto = pp.codigo ";
+		}
+
+		$sql = "SELECT pp.codigo cod_proyecto, pp.descripcion proyecto_descripcion, pa.codigo, pa.descripcion, pa.minutos, pa.obligatoria
+		FROM  planif_actividad pa, planif_proyecto pp 
+		".$where."
+		ORDER BY pp.codigo ASC, pa.codigo ASC, pa.obligatoria DESC, pa.descripcion DESC";
 
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
@@ -196,10 +201,10 @@ class Planificacion
 	{
 		$this->datos   = array();
 		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
-			pcst.cod_ubicacion, cu.descripcion ubicacion, pcst.cod_proyecto, pp.descripcion proyecto,
+			pcst.cod_ubicacion, cu.descripcion ubicacion, pcstd.cod_proyecto, pp.descripcion proyecto,
 			pcstd.cod_actividad, pa.descripcion actividad,
 			pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
-			pa.principal, pcstd.realizado, pcst.completado
+			pa.obligatoria, pcstd.realizado, pcst.completado
 			FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 				clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
 			WHERE pcst.cod_ficha = f.cod_ficha
@@ -210,10 +215,56 @@ class Planificacion
 			AND c.planificable = 'T'
 			AND pcst.cod_cliente = cl.codigo
 			AND pcst.cod_ubicacion = cu.codigo
-			AND pcst.cod_proyecto = pp.codigo
+			AND pcstd.cod_proyecto = pp.codigo
 			AND pcstd.cod_planif_cl_trab = pcst.codigo
 			AND pcstd.cod_actividad = pa.codigo
-			ORDER BY codigo ASC, principal DESC";
+			ORDER BY codigo ASC, obligatoria DESC";
+		$query = $this->bd->consultar($sql);
+		while ($datos = $this->bd->obtener_fila($query)) {
+			$this->datos[] = $datos;
+		}
+		return $this->datos;
+	}
+
+	function get_planif_det_rp($fecha_desde, $fecha_hasta, $cliente, $ubicacion)
+	{
+		$this->datos   = array();
+
+		$where = "		WHERE pcst.cod_ficha = f.cod_ficha
+		AND f.cod_ficha_status= control.ficha_activo
+		AND f.cod_cargo = c.codigo
+		-- AND c.planificable = 'T'
+		AND pcst.cod_cliente = cl.codigo
+		AND pcst.cod_ubicacion = cu.codigo
+		AND pcst.cod_proyecto = pp.codigo
+		AND pcstd.cod_planif_cl_trab = pcst.codigo
+		AND pcstd.cod_actividad = pa.codigo";
+
+		if($fecha_desde != NULL){
+			$where .= " AND DATE_FORMAT(pcst.fecha_inicio, '%Y-%m-%d') >= '$fecha_desde'";
+		}
+		
+		if($fecha_hasta != NULL){
+			$where .= " AND DATE_FORMAT(pcst.fecha_fin, '%Y-%m-%d') <= '$fecha_hasta'";
+		}
+
+		if($cliente != NULL && $cliente != "TODOS"){
+			$where .= " AND pcst.cod_cliente = '$cliente'";
+		}
+
+		if($ubicacion != NULL && $ubicacion != "TODOS"){
+			$where .= " AND pcst.cod_ubicacion = '$ubicacion'";
+		}
+
+		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
+		pcst.cod_ubicacion, cu.descripcion ubicacion, pcstd.cod_proyecto, pp.descripcion proyecto,
+		pcstd.cod_actividad, pa.descripcion actividad,
+		pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
+		pa.obligatoria, pcstd.realizado, pcst.completado, DATE_FORMAT(pcst.fecha_inicio, '%Y-%m-%d') fecha_inicio_format
+		FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
+			clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
+		".$where."
+		ORDER BY codigo ASC, obligatoria DESC";
 
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
@@ -260,29 +311,41 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_planif_trab_det($apertura, $cliente, $ficha)
+	function get_planif_trab_det($apertura, $cliente, $ficha, $fechas)
 	{
 		$this->datos  = array();
-		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
-		pcst.cod_ubicacion, cu.descripcion ubicacion, pcst.cod_proyecto, pp.descripcion proyecto,
-		pcstd.cod_actividad, pa.descripcion actividad,
-		pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
-		pa.principal, pcstd.realizado, pcst.completado
-		FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
-			clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
-		WHERE pcst.cod_ficha = f.cod_ficha
+		$where = " WHERE pcst.cod_ficha = f.cod_ficha
 		AND f.cod_ficha_status= control.ficha_activo
-		AND pcst.cod_cliente = '$cliente'
-		AND pcst.cod_planif_cl = $apertura
 		AND pcst.cod_ficha = '$ficha'
 		AND f.cod_cargo = c.codigo
 		AND c.planificable = 'T'
 		AND pcst.cod_cliente = cl.codigo
 		AND pcst.cod_ubicacion = cu.codigo
-		AND pcst.cod_proyecto = pp.codigo
+		AND pcstd.cod_proyecto = pp.codigo
 		AND pcstd.cod_planif_cl_trab = pcst.codigo
-		AND pcstd.cod_actividad = pa.codigo
-		ORDER BY codigo ASC, principal DESC";;
+		AND pcstd.cod_actividad = pa.codigo";
+
+		if($cliente != null){
+			$where .= " AND pcst.cod_cliente = '$cliente'";
+		}
+
+		if($apertura != null){
+			$where .= " AND pcst.cod_planif_cl = $apertura";
+		}
+
+		if($fechas != null){
+			$where .= " AND pcst.fecha_inicio >= '".$fechas['fecha_inicio']."' AND pcst.fecha_fin <= '".$fechas['fecha_fin']."'";
+		}
+
+		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
+		pcst.cod_ubicacion, cu.descripcion ubicacion, pcstd.cod_proyecto, pp.descripcion proyecto,
+		pcstd.cod_actividad, pa.descripcion actividad,
+		pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
+		pa.obligatoria, pcstd.realizado, pcst.completado
+		FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
+			clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
+			".$where." 
+		ORDER BY codigo ASC, obligatoria DESC";
 
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
@@ -511,8 +574,11 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function validar_ingreso($apertura, $cliente, $ubic, $proyecto, $actividades, $fecha, $hora_inicio, $hora_fin)
+	function validar_ingreso($apertura, $cliente, $ubic, $actividades, $fecha, $hora_inicio, $hora_fin, $ficha)
 	{
+		$result = array();
+		$result["error"] = false;
+		$result["data"] = [];
 		$horas = array();
 		$this->datos  = array();
 		$sql = "SELECT MIN(h.hora_entrada) hora_inicio, MAX(h.hora_salida) hora_fin
@@ -525,45 +591,70 @@ class Planificacion
 		AND a.cod_ubicacion = cu.codigo AND a.cod_cliente = '$cliente' AND a.cod_ubicacion = '$ubic'
 		AND a.cod_planif_cl = $apertura AND a.`status`='T'  AND a.fecha = '$fecha'
 		HAVING (hora_inicio <= '$hora_inicio' AND hora_fin >= '$hora_fin') OR (hora_inicio = hora_fin)";
+		$result["sql"] = $sql;
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query, 0)) {
 			$this->datos[] = $datos;
 		}
 		if(count($this->datos) > 0){
-
 			$sql2 = " SELECT p.cod_ubicacion
 				FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd
 				WHERE p.codigo = pd.cod_planif_cl_trab 
-				AND p.cod_cliente = '$cliente'
-				AND p.cod_ubicacion = '$ubic'
-				AND p.cod_planif_cl = $apertura
-				AND p.cod_proyecto = $proyecto
-				AND pd.cod_proyecto = p.cod_proyecto 
+				AND (p.cod_ficha = '$ficha'
+				OR p.cod_planif_cl = $apertura)
 				";
 			$i = 0;
 			foreach ($actividades as $key => $value) {
 				if($i == 0){
-					$sql2 .= " AND (pd.cod_actividad = $value ";
+					$sql2 .= " AND ((pd.cod_proyecto = ".$value['cod_proyecto']." AND  pd.cod_actividad = ".$value['codigo'].")";
 				}else{
-					$sql2 .= " OR pd.cod_actividad = $value ";
+					$sql2 .= " OR (pd.cod_proyecto = ".$value['cod_proyecto']." AND pd.cod_actividad = ".$value['codigo'].")";
 				}
 				$i++;
 			};
-			$sql2 .= " ) AND DATE_FORMAT(p.fecha_inicio,'%Y-%m-%d') = '$fecha'
-			HAVING MIN(DATE_FORMAT(p.fecha_inicio, '%H:%m')) >= '$hora_inicio'
-			AND MAX(DATE_FORMAT(p.fecha_fin, '%H:%m')) <= '$hora_fin'";
+			$sql2 .= ") AND DATE_FORMAT(p.fecha_inicio,'%Y-%m-%d') = '$fecha'
+			AND (
+				(
+					DATE_FORMAT(p.fecha_inicio, '%H:%m') >= '$hora_inicio' 
+					AND DATE_FORMAT(p.fecha_inicio, '%H:%m') <= '$hora_fin'
+					AND DATE_FORMAT(p.fecha_fin, '%H:%m') > '$hora_inicio'
+					AND (DATE_FORMAT(p.fecha_fin, '%H:%m') >= '$hora_fin' OR DATE_FORMAT(p.fecha_fin, '%H:%m') < '$hora_fin')
+				)
+				OR (
+					DATE_FORMAT(p.fecha_inicio, '%H:%m') <= '$hora_inicio' 
+					AND DATE_FORMAT(p.fecha_inicio, '%H:%m') <= '$hora_fin'
+					AND DATE_FORMAT(p.fecha_fin, '%H:%m') > '$hora_inicio'
+					AND DATE_FORMAT(p.fecha_fin, '%H:%m') <= '$hora_fin'
+				)
+			)";
+			$result["sql2"] = $sql2;
 	 		$query2 = $this->bd->consultar($sql2);
 			while ($datos = $this->bd->obtener_fila($query2, 0)) {
 				$horas[] = $datos;
 			}
 				if(count($horas) > 0){
-					return [];
+					$result["error"] = true;
+					$result["msg"] = "Ya existe planificacion en este rango de horas para esta ficha o ubicación.";
+					$result["data"] = $horas;
+					return $result;
 				} else {
-					return $this->datos;
+					/* 					
+					$sql3 = "SELECT SUBSTR(ADDTIME(MAX(p.fecha_fin), '00:10:00') FROM 12) hora_inicio
+					FROM planif_clientes_superv_trab p
+					WHERE  p.cod_ficha = '$ficha'
+				   	AND DATE_FORMAT(p.fecha_inicio,'%Y-%m-%d') = '$fecha'";
+					$result["sql3"] = $sql3;
+					$query3 = $this->bd->consultar($sql3);
+					$hora_inicio = $this->bd->obtener_fila($query3, 0);
+					$result["hora_inicio"] = $hora_inicio; 
+					*/
+					$result["data"] = $this->datos;
+					return $result;
 				}
 
 		}else{
-			return $this->datos;
+			$result["msg"] = "Rango de horas no válido";
+			return $result;
 		}
 	}
 }

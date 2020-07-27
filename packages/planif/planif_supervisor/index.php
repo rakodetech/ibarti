@@ -99,20 +99,20 @@ if(isset($_SESSION['usuario_cod'])){
 		  </select></td>
 		  </tr>
 		  <tr>
-		  <td class="etiqueta"><span id="proyecto_texto">Proyecto:</span> </td>
-      <td ><select id="planf_proyectoRP" required style="width:200px" onchange="cargar_actividades(this.value, null)">
-            <option value="">Seleccione</option>
-		  </select></td>
-		  </tr>
-		  <tr id="planf_actividadRP">
-		</tr>
-		<tr>
 		<td class="etiqueta"><span id="hora_texto">Hora de Inicio:</span> </td>
       <td  ><input type="time" name="hora" id="planf_horaRP" step="30" onchange="updateFecFin()"></td></tr>
 	  <tr>
 	  <tr>
 		<td class="etiqueta"><span id="hora_texto">Hora de Fin:</span> </td>
       <td ><input type="time" name="hora_fin" id="planf_hora_finRP" step="30" readonly="readonly"></td></tr>
+		  <tr>
+		  <td class="etiqueta"><span id="proyecto_texto">Proyectos:</span> </td>
+      	<td id="planf_proyectoRP"></td>
+		  </tr>
+		  <tr >
+		  <td class="etiqueta"><span id="actividad_texto">Adtividades:</span> </td>
+		  <td id="planf_actividadRP"></td>
+		</tr>
 	</table>
 	<div align="center" id="guardarActividad"><span class="art-button-wrapper">
       <span class="art-button-l"> </span>

@@ -4,9 +4,10 @@ require "../../../../".Leng;
 
 $result = array();
 
+$plan  = new Planificacion;
+if(isset($_POST['codigo'])){
 $apertura  = $_POST['codigo'];
 $cliente  = $_POST['cliente'];
-$plan  = new Planificacion;
 $trab  = $plan->get_planif_det($apertura, $cliente);
 $mod  = $plan->get_ultima_mod($apertura, $cliente);
 $fechas = $plan->get_fechas_apertura($apertura, $cliente);
@@ -33,6 +34,13 @@ $result['html'] .= '</div></div></div><div id="calendar-wrap"> <div id="calendar
 
 $result["data"] = $trab;
 $result["fechas"] = $fechas;
+}else{
+	$ubicacion  = $_POST['ubicacion'];
+	$cliente  = $_POST['cliente'];
+	$fecha_desde  = $_POST['fecha_desde'];
+	$fecha_hasta  = $_POST['fecha_hasta'];
+	$result  = $plan->get_planif_det_rp($fecha_desde, $fecha_hasta, $cliente, $ubicacion);
+}
 print_r(json_encode($result));
 return json_encode($result);
 ?>

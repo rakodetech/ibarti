@@ -14,7 +14,6 @@ var typeCalendar = "timeGridWeek";
 var isafter = true;
 $(function () {
 	Cons_planificacion_inicio();
-	cargar_proyectos();
 });
 
 function Habilitar_supervision() {
@@ -164,11 +163,11 @@ function mod_apertura_planif() {
 	});
 }
 
-function validarIngreso(apertura, cliente, ubic, proyecto, actividades, fecha, hora_inicio, hora_fin, callback) {
+function validarIngreso(apertura, cliente, ubic, actividades, fecha, hora_inicio, hora_fin, cod_ficha, callback) {
 	var error = 0;
 	var errorMessage = ' ';
 	if (error == 0) {
-		var parametros = { apertura, cliente, ubic, proyecto, actividades, fecha, hora_inicio, hora_fin };
+		var parametros = { apertura, cliente, ubic, actividades, fecha, hora_inicio, hora_fin, cod_ficha };
 		$.ajax({
 			data: parametros,
 			url: 'packages/planif/planif_supervisor/views/validarIngreso.php',
@@ -266,41 +265,25 @@ function verificar_cl(cl, modal) {
 	}
 }
 
-function cargar_proyectos() {
-	//var parametros = { "cliente": cliente };
+function cargar_actividades(proyecto, callback) {
+	var parametros = { "proyecto": proyecto };
 	$.ajax({
-		url: 'packages/planif/planif_supervisor/views/Add_proyectos.php',
-		type: 'get',
+		data: parametros,
+		url: 'packages/planif/planif_supervisor/views/Add_actividades.php',
+		type: 'post',
 		success: function (response) {
-			$("#planf_proyectoRP").html(response);
+			//$("#planf_actividadRP").html(response);
+			var resp = JSON.parse(response);
+			updateFecFin(eventActual);
+			if (typeof callback == "function") {
+				callback(resp);
+			}
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
 			alert(thrownError);
 		}
 	});
-}
-
-function cargar_actividades(proyecto, callback) {
-	if (proyecto) {
-		var parametros = { "proyecto": proyecto };
-		$.ajax({
-			data: parametros,
-			url: 'packages/planif/planif_supervisor/views/Add_actividades.php',
-			type: 'post',
-			success: function (response) {
-				$("#planf_actividadRP").html(response);
-				updateFecFin(eventActual);
-				if (typeof callback == "function") {
-					callback();
-				}
-			},
-			error: function (xhr, ajaxOptions, thrownError) {
-				alert(xhr.status);
-				alert(thrownError);
-			}
-		});
-	}
 }
 
 function cargar_planif_superv(ap) {
@@ -426,6 +409,7 @@ function cargar_planif_superv_det(apertura) {
 			});
 
 			var calendarEl = document.getElementById('calendar');
+			var codigo_proyecto = '';
 			calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: typeCalendar,
 				headerToolbar: { center: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth' },
@@ -433,14 +417,23 @@ function cargar_planif_superv_det(apertura) {
 					listMonth: {
 						editable: false,
 						eventContent: function (arg) {
-							var result = "<label>En proceso<?label>";
+							var result = "<label>En proceso</label>";
 							if (arg.event.id) {
 								result = "<div>(" + arg.event.extendedProps.codigo + ") " + moment(arg.event.start).format("HH: mm") + " - " + moment(arg.event.end).format("HH: mm") + '<br>';
-								result += arg.event.title + "<br>";
+								result += "<label>" + arg.event.title + "</label><br>";
 								result += arg.event.extendedProps.ubicacion + "<br>";
-								result += arg.event.extendedProps.proyecto + " (" + arg.event.extendedProps.abrev_proyecto + ")<br>";
+								var codigo_proyecto = arg.event.extendedProps.actividades[0].cod_proyecto;
+								var index = 1;
 								arg.event.extendedProps.actividades.forEach((act, i) => {
-									result += "<span>" + (i + 1) + ": " + act.actividad + "</span><br>";
+									if ((i != 0) && (act.cod_proyecto != codigo_proyecto)) {
+										index = 1;
+										codigo_proyecto = act.cod_proyecto;
+										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
+									} else if (i == 0) {
+										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
+									}
+									result += "<span>" + index + ": " + act.actividad + "</span><br>";
+									index++;
 								});
 							}
 							result += "</div>";
@@ -453,18 +446,23 @@ function cargar_planif_superv_det(apertura) {
 						editable: false,
 						slotDuration: '00:05:00',
 						eventContent: function (arg) {
-							var result = "<label>En proceso<?label>";
+							var result = "<label>En proceso</label>";
 							if (arg.event.id) {
 								result = "<div>(" + arg.event.extendedProps.codigo + ") " + moment(arg.event.start).format("HH: mm") + " - " + moment(arg.event.end).format("HH: mm") + ' - ';
-								result += arg.event.title + " ";
-								result += arg.event.extendedProps.ubicacion + " - ";
-								result += arg.event.extendedProps.proyecto + " (" + arg.event.extendedProps.abrev_proyecto + ") <br> ";
+								result += "<label>" + arg.event.title + "</label> <br>";
+								result += arg.event.extendedProps.ubicacion + " <br> ";
+								var codigo_proyecto = arg.event.extendedProps.actividades[0].cod_proyecto;
+								var index = 1;
 								arg.event.extendedProps.actividades.forEach((act, i) => {
-									if (i == 0) {
-										result += "<span> " + (i + 1) + ": " + act.actividad + "</span>";
-									} else {
-										result += ", <span> " + (i + 1) + ": " + act.actividad + "</span> ";
+									if ((i != 0) && (act.cod_proyecto != codigo_proyecto)) {
+										index = 1;
+										codigo_proyecto = act.cod_proyecto;
+										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
+									} else if (i == 0) {
+										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
 									}
+									result += "<span>" + index + ": " + act.actividad + "</span><br>";
+									index++;
 								});
 							}
 							result += "</div>";
@@ -479,14 +477,23 @@ function cargar_planif_superv_det(apertura) {
 						editable: false,
 						selectable: true,
 						eventContent: function (arg) {
-							var result = "<label>En proceso<?label>";
+							var result = "<label>En proceso</label>";
 							if (arg.event.id) {
 								result = "<div class='fc-event-main'>(" + arg.event.extendedProps.codigo + ") " + moment(arg.event.start).format("HH: mm") + " - " + moment(arg.event.end).format("HH: mm") + '<br>';
-								result += arg.event.title + "<br>";
+								result += "<label>" + arg.event.title + "</label><br>";
 								result += arg.event.extendedProps.ubicacion + "<br>";
-								result += arg.event.extendedProps.proyecto + " (" + arg.event.extendedProps.abrev_proyecto + ")<br>";
+								var codigo_proyecto = arg.event.extendedProps.actividades[0].cod_proyecto;
+								var index = 1;
 								arg.event.extendedProps.actividades.forEach((act, i) => {
-									result += "<span>" + (i + 1) + ": " + act.actividad + "</span><br>";
+									if ((i != 0) && (act.cod_proyecto != codigo_proyecto)) {
+										index = 1;
+										codigo_proyecto = act.cod_proyecto;
+										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
+									} else if (i == 0) {
+										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
+									}
+									result += "<span>" + index + ": " + act.actividad + "</span><br>";
+									index++;
 								});
 							}
 							result += "</div>";
@@ -500,10 +507,10 @@ function cargar_planif_superv_det(apertura) {
 						editable: false,
 						selectable: true,
 						eventContent: function (arg) {
-							var result = "<label>En proceso<?label>";
+							var result = "<label>En proceso</label>";
 							if (arg.event.id) {
-								result = "<div>(" + arg.event.extendedProps.codigo + ") " + moment(arg.event.start).format("HH: mm") + " - " + moment(arg.event.end).format("HH: mm") + " ";
-								result += arg.event.title + " (" + arg.event.extendedProps.abrev_proyecto + ")";
+								result = "<div>(" + arg.event.extendedProps.codigo + ") " + arg.event.extendedProps.ubicacion + " ";
+								result += "<label>" + arg.event.title + "</label>"
 							}
 							result += "</div>";
 							return {
@@ -637,6 +644,7 @@ function cargar_planif_superv_det(apertura) {
 			res_eventos = d3.nest()
 				.key((d) => d.codigo)
 				.entries(resp["data"]);
+			console.log(res_eventos, resp["data"]);
 			res_eventos.forEach(d => {
 				calendar.addEvent({
 					id: d.key,
@@ -695,10 +703,19 @@ function cargar_planif_superv_trab_det(ficha) {
 							eventContent: function (arg) {
 								var result = "<div>(" + arg.event.extendedProps.codigo + ") " + moment(arg.event.start).format("HH: mm") + " - " + moment(arg.event.end).format("HH: mm") + '<br>';
 								result += arg.event.title + "<br>";
-								result += arg.event.extendedProps.ubicacion + "<br>";
-								result += arg.event.extendedProps.proyecto + " (" + arg.event.extendedProps.abrev_proyecto + ")<br>";
+								result += arg.event.extendedProps.cliente + " - " + arg.event.extendedProps.ubicacion + "<br>";
+								var codigo_proyecto = arg.event.extendedProps.actividades[0].cod_proyecto;
+								var index = 1;
 								arg.event.extendedProps.actividades.forEach((act, i) => {
-									result += "<span>" + (i + 1) + ": " + act.actividad + "</span><br>";
+									if ((i != 0) && (act.cod_proyecto != codigo_proyecto)) {
+										index = 1;
+										codigo_proyecto = act.cod_proyecto;
+										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
+									} else if (i == 0) {
+										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
+									}
+									result += "<span>" + index + ": " + act.actividad + "</span><br>";
+									index++;
 								});
 								result += "</div>";
 								return {
@@ -891,22 +908,23 @@ function B_planif_trab() {
 function saveActividad() {
 	props = eventActual.extendedProps;
 	var ubic = $("#planf_ubicacionRP").val();
-	var proyecto = $("#planf_proyectoRP").val();
+
+	var error = 0;
+	var errorMessage = "";
 	if (!ubic) {
 		error++;
 		errorMessage += "La ubicación es obligatoria";
 	}
-	if (!proyecto) {
+
+	if (actividades.length == 0) {
 		error++;
-		errorMessage += "El proyecto es obligatorio";
+		errorMessage += "Debe agregar actividades al evento";
 	}
 	var hora_inicio = $("#planf_horaRP").val();
 	var hora_fin = $("#planf_hora_finRP").val();
 	var fechaQuery = moment(eventActual.start).format("YYYY-MM-DD");
 	var fecha_inicio = fechaQuery + " " + hora_inicio;
 	var fecha_fin = fechaQuery + " " + hora_fin;
-	var error = 0;
-	var errorMessage = ' ';
 
 	if (!fecha_inicio) {
 		error++;
@@ -914,12 +932,15 @@ function saveActividad() {
 	}
 	if (error == 0) {
 		if (metodo == "agregar") {
-			validarIngreso(apertura, cliente, ubic, proyecto, actividades, fechaQuery, hora_inicio, hora_fin, (valid) => {
-				if (valid.length > 0) {
+			console.log('ubic2', ubic);
+			validarIngreso(apertura, cliente, ubic, actividades, fechaQuery, hora_inicio, hora_fin, props.cod_ficha, (valid) => {
+				if (valid.error) {
+					toastr.error(valid.msg);
+				} else {
 					var parametros = {
 						"codigo": props.codigo, "fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin,
 						"cliente": cliente, "ubicacion": ubic, "ficha": props.cod_ficha, 'apertura': apertura,
-						"proyecto": proyecto, "actividades": actividades, "metodo": metodo, "usuario": usuario
+						"actividades": actividades, "metodo": metodo, "usuario": usuario
 					}
 					$.ajax({
 						data: parametros,
@@ -941,15 +962,13 @@ function saveActividad() {
 							alert(thrownError);
 						}
 					});
-				} else {
-					toastr.error('Rango de horas no válido');
 				}
 			});
 		} else {
 			var parametros = {
 				"codigo": props.codigo, "fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin,
 				"cliente": cliente, "ubicacion": ubic, "ficha": props.cod_ficha, 'apertura': apertura,
-				"proyecto": proyecto, "actividades": actividades, "metodo": metodo, "usuario": usuario
+				"actividades": actividades, "metodo": metodo, "usuario": usuario
 			};
 			$.ajax({
 				data: parametros,
@@ -995,8 +1014,45 @@ function cancelarActividad() {
 	$('#modalRP').hide();
 }
 
+function mostarOcultarActividades(proyecto, valor) {
+	console.log(proyecto.valor);
+	if (valor) {
+		$("#panel" + proyecto).show();
+	} else {
+		$("#panel" + proyecto).hide();
+	}
+}
+
+function parse_act_html(acts) {
+	data = d3.nest()
+		.key((d) => d.cod_proyecto)
+		.entries(acts);
+	var proyectos_html = "";
+	var actividades_html = "";
+	const event = (element) => element.obligatoria === 'T';
+
+	data.forEach(d => {
+		var checked = "";
+		if (d.values.some(event)) {
+			checked = 'checked disabled="disabled"';
+		}
+		actividades_html += '<div id="panel' + d.key + '">';
+		proyectos_html += '<input type="checkbox" id="proyecto' + d.key + '"' + checked + ' onclick="mostarOcultarActividades(' + d.key + ', this.checked)">' + d.values[0].proyecto_descripcion;
+		d.values.forEach(act => {
+			checked = act.obligatoria === 'T' ? 'checked disabled="disabled"' : "";
+			actividades_html += '(' + d.values[0].proyecto_descripcion + ') ' + act.descripcion + ' <input type="checkbox" name="actividades[]" value="' + act.codigo + '" ' + checked + ' id="actividad' + act.codigo + '" minutos="' + act.minutos + '" proyecto="' + act.cod_proyecto + '" onchange="updateFecFin(null)" style="width:auto"> ' + act.minutos + ' min.<br>';
+		});
+		actividades_html += '</div>';
+	});
+
+	$("#planf_proyectoRP").html(proyectos_html);
+	$("#planf_actividadRP").html(actividades_html);
+	updateFecFin(eventActual);
+}
 function modalActividad() {
-	cargar_proyectos();
+	cargar_actividades(null, (acts) => {
+		parse_act_html(acts);
+	});
 	$("#planf_ubicacionRP").attr("disabled", false);
 	$("#planf_proyectoRP").attr("disabled", false);
 	$("#planf_fechaRP").html(moment(eventActual.start).format('YYYY-MM-DD'));
@@ -1012,8 +1068,7 @@ function modalActividad() {
 function editarActividad(event) {
 	validarFecha(moment(event.start).format("YYYY-MM-DD"), cliente, apertura, (fechas) => {
 		if (fechas.length > 0) {
-			$("#planf_ubicacionRP").attr("disabled", true).html("");
-			$("#planf_ubicacionRP").append('<option value="">Seleccione</option>');
+			$("#planf_ubicacionRP").html("");
 			var hora_entrada = fechas[0].hora_entrada;
 			var hora_salida = fechas[0].hora_salida;
 			$("#planf_horaRP").prop("min", hora_entrada);
@@ -1031,12 +1086,12 @@ function editarActividad(event) {
 				}
 				$("#planf_ubicacionRP").append('<option value=' + f.cod_ubicacion + '>' + f.ubicacion + '</option>');
 			});
-			$("#planf_proyectoRP").attr("disabled", true).val(event.extendedProps.cod_proyecto);
 			$("#planf_fechaRP").html(moment(event.start).format('YYYY-MM-DD'));
 			$("#planf_ubicacionRP").val(event.extendedProps.cod_ubicacion);
 			$("#planf_horaRP").val(moment(event.start).format("HH:mm:00"));
 			$("#cedulaRP").html(event.extendedProps.cod_ficha + " - " + event.extendedProps.cedula);
-			cargar_actividades(event.extendedProps.cod_proyecto, () => {
+			cargar_actividades(null, (acts) => {
+				parse_act_html(acts);
 				$('#modalRP').show();
 				event.extendedProps.actividades.forEach(act => {
 					$("#actividad" + act.cod_actividad).prop("checked", true);
@@ -1057,7 +1112,7 @@ function updateFecFin(event) {
 	var hora_inicio = $("#planf_horaRP").val();
 	actividades = $('[name="actividades[]"]:checked').map(function () {
 		minutos += Number($("#actividad" + this.value).attr("minutos"));
-		return this.value;
+		return { 'codigo': this.value, 'cod_proyecto': $("#actividad" + this.value).attr("proyecto") };
 	}).get();
 	if (hora_inicio) {
 		var fec_start = moment(evt.start);
