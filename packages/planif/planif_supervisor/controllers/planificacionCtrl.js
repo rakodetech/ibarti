@@ -1036,8 +1036,12 @@ function parse_act_html(acts) {
 		if (d.values.some(event)) {
 			checked = 'checked disabled="disabled"';
 		}
-		actividades_html += '<div id="panel' + d.key + '">';
 		proyectos_html += '<input type="checkbox" id="proyecto' + d.key + '"' + checked + ' onclick="mostarOcultarActividades(' + d.key + ', this.checked)">' + d.values[0].proyecto_descripcion;
+		if (checked === "") {
+			actividades_html += '<div id="panel' + d.key + '" hidden="hidden">';
+		} else {
+			actividades_html += '<div id="panel' + d.key + '">';
+		}
 		d.values.forEach(act => {
 			checked = act.obligatoria === 'T' ? 'checked disabled="disabled"' : "";
 			actividades_html += '(' + d.values[0].proyecto_descripcion + ') ' + act.descripcion + ' <input type="checkbox" name="actividades[]" value="' + act.codigo + '" ' + checked + ' id="actividad' + act.codigo + '" minutos="' + act.minutos + '" proyecto="' + act.cod_proyecto + '" onchange="updateFecFin(null)" style="width:auto"> ' + act.minutos + ' min.<br>';
