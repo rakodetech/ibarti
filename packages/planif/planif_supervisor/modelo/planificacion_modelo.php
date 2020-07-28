@@ -229,34 +229,42 @@ class Planificacion
 	function get_planif_det_rp($fecha_desde, $fecha_hasta, $cliente, $ubicacion)
 	{
 		$this->datos   = array();
+		$this->datos["contrato"] = [];
+		$this->datos["servicio"] = [];
 
-		$where = "		WHERE pcst.cod_ficha = f.cod_ficha
+		$where = " WHERE pcst.cod_ficha = f.cod_ficha
 		AND f.cod_ficha_status= control.ficha_activo
 		AND f.cod_cargo = c.codigo
 		-- AND c.planificable = 'T'
 		AND pcst.cod_cliente = cl.codigo
 		AND pcst.cod_ubicacion = cu.codigo
-		AND pcst.cod_proyecto = pp.codigo
+		AND pcstd.cod_proyecto = pp.codigo
 		AND pcstd.cod_planif_cl_trab = pcst.codigo
 		AND pcstd.cod_actividad = pa.codigo";
+		
+		$whereC = " WHERE a.status = 'T'";
 
-		if($fecha_desde != NULL){
+		if($fecha_desde != NULL && $fecha_desde != '0000-00-00'){
 			$where .= " AND DATE_FORMAT(pcst.fecha_inicio, '%Y-%m-%d') >= '$fecha_desde'";
+			$whereC .= " AND DATE_FORMAT(a.fecha, '%Y-%m-%d') >= '$fecha_desde'";
 		}
 		
-		if($fecha_hasta != NULL){
+		if($fecha_hasta != NULL && $fecha_hasta != '0000-00-00'){
 			$where .= " AND DATE_FORMAT(pcst.fecha_fin, '%Y-%m-%d') <= '$fecha_hasta'";
+			$whereC .= " AND DATE_FORMAT(a.fecha, '%Y-%m-%d') <= '$fecha_hasta'";
 		}
 
 		if($cliente != NULL && $cliente != "TODOS"){
 			$where .= " AND pcst.cod_cliente = '$cliente'";
+			$whereC .= " AND a.cod_cliente = '$cliente'";
 		}
 
 		if($ubicacion != NULL && $ubicacion != "TODOS"){
 			$where .= " AND pcst.cod_ubicacion = '$ubicacion'";
+			$whereC .= " AND a.cod_ubicacion = '$ubicacion'";
 		}
 
-		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
+		$sqlservicio = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
 		pcst.cod_ubicacion, cu.descripcion ubicacion, pcstd.cod_proyecto, pp.descripcion proyecto,
 		pcstd.cod_actividad, pa.descripcion actividad,
 		pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
@@ -266,10 +274,41 @@ class Planificacion
 		".$where."
 		ORDER BY codigo ASC, obligatoria DESC";
 
-		$query = $this->bd->consultar($sql);
+		$query = $this->bd->consultar($sqlservicio);
 		while ($datos = $this->bd->obtener_fila($query)) {
-			$this->datos[] = $datos;
+			$this->datos["servicio"][] = $datos;
 		}
+
+		$sqlcontrato = "SELECT
+		Dia_semana(a.fecha) dia_semana,
+		CONCAT(Mes(a.fecha),'-',DATE_FORMAT(a.fecha,'%Y')) mes_anio,
+		cl.nombre cliente,
+		a.cod_ubicacion,
+		cu.descripcion ubicacion,
+		a.fecha,
+		(h.minutos_trabajo /60)*Sum(a.cantidad) horas,
+		Sum(a.cantidad) AS cantidad,
+		h.codigo AS cod_horario,
+		h.nombre AS horario
+		FROM
+		clientes_supervision_ap AS a
+		INNER JOIN turno AS t ON a.cod_turno = t.codigo
+		INNER JOIN horarios AS h ON t.cod_horario = h.codigo
+		INNER JOIN dias_habiles ON t.cod_dia_habil = dias_habiles.codigo
+		INNER JOIN dias_habiles_det ON dias_habiles_det.cod_dias_habiles = dias_habiles.codigo
+		INNER JOIN dias_tipo ON dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND Dia_semana(a.fecha)= dias_tipo.descripcion
+		OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND dias_tipo.tipo = 'D')
+		OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND DATE_FORMAT(a.fecha,'%d') = dias_tipo.descripcion) 
+		INNER JOIN clientes AS cl ON a.cod_cliente = cl.codigo
+		INNER JOIN clientes_ubicacion AS cu ON a.cod_ubicacion = cu.codigo
+		".$whereC."
+		GROUP BY a.cod_cliente, a.cod_ubicacion, a.cod_turno, a.fecha";
+
+		$queryC = $this->bd->consultar($sqlcontrato);
+		while ($datos = $this->bd->obtener_fila($queryC)) {
+			$this->datos["contrato"][] = $datos;
+		}
+
 		return $this->datos;
 	}
 
@@ -552,7 +591,7 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function validar_fecha($fecha, $cliente, $apertura)
+	function validar_fecha($fecha, $cliente, $apertura, $cod_ficha)
 	{
 		$this->datos  = array();
 		$sql = "SELECT Dia_semana(a.fecha) dia_semana, a.cod_ubicacion, cu.descripcion ubicacion, a.fecha,
@@ -569,7 +608,34 @@ class Planificacion
 	   GROUP BY a.cod_cliente, a.cod_ubicacion, a.cod_turno, a.fecha";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query, 0)) {
-			$this->datos[] = $datos;
+			$this->datos["data"][] = $datos;
+		}
+		if(count($this->datos["data"])>0){
+			$this->datos["data"]  = array();
+			$sql = "SELECT a.cod_ficha, h.codigo  cod_horario, h.nombre  horario,
+			MIN(h.hora_entrada) hora_entrada, MAX(h.hora_salida) hora_salida
+			FROM ficha a, horarios h, turno t, dias_habiles, dias_habiles_det, dias_tipo
+			WHERE a.cod_turno = t.codigo AND t.cod_horario = h.codigo AND t.cod_dia_habil = dias_habiles.codigo
+			AND dias_habiles_det.cod_dias_habiles = dias_habiles.codigo   
+			AND ((dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND Dia_semana('$fecha')= dias_tipo.descripcion) 
+			OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND dias_tipo.tipo = 'D') 
+			OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND DATE_FORMAT('$fecha','%d') = dias_tipo.descripcion))
+			AND a.cod_ficha = '$cod_ficha' ";
+			$this->datos["sql"] = $sql;
+			$query = $this->bd->consultar($sql);
+			while ($datos = $this->bd->obtener_fila($query, 0)) {
+				$this->datos["data"][] = $datos;
+			}
+			if(count($this->datos["data"])==0){
+				$this->datos["msg"] = "El turno de la ficha ".$cod_ficha." no aplica la fecha ".$fecha."";
+			}else{
+				if($this->datos["data"][0]["cod_ficha"] === null){
+					$this->datos["msg"] = "El turno de la ficha ".$cod_ficha." no aplica la fecha ".$fecha."";
+					$this->datos["data"] = [];
+				}
+			}
+		}else{
+			$this->datos["msg"] = "El cliente no aplica la fecha ".$fecha."";
 		}
 		return $this->datos;
 	}

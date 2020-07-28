@@ -1,7 +1,7 @@
 <?php
 require "../modelo/planificacion_modelo.php";
 require "../../../../".Leng;
-
+require_once "../../../../funciones/funciones.php";
 $result = array();
 
 $plan  = new Planificacion;
@@ -37,8 +37,8 @@ $result["fechas"] = $fechas;
 }else{
 	$ubicacion  = $_POST['ubicacion'];
 	$cliente  = $_POST['cliente'];
-	$fecha_desde  = $_POST['fecha_desde'];
-	$fecha_hasta  = $_POST['fecha_hasta'];
+	$fecha_desde  = conversion($_POST['fecha_desde']);
+	$fecha_hasta  = conversion($_POST['fecha_hasta']);
 	$result  = $plan->get_planif_det_rp($fecha_desde, $fecha_hasta, $cliente, $ubicacion);
 }
 print_r(json_encode($result));

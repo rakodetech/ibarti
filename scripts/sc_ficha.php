@@ -36,6 +36,7 @@ $ciudad         = $_POST['ciudad'];
 $cargo          = $_POST['cargo'];
 $nivel_academico = $_POST['nivel_academico'];
 $contracto      = $_POST['contracto'];
+$turno      = $_POST['turno'];
 
 
 $fec_venc_contracto  = $fec_ingreso;  // dias vencimiento contractro no guardo
@@ -88,7 +89,7 @@ if(isset($_POST['proced'])){
 								'$contracto','$n_contracto', '$fec_venc_contracto','$rol',
 								'$region', '$cliente', '$ubicacion','$banco',
                 '$cta_banco', '$fec_profit',
-								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status', '$cod_ficha_status_militar', '$servicio_militar', '$status_militar_obs' )";
+								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status', '$cod_ficha_status_militar', '$servicio_militar', '$status_militar_obs', '$turno' )";
 	 $query = $bd->consultar($sql);
 }
  require_once('../funciones/sc_direccionar.php');
