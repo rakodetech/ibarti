@@ -43,8 +43,11 @@ if(isset($generar_tipo)){
     (SELECT e.cos_promedio FROM ajuste_reng e
     WHERE e.cod_almacen = a.cod_almacen 
     AND e.cod_producto = a.cod_producto
-    ORDER BY e.cod_ajuste DESC, e.reng_num DESC LIMIT 1) cos_prom_actual,a.stock_actual
-    FROM stock a, productos b, almacenes c,prod_lineas d,prod_sub_lineas e
+    ORDER BY e.cod_ajuste DESC, e.reng_num DESC LIMIT 1) cos_prom_actual,IF(b.ean = 'T', 1, a.stock_actual) stock_actual,
+  pe.cod_ean
+  FROM stock a
+LEFT JOIN prod_ean pe ON  a.cod_producto = pe.cod_producto AND a.cod_almacen = pe.cod_almacen AND pe.inStock = 'T',
+ productos b, almacenes c,prod_lineas d,prod_sub_lineas e
   $where";
 
   if($generar_tipo == "excel"){
@@ -56,11 +59,11 @@ if(isset($generar_tipo)){
     $query  = $bd->consultar($sql);
     echo "<table border=1>
     <tr><th colspan='8'>".$titulo."</th></tr>
-    <tr><th> Serial </th><th>".$leng["producto"]." <th>Linea</th><th> Sub Linea</th><th>Almacen</th><th>Importe</th><th>Ultimo Costo Promedio</th> <th>Stock</th> </tr>";
+    <tr><th> Serial </th><th>".$leng["producto"]." <th>Linea</th><th> Sub Linea</th><th>Almacen</th><th>Importe</th><th>Ultimo Costo Promedio</th> <th>Stock</th><th>EAN</th> </tr>";
 
     while ($dato = $bd->obtener_fila($query)){
      echo "<tr><td>".$dato[0]."</td><td>".$dato[1]."</td><td>".$dato[2]."</td><td>".$dato[3]."</td>
-     <td>".$dato[4]."</td><td>".$dato[5]."</td><td>".$dato[6]."</td><td>".$dato[7]."</td></tr>";
+     <td>".$dato[4]."</td><td>".$dato[5]."</td><td>".$dato[6]."</td><td>".$dato[7]."</td><td>".$dato[8]."</td></tr>";
    }
    echo "</table>";
  }
