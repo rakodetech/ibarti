@@ -58,7 +58,7 @@ LEFT JOIN prod_ean pe ON  a.cod_producto = pe.cod_producto AND a.cod_almacen = p
 
     $query  = $bd->consultar($sql);
     echo "<table border=1>
-    <tr><th colspan='8'>".$titulo."</th></tr>
+    <tr><th colspan='9'>".$titulo."</th></tr>
     <tr><th> Serial </th><th>".$leng["producto"]." <th>Linea</th><th> Sub Linea</th><th>Almacen</th><th>Importe</th><th>Ultimo Costo Promedio</th> <th>Stock</th><th>EAN</th> </tr>";
 
     while ($dato = $bd->obtener_fila($query)){
