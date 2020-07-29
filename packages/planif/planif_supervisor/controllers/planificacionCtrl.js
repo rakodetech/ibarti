@@ -649,7 +649,7 @@ function cargar_planif_superv_det(apertura) {
 			res_eventos.forEach(d => {
 				calendar.addEvent({
 					id: d.key,
-					title: d.values[0].trabajador,
+					title: d.values[0].trabajador + " (" + d.values[0].cod_ficha + ")",
 					start: d.values[0].fecha_inicio,
 					end: d.values[0].fecha_fin,
 					extendedProps: {
