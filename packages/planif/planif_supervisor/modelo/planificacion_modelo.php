@@ -356,7 +356,6 @@ class Planificacion
 		AND f.cod_ficha_status= control.ficha_activo
 		AND pcst.cod_ficha = '$ficha'
 		AND f.cod_cargo = c.codigo
-		AND c.planificable = 'T'
 		AND pcst.cod_cliente = cl.codigo
 		AND pcst.cod_ubicacion = cu.codigo
 		AND pcstd.cod_proyecto = pp.codigo
@@ -377,13 +376,16 @@ class Planificacion
 
 		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
 		pcst.cod_ubicacion, cu.descripcion ubicacion, pcstd.cod_proyecto, pp.descripcion proyecto,
-		pcstd.cod_actividad, pa.descripcion actividad,
+		pcstd.cod_actividad, pa.descripcion actividad, pa.minutos,
 		pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
-		pa.obligatoria, pcstd.realizado, pcst.completado
+		pa.obligatoria, pcstd.realizado, pcst.completado,	pcstd.fecha_inicio fecha_inicio_act, pcstd.fecha_fin fecha_fin_act
 		FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 			clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
 			".$where." 
-		ORDER BY codigo ASC, obligatoria DESC";
+		ORDER BY
+			codigo ASC,
+			obligatoria DESC,
+			fecha_inicio_act ASC";
 
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {

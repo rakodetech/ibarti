@@ -716,7 +716,7 @@ function cargar_planif_superv_trab_det(ficha) {
 									} else if (i == 0) {
 										result += "<label>" + act.proyecto + " (" + act.abrev_proyecto + ")</label><br>";
 									}
-									result += "<span>" + index + ": " + act.actividad + "</span><br>";
+									result += "<span>" + index + ": " + act.actividad + "  (" + moment(act.fecha_inicio_act).format('HH:mm:ss') + " - " + moment(act.fecha_fin_act).format('HH:mm:ss') + ") </span><br>";
 									index++;
 								});
 								result += "</div>";
@@ -1109,6 +1109,7 @@ function editarActividad(event) {
 				});
 				updateFecFin(event);
 			});
+			cargar_planif_superv_trab_det(event.extendedProps.cod_ficha);
 		} else {
 			toastr.error(fechas.msg);
 		}

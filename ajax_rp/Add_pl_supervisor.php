@@ -18,7 +18,8 @@ AND p.codigo = pd.cod_planif_cl_trab
 AND p.cod_ficha = f.cod_ficha
 AND p.cod_cliente = cl.codigo
 AND p.cod_ubicacion = cu.codigo
-AND pd.cod_proyecto = pp.codigo ";
+AND pd.cod_proyecto = pp.codigo 
+AND pd.cod_actividad = pa.codigo ";
 
 
 if($region != "TODOS"){
@@ -49,7 +50,7 @@ pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado
 FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd, clientes cl, clientes_ubicacion cu, ficha f,
 planif_proyecto pp, planif_actividad pa
 $where
-ORDER BY 1,3,5,7,8 ASC";
+ORDER BY 1,8,3,5,7 ASC";
 
 ?><table width="100%" border="0" align="center">
 	<tr class="fondo00">
