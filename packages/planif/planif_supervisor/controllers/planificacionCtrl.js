@@ -409,7 +409,6 @@ function cargar_planif_superv_det(apertura) {
 			});
 
 			var calendarEl = document.getElementById('calendar');
-			var codigo_proyecto = '';
 			calendar = new FullCalendar.Calendar(calendarEl, {
 				initialView: typeCalendar,
 				headerToolbar: { center: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth' },
