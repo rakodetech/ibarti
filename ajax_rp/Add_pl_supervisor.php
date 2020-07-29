@@ -13,7 +13,7 @@ $trabajador = $_POST['trabajador'];
 
 $fecha_D   = conversion($_POST['fecha_desde']);
 $fecha_H   = conversion($_POST['fecha_hasta']);
-$where = " WHERE p.fecha_inicio BETWEEN \"$fecha_D\" AND \"$fecha_H\"
+$where = " WHERE p.fecha_inicio BETWEEN \"$fecha_D\" AND ADDDATE(\"$fecha_H\", 1)
 AND p.codigo = pd.cod_planif_cl_trab
 AND p.cod_ficha = f.cod_ficha
 AND p.cod_cliente = cl.codigo
@@ -45,7 +45,7 @@ $sql = "SELECT p.cod_ficha, CONCAT(f.apellidos, ' ', f.nombres) ap_nombre, p.cod
 p.cod_ubicacion, cu.descripcion ubicacion, DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') fecha, 
 DATE_FORMAT(p.fecha_inicio, '%H:%m:%s') hora_inicio, DATE_FORMAT(p.fecha_fin, '%H:%m:%s') hora_fin,
 pd.cod_proyecto, pp.descripcion proyecto, pd.cod_actividad, pa.descripcion actividad,
-IF(pd.realizado='T','SI', 'NO') realizado
+pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado
 FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd, clientes cl, clientes_ubicacion cu, ficha f,
 planif_proyecto pp, planif_actividad pa
 $where
@@ -62,6 +62,7 @@ ORDER BY 1,3,5,7,8 ASC";
 		<th  class="etiqueta">Actividad </th>
 		<th  class="etiqueta">Hora Inicio </th>
 		<th  class="etiqueta">Hora Fin </th>
+		<th  class="etiqueta">Minutos</th>
 		<th  class="etiqueta">Realizado </th>
 	</tr>
 	<?php
@@ -86,6 +87,7 @@ ORDER BY 1,3,5,7,8 ASC";
 		<td class="texto">'.longitud($datos["actividad"]).'</td>
 		<td class="texto">'.longitud($datos["hora_inicio"]).'</td>
 		<td class="texto">'.longitud($datos["hora_fin"]).'</td>
+		<td class="texto">'.longitud($datos["minutos"]).'</td>
 		<td class="texto">'.longitud($datos["realizado"]).'</td>
 		</tr>';
 	};?>

@@ -33,16 +33,17 @@ $result = array();
             $result["codigo"] = $codigo[0];
             foreach($_POST["actividades"] as $key => $actividad){
               $sql  = "INSERT INTO planif_clientes_superv_trab_det
-              (cod_planif_cl_trab, cod_proyecto, cod_actividad, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
-              VALUES (".$codigo[0].", ".$actividad['cod_proyecto'].", ".$actividad['codigo'].", '$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP);";
+              (cod_planif_cl_trab, cod_proyecto, cod_actividad, fecha_inicio, fecha_fin, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
+              VALUES (".$codigo[0].", ".$actividad['cod_proyecto'].", ".$actividad['codigo'].",".$actividad['fecha_inicio']."','
+                      ".$actividad['fecha_fin']."', '$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP);";
               $query = $bd->consultar($sql);
             }
  
       }elseif ($metodo == "modificar") {
         $sql  = "UPDATE planif_clientes_superv_trab
                     SET cod_cliente = '$cliente',   cod_ubicacion ='$ubicacion', cod_ficha   = '$ficha',
-                        cod_us_mod  = '$usuario',    fec_us_mod = CURRENT_TIMESTAMP
-                 WHERE codigo = '$codigo'";
+                    fecha_inicio = '$fecha_inicio',  fecha_fin = '$fecha_fin', cod_us_mod  = '$usuario',    
+                    fec_us_mod = CURRENT_TIMESTAMP  WHERE codigo = '$codigo'";
                  $query = $bd->consultar($sql);
                 $result['sql'] = $sql;
                 $sql  = "DELETE FROM planif_clientes_superv_trab_det
@@ -50,15 +51,22 @@ $result = array();
                 $query = $bd->consultar($sql);
                     foreach($_POST["actividades"] as $key => $actividad){
                       $sql  = "INSERT INTO planif_clientes_superv_trab_det
-                      (cod_planif_cl_trab, cod_proyecto, cod_actividad, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
-                      VALUES ($codigo, ".$actividad['cod_proyecto'].", ".$actividad['codigo'].", '$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP);";
+                      (cod_planif_cl_trab, cod_proyecto, cod_actividad, fecha_inicio, fecha_fin, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
+                      VALUES ($codigo, ".$actividad['cod_proyecto'].", ".$actividad['codigo'].",'".$actividad['fecha_inicio']."','
+                      ".$actividad['fecha_fin']."', '$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP);";
+                      $result['sql'] = $sql;
                       $query = $bd->consultar($sql);
                     }
       }elseif ($metodo == "borrar") {
+        $sql  = "DELETE FROM planif_clientes_superv_trab_det
+        WHERE cod_planif_cl_trab = $codigo";
+        $result['sql'] = $sql;
+        $query = $bd->consultar($sql);
         $sql = "DELETE FROM planif_clientes_superv_trab
                  WHERE codigo = '$codigo' ";
+                 
+                 $result['sql'] = $sql;
                  	 $query = $bd->consultar($sql);
-                    $result['sql'] = $sql;
       }
 
 $result['error']=false;

@@ -156,9 +156,8 @@ class Planificacion
 		$this->datos  = array();
 		$where = " WHERE pa.`status` = 'T' AND pa.cod_proyecto = pp.codigo";
 		if($proyecto != null){
-			$sql .= " AND pa.cod_proyecto = pp.codigo ";
+			$where .= " AND pa.cod_proyecto = ".$proyecto." ";
 		}
-
 		$sql = "SELECT pp.codigo cod_proyecto, pp.descripcion proyecto_descripcion, pa.codigo, pa.descripcion, pa.minutos, pa.obligatoria
 		FROM  planif_actividad pa, planif_proyecto pp 
 		".$where."
@@ -204,7 +203,7 @@ class Planificacion
 			pcst.cod_ubicacion, cu.descripcion ubicacion, pcstd.cod_proyecto, pp.descripcion proyecto,
 			pcstd.cod_actividad, pa.descripcion actividad,
 			pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
-			pa.obligatoria, pcstd.realizado, pcst.completado
+			pa.obligatoria, pcstd.fecha_inicio fecha_inicio_act, pcstd.fecha_fin fecha_fin_act, pcstd.realizado, pcst.completado
 			FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 				clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
 			WHERE pcst.cod_ficha = f.cod_ficha
@@ -594,6 +593,8 @@ class Planificacion
 	function validar_fecha($fecha, $cliente, $apertura, $cod_ficha)
 	{
 		$this->datos  = array();
+		$this->datos["data"]  = array();
+		$this->datos["datacliente"]  = array();
 		$sql = "SELECT Dia_semana(a.fecha) dia_semana, a.cod_ubicacion, cu.descripcion ubicacion, a.fecha,
 		Sum(a.cantidad)  cantidad, h.codigo  cod_horario, h.nombre  horario,
 		MIN(h.hora_entrada) hora_entrada, MAX(h.hora_salida) hora_salida
@@ -608,10 +609,9 @@ class Planificacion
 	   GROUP BY a.cod_cliente, a.cod_ubicacion, a.cod_turno, a.fecha";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query, 0)) {
-			$this->datos["data"][] = $datos;
+			$this->datos["datacliente"][] = $datos;
 		}
-		if(count($this->datos["data"])>0){
-			$this->datos["data"]  = array();
+		if(count($this->datos["datacliente"])>0){
 			$sql = "SELECT a.cod_ficha, h.codigo  cod_horario, h.nombre  horario,
 			MIN(h.hora_entrada) hora_entrada, MAX(h.hora_salida) hora_salida
 			FROM ficha a, horarios h, turno t, dias_habiles, dias_habiles_det, dias_tipo
