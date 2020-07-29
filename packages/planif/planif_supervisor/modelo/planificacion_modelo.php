@@ -217,7 +217,7 @@ class Planificacion
 			AND pcstd.cod_proyecto = pp.codigo
 			AND pcstd.cod_planif_cl_trab = pcst.codigo
 			AND pcstd.cod_actividad = pa.codigo
-			ORDER BY codigo ASC, obligatoria DESC";
+			ORDER BY codigo ASC, obligatoria DESC, fecha_inicio_act ASC";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;

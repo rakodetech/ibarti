@@ -43,7 +43,7 @@ if($ubicacion != "TODOS"){
 
 $sql = "SELECT p.cod_ficha, CONCAT(f.apellidos, ' ', f.nombres) ap_nombre, p.cod_cliente, cl.nombre cliente, 
 p.cod_ubicacion, cu.descripcion ubicacion, DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') fecha, 
-DATE_FORMAT(p.fecha_inicio, '%H:%m:%s') hora_inicio, DATE_FORMAT(p.fecha_fin, '%H:%m:%s') hora_fin,
+TIME(pd.fecha_inicio) hora_inicio, TIME(pd.fecha_fin) hora_fin,
 pd.cod_proyecto, pp.descripcion proyecto, pd.cod_actividad, pa.descripcion actividad,
 pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado
 FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd, clientes cl, clientes_ubicacion cu, ficha f,
