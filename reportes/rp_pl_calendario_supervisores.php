@@ -217,7 +217,7 @@ function Add_filtroX() {
 						locale: 'es',
 						validRange: {
 							start: fechas.fecha_inicio,
-							end: fechas.fecha_fin
+							end: moment(fechas.fecha_fin).add('days', 1).format('YYYY-MM-DD')
 						},
 						allDaySlot: false,
 						slotEventOverlap: true,
