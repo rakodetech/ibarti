@@ -23,7 +23,7 @@ if(isset($_POST['fecha_desde'])){
 	$mod  = $plan->get_ultima_mod($apertura, $cliente);
 	$fechas = $plan->get_fechas_apertura($apertura, $cliente);
 
-	$supervisores = $plan->get_supervisores($cliente);
+	$supervisores = $plan->get_supervisores($cliente, null);
 	$result['html'] = '</br><div align="center" class="etiqueta_title">Planificacion Detalle</div>
 	<div align="right"><span class="etiqueta">Ultima Modificacion: </span> '.$mod["fecha"].' ('.$mod["us_mod"].')</div>
 	<div align="right"><span class="etiqueta">Nro. de Supervisores sin planificar en este cliente: <h6 id="cantidad_sin_planif"></h6></div>
@@ -31,6 +31,7 @@ if(isset($_POST['fecha_desde'])){
 
 	<div id="supervisor-wrap" class="scroll">
 	<div id="external-events">
+	<input type="text"id="filtro" value="" placeholder="Filtro" style="width:200px"/>
 	<h4>Supervisores:</h4>
 
 	<div id="external-events-list">';
@@ -42,6 +43,8 @@ if(isset($_POST['fecha_desde'])){
 	} 
 
 	$result['html'] .= '</div></div></div><div id="calendar-wrap"> <div id="calendar"></div></div></div>';
+
+	$result['html'] .= '<script language="JavaScript" type="text/javascript"> new Autocomplete("filtro", function() { filtrar_supervisores(this.value); }); </script>';
 
 	$result["data"] = $trab;
 	$result["fechas"] = $fechas;

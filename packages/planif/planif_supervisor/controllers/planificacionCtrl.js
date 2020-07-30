@@ -1189,3 +1189,20 @@ function save_planif_apertura() {
 		}
 	});
 }
+
+function filtrar_supervisores(filtro) {
+	var parametros = { cliente, filtro };
+	$.ajax({
+		data: parametros,
+		url: 'packages/planif/planif_supervisor/views/Add_supervisores.php',
+		type: 'post',
+		success: function (response) {
+			console.log(response);
+			$("#external-events-list").html(response);
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}

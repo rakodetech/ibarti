@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="latest/stylesheets/autocomplete.css" />
 <link rel="stylesheet" href="css/modal_planif.css" type="text/css" media="screen" />
 <link href='libs/fullcalendar/lib/main.css' rel='stylesheet' />
 <script type="text/javascript" src="funciones/modal.js"></script>
@@ -134,3 +135,5 @@ if(isset($_SESSION['usuario_cod'])){
 <div id="Cont_planificacion"></div>
 
 <input name="usuario" id="usuario" type="hidden" value="<?php echo $us;?>" />
+
+<script type="text/javascript" src="latest/scripts/autocomplete.js"></script>
