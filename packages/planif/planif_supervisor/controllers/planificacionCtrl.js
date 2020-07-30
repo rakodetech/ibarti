@@ -1196,6 +1196,9 @@ function filtrar_supervisores(filtro) {
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_supervisores.php',
 		type: 'post',
+		beforeSend: function () {
+			$("#external-events-list").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px">');
+		},
 		success: function (response) {
 			console.log(response);
 			$("#external-events-list").html(response);

@@ -36,14 +36,14 @@ class Planificacion
 	{
 		$this->datos   = array();
 
-		$where = "WHERE clientes.codigo = '$cliente'
+		$where = " WHERE clientes.codigo = '$cliente'
 		AND clientes.cod_region = v_ficha.cod_region
 		AND v_ficha.cod_cargo = cargos.codigo
 		AND cargos.planificable = 'T'
 		AND v_ficha.cod_ficha_status = control.ficha_activo";
 
 		if($filtro != null AND $filtro != ""){
-			$where .= " AND (LOCATE('$filtro', V_ficha.cod_ficha) OR LOCATE('$filtro', V_ficha.ap_nombre)) ";
+			$where .= " AND (LOCATE('$filtro', v_ficha.cod_ficha) OR LOCATE('$filtro', v_ficha.ap_nombre)) ";
 		}
 
 		$sql = "  SELECT v_ficha.cod_ficha, v_ficha.ap_nombre, v_ficha.cargo, v_ficha.nombres, v_ficha.apellidos, v_ficha.cedula
