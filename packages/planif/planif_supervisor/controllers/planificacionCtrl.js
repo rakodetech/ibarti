@@ -1029,13 +1029,15 @@ function parse_act_html(acts) {
 		.entries(acts);
 	var proyectos_html = "";
 	var actividades_html = "";
+
 	const existe = (element) => eventActual.extendedProps.actividades.findIndex((el) => el.cod_actividad === element.codigo) != -1;
+
 	const event = (element) => element.obligatoria === 'T';
 	data.forEach(d => {
 		var checked = "";
 		if (d.values.some(event)) {
 			checked = 'checked disabled="disabled"';
-		} else if (eventActual) {
+		} else if (metodo === "modificar") {
 			if (d.values.some(existe)) {
 				checked = 'checked';
 			}

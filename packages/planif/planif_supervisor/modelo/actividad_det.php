@@ -21,21 +21,22 @@ $result = array();
                              (cod_planif_cl, cod_cliente, cod_ubicacion, cod_ficha, fecha_inicio, fecha_fin, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
                      VALUES ('$apertura', '$cliente', '$ubicacion', '$ficha',
                             '$fecha_inicio', '$fecha_fin', '$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP);";
-
+          $result['sql'] = $sql;
             $query = $bd->consultar($sql);
 
             $sql = "SELECT MAX(codigo) codigo FROM planif_clientes_superv_trab 
               WHERE cod_planif_cl = '$apertura' AND  cod_cliente ='$cliente'
               AND cod_ubicacion = '$ubicacion' AND cod_ficha = '$ficha' AND cod_us_ing = '$usuario';";
-
+$result['sql'] = $sql;
             $query = $bd->consultar($sql);
             $codigo = $bd->obtener_fila($query);
             $result["codigo"] = $codigo[0];
             foreach($_POST["actividades"] as $key => $actividad){
               $sql  = "INSERT INTO planif_clientes_superv_trab_det
               (cod_planif_cl_trab, cod_proyecto, cod_actividad, fecha_inicio, fecha_fin, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
-              VALUES (".$codigo[0].", ".$actividad['cod_proyecto'].", ".$actividad['codigo'].",".$actividad['fecha_inicio']."','
+              VALUES (".$codigo[0].", ".$actividad['cod_proyecto'].", ".$actividad['codigo'].",'".$actividad['fecha_inicio']."','
                       ".$actividad['fecha_fin']."', '$usuario', CURRENT_TIMESTAMP, '$usuario', CURRENT_TIMESTAMP);";
+                      $result['sql'] = $sql;
               $query = $bd->consultar($sql);
             }
  
