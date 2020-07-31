@@ -96,7 +96,7 @@ if (isset($_GET['codigo'])) { //== ''
 			<tr>
 				<td class="etiqueta">Login:</td>
 				<td id="input04"><input name="login" type="text" maxlength="15" id="checkboxL" onblur="validUserType('login',this.value,'checkboxL')" style="width:120px" value="<?php echo $login; ?>" /><br />
-					<p id="checkboxLC" style="float:left;" >invalido</p>
+					<p id="checkboxLC" style="float:left;"></p>
 					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
 					<span class="textfieldMinCharsMsg">Debe Escribir m&aacute;s de 4 caracteres.</span></td>
 			</tr>

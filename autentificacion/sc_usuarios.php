@@ -86,5 +86,5 @@ if(isset($_POST['proced'])){
 									'$usuario',  '$status')";						  
 		 $query = $bd->consultar($sql);	 
 	}
-	echo $sql;
+	
 require_once('../funciones/sc_direccionar.php');  
