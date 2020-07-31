@@ -204,6 +204,7 @@ clientes.nombre cliente,
 clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
 clientes_ubicacion.descripcion ubicacion,
 contractos.descripcion AS contrato,
+cargos.descripcion AS cargo,
 IFNULL(
  v_prod_dot_max2.cod_ficha,
  ficha.cod_ficha
@@ -286,15 +287,15 @@ fecha ASC, ap_nombre ASC, producto ASC
 		echo "<table border=1>";
 
 		echo "<tr><th> Fecha </th><th> ".$leng['estado']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th>
-		<th>".$leng['contrato']."</th> <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th>
+		<th>".$leng['contrato']."</th> <th>Cargo</th><th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th>
 		<th> Linea </th><th> Sub Linea </th><th> Cod. Producto</th> <th> Producto </th>
 		<th> Cantidad </th><th> Alcance </th><th> Diferencia </th><th> Cant. A Dotar </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
 			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[3]."</td><td>".$row01[5]."</td>
-			<td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td>
-			<td>".$row01[11]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td>
-			<td>".$row01[16]."</td><td>".$row01[17]."</td><td>".$row01[18]."</td><td>".$row01[19]."</td></tr>";
+			<td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td>
+			<td>".$row01[12]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td><td>".$row01[16]."</td>
+			<td>".$row01[17]."</td><td>".$row01[18]."</td><td>".$row01[19]."</td><td>".$row01[20]."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -323,7 +324,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 		<th width='5%''>Cant.</th>
 		<th width='5%'>Alc.</th>
 		<th width='5%'>Dif.</th>
-		<th width='5%'>Cant. a dotar</th>
+		<th width='5%'>Dotar</th>
 		</tr>";
 
 		$f=0;
@@ -335,13 +336,13 @@ fecha ASC, ap_nombre ASC, producto ASC
 			}
 			echo   " <td width='12%'>".$row[0]."</td>
 			<td width='20%'>".$row[3]."</td>
-			<td width='10%'>".$row[7]."</td>
-			<td width='20%'>".$row[9]."</td>
-			<td width='18%'>".$row[15]."</td>
-			<td width='5%'>".$row[16]."</td>
+			<td width='10%'>".$row[8]."</td>
+			<td width='20%'>".$row[10]."</td>
+			<td width='18%'>".$row[16]."</td>
 			<td width='5%'>".$row[17]."</td>
 			<td width='5%'>".$row[18]."</td>
-			<td width='5%'>".$row[19]."</td></tr>";
+			<td width='5%'>".$row[19]."</td>
+			<td width='5%'>".$row[20]."</td></tr>";
 
 			$f++;
 		}

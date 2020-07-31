@@ -30,6 +30,7 @@ function Cons_ubicacion_inicio() {
 function Cons_ubic(cod, metodo, title) {
 	ModalOpen();
 	$("#modal_title").text(title);
+	$("#contenido_modal").html("");
 	var usuario = $("#usuario").val();
 	var cliente = $("#c_codigo").val();
 

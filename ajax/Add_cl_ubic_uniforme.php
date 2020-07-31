@@ -13,7 +13,8 @@ $codigo      = $_POST['codigo'];
 	   IFNULL(clientes_ub_uniforme.cod_cargo, '') cod_cargo, IFNULL(cargos.descripcion, 'Seleccione') cargo,  clientes_ub_uniforme.cantidad
 	   FROM prod_sub_lineas, clientes_ub_uniforme LEFT JOIN cargos ON clientes_ub_uniforme.cod_cargo = cargos.codigo
 	  WHERE clientes_ub_uniforme.cod_sub_linea = prod_sub_lineas.codigo
-	  AND clientes_ub_uniforme.cod_cl_ubicacion = '$codigo'";
+	  AND clientes_ub_uniforme.cod_cl_ubicacion = '$codigo'
+	  ORDER BY cod_cargo ASC, cod_sub_linea ASC";
 
 $sqlcargo =	"SELECT codigo, descripcion FROM cargos WHERE `status` = 'T';";
 $querycargo = $bd->consultar($sqlcargo);
@@ -45,7 +46,7 @@ while ($datoscargo = $bd->obtener_fila($querycargo)) {
                   <input type="hidden" name="trabajador" id="stdIDuniforme'.$i.'" value="'.$datos['cod_sub_linea'].'"/>
 				</td>
 				<td>
-				<select style="width:250px" id="codigo_cargo'.$i.'" required>
+				<select style="width:400px" id="codigo_cargo'.$i.'" required>
 				<option value="'.$datos["cod_cargo"].'">'.$datos["cargo"].'</option>';
 
 					foreach ($cargos as $key => $value) {

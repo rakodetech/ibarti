@@ -121,7 +121,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 <hr />
 <div id="Cont_mensaje" class="mensaje"></div>
 <div>
-     <table width="60%" border="0" align="center">
+     <table width="80%" border="0" align="center">
 		<tr class="fondo01">
 			<!-- <th width="20%" style="display:none" class="etiqueta">Codigo Ubicacion</th> -->
 			<th width="40%" class="etiqueta">Sub Linea
@@ -135,7 +135,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
         <input type="text" id="codigo_sub_linea_uniforme" value="" placeholder="Sub Linea de Uniforme" required style="width:250px"/>
       </td>
 		<td>
-		<select style="width:250px" id="codigo_cargo" required>
+		<select style="width:400px" id="codigo_cargo" required>
 		<option value="">Seleccione</option>
 		<?php
 			$sqlcargo =	"SELECT codigo, descripcion FROM cargos WHERE `status` = 'T';";
@@ -155,7 +155,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 				</span></td>
 		</tr>
 		</table>
-		<table id="Contenedor04" width="60%" border="0" align="center">
+		<table id="Contenedor04" width="80%" border="0" align="center">
 	</table>
 </div>
 <div align="center">
