@@ -37,17 +37,20 @@ class Planificacion
 		$this->datos   = array();
 
 		$where = " WHERE clientes.codigo = '$cliente'
-		AND clientes.cod_region = v_ficha.cod_region
+		AND v_ficha.cod_cliente = cf.codigo
+		AND cf.cod_region = clientes.cod_region
+		AND cf.`status` = 'T'
 		AND v_ficha.cod_cargo = cargos.codigo
 		AND cargos.planificable = 'T'
-		AND v_ficha.cod_ficha_status = control.ficha_activo";
+		AND v_ficha.cod_ficha_status = control.ficha_activo ";
 
 		if($filtro != null AND $filtro != ""){
 			$where .= " AND (LOCATE('$filtro', v_ficha.cod_ficha) OR LOCATE('$filtro', v_ficha.ap_nombre)) ";
 		}
 
-		$sql = "  SELECT v_ficha.cod_ficha, v_ficha.ap_nombre, v_ficha.cargo, v_ficha.nombres, v_ficha.apellidos, v_ficha.cedula
-		FROM v_ficha, cargos, control, clientes
+		$sql = "  SELECT v_ficha.cod_ficha, v_ficha.ap_nombre, v_ficha.cargo, v_ficha.nombres, v_ficha.apellidos, v_ficha.cedula, 
+		cargos.descripcion cargo
+		FROM v_ficha, cargos, control, clientes, clientes cf
 		".$where."
 		ORDER BY 1,3 ASC ";
 
