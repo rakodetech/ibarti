@@ -87,82 +87,6 @@ function ac_apertura_planif(parametros, callback) {
 	});
 }
 
-function mod_apertura_planif() {
-	var apertura_ap = $("#planf_apertura").val();
-	var parametros = {
-		cliente: cliente,
-		apertura: apertura_ap
-	};
-	$.ajax({
-		data: parametros,
-		url: 'packages/planif/planif_supervisor/views/Add_planificacion_apertura.php',
-		type: 'post',
-		beforeSend: function () {
-			$("#modal_contenido").html('');
-			$('#myModal').show();
-			$("#modal_titulo").html("CONSULTA DE APERTURA DE PLANIFICACION");
-			$("#modal_contenido").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px"> Procesando...');
-		},
-		success: function (response) {
-			$("#modal_contenido").html("");
-			var resp = JSON.parse(response);
-			var tabla = d3.select("#modal_contenido").append("div").style("overflow", "scroll").style("max-height", "500px").append("table").attr("class", "tabla_sistema").attr("width", "100%");
-			var thead = tabla.append("thead").append("tr");
-			var tbody = tabla.append("tbody");
-			thead.append("th").text("Fecha").style("text-align", "center").style("border", "1px solid");
-			thead.append("th").text("Cliente").style("text-align", "center").style("border", "1px solid");
-			thead.append("th").text("Ubicacion").style("text-align", "center").style("border", "1px solid");
-			thead.append("th").text("Turno").style("text-align", "center").style("border", "1px solid");
-			thead.append("th").text("Cantidad").style("text-align", "center").style("border", "1px solid");
-
-			var tr = tbody.selectAll('tr').data(resp).enter().append("tr").attr("id", (d) => "cod_" + d.codigo).attr('class', 'color').attr("title", (d) => "ULTIMA MODIFICACION: " + d.fecha_mod + " (" + d.nombres + ")");
-
-			tr.append("td").text((d) => d.fecha).style("border", "1px solid").style("vertical-align", "middle").attr("width", "10%");
-			tr.append("td").text((d) => d.cliente).style("border", "1px solid").style("vertical-align", "middle").attr("width", "16%");
-			tr.append("td").text((d) => d.ubicacion).style("border", "1px solid").style("vertical-align", "middle").attr("width", "16%");
-			tr.append("td").text((d) => d.turno).style("border", "1px solid").style("vertical-align", "middle").attr("width", "16%");
-			var elementos_cantidad = tr.append("td").style("border", "1px solid").style("vertical-align", "middle").style("text-align", "left");
-			elementos_cantidad.append("input").attr("id", (d) => `cant_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`).attr("type", "number").attr("min", "0").attr("value", (d) => d.cantidad).style("width", "60px").on("click", (d, e, f) => {
-				if (Number(f[e].value) == Number(f[e].defaultValue)) {
-					$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`).hide();
-				} else {
-					$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`).show();
-				}
-			}).on("keyup", (d, e, f) => {
-				if (Number(f[e].value) == Number(f[e].defaultValue)) {
-					$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`).hide();
-				} else {
-					$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`).show();
-				}
-			});
-			elementos_cantidad.append("img").attr("id", (d) => `mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`).attr("src", "imagenes/ico_guadar.ico").style("width", "20px").style("margin-left", "10px").style("display", "none").attr("title", "modificar registro").on("click", (d) => {
-				if (confirm("Esta seguro que desea modificar")) {
-					var propiedades = {
-						apertura: d.codigo,
-						fecha: d.fecha,
-						cliente: d.cod_cliente,
-						ubicacion: d.cod_ubicacion,
-						turno: d.cod_turno,
-						cantidad: $(`#cant_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`).val(),
-						usuario: $("#usuario").val()
-					}
-					ac_apertura_planif(propiedades, () => {
-						$(`#mod_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`).hide();
-						$(`#cant_${d.codigo}_${d.fecha}_${d.cod_cliente}_${d.cod_ubicacion}_${d.cod_turno}`)[0].defaultValue = propiedades.cantidad;
-						cerrar = true;
-					})
-				}
-
-
-			});
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			alert(xhr.status);
-			alert(thrownError);
-		}
-	});
-}
-
 function validarIngreso(apertura, cliente, ubic, actividades, fecha, hora_inicio, hora_fin, cod_ficha, callback) {
 	var error = 0;
 	var errorMessage = ' ';
@@ -530,7 +454,7 @@ function cargar_planif_superv_det(apertura) {
 				locale: 'es',
 				validRange: {
 					start: fechas.fecha_inicio,
-					end: moment(fechas.fecha_fin).add('days', 1).format('YYYY-MM-DD')
+					end: moment(fechas.fecha_fin).add(1, 'days').format('YYYY-MM-DD')
 				},
 				allDaySlot: false,
 				slotEventOverlap: true,
@@ -574,6 +498,7 @@ function cargar_planif_superv_det(apertura) {
 								$("#planf_horaRP").prop("min", hora_entrada);
 								$("#planf_hora_finRP").prop("min", hora_entrada);
 								$("#planf_hora_finRP").prop("max", hora_salida);
+								$("#dias_habilesRP").html(fechas.data[0].dias_habiles);
 								fechas.data.forEach((f) => {
 									if (f.hora_entrada < hora_entrada) {
 										hora_entrada = f.hora_entrada;
@@ -733,7 +658,7 @@ function cargar_planif_superv_trab_det(ficha) {
 					locale: 'es',
 					validRange: {
 						start: fechas.fecha_inicio,
-						end: moment(fechas.fecha_fin).add('days', 1).format('YYYY-MM-DD')
+						end: moment(fechas.fecha_fin).add(1, 'days').format('YYYY-MM-DD')
 					},
 					allDaySlot: false,
 					slotEventOverlap: true,
@@ -1102,6 +1027,7 @@ function editarActividad(event) {
 			$("#planf_ubicacionRP").val(event.extendedProps.cod_ubicacion);
 			$("#planf_horaRP").val(moment(event.start).format("HH:mm:00"));
 			$("#cedulaRP").html(event.extendedProps.cod_ficha + " - " + event.extendedProps.cedula);
+			$("#dias_habilesRP").html(fechas.data[0].dias_habiles);
 			cargar_actividades(null, (acts) => {
 				parse_act_html(acts);
 				$('#modalRP').show();
@@ -1200,7 +1126,6 @@ function filtrar_supervisores(filtro) {
 			$("#external-events-list").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px">');
 		},
 		success: function (response) {
-			console.log(response);
 			$("#external-events-list").html(response);
 		},
 		error: function (xhr, ajaxOptions, thrownError) {

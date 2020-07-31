@@ -587,7 +587,7 @@ class Planificacion
 		}
 		if(count($this->datos["datacliente"])>0){
 			$sql = "SELECT a.cod_ficha, h.codigo  cod_horario, h.nombre  horario,
-			MIN(h.hora_entrada) hora_entrada, MAX(h.hora_salida) hora_salida
+			MIN(h.hora_entrada) hora_entrada, MAX(h.hora_salida) hora_salida,  dias_habiles.descripcion dias_habiles
 			FROM ficha a, horarios h, turno t, dias_habiles, dias_habiles_det, dias_tipo
 			WHERE a.cod_turno = t.codigo AND t.cod_horario = h.codigo AND t.cod_dia_habil = dias_habiles.codigo
 			AND dias_habiles_det.cod_dias_habiles = dias_habiles.codigo   

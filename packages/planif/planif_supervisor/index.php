@@ -91,7 +91,8 @@ if(isset($_SESSION['usuario_cod'])){
       <td id="planf_fechaRP" ></td>
 	  <td rowspan="5"><img id="fotoRP" src="" style="width:120px;" alt="Sin Foto">
 	  <br>
-	  <span id="cedulaRP"></span></td>
+	  <span id="cedulaRP"></span><br>
+	  <span id="dias_habilesRP"></span></td>
 		</tr>
     <tr>
    <td class="etiqueta"><span id="ubicacion_texto"><?php echo $leng['ubicacion'] ?>:</span> </td>
