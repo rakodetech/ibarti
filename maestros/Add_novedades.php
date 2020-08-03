@@ -291,7 +291,7 @@ if ($metodo == 'modificar') {
 	});
 
 	var textarea01 = new Spry.Widget.ValidationTextarea("textarea01", {
-		maxChars: 300,
+		maxChars: 900,
 		validateOn: ["blur", "change"],
 		counterType: "chars_count",
 		counterId: "Counterror_mess2",
