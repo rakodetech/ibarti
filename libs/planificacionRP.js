@@ -1362,6 +1362,12 @@ function rp_planif_serv_vs_contratacion_horario(data, id_contenedor, callback) {
 			.key((d) => d.fecha).sortKeys(d3.ascending)
 			.entries(data['contrato']);
 
+		res_horario_cont2 = d3.nest()
+			.key((d) => d.cod_ubicacion).sortKeys(d3.ascending)
+			.key((d) => d.fecha).sortKeys(d3.ascending)
+			.key((d) => d.cod_horario).sortKeys(d3.ascending)
+			.entries(data['contrato']);
+
 		d3.select('#' + id_contenedor).append('table').attr('id', 't_reporte').attr('width', '100%').attr('border', 0).attr('align', 'center');
 		d3.select('#t_reporte').append('thead').attr('id', 'thead');
 		d3.select('#t_reporte').append('thead').attr('id', 'tbody_pl_vs_as');
@@ -1403,6 +1409,20 @@ function rp_planif_serv_vs_contratacion_horario(data, id_contenedor, callback) {
 					}
 				}
 			});
+
+		map_res_horario_cont = d3.map(res_horario_cont2, (d) => d.key);
+
+		data['asistencia'].forEach((a) => {
+			if (map_res_horario_cont.has(a.cod_ubicacion)) {
+				val_ubic_f = d3.map(map_res_horario_cont.get(a.cod_ubicacion).values, (d) => d.key);
+				if (val_ubic_f.has(a.fecha)) {
+					val_ubic_h = d3.map(val_ubic_f.get(a.fecha).values, (d) => d.key);
+					if (!val_ubic_h.has(a.cod_horario)) {
+						var tr = $('#tbody_pl_vs_as').append('<tr class="color fondo02"> <td class="texto" id="center" >' + a.fecha + '</td><td class="texto" id="center" >' + a.horario + '</td><td class="texto" id="center" >' + a.estado + '</td><td class="texto" id="center" >' + a.cliente + '</td><td class="texto" id="center" >' + a.ubicacion + '</td><td class="texto" id="center" >' + a.valor + '</td>');
+					}
+				}
+			}
+		});
 
 		if (typeof (callback) == 'function') callback();
 	}
