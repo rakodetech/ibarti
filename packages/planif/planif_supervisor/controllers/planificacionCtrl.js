@@ -12,6 +12,8 @@ var actividades = [];
 var metodo = "agregar";
 var typeCalendar = "timeGridWeek";
 var isafter = true;
+var hoy = new Date();
+
 $(function () {
 	Cons_planificacion_inicio();
 });
@@ -339,6 +341,7 @@ function cargar_planif_superv_det(apertura) {
 				views: {
 					listMonth: {
 						editable: false,
+						selectable: true,
 						eventContent: function (arg) {
 							var result = "<label>En proceso</label>";
 							if (arg.event.id) {
@@ -397,7 +400,7 @@ function cargar_planif_superv_det(apertura) {
 					dayGridMonth: { // name of view
 						titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' },
 						showNonCurrentDates: false,
-						editable: false,
+						editable: true,
 						selectable: true,
 						eventContent: function (arg) {
 							var result = "<label>En proceso</label>";
@@ -464,7 +467,6 @@ function cargar_planif_superv_det(apertura) {
 				eventClick: function (arg) {
 					eventActual = arg.event;
 					metodo = "modificar";
-					var hoy = new Date();
 					var isafter = moment(arg.dateStr).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"));
 					if (isafter) {
 						$("#guardarActividad").show();
@@ -478,14 +480,23 @@ function cargar_planif_superv_det(apertura) {
 						} 
 					*/
 				},
+				eventResize: function (arg) {
+					actulizarEvento(arg);
+				},
+				eventDrop: function (arg) {
+					actulizarEvento(arg);
+				},
 				selectMirror: true,
 				select: function (arg) {
 					//("arg.start ", arg.start);
 				},
+				eventAllow: function (dropInfo, draggedEvent) {
+					return moment(dropInfo.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD")) && moment(draggedEvent.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD")) && moment(draggedEvent.start).format("YYYY-MM-DD") != moment(dropInfo.start).format("YYYY-MM-DD");
+				},
+				editable: true,
 				nowIndicator: true,
 				height: 'auto',
 				drop: function (arg) {
-					var hoy = new Date();
 					var cod_ficha = arg.draggedEl.getAttribute('cod_ficha');
 					isafter = moment(arg.dateStr).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"));
 					if (isafter) {
@@ -528,45 +539,6 @@ function cargar_planif_superv_det(apertura) {
 				},
 				dayMaxEvents: true,
 				dayHeaderFormat: { weekday: 'short' },
-				/* 				events: [
-									{
-										title: "sdads",
-										start: "2020-06-26",
-										end: "2020-06-26",
-										allDay: true
-									}
-								] */
-				//weekends: false,
-				//dayHeaders: false
-
-				//contentHeight: 600,
-
-				/* 				businessHours: {
-									// days of week. an array of zero-based day of week integers (0=Sunday)
-									daysOfWeek: [1, 2, 3, 4], // Monday - Thursday
-				
-									startTime: '10:00', // a start time (10am in this example)
-									endTime: '18:00', // an end time (6pm in this example)
-								},
-								resources: [
-									{
-										id: 'a',
-										title: 'Resource A',
-										businessHours: {
-											startTime: '10:00',
-											endTime: '18:00'
-										}
-									},
-									{
-										id: 'b',
-										title: 'Resource B',
-										businessHours: {
-											startTime: '11:00',
-											endTime: '17:00',
-											daysOfWeek: [1, 3, 5] // Mon,Wed,Fri
-										}
-									}
-								], */
 			});
 			res_eventos = d3.nest()
 				.key((d) => d.codigo)
@@ -594,11 +566,6 @@ function cargar_planif_superv_det(apertura) {
 					},
 				});
 			});
-			/* 			
-				calendar.getEvents().forEach(evt => {
-					(evt, calendar.getEventById(evt.extendedProps.codigo));
-				}); 
-			*/
 			calendar.render();
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
@@ -938,6 +905,7 @@ function cancelarActividad() {
 		eventActual.remove();
 	}
 	$('#modalRP').hide();
+	$("#guardar_actividad").show();
 }
 
 function mostarOcultarActividades(proyecto, valor) {
@@ -1028,6 +996,11 @@ function editarActividad(event) {
 			$("#planf_horaRP").val(moment(event.start).format("HH:mm:00"));
 			$("#cedulaRP").html(event.extendedProps.cod_ficha + " - " + event.extendedProps.cedula);
 			$("#dias_habilesRP").html(fechas.data[0].dias_habiles);
+			if (moment(moment(event.start).format("YYYY-MM-DD")).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"))) {
+				$("#guardar_actividad").hide();
+			} else {
+				$("#guardar_actividad").show();
+			}
 			cargar_actividades(null, (acts) => {
 				parse_act_html(acts);
 				$('#modalRP').show();
@@ -1133,4 +1106,48 @@ function filtrar_supervisores(filtro) {
 			alert(thrownError);
 		}
 	});
+}
+
+function actulizarEvento(arg) {
+	isafter = moment(arg.event.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"));
+	if (isafter) {
+		validarFecha(moment(arg.event.start).format("YYYY-MM-DD"), cliente, apertura, arg.oldEvent.extendedProps.cod_ficha, (fechas) => {
+			if (fechas.data.length > 0) {
+				var parametros = {
+					"codigo": arg.oldEvent.id, "fecha_inicio": moment(arg.event.start).format("YYYY-MM-DD HH:mm:00"), "fecha_fin": moment(arg.event.end).format("YYYY-MM-DD HH:mm:00"),
+					"cliente": arg.oldEvent.extendedProps.cod_cliente, "ubicacion": arg.oldEvent.extendedProps.cod_ubicacion,
+					"ficha": arg.oldEvent.extendedProps.cod_ficha, 'apertura': apertura, "metodo": "modificar", "usuario": usuario
+				};
+				$.ajax({
+					data: parametros,
+					url: 'packages/planif/planif_supervisor/modelo/actividad_det.php',
+					type: 'post',
+					success: function (response) {
+						var resp = JSON.parse(response);
+						if (resp.error) {
+							toastr.error(resp.mensaje);
+						} else {
+							toastr.success('Actualizacion Exitosa!..');
+							$('#modalRP').hide();
+							typeCalendar = calendar.view.type;
+							cargar_planif_superv_det(apertura);
+						}
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert(xhr.status);
+						alert(thrownError);
+					}
+				});
+			} else {
+				toastr.error(fechas.msg);
+				cargar_planif_superv_det(apertura);
+			}
+		});
+	} else {
+		toastr.info("No es posible planificar actividades sobre fechas pasadas.");
+		typeCalendar = calendar.view.type;
+		if (apertura) {
+			cargar_planif_superv_det(apertura);
+		}
+	}
 }

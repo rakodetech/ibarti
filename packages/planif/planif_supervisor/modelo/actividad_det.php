@@ -47,6 +47,7 @@ $result['sql'] = $sql;
                     fec_us_mod = CURRENT_TIMESTAMP  WHERE codigo = '$codigo'";
                  $query = $bd->consultar($sql);
                 $result['sql'] = $sql;
+                if(isset($_POST["actividades"])){
                 $sql  = "DELETE FROM planif_clientes_superv_trab_det
                 WHERE cod_planif_cl_trab = $codigo";
                 $query = $bd->consultar($sql);
@@ -58,6 +59,7 @@ $result['sql'] = $sql;
                       $result['sql'] = $sql;
                       $query = $bd->consultar($sql);
                     }
+                  }
       }elseif ($metodo == "borrar") {
         $sql  = "DELETE FROM planif_clientes_superv_trab_det
         WHERE cod_planif_cl_trab = $codigo";
