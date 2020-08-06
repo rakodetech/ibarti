@@ -491,7 +491,7 @@ function cargar_planif_superv_det(apertura) {
 					//("arg.start ", arg.start);
 				},
 				eventAllow: function (dropInfo, draggedEvent) {
-					return moment(dropInfo.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD")) && moment(draggedEvent.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD")) && moment(draggedEvent.start).format("YYYY-MM-DD") != moment(dropInfo.start).format("YYYY-MM-DD");
+					return moment(dropInfo.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD")) && ((draggedEvent.start && moment(draggedEvent.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD")) || (draggedEvent.start === null))) && moment(draggedEvent.start).format("YYYY-MM-DD") != moment(dropInfo.start).format("YYYY-MM-DD");
 				},
 				editable: true,
 				nowIndicator: true,
