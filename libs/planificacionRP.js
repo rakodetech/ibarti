@@ -1362,23 +1362,21 @@ function rp_planif_serv_vs_contratacion_horario(data, id_contenedor, callback) {
 			.key((d) => d.fecha).sortKeys(d3.ascending)
 			.entries(data['contrato']);
 
-		res_horario_cont2 = d3.nest()
-			.key((d) => d.cod_ubicacion).sortKeys(d3.ascending)
-			.key((d) => d.fecha).sortKeys(d3.ascending)
-			.key((d) => d.cod_horario).sortKeys(d3.ascending)
-			.entries(data['contrato']);
-
-		map_res_horario_cont = d3.map(res_horario_cont2, (d) => d.key);
+		map_res_horario_cont = d3.map(res_horario_cont, (d) => d.key);
 
 		d3.select('#' + id_contenedor).append('table').attr('id', 't_reporte').attr('width', '100%').attr('border', 0).attr('align', 'center');
 		d3.select('#t_reporte').append('thead').attr('id', 'thead');
 		d3.select('#t_reporte').append('thead').attr('id', 'tbody_pl_vs_as');
 		d3.select('#thead').append('tr').attr('class', 'fondo00').html('<th width="8%" class="etiqueta">Fecha</th><th width="20%" class="etiqueta">Horario</th><th width="20%" class="etiqueta">Estado</th><th width="22%" class="etiqueta">Cliente<th width="22%" class="etiqueta">Ubicacion<th width="8%" class="etiqueta">Factor</th>');
-
+		var horarios = [];
+		var ubicaciones = [];
+		var fechas = [];
 		data['contrato'].forEach((a) => {
 			var sum_dia = 0;
 			var color = '';
 			var clases = '';
+			var factor = 0;
+
 			if (map_res_horario.has(a.cod_ubicacion)) {
 				val_ubic_h = d3.map(map_res_horario.get(a.cod_ubicacion).values, (d) => d.key);
 				if (val_ubic_h.has(a.cod_horario)) {
@@ -1398,15 +1396,27 @@ function rp_planif_serv_vs_contratacion_horario(data, id_contenedor, callback) {
 				}
 			}
 
-			data['asistencia'].forEach((b) => {
-				if ((b.fecha === a.fecha) && (b.cod_ubicacion === a.cod_ubicacion)) {
-					val_ubic_f = d3.map(map_res_horario_cont.get(a.cod_ubicacion).values, (d) => d.key);
-					if (val_ubic_f.has(b.fecha)) {
-						val_ubic_h = d3.map(val_ubic_f.get(b.fecha).values, (d) => d.key);
-						if (!val_ubic_h.has(b.cod_horario)) {
-							$('#tbody_pl_vs_as').append('<tr class="color fondo02"> <td class="texto" id="center" >' + a.fecha + '</td><td class="texto" id="center" >' + b.horario + '</td><td class="texto" id="center" >' + a.estado + '</td><td class="texto" id="center" >' + a.cliente + '</td><td class="texto" id="center" >' + a.ubicacion + '</td><td class="texto" id="center" >' + b.valor + '</td>');
+			res_horario.forEach((b) => {
+				sum_dia = 0;
+				color = '';
+				clases = '';
+				if (b.key === a.cod_ubicacion) {
+					b.values.forEach(c => {
+						val_ubic_h = d3.map(map_res_horario_cont.get(a.cod_ubicacion).values, (d) => d.key);
+						if (!val_ubic_h.has(c.key) && (ubicaciones.indexOf(a.cod_ubicacion) === -1 || fechas.indexOf(a.fecha) === -1 || horarios.indexOf(c.key) === -1)) {
+							ubicaciones.push(a.cod_ubicacion);
+							fechas.push(a.fecha);
+							horarios.push(c.key);
+							val_ubic_f = d3.map(c.values, (f) => f.key);
+							if (val_ubic_f.has(a.fecha)) {
+								val_ubic_f.get(a.fecha).values.forEach(e => { sum_dia += Number(e.valor) });
+								color = validarFondo(sum_dia);
+								clases = 'color ' + color;
+								$('#tbody_pl_vs_as').append('<tr class="' + clases + '"> <td class="texto" id="center" >' + a.fecha + '</td><td class="texto" id="center" >' + val_ubic_f.get(a.fecha).values[0].horario + '</td><td class="texto" id="center" >' + a.estado + '</td><td class="texto" id="center" >' + a.cliente + '</td><td class="texto" id="center" >' + a.ubicacion + '</td><td class="texto" id="center" >' + sum_dia + '</td>');
+							}
 						}
-					}
+					})
+
 				}
 			});
 		});
