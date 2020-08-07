@@ -39,7 +39,10 @@ if($rol != "TODOS"){
 	$where .= " AND ficha.cod_rol = '$rol' ";
 }
 
-$where .= " INNER JOIN cargos ON clientes_ub_uniforme.cod_cargo = cargos.codigo AND ficha.cod_cargo = cargos.codigo
+$where .= " INNER JOIN ficha_dotacion ON ficha.cod_ficha = ficha_dotacion.cod_ficha
+AND prod_sub_lineas.codigo = ficha_dotacion.cod_sub_linea AND ficha.cod_cargo = clientes_ub_uniforme.cod_cargo
+AND clientes_ub_uniforme.cod_sub_linea = ficha_dotacion.cod_sub_linea
+INNER JOIN cargos ON clientes_ub_uniforme.cod_cargo = cargos.codigo AND ficha.cod_cargo = cargos.codigo
 INNER JOIN clientes_ubicacion ON clientes_ub_uniforme.cod_cl_ubicacion = clientes_ubicacion.codigo
 AND ficha.cod_ubicacion = clientes_ubicacion.codigo";
 
@@ -61,7 +64,7 @@ if($estado != "TODOS"){
 	$where .= " AND estados.codigo = '$estado' ";
 }
 
-$where .= " LEFT JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente";
+$where .= " INNER JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente";
 
 if($cliente != "TODOS"){
 	$where  .= " AND clientes.codigo = '$cliente' ";
@@ -69,6 +72,8 @@ if($cliente != "TODOS"){
 
 $where .= " LEFT JOIN v_prod_dot_max2 ON v_prod_dot_max2.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea
 AND v_prod_dot_max2.cod_ficha_status = 'A' AND ficha.cod_ficha = v_prod_dot_max2.cod_ficha
+AND v_prod_dot_max2.cod_cargo = clientes_ub_uniforme.cod_cargo AND ficha_dotacion.cod_sub_linea = v_prod_dot_max2.cod_sub_linea
+AND v_prod_dot_max2.cod_cargo = ficha.cod_cargo
 ";
 
 if($rol != "TODOS"){
@@ -111,14 +116,16 @@ if($rol != "TODOS"){
 	$where .= " AND roles.codigo = '$rol' ";
 }
 
-$where .= "	LEFT JOIN contractos ON v_prod_dot_max2.cod_contracto = contractos.codigo";
+$where .= "	INNER JOIN contractos ON  ficha.cod_contracto = contractos.codigo";
 
 if($contrato != "TODOS"){
 	$where .= " AND contractos.codigo= '$contrato' ";
 }
   
-  $where .= " LEFT JOIN productos ON v_prod_dot_max2.cod_producto = productos.item
-AND clientes_ub_uniforme.cod_sub_linea = productos.cod_sub_linea, ";
+  $where .= " INNER JOIN productos ON (productos.cod_sub_linea = ficha_dotacion.cod_sub_linea
+  AND productos.cod_talla = ficha_dotacion.cod_talla
+  AND productos.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea) OR (productos.item = v_prod_dot_max2.cod_producto)
+  INNER JOIN tallas  ON tallas.codigo = ficha_dotacion.cod_talla AND productos.cod_talla = tallas.codigo, ";
 
 $sql = "SELECT
 IFNULL(
@@ -147,11 +154,8 @@ prod_lineas.codigo cod_linea,
 prod_lineas.descripcion AS linea,
 clientes_ub_uniforme.cod_sub_linea,
 prod_sub_lineas.descripcion AS sub_linea,
-v_prod_dot_max2.cod_producto,
-IFNULL(
- productos.descripcion,
- 'SIN DOTAR'
-) AS producto,
+productos.codigo cod_producto,
+CONCAT(productos.descripcion, ' ', tallas.descripcion) producto,
 IFNULL(
  SUM(v_prod_dot_max2.cantidad),
  0
@@ -204,6 +208,7 @@ ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
 ?>
+
 <table width="100%" border="0" align="center">
 		<tr class="fondo00">
   			<th width="10%" class="etiqueta">Fecha</th>
