@@ -48,7 +48,7 @@ if($rol != "TODOS"){
 	$where .= " AND ficha.cod_rol = '$rol' ";
 }
 
-$where .= " INNER JOIN ficha_dotacion ON ficha.cod_ficha = ficha_dotacion.cod_ficha
+$where .= " LEFT JOIN ficha_dotacion ON ficha.cod_ficha = ficha_dotacion.cod_ficha
 AND prod_sub_lineas.codigo = ficha_dotacion.cod_sub_linea AND ficha.cod_cargo = clientes_ub_uniforme.cod_cargo
 AND clientes_ub_uniforme.cod_sub_linea = ficha_dotacion.cod_sub_linea
 INNER JOIN cargos ON clientes_ub_uniforme.cod_cargo = cargos.codigo AND ficha.cod_cargo = cargos.codigo
@@ -131,8 +131,8 @@ if($contrato != "TODOS"){
 	$where .= " AND contractos.codigo= '$contrato' ";
 }
   
-  $where .= " INNER JOIN productos ON productos.item = v_prod_dot_max2.cod_producto
-  INNER JOIN tallas ON tallas.codigo = ficha_dotacion.cod_talla
+  $where .= " LEFT JOIN productos ON productos.item = v_prod_dot_max2.cod_producto
+  LEFT JOIN tallas ON tallas.codigo = ficha_dotacion.cod_talla
   AND productos.cod_talla = tallas.codigo, ";
 
 $sql = "SELECT
@@ -167,13 +167,12 @@ IFNULL(
 		v_prod_dot_max2.cod_producto,
 		prod_sub_lineas.codigo
 	) cod_producto,
-	CONCAT(
-		IFNULL(
+	IFNULL(
 			productos.descripcion,
-			prod_sub_lineas.descripcion
-		),
+				CONCAT(prod_sub_lineas.descripcion,
 		' ',
-		tallas.descripcion
+		IFNULL(tallas.descripcion, '')
+		)
 	) producto,
 IFNULL(
  SUM(v_prod_dot_max2.cantidad),
