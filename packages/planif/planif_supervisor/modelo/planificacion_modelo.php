@@ -655,19 +655,19 @@ class Planificacion
 				}
 				$i++;
 			};
-			$sql2 .= ") AND DATE_FORMAT(p.fecha_inicio,'%Y-%m-%d') = '$fecha'
+			$sql2 .= ") AND DATE_FORMAT(pd.fecha_inicio,'%Y-%m-%d') = '$fecha'
 			AND (
 				(
-					DATE_FORMAT(p.fecha_inicio, '%H:%m') >= '$hora_inicio' 
-					AND DATE_FORMAT(p.fecha_inicio, '%H:%m') <= '$hora_fin'
-					AND DATE_FORMAT(p.fecha_fin, '%H:%m') > '$hora_inicio'
-					AND (DATE_FORMAT(p.fecha_fin, '%H:%m') >= '$hora_fin' OR DATE_FORMAT(p.fecha_fin, '%H:%m') < '$hora_fin')
+					TIME(pd.fecha_inicio) >= '$hora_inicio' 
+					AND TIME(pd.fecha_inicio) <= '$hora_fin'
+					AND TIME(pd.fecha_fin) > '$hora_inicio'
+					AND (TIME(pd.fecha_fin) >= '$hora_fin' OR TIME(pd.fecha_fin) < '$hora_fin')
 				)
 				OR (
-					DATE_FORMAT(p.fecha_inicio, '%H:%m') <= '$hora_inicio' 
-					AND DATE_FORMAT(p.fecha_inicio, '%H:%m') <= '$hora_fin'
-					AND DATE_FORMAT(p.fecha_fin, '%H:%m') > '$hora_inicio'
-					AND DATE_FORMAT(p.fecha_fin, '%H:%m') <= '$hora_fin'
+					TIME(pd.fecha_inicio) <= '$hora_inicio' 
+					AND TIME(pd.fecha_inicio) <= '$hora_fin'
+					AND TIME(pd.fecha_fin) > '$hora_inicio'
+					AND TIME(pd.fecha_fin) <= '$hora_fin'
 				)
 			)";
 			$result["sql2"] = $sql2;
@@ -685,7 +685,7 @@ class Planificacion
 					$sql3 = "SELECT SUBSTR(ADDTIME(MAX(p.fecha_fin), '00:10:00') FROM 12) hora_inicio
 					FROM planif_clientes_superv_trab p
 					WHERE  p.cod_ficha = '$ficha'
-				   	AND DATE_FORMAT(p.fecha_inicio,'%Y-%m-%d') = '$fecha'";
+				   	AND TIME(pd.fecha_inicio,'%Y-%m-%d') = '$fecha'";
 					$result["sql3"] = $sql3;
 					$query3 = $this->bd->consultar($sql3);
 					$hora_inicio = $this->bd->obtener_fila($query3, 0);
