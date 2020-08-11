@@ -164,8 +164,18 @@ prod_lineas.codigo cod_linea,
 prod_lineas.descripcion AS linea,
 clientes_ub_uniforme.cod_sub_linea,
 prod_sub_lineas.descripcion AS sub_linea,
-productos.codigo cod_producto,
-CONCAT(productos.descripcion, ' ', tallas.descripcion) producto,
+IFNULL(
+		v_prod_dot_max2.cod_producto,
+		prod_sub_lineas.codigo
+	) cod_producto,
+	CONCAT(
+		IFNULL(
+			productos.descripcion,
+			prod_sub_lineas.descripcion
+		),
+		' ',
+		tallas.descripcion
+	) producto,
 IFNULL(
  SUM(v_prod_dot_max2.cantidad),
  0
