@@ -131,10 +131,9 @@ if($contrato != "TODOS"){
 	$where .= " AND contractos.codigo= '$contrato' ";
 }
   
-  $where .= " INNER JOIN productos ON (productos.cod_sub_linea = ficha_dotacion.cod_sub_linea
-  AND productos.cod_talla = ficha_dotacion.cod_talla
-  AND productos.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea) OR (productos.item = v_prod_dot_max2.cod_producto)
-  INNER JOIN tallas  ON tallas.codigo = ficha_dotacion.cod_talla AND productos.cod_talla = tallas.codigo, ";
+  $where .= " INNER JOIN productos ON productos.item = v_prod_dot_max2.cod_producto
+  INNER JOIN tallas ON tallas.codigo = ficha_dotacion.cod_talla
+  AND productos.cod_talla = tallas.codigo, ";
 
 $sql = "SELECT
 IFNULL(
