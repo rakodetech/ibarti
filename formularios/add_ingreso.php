@@ -267,7 +267,8 @@ if($metodo == 'modificar'){
 	$us_ing         = '';
 	$fec_us_mod     = '';
 	$us_mod         = '';
-
+	$pre_emp_apto = '';
+	$pre_emp_observacion = '';
 
 	// Dotacion
 

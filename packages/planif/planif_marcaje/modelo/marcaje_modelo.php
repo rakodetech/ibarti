@@ -23,7 +23,7 @@ class Marcaje
         AND pd.cod_proyecto = pp.codigo
         AND pd.cod_actividad = pa.codigo
         ANd p.cod_ubicacion = cu.codigo
-        AND DATE_FORMAT(pd.fecha_inicio, '%Y-%m-%d') = DATE_FORMAT(CURDATE(), '%Y-%m-%d')
+        AND DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') = DATE_FORMAT(CURDATE(), '%Y-%m-%d')
         AND TIME(pd.fecha_fin) <= CURRENT_TIME()
         AND p.cod_ficha = '$ficha'
         ";
