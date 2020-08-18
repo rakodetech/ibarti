@@ -1409,6 +1409,7 @@ function rp_planif_serv_vs_contratacion_horario(data, id_contenedor, callback) {
 							horarios.push(c.key);
 							val_ubic_f = d3.map(c.values, (f) => f.key);
 							if (val_ubic_f.has(a.fecha)) {
+								sum_dia = 0;
 								val_ubic_f.get(a.fecha).values.forEach(e => { sum_dia += Number(e.valor) });
 								color = validarFondo(sum_dia);
 								clases = 'color ' + color;
