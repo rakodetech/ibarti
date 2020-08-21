@@ -72,8 +72,8 @@ $refl01_empresa  = htmlentities($_POST["refl01_empresa"]);
 $refl01_telf     = htmlentities($_POST["refl01_telf"]);
 $refl01_contacto = htmlentities($_POST["refl01_contacto"]);
 $refl01_cargo    = htmlentities($_POST["refl01_cargo"]);
-$refl01_sueldo_inic = isset($_POST["refl01_sueldo_inic"]) ? htmlentities($_POST["refl01_sueldo_inic"]) : 0;
-$refl01_sueldo_fin  = isset($_POST["refl01_sueldo_fin"]) ? htmlentities($_POST["refl01_sueldo_fin"]) : 0;
+$refl01_sueldo_inic = $_POST["refl01_sueldo_inic"] != "" ? htmlentities($_POST["refl01_sueldo_inic"]) : 0;
+$refl01_sueldo_fin  = $_POST["refl01_sueldo_fin"] != "" ? htmlentities($_POST["refl01_sueldo_fin"]) : 0;
 $refl01_fec_ingreso = conversion($_POST["refl01_fec_ingreso"]);
 $refl01_fec_egreso  = conversion($_POST["refl01_fec_egreso"]);
 $refl01_retiro    = htmlentities($_POST["refl01_retiro"]);
@@ -84,8 +84,8 @@ $refl02_empresa  = htmlentities($_POST["refl02_empresa"]);
 $refl02_telf     = htmlentities($_POST["refl02_telf"]);
 $refl02_contacto = htmlentities($_POST["refl02_contacto"]);
 $refl02_cargo    = htmlentities($_POST["refl02_cargo"]);
-$refl02_sueldo_inic =  isset($_POST["refl02_sueldo_inic"]) ? htmlentities($_POST["refl02_sueldo_inic"]) : 0;
-$refl02_sueldo_fin  = isset($_POST["refl02_sueldo_fin"]) ? htmlentities($_POST["refl02_sueldo_fin"]) : 0;
+$refl02_sueldo_inic =  $_POST["refl02_sueldo_inic"] != "" ? htmlentities($_POST["refl02_sueldo_inic"]) : 0;
+$refl02_sueldo_fin  = $_POST["refl02_sueldo_fin"] != "" ? htmlentities($_POST["refl02_sueldo_fin"]) : 0;
 $refl02_fec_ingreso = conversion($_POST["refl02_fec_ingreso"]);
 $refl02_fec_egreso  = conversion($_POST["refl02_fec_egreso"]);
 $refl02_retiro    = htmlentities($_POST["refl02_retiro"]);
@@ -199,7 +199,7 @@ $metodo   = $_POST['metodo'];
 								'$refl02_fec_egreso', '$refl02_direccion', '$refl02_observacion', '$refl02_retiro',
 								'$refl02_apto', '$t_camisa', '$t_pantalon', '$n_zapato',
 								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";	
-
+		echo $sql;
 	 $query = $bd->consultar($sql);	  
 	 }
 	 
@@ -211,7 +211,7 @@ $metodo   = $_POST['metodo'];
 	}
 	</script>';	
 	}	
- require_once('../funciones/sc_direccionar.php');  
+ // require_once('../funciones/sc_direccionar.php');  
 ?>
 <body>
 </body>

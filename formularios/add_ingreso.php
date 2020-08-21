@@ -267,6 +267,7 @@ if($metodo == 'modificar'){
 	$us_ing         = '';
 	$fec_us_mod     = '';
 	$us_mod         = '';
+	$fec_pre_emp	= '';
 	$pre_emp_apto = '';
 	$pre_emp_observacion = '';
 
