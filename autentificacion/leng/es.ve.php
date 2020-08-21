@@ -32,7 +32,7 @@ $leng =  array("rif" =>"Rif" ,
 
                "aceptado" =>"Aceptado",
                "rechazado" =>"Rechazado",
-               "pendiente" =>"Pendinte",
+               "pendiente" =>"Pendiente",
 
                "ci" => "C&eacute;dula",
                "trabajador" =>"Trabajador",
