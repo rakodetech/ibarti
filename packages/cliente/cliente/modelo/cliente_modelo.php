@@ -19,7 +19,7 @@ class Cliente
 		$sql = " SELECT clientes.codigo, clientes.cod_cl_tipo, clientes_tipos.descripcion AS cl_tipo,
 		clientes.cod_vendedor, vendedores.nombre AS vendedor, clientes.cod_region,
 		regiones.descripcion AS region, clientes.abrev, clientes.rif,
-		clientes.nit, clientes.nombre, clientes.telefono,
+		clientes.nit, clientes.nombre, clientes.telefono, clientes.contacto,
 		clientes.status
 		FROM clientes, clientes_tipos, vendedores, regiones
 		WHERE clientes.cod_cl_tipo = clientes_tipos.codigo
@@ -39,7 +39,7 @@ class Cliente
 
 		$this->datos = array('codigo' => '',  'nombre' => '',
 			'cod_cl_tipo' => '',  'cl_tipo' => 'Seleccione...',
-			'cod_vendedor' => '', 'vendedor' => 'Seleccione...',
+			'cod_vendedor' => '', 'vendedor' => 'Seleccione...','contacto' => '',
 			'cod_region' => '',   'region' => 'Seleccione...',
 			'abrev' => '', 'rif' => '', 'nit' => '', 'telefono' => '',
 			'fax' => '', 'direccion' => '','dir_entrega' => '', 'email' => '',
@@ -64,7 +64,7 @@ class Cliente
 		a.contribuyente, a.lunes, a.martes, a.miercoles,
 		a.jueves, a.viernes, a.sabado, a.domingo,
 		a.limite_cred, a.plazo_pago, a.desc_global, a.desc_p_pago,
-		a.campo01, a.campo02, a.campo03, a.campo04,
+		a.campo01, a.campo02, a.campo03, a.campo04, a.contacto,
 		a.cod_us_ing, a.fec_us_ing,a.cod_us_mod, a.fec_us_mod, a.`status`
 		FROM clientes a , clientes_tipos , vendedores , regiones
 		WHERE a.codigo = '$cod'

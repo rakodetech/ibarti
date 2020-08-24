@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
   Cons_cliente("", "agregar");
 });
 
@@ -16,7 +16,7 @@ function Cons_cliente(cod, metodo) {
       data: parametros,
       url: "packages/cliente/cliente/views/Add_form.php",
       type: "post",
-      success: function(response) {
+      success: function (response) {
         $("#Cont_cliente").html(response);
 
         if (metodo == "modificar") {
@@ -29,7 +29,7 @@ function Cons_cliente(cod, metodo) {
           $("#agregar_cliente").show();
         }
       },
-      error: function(xhr, ajaxOptions, thrownError) {
+      error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
       }
@@ -58,7 +58,7 @@ function save_cliente() {
   var vendedor = $("#c_vendedor").val();
   var email = $("#c_email").val();
   var website = $("#c_website").val();
-
+  var contacto = $("#c_contacto").val();
   var direccion = $("#c_direccion").val();
   var observ = $("#c_observ").val();
 
@@ -102,6 +102,7 @@ function save_cliente() {
       vendedor: vendedor,
       email: email,
       website: website,
+      contacto: contacto,
       direccion: direccion,
       observ: observ,
       limite_cred: limite_cred,
@@ -129,7 +130,7 @@ function save_cliente() {
       data: parametros,
       url: "packages/cliente/cliente/modelo/cliente.php",
       type: "post",
-      success: function(response) {
+      success: function (response) {
         var resp = JSON.parse(response);
         if (resp.error) {
           alert(resp.mensaje);
@@ -159,7 +160,7 @@ function save_cliente() {
           //para Evitar errores de historial y a su evento click le una funcion que cargue
           //los datos de el registro que contenga el codigo actual y asi restablecer los valores
           $("#limpiar_cliente").prop("type", "button");
-          $("#limpiar_cliente").click(function() {
+          $("#limpiar_cliente").click(function () {
             Cons_cliente(codigo, "modificar");
           });
           //Paso a false el input que almacena el valor que indica si el formulario a sufrido cambios
@@ -171,7 +172,7 @@ function save_cliente() {
           buscar_cliente(true);
         }
       },
-      error: function(xhr, ajaxOptions, thrownError) {
+      error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
       }
@@ -194,7 +195,7 @@ function Borrar_cliente() {
       data: parametros,
       url: "packages/general/controllers/sc_borrar.php",
       type: "post",
-      success: function(response) {
+      success: function (response) {
         var resp = JSON.parse(response);
         if (resp.error) {
           alert(resp.mensaje);
@@ -205,12 +206,12 @@ function Borrar_cliente() {
           //cambio la funcion del evento click del boton Volver para evitar errores de historial
           //volver_cliente -> Cons_cliente('', 'agregar'), para asi no mostrar los datos del registro antes
           //eliminado y mostrar la vista Agregar X
-          $("#volver_cliente").click(function() {
+          $("#volver_cliente").click(function () {
             Cons_cliente("", "agregar");
           });
         }
       },
-      error: function(xhr, ajaxOptions, thrownError) {
+      error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
         alert(thrownError);
       }
@@ -252,7 +253,7 @@ function buscar_cliente(isBuscar) {
     data: { data: data, filtro: filtro },
     url: "packages/cliente/cliente/views/Buscar_clientes.php",
     type: "post",
-    beforeSend: function() {
+    beforeSend: function () {
       //Deshabilito el submit del form Buscar X
       $("#buscarCliente").attr("disabled", true);
       //Deshabilito el boton(img) de form Buscar X
@@ -260,7 +261,7 @@ function buscar_cliente(isBuscar) {
       //Cambio la imagen del boton Buscar X
       $("#buscarC").prop("src", "imagenes/loading3.gif");
     },
-    success: function(response) {
+    success: function (response) {
       // Oculto la vista Agregar X y Muestro la vista Buscar X
       //solo cuando estoy fuera de la vista Buscar X (lógico)
       if (!isBuscar) {
@@ -277,7 +278,7 @@ function buscar_cliente(isBuscar) {
       //Restablesco la imagen por defecto del boton buscar X
       $("#buscarC").prop("src", "imagenes/buscar.bmp");
     },
-    error: function(xhr, ajaxOptions, thrownError) {
+    error: function (xhr, ajaxOptions, thrownError) {
       alert(xhr.status);
       alert(thrownError);
 
@@ -299,7 +300,7 @@ function agregar_arreglo_contactos() {
   var motivo_error = "";
   $("#data_ad *")
     .filter(":input")
-    .each(function(pos, elemento) {
+    .each(function (pos, elemento) {
       if (elemento.value == "") {
         if (!(elemento.id == "c_observacion")) {
           error += 1;
@@ -380,7 +381,7 @@ function accionar(poss, tipo) {
 
       $("#data_ad *")
         .filter(":input")
-        .each(function(pos, elemento) {
+        .each(function (pos, elemento) {
           //console.log(arreglo_contactos[pos_modificar]);
           document.getElementById(elemento.id).value =
             arreglo_contactos[pos_modificar][elemento.id.replace("c_", "")];
@@ -422,10 +423,10 @@ function agregar_db() {
     data: parametros,
     url: "packages/cliente/cliente/modelo/cliente.php",
     type: "post",
-    success: function(response) {
+    success: function (response) {
       toastr.success("Actualización Exitosa!..");
     },
-    error: function(xhr, ajaxOptions, thrownError) {
+    error: function (xhr, ajaxOptions, thrownError) {
       toastr.error(xhr.status);
       toastr.error(thrownError);
     }
@@ -442,12 +443,12 @@ function consultar_contactos() {
     data: parametros,
     url: "packages/cliente/cliente/modelo/cliente.php",
     type: "post",
-    success: function(response) {
+    success: function (response) {
       var data = JSON.parse(response);
       arreglo_contactos = data;
       update_table_contactos("tabla_add", arreglo_contactos);
     },
-    error: function(xhr, ajaxOptions, thrownError) {
+    error: function (xhr, ajaxOptions, thrownError) {
       alert(xhr.status);
       alert(thrownError);
     }

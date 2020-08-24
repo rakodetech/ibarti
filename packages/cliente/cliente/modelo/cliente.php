@@ -81,7 +81,7 @@ if(isset($_POST['motivo'])){
 			$sql    = "$SELECT $proced('$metodo', '$codigo', '$cl_tipo', '$vendedor',
 																 '$region', '$abrev', '$rif', '$nit',
 									 '$nombre', '$telefono', '$fax', '$direccion',
-									 '$dir_entrega', '$email', '$website',
+									 '$dir_entrega', '$email', '$website', '$contacto',
 									 '$observ',
 									 '$juridico', '$contrib', '$lunes', '$martes',
 									 '$miercoles', '$jueves', '$viernes', '$sabado',
@@ -95,7 +95,7 @@ if(isset($_POST['motivo'])){
 			$error =  $e->getMessage();
 			$result['error'] = true;
 			$result['mensaje'] = $error;
-			$bd->log_error("Aplicacion", "sc_horario.php",  "$usuario", "$error", "$sql");
+			$bd->log_error("Aplicacion", "sc_cliente.php",  "$usuario", "$error", "$sql");
 		}
 	}
 	print_r(json_encode($result));
