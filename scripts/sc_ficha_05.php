@@ -65,7 +65,6 @@ if(isset($_POST['proced'])){
 							'$fec_calculo', '$fec_posible_pago', '$fec_pago', '$cheque',
 							'$banco','$importe','$entrega_uniforme', '$observacion',
 							'$observacion2', '$usuario', '$status')";
-echo $sql;
  $query = $bd->consultar($sql);
 	}
  require_once('../funciones/sc_direccionar.php');
