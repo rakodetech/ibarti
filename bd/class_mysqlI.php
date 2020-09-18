@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 if(!defined("SPECIALCONSTANT")) die ("Acceso denegado");
 
 class DataBase {
@@ -15,10 +16,10 @@ class DataBase {
     $conn = new MySQLI($this->host, $this->user, $this->pass, $this->database);
     $timeout = 30;  /* thirty seconds for timeout */
     $conn = mysqli_init();
-    $conn->options( MYSQLI_OPT_CONNECT_TIMEOUT, $timeout );
-    //die( 'mysqli_options croaked: ' . $conn->error );
-    //$conn->real_connect($this->host, $this->user, $this->pass, $this->database);
-    //die( 'mysqli_real_connect croaked: ' . $conn->error );
+    $conn->options(MYSQLI_OPT_CONNECT_TIMEOUT, $timeout ) ||
+    die( 'mysqli_options croaked: ' . $conn->error );
+    $conn->real_connect($this->host, $this->user, $this->pass, $this->database) ||
+    die( 'mysqli_real_connect croaked: ' . $conn->error );
 
     if(mysqli_connect_errno()){
             //  throw new Exception("Error al conectarse con el servidor MySQL: ".$this->mysqli->error);
