@@ -17,7 +17,7 @@ class DataBase {
     $conn = mysqli_init();
     $conn->options( MYSQLI_OPT_CONNECT_TIMEOUT, $timeout );
     //die( 'mysqli_options croaked: ' . $conn->error );
-    $conn->real_connect($this->host, $this->user, $this->pass, $this->database);
+    //$conn->real_connect($this->host, $this->user, $this->pass, $this->database);
     //die( 'mysqli_real_connect croaked: ' . $conn->error );
 
     if(mysqli_connect_errno()){
