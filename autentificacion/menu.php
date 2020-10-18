@@ -18,7 +18,7 @@ while ($rowMenu=$bd->obtener_fila($query,0)){
 	if($menu_id == "02"){ 			   
 		$sql = "SELECT DISTINCT men_modulos.codigo, men_modulos.descripcion,
 		men_modulos.link, men_modulos.orden
-		FROM men_modulos ,  men_perfil_menu, nov_perfiles
+		FROM men_modulos ,  men_perfil_menu
 		WHERE men_modulos.status = 'T' 
 		AND men_perfil_menu.cod_men_perfil = '".$_SESSION['cod_perfil']."'
 		AND men_modulos.codigo = men_perfil_menu.cod_menu_modulo
