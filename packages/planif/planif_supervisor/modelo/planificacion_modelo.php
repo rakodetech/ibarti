@@ -643,8 +643,10 @@ class Planificacion
 			$sql2 = " SELECT p.cod_ubicacion
 				FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd
 				WHERE p.codigo = pd.cod_planif_cl_trab 
-				AND (p.cod_ficha = '$ficha'
-				OR p.cod_planif_cl = $apertura)
+				AND ((p.cod_ficha = '$ficha'
+				AND p.cod_planif_cl = $apertura) OR 
+				(p.cod_ubicacion = '$ubic'
+				AND p.cod_planif_cl = $apertura))
 				";
 			$i = 0;
 			foreach ($actividades as $key => $value) {
