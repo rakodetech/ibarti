@@ -37,9 +37,9 @@ class Planificacion
 		$this->datos   = array();
 
 		$where = " WHERE clientes.codigo = '$cliente'
-		AND v_ficha.cod_cliente = cf.codigo
-		AND cf.cod_region = clientes.cod_region
-		AND cf.`status` = 'T'
+		AND v_ficha.cod_ubicacion = clientes_ubicacion.codigo
+		AND clientes_ubicacion.cod_region = clientes.cod_region
+		AND clientes_ubicacion.`status` = 'T'
 		AND v_ficha.cod_cargo = cargos.codigo
 		AND cargos.planificable = 'T'
 		AND v_ficha.cod_ficha_status = control.ficha_activo ";
@@ -50,7 +50,7 @@ class Planificacion
 
 		$sql = "  SELECT v_ficha.cod_ficha, v_ficha.ap_nombre, v_ficha.cargo, v_ficha.nombres, v_ficha.apellidos, v_ficha.cedula, 
 		cargos.descripcion cargo
-		FROM v_ficha, cargos, control, clientes, clientes cf
+		FROM v_ficha, cargos, control, clientes, clientes_ubicacion
 		".$where."
 		ORDER BY 1,3 ASC ";
 
