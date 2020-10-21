@@ -529,9 +529,12 @@ class Planificacion
 
 		$sql = "SELECT  v_ficha.rol, v_ficha.cod_ficha, v_ficha.cedula, 
 		v_ficha.ap_nombre
-		FROM v_ficha, control, cargos
+		FROM v_ficha, control, cargos, clientes_ubicacion, clientes
 		WHERE v_ficha.cod_ficha_status = control.ficha_activo  
+		AND clientes.codigo = '$cliente'
+		AND clientes_ubicacion.cod_region = clientes.cod_region
 		AND v_ficha.cod_cargo = cargos.codigo
+		AND v_ficha.cod_ubicacion = clientes_ubicacion.codigo
 		AND cargos.planificable = 'T'
 		AND v_ficha.cod_ficha NOT IN (SELECT planif_clientes_superv_trab.cod_ficha FROM planif_clientes_superv_trab
 		WHERE planif_clientes_superv_trab.cod_planif_cl = '$apertura' AND  planif_clientes_superv_trab.cod_cliente = $cliente)
@@ -548,8 +551,11 @@ class Planificacion
 	{
 		$this->datos  = array();
 		$sql = "SELECT COUNT(v_ficha.cod_ficha) cantidad
-		FROM v_ficha, cargos, control
-		WHERE v_ficha.cod_ficha_status = control.ficha_activo 
+		FROM v_ficha, cargos, control, clientes_ubicacion, clientes
+		WHERE v_ficha.cod_ficha_status = control.ficha_activo
+		AND clientes.codigo = '$cliente'
+		AND clientes_ubicacion.cod_region = clientes.cod_region
+		AND v_ficha.cod_ubicacion = clientes_ubicacion.codigo
 		AND v_ficha.cod_cargo = cargos.codigo
 		AND cargos.planificable = 'T'
 		AND v_ficha.cod_ficha NOT IN (SELECT planif_clientes_superv_trab.cod_ficha FROM planif_clientes_superv_trab
