@@ -128,6 +128,23 @@ class Planificacion
 		return $this->datos;
 	}
 
+	function get_regiones($cliente)
+	{
+		$this->datos = array();
+		$sql = "SELECT regiones.codigo, regiones.descripcion 
+		FROM clientes_ubicacion, regiones 
+		WHERE clientes_ubicacion.cod_cliente = '$cliente' 
+		AND clientes_ubicacion.cod_region = regiones.codigo
+		AND clientes_ubicacion.status = 'T' GROUP BY 1;";
+		$query    = $this->bd->consultar($sql);
+
+		$query = $this->bd->consultar($sql);
+		while ($datos = $this->bd->obtener_fila($query)) {
+			$this->datos[] = $datos;
+		}
+		return $this->datos;
+	}
+
 	function get_planif_ap_ubic($cliente)
 	{
 		$this->datos  = array();
@@ -206,7 +223,7 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_planif_det($apertura, $cliente)
+	function get_planif_det($apertura, $cliente, $region)
 	{
 		$this->datos   = array();
 		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
@@ -227,6 +244,7 @@ class Planificacion
 			AND pcstd.cod_proyecto = pp.codigo
 			AND pcstd.cod_planif_cl_trab = pcst.codigo
 			AND pcstd.cod_actividad = pa.codigo
+			AND cu.cod_region = '$region'
 			ORDER BY codigo ASC, obligatoria DESC, fecha_inicio_act ASC";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
@@ -573,7 +591,7 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function validar_fecha($fecha, $cliente, $apertura, $cod_ficha)
+	function validar_fecha($fecha, $cliente, $apertura, $region, $cod_ficha)
 	{
 		$this->datos  = array();
 		$this->datos["data"]  = array();
@@ -589,6 +607,7 @@ class Planificacion
 	   OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND DATE_FORMAT(a.fecha,'%d') = dias_tipo.descripcion))
 	   AND a.cod_ubicacion = cu.codigo AND a.cod_cliente = '$cliente' 
 	   AND a.cod_planif_cl = $apertura AND a.`status`='T'  AND a.fecha = '$fecha'
+	   AND cu.cod_region = '$region'
 	   GROUP BY a.cod_cliente, a.cod_ubicacion, a.cod_turno, a.fecha";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query, 0)) {

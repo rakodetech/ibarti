@@ -19,7 +19,8 @@ if(isset($_POST['fecha_desde'])){
 }elseif(isset($_POST['codigo'])){
 	$apertura  = $_POST['codigo'];
 	$cliente  = $_POST['cliente'];
-	$trab  = $plan->get_planif_det($apertura, $cliente);
+	$region  = $_POST['region'];
+	$trab  = $plan->get_planif_det($apertura, $cliente, $region);
 	$mod  = $plan->get_ultima_mod($apertura, $cliente);
 	$fechas = $plan->get_fechas_apertura($apertura, $cliente);
 
