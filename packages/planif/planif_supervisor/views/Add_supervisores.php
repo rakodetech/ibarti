@@ -4,9 +4,9 @@ require "../../../../".Leng;
 
 $plan   = new Planificacion;
 $result = "";
-$cliente     = $_POST['cliente'];
+$region     = $_POST['region'];
 $filtro     = $_POST['filtro'];
-$supervisores = $plan->get_supervisores($cliente, $filtro);
+$supervisores = $plan->get_supervisores($region, $filtro);
 
 foreach ($supervisores as  $datos) {
     $result .= '<div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event" cod_ficha="'.$datos[0].'" cedula="'.$datos[5].'">

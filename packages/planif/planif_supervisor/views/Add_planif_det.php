@@ -24,7 +24,7 @@ if(isset($_POST['fecha_desde'])){
 	$mod  = $plan->get_ultima_mod($apertura, $cliente);
 	$fechas = $plan->get_fechas_apertura($apertura, $cliente);
 
-	$supervisores = $plan->get_supervisores($cliente, null);
+	$supervisores = $plan->get_supervisores($region, null);
 	$result['html'] = '</br><div align="center" class="etiqueta_title">Planificacion Detalle</div>
 	<div align="right"><span class="etiqueta">Ultima Modificacion: </span> '.$mod["fecha"].' ('.$mod["us_mod"].')</div>
 	<div align="right"><span class="etiqueta">Nro. de Supervisores sin planificar en este cliente: <h6 id="cantidad_sin_planif"></h6></div>

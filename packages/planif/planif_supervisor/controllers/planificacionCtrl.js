@@ -1128,7 +1128,7 @@ function save_planif_apertura() {
 }
 
 function filtrar_supervisores(filtro) {
-	var parametros = { cliente, filtro };
+	var parametros = { region, filtro };
 	$.ajax({
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_supervisores.php',

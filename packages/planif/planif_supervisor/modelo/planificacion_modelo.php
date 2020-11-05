@@ -32,13 +32,12 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_supervisores($cliente, $filtro)
+	function get_supervisores($region, $filtro)
 	{
 		$this->datos   = array();
 
-		$where = " WHERE clientes.codigo = '$cliente'
-		AND v_ficha.cod_ubicacion = clientes_ubicacion.codigo
-		AND clientes_ubicacion.cod_region = clientes.cod_region
+		$where = " WHERE v_ficha.cod_ubicacion = clientes_ubicacion.codigo
+		AND clientes_ubicacion.cod_region = '$region'
 		AND clientes_ubicacion.`status` = 'T'
 		AND v_ficha.cod_cargo = cargos.codigo
 		AND cargos.planificable = 'T'
@@ -50,7 +49,7 @@ class Planificacion
 
 		$sql = "  SELECT v_ficha.cod_ficha, v_ficha.ap_nombre, v_ficha.cargo, v_ficha.nombres, v_ficha.apellidos, v_ficha.cedula, 
 		cargos.descripcion cargo
-		FROM v_ficha, cargos, control, clientes, clientes_ubicacion
+		FROM v_ficha, cargos, control, clientes_ubicacion
 		".$where."
 		ORDER BY 1,3 ASC ";
 
