@@ -89,7 +89,7 @@ class Producto
       'prec_vta1' => '', 'fec_prec_vta1' => '','prec_vta2' => '', 'fec_prec_vta2' => '',
       'prec_vta3' => '', 'fec_prec_vta3' => '','prec_vta4' => '', 'fec_prec_vta4' => '',
       'garantia' => '', 'talla' => '','peso' => '', 'piecubico' => '',
-      'venc' => 'F', 'fec_venc' => '','campo01' => '', 'campo02' => '','campo03' => '','campo04' => '',
+      'venc' => 'F', 'fec_venc' => '', 'dias_vencimiento' => '180', 'campo01' => '', 'campo02' => '','campo03' => '','campo04' => '',
       'prec_vta5' => '', 'fec_prec_vta5' => '','status' => 'T','ean' => 'F');
     return $this->datos;
   }
@@ -112,6 +112,7 @@ class Producto
     productos.punto_pedido, productos.stock_maximo, productos.stock_minimo,
     productos.garantia, productos.peso,
     productos.vencimiento, productos.fec_vencimiento,
+    productos.dias_vencimiento,
     productos.fec_prec_v1, productos.prec_vta1,
     productos.fec_prec_v2, productos.prec_vta2,
     productos.fec_prec_v3, productos.prec_vta3,

@@ -39,6 +39,12 @@
       </td>
     </tr>
     <tr>
+      <td class="etiqueta">Días Vencimiento: </td>
+      <td>
+       <input type="number" name="dias_vencimiento" id="dias_vencimiento" min="1" value="<?php echo $prod['dias_vencimiento'];?>"/>
+     </td>
+   </tr>
+    <tr>
       <td class="etiqueta">Fecha Vencimiento: </td>
       <td id="fecha11">
        <input type="text" name="fec_venc" id="fec_venc" value="<?php echo $prod['fec_vencimiento'];?>"/><br />
