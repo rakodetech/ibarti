@@ -10,7 +10,8 @@ $result = '';
 $cargos = array();
 $codigo      = $_POST['codigo'];
 	   $sql01 ="SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion sub_linea,
-	   IFNULL(clientes_ub_uniforme.cod_cargo, '') cod_cargo, IFNULL(cargos.descripcion, 'Seleccione') cargo,  clientes_ub_uniforme.cantidad
+	   IFNULL(clientes_ub_uniforme.cod_cargo, '') cod_cargo, IFNULL(cargos.descripcion, 'Seleccione') cargo,  clientes_ub_uniforme.cantidad,
+	   clientes_ub_uniforme.dias, clientes_ub_uniforme.vencimiento
 	   FROM prod_sub_lineas, clientes_ub_uniforme LEFT JOIN cargos ON clientes_ub_uniforme.cod_cargo = cargos.codigo
 	  WHERE clientes_ub_uniforme.cod_sub_linea = prod_sub_lineas.codigo
 	  AND clientes_ub_uniforme.cod_cl_ubicacion = '$codigo'
@@ -57,6 +58,12 @@ while ($datoscargo = $bd->obtener_fila($querycargo)) {
                 <td>
                  <input type="number" id="cantidad_uniforme'.$i.'" style="width:50px"  value="'.$datos['cantidad'].'" min="1">
 			   </td>
+			   <td>
+			   <input type="number" id="dias_uniforme'.$i.'" style="width:100px"  value="'.$datos['dias'].'" min="0">
+			 </td>
+			 <td>
+                 <input type="checkbox" id="vencimiento_uniforme'.$i.'" style="width:50px" '.statusCheck($datos["vencimiento"]).'/>
+			   </td>  
 			   <td><img src="imagenes/actualizar.bmp" alt="Actualizar" title="Actualizar Registro" border="null" width="20px" height="20px" class="imgLink" onclick="ValidarSubmitUniforme('.$modificar.')" />&nbsp;
 		  <img src="imagenes/borrar.bmp" alt="Detalle" title="Borrar Registro" width="25" height="25" border="null"
 			   onclick="Borrar(' . $borrar . ')" class="imgLink" />

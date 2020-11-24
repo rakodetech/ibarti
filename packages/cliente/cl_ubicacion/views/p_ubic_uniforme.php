@@ -1,9 +1,3 @@
-<?php
-$sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion sub_linea, clientes_ub_uniforme.cantidad
-                   FROM clientes_ub_uniforme, prod_sub_lineas
-                  WHERE clientes_ub_uniforme.cod_sub_linea = prod_sub_lineas.codigo
-				  AND clientes_ub_uniforme.cod_cl_ubicacion = '$codigo'";
-?>
 <script language="javascript">
     function agregarProductoUniforme(auto, metodo) {
         var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
@@ -49,7 +43,8 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 		var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
 		var cod_cargo = document.getElementById("codigo_cargo" + auto + "").value;
 		var cantidad_uniforme = document.getElementById("cantidad_uniforme" + auto + "").value;
-		
+		var dias_uniforme = document.getElementById("dias_uniforme" + auto + "").value;
+		var vencimiento_uniforme = Status($('input:checkbox[id=vencimiento_uniforme'+auto+']:checked').val());
 		var valor = "scripts/sc_cl_ubic_uniforme.php";
 		var proced = "p_cl_ubic_uniforme";
 		ajax = nuevoAjax();
@@ -73,7 +68,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo=" + cod_ubic + "&cod_cargo=" + cod_cargo + "&cod_sub_linea=" + cod_sub_linea + "&cantidad=" + cantidad_uniforme  + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
+		ajax.send("codigo=" + cod_ubic + "&cod_cargo=" + cod_cargo + "&cod_sub_linea=" + cod_sub_linea + "&cantidad=" + cantidad_uniforme  +"&dias=" + dias_uniforme  +"&vencimiento=" + vencimiento_uniforme  + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 	}
 
 	function Borrar(auto, metodo) {
@@ -82,6 +77,8 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 			var cod_cargo = document.getElementById("codigo_cargo" + auto + "").value;
             var cod_sub_linea = document.getElementById("stdIDuniforme" + auto + "").value;
 			var cantidad_uniforme = document.getElementById("cantidad_uniforme" + auto + "").value;
+			var dias_uniforme = document.getElementById("dias_uniforme" + auto + "").value;
+			var vencimiento_uniforme = Status($('input:checkbox[id=vencimiento_uniforme'+auto+']:checked').val());
 			var ususario = "";
 
 			var valor = "scripts/sc_cl_ubic_uniforme.php";
@@ -98,7 +95,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("codigo=" + cod_ubic + "&cod_sub_linea=" + cod_sub_linea + "&cod_cargo="+ cod_cargo + "&cantidad=" + cantidad_uniforme + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
+			ajax.send("codigo=" + cod_ubic + "&cod_sub_linea=" + cod_sub_linea + "&cod_cargo="+ cod_cargo + "&cantidad=" + cantidad_uniforme +"&dias=" + dias_uniforme  +"&vencimiento=" + vencimiento_uniforme + "&usuario=" + usuario + "&href=''&metodo=" + metodo + "&proced=" + proced + "");
 		} else {
 			alert(errorMessage);
 		}
@@ -128,6 +125,8 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
             <input type="hidden" name="producto" id="stdIDuniforme" value=""/></th>
 			<th width="30%" class="etiqueta">Cargo</th>
             <th width="15%" class="etiqueta">Cantidad</th>
+			<th width="15%" class="etiqueta">Dias para vencer</th>
+			<th width="15%" class="etiqueta">Aplica Vencimiento</th>
 			<th width="15%"><img src="imagenes/loading2.gif" alt="Agregar Registro" width="40" height="40" title="Agregar Registro" border="null" class="imgLink" /></th>
 		</tr>
 		<tr class="fondo02">
@@ -148,6 +147,12 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
       <td>
        <input type="number" id="cantidad_uniforme" style="width:50px" value="1" min="0"  required placeholder="">
 		</td>	
+		<td>
+			   <input type="number" id="dias_uniforme" style="width:100px"  value="180" min="0">
+			 </td>
+			 <td>
+                 <input type="checkbox" id="vencimiento_uniforme" checked="true" style="width:50px"/>
+			   </td>  
 		<td><span class="art-button-wrapper">
 					<span class="art-button-l"> </span>
 					<span class="art-button-r"> </span>
@@ -155,7 +160,7 @@ $sql01 =	"SELECT clientes_ub_uniforme.cod_sub_linea, prod_sub_lineas.descripcion
 				</span></td>
 		</tr>
 		</table>
-		<table id="Contenedor04" width="80%" border="0" align="center">
+		<table id="Contenedor04" width="90%" border="0" align="center">
 	</table>
 </div>
 <div align="center">
