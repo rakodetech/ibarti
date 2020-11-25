@@ -186,6 +186,20 @@ clientes_ub_uniforme.cantidad alcance,
  )
 )
 ) cant_a_dotar,
+IF(clientes_ub_uniforme.vencimiento = 'T',
+DATE_ADD(
+ DATE_FORMAT(
+	 IFNULL(
+		 v_prod_dot_max2.fecha_max,
+		 '0001-01-01'
+	 ),
+	 '%Y-%m-%d'
+ ),
+ INTERVAL clientes_ub_uniforme.dias DAY
+) < DATE_ADD(
+ '$fecha_D',
+ INTERVAL $d_proyeccion DAY
+),
 DATE_ADD(
  DATE_FORMAT(
 	 IFNULL(
@@ -198,6 +212,7 @@ DATE_ADD(
 ) < DATE_ADD(
  '$fecha_D',
  INTERVAL $d_proyeccion DAY
+)
 ) vencido
 FROM
 clientes_ub_uniforme
@@ -215,6 +230,7 @@ vencido = 1
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
+echo $sql;
 ?>
 
 <table width="100%" border="0" align="center">
