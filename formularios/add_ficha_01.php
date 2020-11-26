@@ -113,13 +113,12 @@ if($metodo == 'modificar' or $metodo == 'consultar'){
 	ficha.cod_t_camisas , preing_camisas.descripcion AS t_camisas,
 	ficha.cod_t_pantalon , preing_pantalon.descripcion AS t_pantalon,
 	ficha.campo03,ficha.campo04
-	FROM ficha, nacionalidad, estado_civil, ocupacion,
+	FROM ficha, ficha_n_contracto LEFT JOIN ficha_historial ON ficha_historial.cod_ficha = '$codigo'
+	AND ficha_historial.cod_n_contrato = ficha_n_contracto.codigo, nacionalidad, estado_civil, ocupacion,
 	nivel_academico, turno, clientes, clientes_ubicacion,
-	bancos, ficha_n_contracto, preing_camisas, preing_pantalon, preing_zapatos, ficha_historial
+	bancos, preing_camisas, preing_pantalon, preing_zapatos 
 	WHERE ficha.cod_ficha = '$codigo'
 	AND ficha.cod_nacionalidad = nacionalidad.codigo
-	AND ficha_historial.cod_ficha = '$codigo'
-	AND ficha_historial.cod_n_contrato = ficha_n_contracto.codigo
 	AND ficha.cod_estado_civil = estado_civil.codigo
 	AND ficha.cod_ocupacion = ocupacion.codigo
 	AND ficha.cod_nivel_academico = nivel_academico.codigo
