@@ -156,7 +156,16 @@ $sql_prod_tipo     = "SELECT prod_tipos.codigo, prod_tipos.descripcion
 
 $sql_linea       = "SELECT prod_lineas.codigo, prod_lineas.descripcion
                       FROM prod_lineas WHERE prod_lineas.`status` = 'T'
-				  ORDER BY 2 ASC";
+          ORDER BY 2 ASC";
+          
+$sql_tipo_mov_alcance =   "SELECT prod_mov_tipo.codigo, prod_mov_tipo.descripcion, prod_mov_tipo.tipo_movimiento 
+          FROm prod_mov_tipo WHERE prod_mov_tipo.codigo = 'AJUS-' OR prod_mov_tipo.codigo = 'AJUS+'
+          ORDER BY 2 ASC";
+
+$sql_tipo_mov      = "SELECT prod_mov_tipo.codigo, prod_mov_tipo.descripcion,
+                             prod_mov_tipo.tipo_movimiento
+                        FROM prod_mov_tipo WHERE prod_mov_tipo.`status` = 'T'
+            ORDER BY 2 ASC";
 
 $sql_tipo_mov      = "SELECT prod_mov_tipo.codigo, prod_mov_tipo.descripcion,
                              prod_mov_tipo.tipo_movimiento
