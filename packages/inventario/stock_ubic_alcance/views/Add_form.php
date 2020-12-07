@@ -12,18 +12,18 @@ require "../modelo/stock_ubic_alcance_modelo.php";
 require "../../../../" . Leng;
 $stock_ubic_alcance = new stock_ubic_alcance;
 $metodo = $_POST['metodo'];
-
+$disabled = '';
 if ($metodo == 'modificar') {
   $anulado   = $_POST['anulado'];
   $codigo   = $_POST['codigo'];
   $titulo   = "Modificar Movimiento";
   $ped      =  $stock_ubic_alcance->editar($codigo);
+  $disabled = 'disabled="true"';
 } else {
   $titulo    = "Agregar Movimiento";
   $ped       = $stock_ubic_alcance->inicio();
   $anulado   = "F";
   $codigo    = 0;
-  $tipo       = $stock_ubic_alcance->get_tipo($ped["cod_tipo"]);
 }
 ?>
 
@@ -45,46 +45,49 @@ if ($metodo == 'modificar') {
       </tr>
       <tr>
         <td width="14%" class="etiqueta">N. Movimiento:</td>
-        <td width="27%" class="etiqueta">Tipo de Movimiento:</td>
         <td width="27%" class="etiqueta">Cliente:</td>
+        <td width="27%" class="etiqueta">Ubicación:</td>
         <td width="20%" class="etiqueta">Fecha</td>
       </tr>
       <tr>
         <td>
-          <input type="text" id="ped_codigo" maxlength="160" title="Este codigo es generado por el sistema, al guardar el movimiento" placeholder="Código" value="<?php echo $ped['codigo']; ?>" required readonly>
-        </td>
-        <td> <input type="hidden" id="ped_cod_tipo" value="<?php echo $ped['cod_tipo']; ?>">
-          <select id="ped_tipo" style="width:250px;" required onchange="Selec_tipo()">
-            <option value="<?php echo $ped['cod_tipo']; ?>" style="width: 210px;"><?php echo $ped['tipo']; ?></option>
-            <?php
-            foreach ($tipo as  $datos) {
-              echo '<option value="' . $datos["codigo"] . '">' . $datos["descripcion"] . '</option>';
-            } ?>
-          </select>
+          <input type="number" id="ped_codigo" title="Este codigo es generado por el sistema, al guardar el movimiento" placeholder="Código" value="<?php echo $ped['codigo']; ?>" required readonly>
         </td>
         <td>
-          <select id="ped_cliente" style="width:250px;" required onchange="Selec_tipo()">
-            <option value="">Seleccione</option>
-            <?php
-            $query01 = $bd->consultar($sql_cliente);
-            while ($row01 = $bd->obtener_fila($query01, 0)) {
-              echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
-            } ?>
-          </select>
-        </td>
-        <td>
-          <input type="date" id="ped_fecha" value="<?php echo $ped['fecha']; ?>" placeholder="Fecha de Emisión" required>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="5" class="etiqueta">Descripcion</td>
-      </tr>
-      <tr>
-        <td colspan="5">
-          <textarea id="ped_descripcion" cols="100" rows="3"><?php echo $ped['motivo']; ?></textarea>
-        </td>
+          <select name="cliente" id="cliente" style="width:250px;" value="<?php echo $ped['cod_cliente']; ?>" onchange="Add_Cl_Ubic(this.value, 'contenido_ubic', 'T', '250')">
 
+            <?php
+            if ($metodo == 'agregar') {
+              $query02 = $bd->consultar($sql_cliente);
+              echo '<option value="TODOS"> TODOS</option>';
+              while ($row02 = $bd->obtener_fila($query02, 0)) {
+                echo '<option value="' . $row02[0] . '">' . $row02[1] . '</option>';
+              }
+            } else {
+              echo '<option value="' . $ped['cod_cliente'] . '">' . $ped['cliente'] . '</option>';
+            } ?>
+          </select>
+        </td>
+        <td id="contenido_ubic">
+          <select name="ubicacion" id="ubicacion" value="<?php echo $ped['cod_ubicacion']; ?>" style="width:250px;">
+            <option value="<?php echo $ped['cod_ubicacion']; ?>"><?php echo $ped['ubicacion']; ?></option>
+          </select>
+        </td>
+        <td>
+          <input type="date" id="ped_fecha" value="<?php echo $ped['fecha']; ?>" <?php echo $disabled; ?> placeholder="Fecha de Emisión" required>
+        </td>
       </tr>
+      <tr>
+        <td colspan="4" class="etiqueta">Descripcion</td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <textarea <?php echo $disabled; ?> id="ped_descripcion" cols="100" rows="3"><?php echo $ped['motivo']; ?></textarea>
+        </td>
+      </tr>
+      <?php
+      echo '<tr><td colspan="4"><p><b>Nota</b>: Ajuste ANULADO, ' . $ped['descripcion_anulacion'] . '</p></td></tr>';
+      ?>
       <tr>
         <td height="8" colspan="5" align="center">
           <hr>
@@ -96,19 +99,19 @@ if ($metodo == 'modificar') {
     <div align="center">
       <?php if ($metodo == "agregar") {
         echo '<span class="art-button-wrapper">
-   <span class="art-button-l"> </span>
-   <span class="art-button-r"> </span>
-   <input  type="submit" title="Guardar Registro" class="readon art-button" value="Guardar" />
-   </span>';
+        <span class="art-button-l"> </span>
+        <span class="art-button-r"> </span>
+        <input  type="submit" title="Guardar Registro" class="readon art-button" value="Guardar" />
+        </span>';
       } else {
+        echo '<img class="imgLink" id="img_pdf" src="imagenes/pdf.gif" border="0" width="25px" title="imprimir a pdf"  onclick="imprimir()">';
+
         if ($anulado == "F") {;
-          if (($ped['cod_tipo'] != "TRAS") && ($ped['cod_tipo'] != "TRAS-")) {
-            echo '<span class="art-button-wrapper">
-      <span class="art-button-l"> </span>
-      <span class="art-button-r"> </span>
-      <input type="button" title="Anular stock_ubic_alcance" class="readon art-button" id="anulador" value="Anular" onclick="anular_stock_ubic_alcance()" />
-      </span>';
-          }
+          echo '<span class="art-button-wrapper">
+        <span class="art-button-l"> </span>
+        <span class="art-button-r"> </span>
+        <input type="button" title="Anular Ajuste" class="readon art-button" id="anulador" value="Anular" onclick="anular_stock_ubic_alcance()" />
+        </span>';
         }
       } ?>
       <span class="art-button-wrapper">
@@ -119,5 +122,9 @@ if ($metodo == 'modificar') {
       </span>
     </div>
 
+  </form>
+  <form name="form_reportes" id="form_reportes" action="reportes/pdf_dot_cliente.php" method="post" target="_blank">
+    <input type="int" id="codigo" name="codigo" hidden="hidden">
+    <input type="submit" name="procesar" id="procesar" hidden="hidden">
   </form>
 </div>

@@ -21,8 +21,8 @@ var neto = 0;
 var producto_cod = "";
 var stock_ubic_alcance_cod = "";
 var producto_des = "";
-var ubicacion_cod = "";
-var ubicacion_des = "";
+var almacen_cod = "";
+var almacen_des = "";
 var Ped_detalle = [];
 var reng_num = 0;
 var index = 0;
@@ -35,6 +35,7 @@ var eans = [];
 var reng_num = 0;
 var index = 0;
 var callbackAgregarRenglon;
+
 function buscarMovimiento() {  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
     //console.log('buscarMovimiento');
     var error = 0;
@@ -42,9 +43,9 @@ function buscarMovimiento() {  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
 
     var fecha_desde = $("#fecha_desde").val();
     var fecha_hasta = $("#fecha_hasta").val();
-    var tipo_mov = $("#tipo_mov").val();
-    var proveedor = $("#proveedor").val();
-    var referencia = $("#referencia").val();
+    var ubicacion = $("#ubicacion").val();
+    var codigo = $("#codigo").val();
+    var producto = $("#stdID").val();
 
     if ((fechaValida(fecha_desde) != true || fechaValida(fecha_hasta) != true) && (fecha_desde != "" || fecha_hasta != "")) {
         var errorMessage = ' Campos De Fecha Incorrectas ';
@@ -52,7 +53,7 @@ function buscarMovimiento() {  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
     }
     //console.log(fecha_desde,fecha_hasta);
     if (error == 0) {
-        var parametros = { fecha_desde: fecha_desde, fecha_hasta: fecha_hasta, tipo_mov: tipo_mov, proveedor: proveedor, referencia: referencia };
+        var parametros = { fecha_desde, fecha_hasta, ubicacion, codigo, producto };
         $.ajax({
             data: parametros,
             url: 'packages/inventario/stock_ubic_alcance/views/Buscar_movimiento.php',
@@ -92,7 +93,7 @@ function Cons_stock_ubic_alcance() {
     });
 }
 
-function Form_stock_ubic_alcance(cod, metodo, cliente, tipo, anulado) {
+function Form_stock_ubic_alcance(cod, metodo, anulado) {
     //console.log('Form_stock_ubic_alcance');
     var error = 0;
     var errorMessage = ' ';
@@ -100,7 +101,6 @@ function Form_stock_ubic_alcance(cod, metodo, cliente, tipo, anulado) {
     if (error == 0) {
         var parametros = {
             codigo: cod,
-            cliente: cliente,
             metodo: metodo,
             anulado: anulado
         };
@@ -110,14 +110,12 @@ function Form_stock_ubic_alcance(cod, metodo, cliente, tipo, anulado) {
             type: 'post',
             success: function (response) {
                 $("#Cont_stock_ubic_alcance").html(response);
+                Form_stock_ubic_alcance_det(cod, metodo, () => { });
                 if (metodo == "modificar") {
                     //Si el metodo es modificar muestro los botones AGREGAR Y ELIMINAR
                     //$("#borrar_stock_ubic_alcance").removeClass("d-none"); 
                     $("#add_renglon_etiqueta").hide();
                     $("#add_renglon").hide();
-                    if (typeof tipo != "undefined") {
-                        Form_stock_ubic_alcance_det(cod, metodo, cliente, tipo, () => Reng_ped(cod));
-                    }
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -130,19 +128,15 @@ function Form_stock_ubic_alcance(cod, metodo, cliente, tipo, anulado) {
     }
 }
 
-function Form_stock_ubic_alcance_det(cod, metodo, cliente, tipo, callback) {
+function Form_stock_ubic_alcance_det(cod, metodo, callback) {
     //console.log('Form_stock_ubic_alcance_det');
     var error = 0;
     var errorMessage = ' ';
     Ped_detalle = [];
     reng_num = 0;
-    sub_total = 0;
-    total = 0;
     if (error == 0) {
         var parametros = {
             codigo: cod,
-            cliente: cliente,
-            cod_tipo: tipo,//Codigo del tipo de stock_ubic_alcance
             metodo: metodo
         };
         $.ajax({
@@ -178,14 +172,10 @@ function save_stock_ubic_alcance() {
 
         var codigo = $("#ped_codigo").val();
         var referencia = $("#ped_referencia").val();
-        var tipo = $("#ped_tipo").val();
-        var proveedor = $("#ped_proveedor").val();
+        var ubicacion = $("#ubicacion").val();
         var fecha = $("#ped_fecha").val();
         var descripcion = $("#ped_descripcion").val();
-        var total = $("#ped_total").val();
-        var moneda = $("#ped_moneda").val();
         var metodo = $("#ped_metodo").val();
-        var aplicar = $("#ped_aplicar").val();
         var ped_reng = JSON.stringify(Ped_detalle);
         var us = $("#usuario").val();
         if (reng_num == 0) {
@@ -196,18 +186,14 @@ function save_stock_ubic_alcance() {
         if (error == 0) {
 
             var parametros = {
-                nro_stock_ubic_alcance: codigo,
-                tipo: tipo,
-                proveedor: proveedor,
+                codigo: codigo,
+                ubic: ubicacion,
                 fecha: fecha,
                 descripcion: descripcion,
-                total: total,
-                moneda: moneda,
                 ped_reng: ped_reng,
                 proced: proced,
                 us: us,
                 metodo: metodo,
-                aplicar: aplicar,
                 referencia: referencia
             };
 
@@ -247,8 +233,7 @@ function save_stock_ubic_alcance() {
 
 function anular_stock_ubic_alcance() {
     //console.log('anular_stock_ubic_alcance');
-    if (confirm("Estas seguro de que deseas ANULAR este stock_ubic_alcance?")) {
-
+    if (confirm("Estas seguro de que deseas ANULAR este ajuste?")) {
         ModalOpen();
         $("#modal_titulo").text("Confirmar Anulación");
     }
@@ -260,137 +245,50 @@ function anular() {
     var descripcion = $("#ped_descripcion_anular").val();
     if (descripcion != "") {
         if (confirm("Desea continuar esta Operación?")) {
-            var error = 0;
-            var errorMessage = ' ';
-            var proced = "p_stock_ubic_alcance";
-
             var codigo = $("#ped_codigo").val();
-            var referencia = $("#ped_referencia").val();
-            var proveedor = $("#ped_proveedor").val();
-            var cod_tipo = $("#ped_cod_tipo").val();
-            var tipo = '9999';
-            if (cod_tipo == 'DOT') {
-                tipo = 'ANU_DOT';
-            }
-            var fecha = $("#ped_fecha").val();
-            var total = $("#ped_total").val();
             var metodo = 'anular';
-            var aplicar = "";
-            if ($("#ped_aplicar").val() == "IN") {
-                aplicar = 'OUT';
-            } else if ($("#ped_aplicar").val() == "OUT") {
-                aplicar = 'IN';
-            }
             //console.log(Ped_detalle);
-            var ped_reng = JSON.stringify(Ped_detalle);
-
             var us = $("#usuario").val();
-            if (reng_num == 0) {
-                error = 1;
-                errorMessage = "Debe de ingresar un articulo";
-            }
 
+            var parametros = {
+                codigo: codigo,
+                descripcion: descripcion,
+                us: us,
+                metodo: metodo
+            };
 
-            if (error == 0) {
-
-                if ($("#ped_aplicar").val() == "IN") {
-                    Get_mayor_a_stock(codigo, () => {
-                        var parametros = {
-                            nro_stock_ubic_alcance: codigo,
-                            tipo: tipo,
-                            fecha: fecha,
-                            descripcion: descripcion,
-                            total: total,
-                            ped_reng: ped_reng,
-                            proced: proced,
-                            us: us,
-                            metodo: metodo,
-                            aplicar: aplicar,
-                            referencia: referencia,
-                            proveedor: proveedor
-                        };
-
-                        $.ajax({
-                            data: parametros,
-                            url: 'packages/inventario/stock_ubic_alcance/modelo/stock_ubic_alcance.php',
-                            type: 'post',
-                            beforeSend: function () {
-                                $("#anulador").attr("disabled", true);
-                            },
-                            success: function (response) {
-                                //console.log(response);
-                                var resp = JSON.parse(response);
-                                if (resp.error) {
-                                    alert(resp.mensaje);
-                                } else {
-                                    alert("Actualización Exitosa!..");
-                                    CloseModal();
-                                    Cons_stock_ubic_alcance()
-                                }
-                                $("#ped_descripcion_anular").val("");
-                                $("#anulador").attr("disabled", false);
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {
-                                alert(xhr.status);
-                                alert(thrownError);
-                                $("#anulador").attr("disabled", false);
-                            }
-                        });
-                    });
-                } else {
-                    var parametros = {
-                        nro_stock_ubic_alcance: codigo,
-                        tipo: tipo,
-                        fecha: fecha,
-                        descripcion: descripcion,
-                        total: total,
-                        ped_reng: ped_reng,
-                        proced: proced,
-                        us: us,
-                        metodo: metodo,
-                        aplicar: aplicar,
-                        referencia: referencia,
-                        proveedor: proveedor
-                    };
-
-                    $.ajax({
-                        data: parametros,
-                        url: 'packages/inventario/stock_ubic_alcance/modelo/stock_ubic_alcance.php',
-                        type: 'post',
-                        beforeSend: function () {
-                            $("#anulador").attr("disabled", true);
-                        },
-                        success: function (response) {
-                            //console.log(response);
-                            var resp = JSON.parse(response);
-                            if (resp.error) {
-                                alert(resp.mensaje);
-                            } else {
-                                alert("Actualización Exitosa!..");
-                                CloseModal();
-                                Cons_stock_ubic_alcance()
-                            }
-                            $("#ped_descripcion_anular").val("");
-                            $("#anulador").attr("disabled", false);
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
-                            $("#anulador").attr("disabled", false);
-                        }
-                    });
+            $.ajax({
+                data: parametros,
+                url: 'packages/inventario/stock_ubic_alcance/modelo/stock_ubic_alcance.php',
+                type: 'post',
+                beforeSend: function () {
+                    $("#anulador").attr("disabled", true);
+                },
+                success: function (response) {
+                    //console.log(response);
+                    var resp = JSON.parse(response);
+                    if (resp.error) {
+                        alert(resp.mensaje);
+                    } else {
+                        alert("Actualización Exitosa!..");
+                        CloseModal();
+                        Cons_stock_ubic_alcance()
+                    }
+                    $("#ped_descripcion_anular").val("");
+                    $("#anulador").attr("disabled", false);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                    $("#anulador").attr("disabled", false);
                 }
-
-
-            } else {
-                alert(errorMessage);
-                $("#anulador").attr('disabled', false);
-            }
+            });
         }
     } else {
         alert("La descripcion es requerida");
     }
 }
+
 function Borrar_stock_ubic_alcance() {
     //console.log('Borrar_stock_ubic_alcance');
     if (confirm('Esta seguro que desea BORRAR este Registro?..')) {
@@ -452,16 +350,16 @@ function Agregarstock_ubic_alcance() {
 }
 
 
-function mostrar_costo_promedio(codigo, cod_ubicacion) {
-    //console.log('mostrar_costo_promedio');
+function cantidad_maxima(cod_producto, cod_almacen) {
+    //console.log('cantidad_maxima');
     $.ajax({
-        data: { 'codigo': codigo, 'ubicacion': cod_ubicacion },
-        url: 'packages/inventario/producto/views/Get_costo_prom.php',
+        data: { 'producto': cod_producto, 'almacen': cod_almacen },
+        url: 'packages/inventario/ajuste/views/Get_stock.php',
         type: 'post',
         success: function (response) {
             var resp = JSON.parse(response);
-            costo = resp[0];
-            $("#ped_costo").val(resp[0]);
+            stock_actual = resp[0];
+            $("#ped_cantidad").attr('max', resp[0]);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -470,16 +368,18 @@ function mostrar_costo_promedio(codigo, cod_ubicacion) {
     });
 }
 
-function cantidad_maxima(cod_producto, cod_ubicacion) {
+function validarAlcance(cod_producto, cod_ubicacion, callback) {
     //console.log('cantidad_maxima');
     $.ajax({
-        data: { 'producto': cod_producto, 'ubicacion': cod_ubicacion },
-        url: 'packages/inventario/stock_ubic_alcance/views/Get_stock.php',
+        data: { 'codigo': cod_producto, 'ubic': cod_ubicacion },
+        url: 'packages/inventario/stock_ubic_alcance/views/Get_alcance.php',
         type: 'post',
         success: function (response) {
             var resp = JSON.parse(response);
-            stock_actual = resp[0];
-            $("#ped_cantidad").attr('max', resp[0]);
+            alcance = resp[0];
+            if (typeof callback == "function") {
+                callback(alcance);
+            }
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -498,38 +398,27 @@ function Selec_producto(codigo) {
         producto_cod = codigo;
         producto_des = $("#ped_producto").val();
         $("#ped_cantidad").prop('disabled', false);
-        if ($("#ped_aplicar").val() == 'IN') {
-            get_ubicaciones(() => { }
-                //get_ubicacion_default(codigo)
-            );
-            $("#ped_costo").prop('disabled', false);
-        } else {
-            get_ubicaciones_stock(codigo);
-        }
+        get_almacenes_stock(codigo);
     } else {
         alert("Debe seleccionar un producto");
     }
 }
 
-function Selec_tipo() {
-    //console.log('Selec_tipo');
-    cliente = $("#ped_cliente").val();
-    codigo = $("#ped_tipo").val();
-    if ((codigo != "") && (codigo != "undefined") && (cliente != "") && (cliente != "undefined")) {
-        var metodo = $("#ped_metodo").val();
-        Form_stock_ubic_alcance_det(stock_ubic_alcance_cod, metodo, cliente, codigo);
+function Add_filtroX() {
+    //console.log('Selec_ubic');
+    codigo = $("#ped_ubic").val();
+    if ((codigo != "") && (codigo != "undefined")) {
+        $("#ped_producto").attr("disabled", false);
     }
 }
 
-function Selec_ubicacion(codigo) {
-    //console.log('Selec_ubicacion');
+function Selec_almacen(codigo) {
+    //console.log('Selec_almacen ');
     if ((codigo != "") && (codigo != "undefined")) {
-        ubicacion_cod = codigo;
-        if ($("#ped_aplicar").val() == 'OUT') {
-            cantidad_maxima(producto_cod, codigo);
-        }
+        almacen_cod = codigo;
+        cantidad_maxima(producto_cod, codigo);
         $("#ped_producto").attr("disabled", false);
-        ubicacion_des = $("#ped_ubicacion option:selected").text();
+        almacen_des = $("#ped_almacen option:selected").text();
     } else {
         $("#ped_producto").attr("disabled", true);
         alert("Debe seleccionar un ubicacion");
@@ -542,11 +431,8 @@ function Limpiar_producto() {
     //costo = 0;
     //neto = 0;
     $('#ped_cantidad').val(0);
-    $('#ped_costo').val(0);
-    $('#ped_neto').val(0);
     $("#add_renglon").prop('disabled', true);
     $("#ped_cantidad").prop('disabled', true);
-    $("#ped_costo").prop('disabled', true);
 
 }
 
@@ -557,7 +443,7 @@ function get_ubicaciones(cliente, callback) {
         url: 'packages/inventario/stock_ubic_alcance/views/Add_ubicaciones.php',
         type: 'post',
         success: function (response) {
-            $("#ped_ubicacion").html(response);
+            $("#ubicacion").html(response);
             if (typeof callback == "function") {
                 callback();
             }
@@ -569,14 +455,14 @@ function get_ubicaciones(cliente, callback) {
     });
 }
 
-function get_ubicaciones_stock(codigo) {
+function get_almacenes_stock(codigo) {
     //console.log('get_ubicaciones_stock');
     $.ajax({
         data: { 'serial': codigo },
-        url: 'packages/inventario/stock_ubic_alcance/views/Add_ubicaciones_stock.php',
+        url: 'packages/inventario/ajuste/views/Add_almacenes_stock.php',
         type: 'post',
         success: function (response) {
-            $("#ped_ubicacion").html(response);
+            $("#ped_almacen").html(response);
         },
         error: function (xhr, ajaxOptions, thrownError) {
             alert(xhr.status);
@@ -618,84 +504,79 @@ function Agregar_renglon() {
     var error = 0;
     var errorMessage = ' ';
     cantidad = Number($("#ped_cantidad").val());
-    if ($("#ped_aplicar").val() == 'OUT') {
-        if (cantidad > stock_actual) {
-            error = 1;
-            errorMessage += "\n La cantidad maxima permitida, segun el stock actual de la ubicación es " + stock_actual;
-        }
-        /*
-            var cant= cantidad;
-            Ped_detalle.some((stock_ubic_alcance)=>{
-                if(stock_ubic_alcance.cod_producto==producto_cod && stock_ubic_alcance.cod_ubicacion==ubicacion_cod){
-                        //cant = Number(cant) + Number(stock_ubic_alcance.cantidad);
-                        //if(cant>stock_actual){
-                            error = 1;
-                            errorMessage += "\n El detalle del stock_ubic_alcance sobrepasa la cantidad maxima permitida,para este producto en este ubicacion!:.";  
-                            return true;
-                        //}
-                    }
-                });
-                */
+    ubic = $("#ubicacion").val();
+    if (cantidad > stock_actual) {
+        error = 1;
+        errorMessage += "\n La cantidad maxima permitida, segun el stock actual es " + stock_actual;
     }
-
     Ped_detalle.some((stock_ubic_alcance) => {
-        if (stock_ubic_alcance.cod_producto == producto_cod && stock_ubic_alcance.cod_ubicacion == ubicacion_cod) {
+        if (stock_ubic_alcance.cod_producto == producto_cod && stock_ubic_alcance.cod_almacen == almacen_cod) {
             error = 1;
             errorMessage += "\n El registro ya existe en el detalle del movimiento!:.";
             return true;
         }
     });
-
-    if (ubicacion_cod == "") {
-        error = 1;
-        errorMessage += "\n Debe Seleccionar un ubicacion..";
-    }
-    if (cantidad < 1) {
-        error = 1;
-        errorMessage += "\n Cantidad invalida..";
-    }
-
     if (error == 0) {
-        getIfEAN(producto_cod, cantidad, false, () => {
+        validarAlcance(producto_cod, ubic, (alcance) => {
+            if (alcance != null && cantidad > alcance) {
+                error = 1;
+                errorMessage += "\n La cantidad supera el alcance permitido, la cantidad debe ser menor o igual a " + alcance;
+            }
 
-            reng_num++;
-            var Ped_detalleX = {
-                reng_num: reng_num,
-                cod_producto: producto_cod,
-                producto: producto_des,
-                lote: lote,
-                cod_ubicacion: ubicacion_cod,
-                ubicacion: ubicacion_des,
-                cantidad: cantidad,
-                eans: []
-            };
+            if (almacen_cod == "") {
+                error = 1;
+                errorMessage += "\n Debe Seleccionar un ubicacion..";
+            }
+            if (cantidad < 1) {
+                error = 1;
+                errorMessage += "\n Cantidad invalida..";
+            }
 
-            Ped_detalle.push(Ped_detalleX);
-            var tr = ('<tr id="tr_' + reng_num + '"></tr>');
-            var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + reng_num + '" readonly style="width:100px"></td>');
-            var td02 = ('<td>' + producto_des + '</td>');
-            var td03 = ('<td>' + ubicacion_des + '</td>');
-            var td04 = ('<td><input type="text" id="cant_' + reng_num + '" value="' + cantidad + '" readonly style="width:100px"></td>');
-            var td05 = ('<td><input type="text" id="costo_' + reng_num + '" value="' + costo + '" readonly style="width:100px"></td>');
-            var td06 = ('<td><input type="text" id="neto_' + reng_num + '" value="' + neto + '" readonly style="width:150px"></td>');
-            var td07 = ('<td><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
+            if (error == 0) {
+                getIfEAN(producto_cod, cantidad, false, () => {
 
-            $('#listar_stock_ubic_alcance').append(tr);
-            $('#tr_' + reng_num + '').append(td01);
-            $('#tr_' + reng_num + '').append(td02);
-            $('#tr_' + reng_num + '').append(td03);
-            $('#tr_' + reng_num + '').append(td04);
-            $('#tr_' + reng_num + '').append(td05);
-            $('#tr_' + reng_num + '').append(td06);
-            $('#tr_' + reng_num + '').append(td07);
+                    reng_num++;
+                    var Ped_detalleX = {
+                        reng_num: reng_num,
+                        cod_producto: producto_cod,
+                        producto: producto_des,
+                        lote: lote,
+                        cod_almacen: almacen_cod,
+                        almacen: almacen_des,
+                        cantidad: cantidad,
+                        eans: []
+                    };
 
-            Limpiar_producto();
-            $("#ped_producto").val("");
-            $("#ped_ubicacion").val("");
+                    Ped_detalle.push(Ped_detalleX);
+                    var tr = ('<tr id="tr_' + reng_num + '"></tr>');
+                    var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + reng_num + '" readonly style="width:100px"></td>');
+                    var td02 = ('<td>' + producto_des + '</td>');
+                    var td03 = ('<td>' + almacen_des + '</td>');
+                    var td04 = ('<td><input type="text" id="cant_' + reng_num + '" value="' + cantidad + '" readonly style="width:100px"></td>');
+                    var td05 = ('<td><input type="text" id="costo_' + reng_num + '" value="' + costo + '" readonly style="width:100px"></td>');
+                    var td06 = ('<td><input type="text" id="neto_' + reng_num + '" value="' + neto + '" readonly style="width:150px"></td>');
+                    var td07 = ('<td><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
 
+                    $('#listar_stock_ubic_alcance').append(tr);
+                    $('#tr_' + reng_num + '').append(td01);
+                    $('#tr_' + reng_num + '').append(td02);
+                    $('#tr_' + reng_num + '').append(td03);
+                    $('#tr_' + reng_num + '').append(td04);
+                    $('#tr_' + reng_num + '').append(td05);
+                    $('#tr_' + reng_num + '').append(td06);
+                    $('#tr_' + reng_num + '').append(td07);
+
+                    Limpiar_producto();
+                    $("#ped_producto").val("");
+                    $("#ped_almacen").val("");
+
+                });
+            } else {
+                toastr.error(errorMessage);
+            }
         });
     } else {
-        alert(errorMessage);
+        toastr.error(errorMessage);
     }
 }
 
@@ -706,39 +587,30 @@ function Modificar_renglon(codigo) {
     $("#ped_producto").prop('disabled', true);
     $("#ped_filtro_producto").prop('disabled', true);
     $("#buscarProducto").hide();
-    $("#ped_ubicacion").prop('disabled', true);
+    $("#ped_almacen").prop('disabled', true);
     $("#ped_cantidad").prop('disabled', false);
-
-    if ($("#ped_aplicar").val() == 'IN') {
-        $("#ped_costo").prop('disabled', false);
-    }
 
     $("#add_renglon").prop('hidden', true);
     $("#canc_renglon").prop('hidden', false);
     $("#update_renglon").prop('hidden', false);
 
     $("#ped_cantidad").val(Ped_detalle[index]["cantidad"]);
-    $("#ped_costo").val(Ped_detalle[index]["costo"]);
-    $("#ped_neto").val(Ped_detalle[index]["neto"]);
 
     cantidad = Ped_detalle[index]["cantidad"];
-    costo = Ped_detalle[index]["costo"];
-    neto = Ped_detalle[index]["neto"];
-    if ($("#ped_aplicar").val() == 'OUT') {
-        cantidad_maxima(Ped_detalle[index]["cod_producto"], Ped_detalle[index]["cod_ubicacion"]);
-    }
+    cantidad_maxima(Ped_detalle[index]["cod_producto"], Ped_detalle[index]["cod_almacen"]);
     var prod_option = '<option value="' + Ped_detalle[index]["cod_producto"] + '">' + Ped_detalle[index]["producto"] + '</option>';
     $("#ped_producto").html(prod_option);
-    var prod_ubicacion = '<option value="' + Ped_detalle[index]["cod_ubicacion"] + '">' + Ped_detalle[index]["ubicacion"] + '</option>';
-    $("#ped_ubicacion").html(prod_ubicacion);
-    //$("#ped_ubicacion > option value=" + Ped_detalle[index]["cod_ubicacion"] + "]").attr("selected", true);
+    var prod_almacen = '<option value="' + Ped_detalle[index]["cod_almacenn"] + '">' + Ped_detalle[index]["almacen"] + '</option>';
+    $("#ped_almacen").html(prod_almacen);
+    //$("#ubicacion > option value=" + Ped_detalle[index]["cod_ubicacion"] + "]").attr("selected", true);
 
 }
 
 function Cancelar_renglon() {
     //console.log('Cancelar_renglon');
     $("#ped_producto").prop('disabled', false);
-    $("#ped_ubicacion").prop('disabled', false);
+    $("#ped_almacen").prop('disabled', false);
+    $("#ped_almacen").val('');
     $("#ped_filtro_producto").prop('disabled', false);
     $("#buscarProducto").show();
     $("#add_renglon").prop('hidden', false);
@@ -754,23 +626,20 @@ function Actualizar_renglon() {
     error = 0;
     errorMessage = "";
     cantidad = Number($("#ped_cantidad").val());
-    if ($("#ped_aplicar").val() == 'OUT') {
-        if (cantidad > stock_actual) {
-            error = 1;
-            errorMessage += "\n La cantidad maxima permitida, segun el stock actual es " + stock_actual;
-        }
+    if (cantidad > stock_actual) {
+        error = 1;
+        errorMessage += "\n La cantidad maxima permitida, segun el stock actual es " + stock_actual;
     }
+
     if (error == 0) {
         //console.log(Ped_detalle[index]);
         getIfEAN(Ped_detalle[index]["cod_producto"], cantidad, true, () => {
             var idX = index + 1;
             Ped_detalle[index]["cantidad"] = cantidad;
             Ped_detalle[index]["eans"] = eans;
-
             $("#cant_" + idX + "").val(cantidad);
-            $("#ped_ubicacion").prop('disabled', false);
+            $("#ped_almacen").prop('disabled', false);
             Limpiar_producto();
-
             Cancelar_renglon();
         });
     } else {
@@ -974,12 +843,7 @@ function getIfEAN(item, cantidad, actualizar, callback) {
                     } else {
                         $("#boton_eans").attr("onclick", "guardarEans()");
                     }
-                    //console.log($("#ped_aplicar").val());
-                    if ($("#ped_aplicar").val() == "IN") {
-                        cargarEANS(item, false);
-                    } else {
-                        cargarEANS(item, true, $("#ped_ubicacion").val());
-                    }
+                    cargarEANS(item, true, $("#ubicacion").val());
 
                     $("#cant_ing").html(cantidad);
                 }
@@ -1005,8 +869,8 @@ function guardarEans() {
             reng_num: reng_num,
             cod_producto: producto_cod,
             producto: producto_des,
-            cod_ubicacion: ubicacion_cod,
-            ubicacion: ubicacion_des,
+            cod_almacen: almacen_cod,
+            almacen: almacen_des,
             cantidad: cantidad,
             eans: eans
         };
@@ -1015,7 +879,7 @@ function guardarEans() {
         var tr = ('<tr id="tr_' + reng_num + '"></tr>');
         var td01 = ('<td><input type="text" id="reng_num_' + reng_num + '" value="' + reng_num + '" readonly style="width:100px"></td>');
         var td02 = ('<td>' + producto_des + '</td>');
-        var td03 = ('<td>' + ubicacion_des + '</td>');
+        var td03 = ('<td>' + almacen_des + '</td>');
         var td04 = ('<td><input type="text" id="cant_' + reng_num + '" value="' + cantidad + '" readonly style="width:100px"></td>');
         var td05 = ('<td><span class="art-button-wrapper"><span class="art-button-l"> </span><span class="art-button-r"> </span><input type="button"  title="Ver Eans" onclick = verEans(' + reng_num + ') class="readon art-button"  value="EANS" /></span><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
 
@@ -1028,7 +892,7 @@ function guardarEans() {
 
         Limpiar_producto();
         $("#ped_producto").val("");
-        $("#ped_ubicacion").val("");
+        $("#ped_almacen").val("");
         eanCloseModal();
 
     } else {
@@ -1048,7 +912,7 @@ function actualizarEans() {
         $("#cant_" + idX + "").val(cantidad);
         $("#costo_" + idX + "").val(costo);
         $("#neto_" + idX + "").val(neto);
-        $("#ped_ubicacion").prop('disabled', false);
+        $("#ubicacion").prop('disabled', false);
         Limpiar_producto();
 
         Cancelar_renglon();
@@ -1127,4 +991,10 @@ function Get_mayor_a_stock(cod_stock_ubic_alcance, callback) {
             alert(thrownError);
         }
     });
+}
+
+function imprimir() {
+    var codigo_ajuste = $("#ped_codigo").val();
+    $("#codigo").val(codigo_ajuste);
+    $("#procesar").click();
 }
