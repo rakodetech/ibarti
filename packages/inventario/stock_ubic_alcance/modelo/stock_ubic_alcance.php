@@ -55,11 +55,6 @@ if (isset($_POST['metodo'])) {
           WHERE codigo = " . $codigo . "";
         $result['sql'][] = $sql;
         $bd->consultar($sql);
-        foreach ($ped_reng as $obj) {
-          $sql = " UPDATE prod_ean SET cod_almacen = '$obj->cod_almacen' , inStock='T'
-          WHERE cod_producto = '$obj->cod_producto' AND cod_ean = '$ean'";
-          $bd->consultar($sql);
-        }
       }
     }
   } catch (Exception $e) {
