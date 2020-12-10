@@ -47,7 +47,7 @@ if ($producto != "") {
 }
 
 $sql = "SELECT
-IFNULL(a.codigo, 'SIN DOTAR'),
+IFNULL(ar.cod_ajuste, 'SIN DOTAR') codigo,
 IFNULL(MAX(a.fecha), 'SIN DOTAR') fecha,
 cu.cod_region,
 r.descripcion region,
