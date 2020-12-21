@@ -382,7 +382,7 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 		<legend>Filtros:</legend>
 		<table width="100%">
 			<tr id="Contenedor02">
-				<td class="etiqueta" width="15%">CLASIFICACION:</td>
+				<td class="etiqueta" width="15%">CLASIFICACIÓN:</td>
 				<td width="25%" id="select04"><select name="clasif" id="clasif" style="width:150px;" onchange="getTipos(this.value)">
 						<option value="<?php echo $cod_clasif; ?>"><?php echo $clasif; ?></option>
 						<?php
