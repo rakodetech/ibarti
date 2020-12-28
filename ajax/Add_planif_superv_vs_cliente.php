@@ -32,7 +32,7 @@ if ($ubicacion != "TODOS") {
 
 
 // QUERY A MOSTRAR //
-$sql = "SELECT fecha, region, estado, cliente, ubicacion, cantidad, contratacion, diff FROM v_semaforo_supervision a
+$sql = "SELECT fecha, region, estado, cliente, ubicacion, diff FROM v_semaforo_supervision a
         $WHERE  ";
 ?>
 <table width="100%" border="0" align="center">
@@ -42,8 +42,6 @@ $sql = "SELECT fecha, region, estado, cliente, ubicacion, cantidad, contratacion
         <th width="15%" class="etiqueta"><?php echo $leng['estado'] ?></th>
         <th width="20%" class="etiqueta"><?php echo $leng['cliente'] ?></th>
         <th width="20%" class="etiqueta"><?php echo $leng['ubicacion'] ?></th>
-        <th width="5%" class="etiqueta">Cantidad</th>
-        <th width="5%" class="etiqueta">Contratación</th>
         <th width="5%" class="etiqueta">Diferencia</th>
     </tr>
     <?php
@@ -53,6 +51,7 @@ $sql = "SELECT fecha, region, estado, cliente, ubicacion, cantidad, contratacion
     while ($datos = $bd->obtener_fila($query, 0)) {
         if ($datos["diff"] == 0) {
             $fondo = 'fondo01';
+            $datos["diff"] = "OK";
         } else if ($datos["diff"] < 0) {
             $fondo = 'fondo03';
         } else if ($datos["diff"] > 0) {
@@ -64,8 +63,6 @@ $sql = "SELECT fecha, region, estado, cliente, ubicacion, cantidad, contratacion
 			<td class="texto" id="center">' . $datos["estado"] . '</td>
 			<td class="texto" id="center">' . $datos["cliente"] . '</td>
             <td class="texto" id="center">' . $datos["ubicacion"] . '</td>
-            <td class="texto" id="center">' . $datos["cantidad"] . '</td>
-            <td class="texto" id="center">' . $datos["contratacion"] . '</td>
             <td class="texto" id="center">' . $datos["diff"] . '</td>
 			</tr>';
     }; ?>
