@@ -80,6 +80,7 @@ function save_supervision_det(codigo_det, metodo) {
 	var supervision = $("#superv_codigo").val();
 	var ubicacion = $("#superv_ubicacion" + codigo_det + "").val();
 	var turno = $("#superv_turno" + codigo_det + "").val();
+	var cargo = $("#superv_cargo" + codigo_det + "").val();
 	var cantidad = $("#superv_cantidad" + codigo_det + "").val();
 	var proced = "p_cl_supervision";
 	cliente = $("#superv_cliente").val();
@@ -88,7 +89,7 @@ function save_supervision_det(codigo_det, metodo) {
 
 		var parametros = {
 			"codigo": codigo, "supervision": supervision,
-			"ubicacion": ubicacion, "turno": turno, "cantidad": cantidad,
+			"ubicacion": ubicacion, "turno": turno, "cargo": cargo, "cantidad": cantidad,
 			"proced": proced, "usuario": usuario, "metodo": metodo
 		};
 		$.ajax({
@@ -103,7 +104,6 @@ function save_supervision_det(codigo_det, metodo) {
 					CargarDetalleSuperv(cliente);
 					alert('Actualizacion Exitosa...');
 				}
-
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);
@@ -133,6 +133,7 @@ function CargarDetalleSuperv(cliente) {
 		}
 	});
 }
+
 function Cargar_actividad(codigo, contenedor) {
 	var parametros = { "codigo": codigo, "usuario": usuario };
 	$.ajax({

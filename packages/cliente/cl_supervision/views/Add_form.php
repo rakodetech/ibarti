@@ -11,18 +11,20 @@ $supervision = new supervision;
 $cliente    = $_POST['cliente'];
 $ubic       = $supervision->get_ubicacion($cliente);
 $turno      = $supervision->get_turno();
+$cargos      = $supervision->get_cargo();
 $superv_det   = $supervision->get_superv_det($cliente);
 ?><form id="cl_supervision_det_form" name="cl_supervision_det_form" method="post">
 	<div class="tabla_sistema">
 		<table width="100%" border="0" align="center">
 			<tr>
-				<th width="32%"><?php echo $leng["ubicacion"]; ?></th>
-				<th width="32%">Turno:</th>
+				<th width="24%"><?php echo $leng["ubicacion"]; ?></th>
+				<th width="25%">Turno:</th>
+				<th width="25%">Cargo:</th>
 				<th width="14%">Cantidad:</th>
 				<th width="12%">Acciones</th>
 			</tr>
 			<tr>
-				<td><select id="superv_ubicacion" required style="width:340px;">
+				<td><select id="superv_ubicacion" required style="width:240px;">
 						<option value="">Seleccione...</option>
 						<?php
 						foreach ($ubic as  $datos) {
@@ -30,10 +32,18 @@ $superv_det   = $supervision->get_superv_det($cliente);
 						}
 						?>
 					</select></td>
-				<td><select id="superv_turno" required style="width:340px;">
+				<td><select id="superv_turno" required style="width:240px;">
 						<option value="">Seleccione...</option>
 						<?php
 						foreach ($turno as  $datos) {
+							echo '<option value="' . $datos[0] . '">' . $datos[1] . '</option>';
+						}
+						?>
+					</select></td>
+				<td><select id="superv_cargo" required style="width:240px;">
+						<option value="">Seleccione...</option>
+						<?php
+						foreach ($cargos as  $datos) {
 							echo '<option value="' . $datos[0] . '">' . $datos[1] . '</option>';
 						}
 						?>
@@ -52,7 +62,7 @@ $superv_det   = $supervision->get_superv_det($cliente);
 				$i++;
 				$cod_det     = $datos['codigo'];
 				echo '<tr>
-    					<td><select id="superv_ubicacion' . $cod_det . '"  style="width:340px;" onchange="Cargar_puesto(this.value, \'superv_puesto' . $cod_det . '\')">
+    					<td><select id="superv_ubicacion' . $cod_det . '"  style="width:240px;" onchange="Cargar_puesto(this.value, \'superv_puesto' . $cod_det . '\')">
 							    <option  value="' . $datos["cod_ubicacion"] . '">' . $datos["ubicacion"] . '</option>';
 				foreach ($ubic as  $d_det) {
 					if ($datos["cod_ubicacion"] <> $d_det[0])
@@ -60,10 +70,17 @@ $superv_det   = $supervision->get_superv_det($cliente);
 				}
 				echo '
 							</select></td>
-							<td><select id="superv_turno' . $cod_det . '" style="width:340px;">
+							<td><select id="superv_turno' . $cod_det . '" style="width:240px;">
 							     	<option  value="' . $datos["cod_turno"] . '">' . $datos["turno"] . '</option>';
 				foreach ($turno as  $d_det) {
 					if ($datos["cod_turno"] <> $d_det[0])
+						echo '<option value="' . $d_det[0] . '">' . $d_det[1] . '</option>';
+				}
+				echo '</select></td>
+				<td><select id="superv_cargo' . $cod_det . '" style="width:240px;">
+							     	<option  value="' . $datos["cod_cargo"] . '">' . $datos["cargo"] . '</option>';
+				foreach ($cargos as  $d_det) {
+					if ($datos["cod_cargo"] <> $d_det[0])
 						echo '<option value="' . $d_det[0] . '">' . $d_det[1] . '</option>';
 				}
 				echo '</select></td>
