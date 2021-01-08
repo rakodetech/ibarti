@@ -3,7 +3,7 @@
     <legend>Asignación de Cargos</legend>
     <table width="80%" align="center">
       <tr>
-        <td class="etiqueta">PERFILES:</td>
+        <td class="etiqueta">PERFIL:</td>
         <td id="perfiles"></td>
       </tr>
       <tr>

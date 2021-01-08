@@ -10,7 +10,7 @@ if ($_POST['codigo'] != "") {
 
 	echo '<table width="90%" align="center" class="tabla_planif">
 	<tr>
-	<th width="55%"> PERFIL</th>
+	<th width="55%">CARGO</th>
 	<th width="15%">CHECK</th>
 	</tr>';
 
