@@ -1,6 +1,6 @@
 <form action="" method="post" name="add" id="add">
   <fieldset class="fieldset">
-    <legend>Novedades Perfiles</legend>
+    <legend>Asignación de Cargos</legend>
     <table width="80%" align="center">
       <tr>
         <td class="etiqueta">PERFILES:</td>
