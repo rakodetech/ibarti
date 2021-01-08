@@ -190,11 +190,11 @@ function verificar_cl(cl, modal) {
 
 	if (cl == '') {
 		Ocultar_all();
-		var error = 1;
 		var errorMessage = 'Debe Seleccionar Un Cliente';
 		alert(errorMessage);
 		cliente = cl;
 	} else {
+		$("#cont_supervision_det").html("");
 		Ocultar_apertura();
 		Ocultar_region();
 		cliente = cl;
@@ -223,8 +223,8 @@ function verificar_cl(cl, modal) {
 	}
 }
 
-function cargar_actividades(proyecto, callback) {
-	var parametros = { "proyecto": proyecto };
+function cargar_actividades(proyecto, ficha, callback) {
+	var parametros = { proyecto, ficha };
 	$.ajax({
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_actividades.php',
@@ -591,6 +591,8 @@ function cargar_planif_superv_det(apertura) {
 						cod_ficha: d.values[0].cod_ficha,
 						cedula: d.values[0].cedula,
 						trabajador: d.values[0].trabajador,
+						cod_cargo: d.values[0].cod_cargo,
+						cargo: d.values[0].cargo,
 						proyecto: d.values[0].proyecto,
 						cod_proyecto: d.values[0].cod_proyecto,
 						abrev_proyecto: d.values[0].abrev_proyecto,
@@ -757,8 +759,9 @@ function B_planif_apertura() {
 function cerrarModal() {
 	$("#myModal").hide();
 	var cliente = $("#planf_cliente").val();
-	if (cliente) {
-		verificar_cl(cliente, true);
+	var cargo = $("#planf_cargo").val();
+	if (cliente && cargo) {
+		verificar_cl(true);
 	}
 }
 
@@ -990,7 +993,7 @@ function parse_act_html(acts) {
 	updateFecFin(eventActual);
 }
 function modalActividad() {
-	cargar_actividades(null, (acts) => {
+	cargar_actividades(null, eventActual.extendedProps.cod_ficha, (acts) => {
 		parse_act_html(acts);
 	});
 	$("#planf_ubicacionRP").attr("disabled", false);
@@ -1039,7 +1042,7 @@ function editarActividad(event) {
 			} else {
 				$("#guardar_actividad").show();
 			}
-			cargar_actividades(null, (acts) => {
+			cargar_actividades(null, event.extendedProps.cod_ficha, (acts) => {
 				parse_act_html(acts);
 				$('#modalRP').show();
 				event.extendedProps.actividades.forEach(act => {
@@ -1128,7 +1131,7 @@ function save_planif_apertura() {
 }
 
 function filtrar_supervisores(filtro) {
-	var parametros = { region, filtro };
+	var parametros = { region, filtro, usuario };
 	$.ajax({
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_supervisores.php',

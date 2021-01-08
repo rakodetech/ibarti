@@ -61,7 +61,7 @@ if ($metodo == 'modificar') {
       <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>><?php echo $leng['ubicacion']; ?></li>
       <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>><?php echo $leng['contratacion']; ?></li>
       <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>>Vetados</li>
-      <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>>Planificación de personal administrativo</li>
+      <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>>Planificación de personal</li>
     </ul>
 
     <div class="TabbedPanelsContentGroup">
