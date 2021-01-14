@@ -34,12 +34,14 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_supervisores($region, $filtro, $usuario)
+	function get_supervisores($ubicacion, $filtro, $usuario, $cargo)
 	{
 		$this->datos   = array();
-
+		$sql = "SELECT clientes_ubicacion.cod_region FROM clientes_ubicacion WHERE  clientes_ubicacion.codigo = $ubicacion";
+		$query_region = $this->bd->consultar($sql);
+		$dato = $this->bd->obtener_fila($query_region);
+		$region = $dato[0];
 		$where = " WHERE v_ficha.cod_ubicacion = clientes_ubicacion.codigo
-		AND clientes_ubicacion.cod_region = '$region'
 		AND clientes_ubicacion.`status` = 'T'
 		AND v_ficha.cod_cargo = cargos.codigo
 		AND cargos.planificable = 'T'
@@ -53,6 +55,17 @@ class Planificacion
 			$where .= " AND (LOCATE('$filtro', v_ficha.cod_ficha) 
 			OR LOCATE('$filtro', v_ficha.ap_nombre) 
 			OR LOCATE('$filtro', cargos.descripcion)) ";
+		}
+
+		if ($cargo != '') {
+			$sql = "SELECT tipos_cargo.descripcion FROM cargos, tipos_cargo WHERE cargos.cod_tipo = tipos_cargo.codigo AND cargos.codigo = '$cargo'";
+			$query_tipo_cargo = $this->bd->consultar($sql);
+			$dato = $this->bd->obtener_fila($query_tipo_cargo);
+			$tipo_cargo = $dato[0];
+			if ($tipo_cargo == 'REGIONAL') {
+				$where .= " AND clientes_ubicacion.cod_region = '$region'";
+			}
+			$where .= " AND v_ficha.cod_cargo = '$cargo'";
 		}
 
 		$sql = "  SELECT v_ficha.cod_ficha, v_ficha.ap_nombre, v_ficha.cargo, v_ficha.nombres, v_ficha.apellidos, v_ficha.cedula, 
@@ -69,11 +82,35 @@ class Planificacion
 		return $this->datos;
 	}
 
-	public function get_cargos()
+	public function get_cargos($cliente, $ubic)
 	{
 		$this->datos   = array();
 		$sql = " SELECT cargos.codigo, cargos.descripcion FROM cargos
 		WHERE cargos.`status` = 'T' AND cargos.`planificable` = 'T' ORDER BY 2 ASC  ";
+		if ($cliente != '') {
+			$sql = " SELECT
+						c.codigo,
+						c.descripcion
+					FROM
+						clientes_supervision a,
+						cargos c
+					WHERE
+						a.cod_cliente = $cliente
+					AND a.cod_cargo = c.codigo
+					GROUP BY 1  ";
+			if ($ubic != '') {
+				$sql = " SELECT
+						c.codigo,
+						c.descripcion
+					FROM
+						clientes_supervision a,
+						cargos c
+					WHERE
+						a.cod_ubicacion = $ubic
+					AND a.cod_cargo = c.codigo
+					GROUP BY 1  ";
+			}
+		}
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
@@ -230,7 +267,7 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_supervision_det($cliente)
+	function get_supervision_det($cliente, $ubicacion, $cargo)
 	{
 		$this->datos  = array();
 		$sql = "SELECT b.descripcion ubicacion, d.descripcion turno, d.abrev turno_abrev, c.descripcion cargo, d.descripcion turno, a.cantidad
@@ -238,8 +275,16 @@ class Planificacion
 		WHERE b.cod_cliente = '$cliente'
 		AND a.cod_ubicacion = b.codigo
 		AND a.cod_cargo = c.codigo
-		AND a.cod_turno = d.codigo ORDER BY 2 DESC ";
+		AND a.cod_turno = d.codigo ";
 
+		if ($ubicacion !== '') {
+			$sql .= " AND b.codigo = '$ubicacion'";
+		}
+
+		if ($cargo !== '') {
+			$sql .= " AND a.cod_cargo = '$cargo'";
+		}
+		$sql .= " ORDER BY 2 DESC";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
@@ -247,7 +292,7 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_planif_det($apertura, $cliente, $region)
+	function get_planif_det($apertura, $cliente, $ubic)
 	{
 		$this->datos   = array();
 		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
@@ -268,7 +313,7 @@ class Planificacion
 			AND pcstd.cod_proyecto = pp.codigo
 			AND pcstd.cod_planif_cl_trab = pcst.codigo
 			AND pcstd.cod_actividad = pa.codigo
-			AND cu.cod_region = '$region'
+			AND cu.codigo = '$ubic'
 			ORDER BY codigo ASC, obligatoria DESC, fecha_inicio_act ASC";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
@@ -615,7 +660,7 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function validar_fecha($fecha, $cliente, $apertura, $region, $cod_ficha)
+	function validar_fecha($fecha, $cliente, $apertura, $ubicacion, $cod_ficha)
 	{
 		$this->datos  = array();
 		$this->datos["data"]  = array();
@@ -631,7 +676,7 @@ class Planificacion
 	   OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND DATE_FORMAT(a.fecha,'%d') = dias_tipo.descripcion))
 	   AND a.cod_ubicacion = cu.codigo AND a.cod_cliente = '$cliente' 
 	   AND a.cod_planif_cl = $apertura AND a.`status`='T'  AND a.fecha = '$fecha'
-	   AND cu.cod_region = '$region' AND a.cod_cargo = f.cod_cargo
+	   AND cu.codigo = '$ubicacion' AND a.cod_cargo = f.cod_cargo
 		AND f.cod_ficha = '$cod_ficha'
 	   GROUP BY a.cod_cliente, a.cod_ubicacion, a.cod_turno, a.fecha";
 		$query = $this->bd->consultar($sql);

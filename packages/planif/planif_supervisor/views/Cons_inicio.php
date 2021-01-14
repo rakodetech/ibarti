@@ -19,17 +19,26 @@ $cliente  =  $plan->get_cliente();
             echo '<option value="' . $datos[0] . '">' . $datos[1] . ' ' . $datos[3] . '</option>';
           } ?>
         </select></td>
-      <td width="9%" class="etiqueta"><span id="region_texto"><?php echo $leng['region'] ?>:</span></td>
-      <td width="21%"><span id="region_cont"><select id="planf_region" style="width:200px" required onclick="cargar_planif_superv()">
-            <option value="">Seleccione</option>
-          </select></span></td>
-      <!--         <td width="9%" class="etiqueta"><span id="ubicacion_texto"><?php // echo $leng['ubicacion'] 
-                                                                              ?>:</span> </td>
-      <td width="21%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onclick="cargar_planif_superv($('#planf_apertura').val())" style="width:200px">
-            <option value="">Seleccione</option>
+      <!--       <td width="9%" class="etiqueta"><span id="region_texto"><?php echo $leng['region'] ?>:</span></td>
+      <td width="21%"><span id="region_cont"><select id="planf_region" style="width:200px" required onchange="cargar_planif_superv(undefined, undefined)">
+            <option value="">TODAS</option>
           </select></span></td> -->
+      <td width="9%" class="etiqueta">
+        <span id="ubicacion_texto"><?php echo $leng['ubicacion'] ?>:</span>
+      </td>
+      <td width="21%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onclick="cargar_planif_superv(this.value, undefined)" style="width:200px">
+            <option value="">Seleccione..</option>
+          </select></span></td>
+    </tr>
+    <tr>
+      <td width="9%" class="etiqueta">
+        <span id="cargo_texto">Cargo:</span>
+      </td>
+      <td width="21%"><span id="cargo_cont"><select id="planf_cargo" required onchange="cargar_planif_superv($('#planf_ubicacion').val(), this.value)" style="width:200px">
+            <option value="">Seleccione..</option>
+          </select></span></td>
       <td width="9%" class="etiqueta"><span id="apertura_texto">Apertura:</span></td>
-      <td width="21%"><span id="apertura_cont"><select id="planf_apertura" onchange="mostrar_icono_apertura(this.value)" required onclick="cargar_planif_superv()" style="width:200px">
+      <td width="21%"><span id="apertura_cont"><select id="planf_apertura" onchange="onChangeAp(this.value)" required style="width:200px">
             <option value="">Seleccione</option>
           </select><img class="imgLink" src="imagenes\ico_agregar.ico" alt="Agregar Planificacion" title="Agregar Planificacion" onclick="B_planif_apertura()" width="15px" height="15px">
           <!--  <img class="imgLink" id="mod_ap_planif" style="display:none;" src="imagenes/detalle.bmp" alt="Modificar Apertura" title="Modificar Apertura" onclick="mod_apertura_planif()" width="15px" height="15px"></span></td> -->

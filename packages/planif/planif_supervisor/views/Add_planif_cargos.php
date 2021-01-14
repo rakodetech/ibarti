@@ -2,12 +2,13 @@
 require "../modelo/planificacion_modelo.php";
 require "../../../../" . Leng;
 
+$ubic     = $_POST['ubic'];
 $cliente     = $_POST['cliente'];
 $planif      = new Planificacion;
-$regiones = $planif->get_regiones($cliente);
+$cargos = $planif->get_cargos($cliente, $ubic);
 
 echo '<option value="">Seleccione..</option>';
-foreach ($regiones as  $datos) {
+foreach ($cargos as  $datos) {
   echo '<option value="' . $datos["codigo"] . '">' . $datos["descripcion"] . '</option>
     ';
 }

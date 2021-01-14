@@ -93,14 +93,15 @@ if (isset($_SESSION['usuario_cod'])) {
 						<td rowspan="5"><img id="fotoRP" src="" style="width:120px;" alt="Sin Foto">
 							<br>
 							<span id="cedulaRP"></span><br>
-							<span id="dias_habilesRP"></span></td>
+							<span id="dias_habilesRP"></span>
+						</td>
 					</tr>
-					<tr>
+					<!-- 					<tr>
 						<td class="etiqueta"><span id="ubicacion_texto"><?php echo $leng['ubicacion'] ?>:</span> </td>
 						<td><select id="planf_ubicacionRP" required style="width:200px">
 								<option value="">Seleccione</option>
 							</select></td>
-					</tr>
+					</tr> -->
 					<tr>
 						<td class="etiqueta"><span id="hora_texto">Hora de Inicio:</span> </td>
 						<td><input type="time" name="hora" id="planf_horaRP" step="30" onchange="updateFecFin()"></td>

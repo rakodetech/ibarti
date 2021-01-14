@@ -3,8 +3,10 @@ require "../modelo/planificacion_modelo.php";
 require "../../../../" . Leng;
 
 $cliente   = $_POST['cliente'];
+$ubicacion   = $_POST['ubic'];
+$cargo   = $_POST['cargo'];
 $plan   = new Planificacion;
-$cont = $plan->get_supervision_det($cliente);
+$cont = $plan->get_supervision_det($cliente, $ubicacion, $cargo);
 
 echo '<div align="center" class="etiqueta_title">Planificacion Cliente</div><table width="90%" border="0" align="center">
 				<tr>

@@ -19,12 +19,14 @@ if (isset($_POST['fecha_desde'])) {
 	$apertura  = $_POST['codigo'];
 	$cliente  = $_POST['cliente'];
 	$region  = $_POST['region'];
+	$cargo  = $_POST['cargo'];
+	$ubicacion  = $_POST['ubic'];
 	$usuario  = $_POST['usuario'];
-	$trab  = $plan->get_planif_det($apertura, $cliente, $region);
+	$trab  = $plan->get_planif_det($apertura, $cliente, $ubicacion);
 	$mod  = $plan->get_ultima_mod($apertura, $cliente);
 	$fechas = $plan->get_fechas_apertura($apertura, $cliente);
 
-	$supervisores = $plan->get_supervisores($region, null, $usuario);
+	$supervisores = $plan->get_supervisores($ubicacion, null, $usuario, $cargo);
 	$result['html'] = '</br></br><div align="center" class="etiqueta_title">Planificacion Detalle</div>
 	<div align="right"><span class="etiqueta">Ultima Modificacion: </span> ' . $mod["fecha"] . ' (' . $mod["us_mod"] . ')</div>
 	<div align="right"><span class="etiqueta">Nro. de Supervisores sin planificar en este cliente: <h6 id="cantidad_sin_planif"></h6></div>

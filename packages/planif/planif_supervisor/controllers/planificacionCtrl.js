@@ -2,7 +2,9 @@ var cliente = '';
 var usuario = '';
 var apertura = '';
 var region = '';
+var cargo = '';
 var supervision = '';
+var ubicacion = '';
 var calendar = null;
 var calendarSuperv = null;
 var calendarTrab = null;
@@ -26,6 +28,7 @@ function Habilitar_supervision() {
 function Ocultar_apertura() {
 	$('#apertura_texto').css("display", "none");
 	$('#apertura_cont').css("display", "none");
+	$('#planf_apertura').val("");
 }
 function Habilitar_apertura() {
 	$('#apertura_texto').css("display", "block");
@@ -40,9 +43,31 @@ function Habilitar_region() {
 	$('#region_cont').css("display", "block");
 }
 
+function Ocultar_ubicacion() {
+	$('#ubicacion_texto').css("display", "none");
+	$('#ubicacion_cont').css("display", "none");
+	$('#planf_ubicacion').val("");
+}
+function Habilitar_ubicacion() {
+	$('#ubicacion_texto').css("display", "block");
+	$('#ubicacion_cont').css("display", "block");
+}
+
+function Ocultar_cargo() {
+	$('#cargo_texto').css("display", "none");
+	$('#cargo_cont').css("display", "none");
+	$('#planf_cargo').val("");
+}
+function Habilitar_cargo() {
+	$('#cargo_texto').css("display", "block");
+	$('#cargo_cont').css("display", "block");
+}
+
 function Ocultar_all() {
 	Ocultar_apertura();
-	Ocultar_region();
+	//Ocultar_region();
+	Ocultar_cargo();
+	Ocultar_ubicacion();
 	$("#cont_planif_det").html("");
 }
 
@@ -122,11 +147,11 @@ function validarIngreso(apertura, cliente, ubic, actividades, fecha, hora_inicio
 	}
 }
 
-function validarFecha(fecha, cliente, apertura, region, cod_ficha, callback) {
+function validarFecha(fecha, cliente, apertura, ubicacion, cod_ficha, callback) {
 	var error = 0;
 	var errorMessage = ' ';
 	if (error == 0) {
-		var parametros = { fecha, cliente, apertura, region, cod_ficha };
+		var parametros = { fecha, cliente, apertura, ubicacion, cod_ficha };
 		$.ajax({
 			data: parametros,
 			url: 'packages/planif/planif_supervisor/views/validarFecha.php',
@@ -185,6 +210,26 @@ function cargar_regiones() {
 	});
 }
 
+function cargar_cargos(ubic) {
+	var parametros = { "cliente": cliente, "ubic": ubic };
+	$.ajax({
+		data: parametros,
+		url: 'packages/planif/planif_supervisor/views/Add_planif_cargos.php',
+		type: 'post',
+		beforeSend: function () {
+			$("#planf_cargo").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px">');
+		},
+		success: function (response) {
+			$("#planf_cargo").html(response);
+			Habilitar_cargo();
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}
+
 function verificar_cl(cl, modal) {
 	usuario = $("#usuario").val();
 
@@ -196,7 +241,9 @@ function verificar_cl(cl, modal) {
 	} else {
 		$("#cont_supervision_det").html("");
 		Ocultar_apertura();
-		Ocultar_region();
+		//Ocultar_region();
+		Ocultar_ubicacion();
+		Ocultar_cargo();
 		cliente = cl;
 		var parametros = { "codigo": cliente };
 		$.ajax({
@@ -211,8 +258,7 @@ function verificar_cl(cl, modal) {
 						B_supervision();
 					}
 				} else {
-					cargar_regiones();
-					cl_apertura();
+					cargar_ubicaciones(cliente);
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
@@ -244,29 +290,86 @@ function cargar_actividades(proyecto, ficha, callback) {
 	});
 }
 
-function cargar_planif_superv() {
+function cargar_ubicaciones() {
+	//var parametros = { "cliente": cliente, "region": region, "cargo": cargo };
+	var parametros = { "cliente": cliente, "cargo": cargo };
+	$.ajax({
+		data: parametros,
+		url: 'packages/planif/planif_supervisor/views/Add_planif_ap_ubic.php',
+		type: 'post',
+		beforeSend: function () {
+			$("#planf_ubicacion").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px">');
+		},
+		success: function (response) {
+			Habilitar_ubicacion();
+			$("#planf_ubicacion").html(response);
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}
+
+function cargar_planif_superv(ubic, c) {
+	ubicacion = ubic;
 	cliente = $("#planf_cliente").val();
 	ap = $("#planf_apertura").val();
-	region = $("#planf_region").val();
-
-	if (cliente == '') {
-		$("#cont_supervision_det").html("");
-		$("#cont_planif_det").html("");
+	//region = $("#planf_region").val();
+	cargo = c;
+	$("#cont_supervision_det").html("");
+	$("#cont_planif_det").html("");
+	if (ubic == '') {
+		Ocultar_cargo();
+		Ocultar_apertura();
 		if (calendar) {
 			calendar.destroy();
 		}
 	} else {
-		if (ap !== '' && ap !== undefined && region !== '' && region !== undefined) {
-			apertura = ap;
-			cargar_supervision_det(cliente);
-			cargar_planif_superv_det(apertura);
+		if (cargo == '') {
+			Ocultar_apertura();
+			if (calendar) {
+				calendar.destroy();
+			}
+		} else {
+			/* 		if (ap == "" || ap == undefined) {
+						if (ubic == "" || ubic == undefined) {
+							cargar_ubicaciones();
+						} else {
+												if (region == "" || region == undefined) {
+												$("#cont_planif_det").html("");
+												Ocultar_cargo();
+												Ocultar_apertura();
+											} */
+			if ((cargo == '' || cargo == undefined) && (ap == '' || ap == undefined)) {
+				cargar_cargos(ubic);
+			} else if (ap == '' || ap == undefined) {
+				cl_apertura();
+			}
+			/* }
+		}
+				else {
+					if (region == "" || region == undefined) {
+						$("#cont_planif_det").html("");
+						Ocultar_cargo();
+						Ocultar_apertura();
+					}
+				} */
+			//if (ap !== '' && ap !== undefined && region !== '' && region !== undefined) {
+			if (ap !== '' && ap !== undefined) {
+				apertura = ap;
+				cargar_supervision_det(cliente, ubic, cargo);
+				cargar_planif_superv_det(apertura);
+			}
 		}
 	}
 }
 
-function cargar_supervision_det(cliente) {
+function cargar_supervision_det(cliente, ubic, cargo) {
 	var parametros = {
 		"cliente": cliente,
+		"ubic": ubic,
+		"cargo": cargo,
 		"usuario": usuario
 	};
 	$.ajax({
@@ -337,8 +440,8 @@ function cargar_planif_superv_det(apertura) {
 		calendarSuperv.destroy();
 		calendar.destroy();
 	}
-	region = $("#planf_region").val();
-	var parametros = { "codigo": apertura, "cliente": cliente, "usuario": usuario, "region": region };
+	//region = $("#planf_region").val();
+	var parametros = { "codigo": apertura, "cliente": cliente, "usuario": usuario, "ubic": ubicacion, "cargo": cargo };
 	$.ajax({
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_planif_det.php',
@@ -536,8 +639,8 @@ function cargar_planif_superv_det(apertura) {
 					var cod_ficha = arg.draggedEl.getAttribute('cod_ficha');
 					isafter = moment(arg.dateStr).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"));
 					if (isafter) {
-						region = $("#planf_region").val();
-						validarFecha(moment(arg.date).format("YYYY-MM-DD"), cliente, apertura, region, cod_ficha, (fechas) => {
+						//region = $("#planf_region").val();
+						validarFecha(moment(arg.date).format("YYYY-MM-DD"), cliente, apertura, ubicacion, cod_ficha, (fechas) => {
 							if (fechas.data.length > 0) {
 								$("#planf_ubicacionRP").html("");
 								$("#planf_ubicacionRP").append('<option value="">Seleccione</option>');
@@ -557,7 +660,6 @@ function cargar_planif_superv_det(apertura) {
 										hora_salida = f.hora_salida;
 										$("#planf_hora_finRP").prop("max", hora_salida);
 									}
-
 								});
 								fechas.datacliente.forEach((f) => {
 									$("#planf_ubicacionRP").append('<option value=' + f.cod_ubicacion + '>' + f.ubicacion + ' (' + hora_entrada + ' - ' + hora_salida + ')</option>');
@@ -841,10 +943,9 @@ function B_planif_trab() {
 function saveActividad() {
 	$("#guardar_actividad").attr("disabled", true);
 	props = eventActual.extendedProps;
-	var ubic = $("#planf_ubicacionRP").val();
 	var error = 0;
 	var errorMessage = "";
-	if (!ubic) {
+	if (!ubicacion) {
 		error++;
 		errorMessage += "La ubicación es obligatoria";
 	}
@@ -865,13 +966,13 @@ function saveActividad() {
 	}
 	if (error == 0) {
 		if (metodo == "agregar") {
-			validarIngreso(apertura, cliente, ubic, actividades, fechaQuery, hora_inicio, hora_fin, props.cod_ficha, (valid) => {
+			validarIngreso(apertura, cliente, ubicacion, actividades, fechaQuery, hora_inicio, hora_fin, props.cod_ficha, (valid) => {
 				if (valid.error) {
 					toastr.error(valid.msg);
 				} else {
 					var parametros = {
 						"codigo": props.codigo, "fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin,
-						"cliente": cliente, "ubicacion": ubic, "ficha": props.cod_ficha, 'apertura': apertura,
+						"cliente": cliente, "ubicacion": ubicacion, "ficha": props.cod_ficha, 'apertura': apertura,
 						"actividades": actividades, "metodo": metodo, "usuario": usuario
 					}
 					$.ajax({
@@ -899,7 +1000,7 @@ function saveActividad() {
 		} else {
 			var parametros = {
 				"codigo": props.codigo, "fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin,
-				"cliente": cliente, "ubicacion": ubic, "ficha": props.cod_ficha, 'apertura': apertura,
+				"cliente": cliente, "ubicacion": ubicacion, "ficha": props.cod_ficha, 'apertura': apertura,
 				"actividades": actividades, "metodo": metodo, "usuario": usuario
 			};
 			$.ajax({
@@ -1009,8 +1110,8 @@ function modalActividad() {
 }
 
 function editarActividad(event) {
-	region = $("#planf_region").val();
-	validarFecha(moment(event.start).format("YYYY-MM-DD"), cliente, apertura, region, event.extendedProps.cod_ficha, (fechas) => {
+	//region = $("#planf_region").val();
+	validarFecha(moment(event.start).format("YYYY-MM-DD"), cliente, apertura, ubicacion, event.extendedProps.cod_ficha, (fechas) => {
 		if (fechas.data.length > 0) {
 			$("#planf_ubicacionRP").html("");
 			var hora_entrada = fechas.data[0].hora_entrada;
@@ -1131,7 +1232,7 @@ function save_planif_apertura() {
 }
 
 function filtrar_supervisores(filtro) {
-	var parametros = { region, filtro, usuario };
+	var parametros = { ubicacion, filtro, usuario, cargo };
 	$.ajax({
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_supervisores.php',
@@ -1152,8 +1253,8 @@ function filtrar_supervisores(filtro) {
 function actulizarEvento(arg) {
 	isafter = moment(arg.event.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"));
 	if (isafter) {
-		region = $("#planf_region").val();
-		validarFecha(moment(arg.event.start).format("YYYY-MM-DD"), cliente, apertura, region, arg.oldEvent.extendedProps.cod_ficha, (fechas) => {
+		//region = $("#planf_region").val();
+		validarFecha(moment(arg.event.start).format("YYYY-MM-DD"), cliente, apertura, ubicacion, arg.oldEvent.extendedProps.cod_ficha, (fechas) => {
 			if (fechas.data.length > 0) {
 				var parametros = {
 					"codigo": arg.oldEvent.id, "fecha_inicio": moment(arg.event.start).format("YYYY-MM-DD HH:mm:00"), "fecha_fin": moment(arg.event.end).format("YYYY-MM-DD HH:mm:00"),
@@ -1192,4 +1293,11 @@ function actulizarEvento(arg) {
 			cargar_planif_superv_det(apertura);
 		}
 	}
+}
+
+function onChangeAp(ap) {
+	mostrar_icono_apertura(ap);
+	ubicacion = $('#planf_ubicacion').val();
+	cargo = $('#planf_cargo').val();
+	cargar_planif_superv(ubicacion, cargo);
 }
