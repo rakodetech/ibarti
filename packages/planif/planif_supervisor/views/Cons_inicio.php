@@ -26,7 +26,7 @@ $cliente  =  $plan->get_cliente();
       <td width="9%" class="etiqueta">
         <span id="ubicacion_texto"><?php echo $leng['ubicacion'] ?>:</span>
       </td>
-      <td width="21%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onclick="cargar_planif_superv(this.value, undefined)" style="width:200px">
+      <td width="21%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onchange="cargar_planif_superv(this.value, undefined)" style="width:200px">
             <option value="">Seleccione..</option>
           </select></span></td>
     </tr>

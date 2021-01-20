@@ -151,7 +151,7 @@ function validarFecha(fecha, cliente, apertura, ubicacion, cod_ficha, callback) 
 	var error = 0;
 	var errorMessage = ' ';
 	if (error == 0) {
-		var parametros = { fecha, cliente, apertura, ubicacion, cod_ficha };
+		var parametros = { fecha, cliente, apertura, ubicacion, cod_ficha, cargo };
 		$.ajax({
 			data: parametros,
 			url: 'packages/planif/planif_supervisor/views/validarFecha.php',
@@ -171,7 +171,7 @@ function validarFecha(fecha, cliente, apertura, ubicacion, cod_ficha, callback) 
 }
 
 function cl_apertura() {
-	var parametros = { "cliente": cliente };
+	var parametros = { "ubic": ubicacion, "cargo": cargo };
 	$.ajax({
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_planif_apertura.php',
@@ -620,10 +620,10 @@ function cargar_planif_superv_det(apertura) {
 					*/
 				},
 				eventResize: function (arg) {
-					actulizarEvento(arg);
+					actualizarEvento(arg);
 				},
 				eventDrop: function (arg) {
-					actulizarEvento(arg);
+					actualizarEvento(arg);
 				},
 				selectMirror: true,
 				select: function (arg) {
@@ -720,7 +720,7 @@ function cargar_planif_superv_trab_det(ficha) {
 	if (calendarTrab) {
 		calendarTrab.destroy();
 	}
-	var parametros = { "codigo": apertura, "cliente": cliente, "ficha": ficha, "usuario": usuario };
+	var parametros = { "codigo": apertura, "ubic": ubicacion, "ficha": ficha, "cargo": cargo, "usuario": usuario };
 	$.ajax({
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_planif_trab_det.php',
@@ -841,7 +841,7 @@ function B_supervision() {
 }
 
 function B_planif_apertura() {
-	var parametros = { "usuario": usuario, "cliente": cliente, "supervision": supervision };
+	var parametros = { "usuario": usuario, "ubic": ubicacion, "cargo": cargo, "supervision": supervision };
 	$.ajax({
 		data: parametros,
 		url: 'packages/planif/planif_supervisor/views/Add_planif_apertura_ing.php',
@@ -863,7 +863,7 @@ function cerrarModal() {
 	var cliente = $("#planf_cliente").val();
 	var cargo = $("#planf_cargo").val();
 	if (cliente && cargo) {
-		verificar_cl(true);
+		verificar_cl(cliente, true);
 	}
 }
 
@@ -1139,9 +1139,9 @@ function editarActividad(event) {
 			$("#cedulaRP").html(event.extendedProps.cod_ficha + " - " + event.extendedProps.cedula);
 			$("#dias_habilesRP").html(fechas.data[0].dias_habiles);
 			if (moment(moment(event.start).format("YYYY-MM-DD")).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"))) {
-				$("#guardar_actividad").hide();
-			} else {
 				$("#guardar_actividad").show();
+			} else {
+				$("#guardar_actividad").hide();
 			}
 			cargar_actividades(null, event.extendedProps.cod_ficha, (acts) => {
 				parse_act_html(acts);
@@ -1200,7 +1200,7 @@ function save_planif_apertura() {
 	var fec_inicio = $("#ap_fecha_inicio").val();
 	var fec_fin = $("#ap_fecha_fin").val();
 	var parametros = {
-		"codigo": '', "cliente": cliente,
+		"codigo": '', "ubic": ubicacion, "cargo": cargo,
 		"fec_inicio": fec_inicio, "fec_fin": fec_fin,
 		"metodo": "agregar", "usuario": usuario
 	}
@@ -1250,7 +1250,7 @@ function filtrar_supervisores(filtro) {
 	});
 }
 
-function actulizarEvento(arg) {
+function actualizarEvento(arg) {
 	isafter = moment(arg.event.start).isSameOrAfter(moment(hoy).format("YYYY-MM-DD"));
 	if (isafter) {
 		//region = $("#planf_region").val();

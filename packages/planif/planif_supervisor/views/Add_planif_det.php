@@ -17,19 +17,21 @@ if (isset($_POST['fecha_desde'])) {
 	$result["data"]  = $plan->get_planif_det_rp($fecha_desde, $fecha_hasta, $cliente, $ubicacion, $ficha);
 } elseif (isset($_POST['codigo'])) {
 	$apertura  = $_POST['codigo'];
-	$cliente  = $_POST['cliente'];
 	$region  = $_POST['region'];
 	$cargo  = $_POST['cargo'];
 	$ubicacion  = $_POST['ubic'];
 	$usuario  = $_POST['usuario'];
-	$trab  = $plan->get_planif_det($apertura, $cliente, $ubicacion);
-	$mod  = $plan->get_ultima_mod($apertura, $cliente);
-	$fechas = $plan->get_fechas_apertura($apertura, $cliente);
+
+	$trab  = $plan->get_planif_det($apertura, $ubicacion, $cargo);
+
+	$mod  = $plan->get_ultima_mod($apertura);
+
+	$fechas = $plan->get_fechas_apertura($apertura, $ubicacion, $cargo);
 
 	$supervisores = $plan->get_supervisores($ubicacion, null, $usuario, $cargo);
-	$result['html'] = '</br></br><div align="center" class="etiqueta_title">Planificacion Detalle</div>
-	<div align="right"><span class="etiqueta">Ultima Modificacion: </span> ' . $mod["fecha"] . ' (' . $mod["us_mod"] . ')</div>
-	<div align="right"><span class="etiqueta">Nro. de Supervisores sin planificar en este cliente: <h6 id="cantidad_sin_planif"></h6></div>
+	$result['html'] = '</br></br><div align="center" class="etiqueta_title">Planificación Detalle</div>
+	<div align="right"><span class="etiqueta">Ultima Modificación: </span> ' . $mod["fecha"] . ' (' . $mod["us_mod"] . ')</div>
+	<div align="right"><span class="etiqueta">Nro. de personas sin planificar: <h6 id="cantidad_sin_planif"></h6></div>
 	<div id="wrap">
 
 	<div id="supervisor-wrap" class="scroll">
@@ -45,12 +47,14 @@ if (isset($_POST['fecha_desde'])) {
 		</div>';
 	}
 
+
 	$result['html'] .= '</div></div></div><div id="calendar-wrap"> <div id="calendar"></div></div></div>';
 
 	$result['html'] .= '<script language="JavaScript" type="text/javascript"> new Autocomplete("filtro", function() { filtrar_supervisores(this.value); }); </script>';
 
-	$result["data"] = $trab;
 	$result["fechas"] = $fechas;
+
+	$result["data"] = $trab;
 }
 print_r(json_encode($result));
 return json_encode($result);
