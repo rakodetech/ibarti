@@ -54,7 +54,7 @@ class Notificaciones
 		$where
 		GROUP BY nov_procesos.codigo
 		ORDER BY nov_status.control_notif_orden ASC,nov_procesos.fec_us_mod ASC ";
-		echo $sql;
+
 		$query         = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
