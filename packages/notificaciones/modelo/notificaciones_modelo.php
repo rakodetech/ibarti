@@ -46,7 +46,7 @@ class Notificaciones
 		AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo ";
 
 		if ($region != null && $region != '') {
-			$where .= " AND clientes_ubicacion.cod_region = '$region' ";
+			$where .= " AND clientes_ubicacion.cod_region = '$region' AND men_usuarios.cod_region = clientes_ubicacion.cod_region ";
 		}
 
 		$sql = "SELECT nov_procesos.codigo,nov_procesos_det.codigo cod_proc,nov_procesos_det.observacion ,ficha.cedula,nov_procesos.fec_us_mod fecha,novedades.descripcion,men_usuarios.nombre,nov_status.descripcion as stat,nov_status.color_notificaciones as color
