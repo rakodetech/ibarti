@@ -18,8 +18,9 @@ if (isset($_GET['codigo'])) { //== ''
                     men_usuarios.nombre, men_usuarios.apellido,
                     men_usuarios.login, men_usuarios.email,
 					men_usuarios.r_cliente, men_usuarios.r_rol,
-                    men_usuarios.status
-               FROM men_usuarios , men_perfiles
+                    men_usuarios.status,
+					men_usuarios.cod_region, IFNULL(regiones.descripcion, 'TODAS') region
+               FROM men_usuarios LEFT JOIN regiones ON men_usuarios.cod_region = regiones.codigo, men_perfiles
               WHERE men_usuarios.cod_perfil = men_perfiles.codigo
 			    AND men_usuarios.codigo = '$codigo' ";
 	$query = $bd->consultar($sql);
@@ -32,6 +33,8 @@ if (isset($_GET['codigo'])) { //== ''
 	$login      = $result['login'];
 	$cod_perfil = $result['cod_perfil'];
 	$perfil     = $result['perfil'];
+	$cod_region = $result['cod_region'];
+	$region     = $result['region'];
 	$r_cliente  = $result['r_cliente'];
 	$r_rol      = $result['r_rol'];
 	$status     = $result['status'];
@@ -49,7 +52,8 @@ if (isset($_GET['codigo'])) { //== ''
 	$login      = '';
 	$cod_perfil = '';
 	$perfil     = 'Seleccione...';
-
+	$cod_region = '';
+	$region = 'TODAS';
 	$r_cliente  = '';
 	$r_rol      = '';
 	$status     = '';
@@ -59,16 +63,16 @@ if (isset($_GET['codigo'])) { //== ''
 }
 
 ?>
-<form action="autentificacion/sc_usuarios.php"  method="post" name="mod_usuarios" id="mod_usuarios">
+<form action="autentificacion/sc_usuarios.php" method="post" name="mod_usuarios" id="mod_usuarios">
 	<fieldset class="fieldset">
 		<legend><?php echo $titulo; ?> </legend>
 		<table width="80%" align="center">
 
 			<tr>
 				<td class="etiqueta">Codigo:</td>
-				<td id="input00"><input type="text" id="checkboxC"name="codigo" onblur="validUserType('codigo',this.value,'checkboxC')" maxlength="11" value="<?php echo $codigo; ?>" <?php echo $disabled; ?> style="width:120px" /><br />
+				<td id="input00"><input type="text" id="checkboxC" name="codigo" onblur="validUserType('codigo',this.value,'checkboxC')" maxlength="11" value="<?php echo $codigo; ?>" <?php echo $disabled; ?> style="width:120px" /><br />
 					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
-					<p id="checkboxCC"invalido</p>
+					<p id="checkboxCC" invalido</p>
 
 				</td>
 			</tr>
@@ -76,29 +80,34 @@ if (isset($_GET['codigo'])) { //== ''
 				<td class="etiqueta">C&eacute;dula:</td>
 				<td id="input01"><input type="text" name="cedula" maxlength="15" value="<?php echo $cedula; ?>" style="width:120px" />
 					Activo: <input name="status" type="checkbox" <?php echo statusCheck($status); ?> value="T" /><br />
-					<span class="textfieldRequiredMsg">El Campo es Requerido.</span></td>
+					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
+				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Nombres:</td>
 				<td id="input02"><input type="text" name="nombre" maxlength="120" style="width:200px" value="<?php echo $nombre; ?>" /><br />
-					<span class="textfieldRequiredMsg">El Campo es Requerido.</span></td>
+					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
+				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Apellidos: </td>
 				<td id="input03"><input type="text" name="apellido" maxlength="120" style="width:200px" value="<?php echo $apellido; ?>" /><br />
-					<span class="textfieldRequiredMsg">El Campo es Requerido.</span></td>
+					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
+				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Email:</td>
 				<td id="email"><input name="email" type="text" maxlength="60" style="width:250px" value="<?php echo $email; ?>"><br />
-					<span class="textfieldRequiredMsg">El Campo es Requerido.</span></td>
+					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
+				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Login:</td>
 				<td id="input04"><input name="login" type="text" maxlength="15" id="checkboxL" onblur="validUserType('login',this.value,'checkboxL')" style="width:120px" value="<?php echo $login; ?>" /><br />
 					<p id="checkboxLC" style="float:left;"></p>
 					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
-					<span class="textfieldMinCharsMsg">Debe Escribir m&aacute;s de 4 caracteres.</span></td>
+					<span class="textfieldMinCharsMsg">Debe Escribir m&aacute;s de 4 caracteres.</span>
+				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Password:</td>
@@ -122,26 +131,44 @@ if (isset($_GET['codigo'])) { //== ''
 			<tr>
 				<td class="etiqueta">Perfil:</td>
 				<td id="select01">
-					<select name="perfil" style="width:200px">
+					<select name="region" style="width:200px">
 						<option value="<?php echo $cod_perfil; ?>"><?php echo $perfil; ?></option>
 						<?php
 						$sql = " SELECT codigo, descripcion FROM men_perfiles WHERE status = 'T' ORDER BY 2 ASC ";
 						$query01 = $bd->consultar($sql);
 						while ($row01 = $bd->obtener_fila($query01, 0)) {
-							?>
+						?>
 							<option value="<?php echo $row01[0]; ?>"><?php echo $row01[1]; ?></option>
 						<?php } ?>
-					</select><br /><span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>
+					</select><br /><span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="etiqueta">Región:</td>
+				<td id="select01">
+					<select name="perfil" style="width:200px">
+						<option value="<?php echo $cod_region; ?>"><?php echo $region; ?></option>
+						<?php
+						$sql = " SELECT codigo, descripcion FROM regiones WHERE status = 'T' ORDER BY 2 ASC ";
+						$query01 = $bd->consultar($sql);
+						while ($row01 = $bd->obtener_fila($query01, 0)) {
+						?>
+							<option value="<?php echo $row01[0]; ?>"><?php echo $row01[1]; ?></option>
+						<?php } ?>
+					</select><br /><span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span>
+				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Restringir Cliente:</td>
 				<td id="radio01">SI<input type="radio" name="r_cliente" value="T" style="width:auto" <?php echo CheckX($r_cliente, "T"); ?> /> NO<input type="radio" name="r_cliente" value="F" style="width:auto" <?php echo CheckX($r_cliente, "F"); ?> />
-					<br /><span class="radioRequiredMsg">Debe seleccionar un Campo.</span></td>
+					<br /><span class="radioRequiredMsg">Debe seleccionar un Campo.</span>
+				</td>
 			</tr>
 			<tr>
 				<td class="etiqueta">Restringir Rol:</td>
 				<td id="radio02">SI<input type="radio" name="r_rol" value="T" style="width:auto" <?php echo CheckX($r_rol, "T"); ?> /> NO<input type="radio" name="r_rol" value="F" style="width:auto" <?php echo CheckX($r_rol, "F"); ?> />
-					<br /><span class="radioRequiredMsg">Debe seleccionar un Campo.</span></td>
+					<br /><span class="radioRequiredMsg">Debe seleccionar un Campo.</span>
+				</td>
 			</tr>
 			<tr>
 				<td height="8" colspan="2" align="center">
@@ -243,9 +270,9 @@ if (isset($_GET['codigo'])) { //== ''
 				success: function(response) {
 					if (Number(response)) {
 						$('#' + selector).val('');
-						$('#' + selector+"C").html('invalido');
+						$('#' + selector + "C").html('invalido');
 					} else {
-						$('#' + selector+"C").html('valido');
+						$('#' + selector + "C").html('valido');
 					}
 				},
 				error: function(xhr, ajaxOptions, thrownError) {
