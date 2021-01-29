@@ -131,7 +131,7 @@ if (isset($_GET['codigo'])) { //== ''
 			<tr>
 				<td class="etiqueta">Perfil:</td>
 				<td id="select01">
-					<select name="region" style="width:200px">
+					<select name="perfil" style="width:200px">
 						<option value="<?php echo $cod_perfil; ?>"><?php echo $perfil; ?></option>
 						<?php
 						$sql = " SELECT codigo, descripcion FROM men_perfiles WHERE status = 'T' ORDER BY 2 ASC ";
@@ -145,8 +145,8 @@ if (isset($_GET['codigo'])) { //== ''
 			</tr>
 			<tr>
 				<td class="etiqueta">Región:</td>
-				<td id="select01">
-					<select name="perfil" style="width:200px">
+				<td>
+					<select name="region" style="width:200px">
 						<option value="<?php echo $cod_region; ?>"><?php echo $region; ?></option>
 						<?php
 						$sql = " SELECT codigo, descripcion FROM regiones WHERE status = 'T' ORDER BY 2 ASC ";
