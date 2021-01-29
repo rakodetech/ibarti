@@ -291,15 +291,15 @@ class novedades_reporte
 			$where .= " AND men_usuarios.cod_region = '$region' 
 			AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
 			AND men_usuarios.cod_region = regiones.codigo
-			AND men_usuarios.cod_region = clientes_ubicacion.cod_region";
+			AND men_usuarios.cod_region = clientes_ubicacion.cod_region ";
 
 			$where2 .= " AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '') AND clientes_ubicacion.cod_region = '$region'";
 		} else {
-			$where .= " nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
+			$where .= " AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
 			AND men_usuarios.cod_region = regiones.codigo
-			AND men_usuarios.cod_region = clientes_ubicacion.cod_region";
+			AND men_usuarios.cod_region = clientes_ubicacion.cod_region ";
 
-			$where2 .= " AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '')";
+			$where2 .= " AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '') ";
 		}
 
 		$sql   = "SELECT DISTINCT nov_procesos.codigo codigo_nov ,men_usuarios.codigo codigo_usuario,men_usuarios.cod_perfil,
@@ -321,8 +321,8 @@ class novedades_reporte
 			$where2
 
 			ORDER BY nombre";
-		$sqlunion = $sql . ' ' . $sql2;
 
+		$sqlunion = $sql . ' ' . $sql2;
 		$query = $this->bd->consultar($sqlunion);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
