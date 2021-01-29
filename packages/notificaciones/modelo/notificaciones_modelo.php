@@ -22,8 +22,8 @@ class Notificaciones
 	public function get_nov_notif($perfil, $usuario)
 	{
 
-		$sql_region = "SELECT nov_procesos.cod_region FROM men_usuarios
-		WHERE  nov_procesos_det.cod_us_ing <> '$usuario';";
+		$sql_region = "SELECT men_usuarios.cod_region FROM men_usuarios
+		WHERE  men_usuarios.codigo = '$usuario';";
 
 		$query_region        = $this->bd->consultar($sql_region);
 		$data = $this->bd->obtener_fila($query_region);
@@ -54,6 +54,7 @@ class Notificaciones
 		$where
 		GROUP BY nov_procesos.codigo
 		ORDER BY nov_status.control_notif_orden ASC,nov_procesos.fec_us_mod ASC ";
+		echo $sql;
 		$query         = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
