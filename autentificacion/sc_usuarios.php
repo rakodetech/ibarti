@@ -24,7 +24,7 @@ $email     = $_POST['email'];
 $perfil    = $_POST['perfil'];
 $region    = $_POST['region'];
 if (isset($_POST['check'])) {
-	$check     =   'T';
+	$check     =   'S';
 } else {
 	$check     =   'F';
 }
