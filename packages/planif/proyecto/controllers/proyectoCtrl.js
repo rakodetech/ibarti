@@ -144,6 +144,7 @@ function save_det(cod, metodo) {
 	var descripcion = $("#descripcion" + cod + "").val();
 	var minutos = $("#minutos" + cod + "").val();
 	var obligatoria = Status($('input:checkbox[id=obligatoria' + cod + ']:checked').val())
+	var participantes = Status($('input:checkbox[id=participantes' + cod + ']:checked').val())
 	var usuario = $("#usuario").val();
 	if ((descripcion != "" && descripcion != null && minutos != "" && minutos != null) || metodo == 'borrar') {
 		if (error == 0) {
@@ -155,7 +156,7 @@ function save_det(cod, metodo) {
 				"descripcion": descripcion,
 				"proced": proced, "usuario": usuario,
 				"metodo": metodo, "minutos": minutos,
-				"obligatoria": obligatoria
+				"obligatoria": obligatoria, "participantes": participantes
 			};
 			$.ajax({
 				data: parametros,
