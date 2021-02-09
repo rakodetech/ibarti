@@ -30,7 +30,7 @@ foreach ($result as  $datos) {
         echo '<td><img src="imagenes/cerrar.bmp" ' . $disabled . ' alt="Realizado" title="Actividad Realizada" width="20px" height="20px" border="null"/></a></td>
         <td><img class="imgLink" id="m_observaciones" src="imagenes/detalle.bmp" alt="Modificar Observaciones" title="Modificar Observaciones" onclick="openModalObservaciones(' . $datos["codigo"] . ')" width="15px" height="15px">(' . $datos["observaciones"] . ')</td>';
         if ($datos["participantes"] == 'T') {
-            echo '<td><img class="imgLink" id="m_participantes" src="imagenes/detalle.bmp" alt="Modificar Participantes" title="Modificar Participantes" onclick="openModalParticipantes(' . $datos["codigo"] . ')" width="15px" height="15px">(' . $datos["participantes"] . ')</td></tr>';
+            echo '<td><img class="imgLink" id="m_participantes" src="imagenes/detalle.bmp" alt="Modificar Participantes" title="Modificar Participantes" onclick="openModalParticipantes(' . $datos["codigo"] . ')" width="15px" height="15px">(' . $datos["fichas"] . ')</td></tr>';
         } else {
             echo '<td>N/A</td></tr>';
         }
@@ -39,7 +39,7 @@ foreach ($result as  $datos) {
         alt="Realizado" title="Marcar como realizado" width="20px" height="20px" border="null"/></a></td>
         <td><img class="imgLink" id="m_observaciones" src="imagenes/detalle.bmp" alt="Modificar Observaciones" title="Modificar Observaciones" onclick="openModalObservaciones(' . $datos["codigo"] . ')" width="15px" height="15px">(' . $datos["observaciones"] . ')</td>';
         if ($datos["participantes"] == 'T') {
-            echo '<td><img class="imgLink" id="m_participantes" src="imagenes/detalle.bmp" alt="Modificar Participantes" title="Modificar Participantes" onclick="openModalParticipantes(' . $datos["codigo"] . ')" width="15px" height="15px">(' . $datos["participantes"] . ')</td></tr>';
+            echo '<td><img class="imgLink" id="m_participantes" src="imagenes/detalle.bmp" alt="Modificar Participantes" title="Modificar Participantes" onclick="openModalParticipantes(' . $datos["codigo"] . ')" width="15px" height="15px">(' . $datos["fichas"] . ')</td></tr>';
         } else {
             echo '<td>N/A</td></tr>';
         }
