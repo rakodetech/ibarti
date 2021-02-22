@@ -22,58 +22,60 @@
 <form name="form_reportes" id="form_reportes" action="<?php echo $archivo; ?>" method="post" target="_blank">
 
   <hr />
-  <table width="100%" class="etiqueta listar" id="prueba">
-    <tr>
-      <td width="10%">Status: </td>
-      <td width="14%" id="at">
-        <div id="contenedor2">
+  <div class="listar">
+    <table width="100%" class="etiqueta" id="prueba">
+      <tr>
+        <td width="10%">Status: </td>
+        <td width="14%" id="at">
+          <div id="contenedor2">
 
-          <select name="status" id="status" style="width:120px;" required>
-            <option value="TODOS">TODOS</option>
-          </select>
-      </td>
-      </div>
-      <td width="10%">Departamentos: </td>
-      <td width="14%" id="et">
-        <div id="contenedor3">
+            <select name="status" id="status" style="width:120px;" required>
+              <option value="TODOS">TODOS</option>
+            </select>
+        </td>
+  </div>
+  <td width="10%">Departamentos: </td>
+  <td width="14%" id="et">
+    <div id="contenedor3">
 
-          <select name="departamentos" id="departamentos" style="width:120px;" required>
-            <option value="TODOS">TODOS</option>
-          </select>
-      </td>
-      <td width="10%">Regiones: </td>
-      <td width="14%" id="rt">
-        <div id="contenedor4">
-          <select name="regiones" id="regiones" style="width:120px;" required>
-            <option value="TODOS">TODAS</option>
-          </select>
-      </td>
-      <td width="4%" id="cont_img"><img class="imgLink" src="imagenes/actualizar.png" border="0" onclick="llenar_tb_novedades_pendientes()">
-        <input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu; ?>" />
-        <input type="hidden" name="mod" id="mod" value="<?php echo $mod; ?>" />
-        <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION['usuario_cod']; ?>" />
-      </td>
-    </tr>
-    <tr>
-      <td width="10%">Estados: </td>
-      <td width="14%" id="est">
-        <div id="contenedor5">
-          <select name="estado" id="estado" style="width:120px;" onchange="llenar_ciudades(this.value)" required>
-            <option value="TODOS">TODAS</option>
-          </select>
-      </td>
-      <td width="10%">Ciudades: </td>
-      <td width="14%" id="ct">
-        <div id="contenedor6">
-          <select name="ciudad" id="ciudad" style="width:120px;" required>
-            <option value="TODOS">TODAS</option>
-          </select>
-      </td>
-    </tr>
-    </div>
-    </div>
-    </tr>
+      <select name="departamentos" id="departamentos" style="width:120px;" required>
+        <option value="TODOS">TODOS</option>
+      </select>
+  </td>
+  <td width="10%">Regiones: </td>
+  <td width="14%" id="rt">
+    <div id="contenedor4">
+      <select name="regiones" id="regiones" style="width:120px;" required>
+        <option value="TODOS">TODAS</option>
+      </select>
+  </td>
+  <td width="4%" id="cont_img"><img class="imgLink" src="imagenes/actualizar.png" border="0" onclick="llenar_tb_novedades_pendientes()">
+    <input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu; ?>" />
+    <input type="hidden" name="mod" id="mod" value="<?php echo $mod; ?>" />
+    <input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION['usuario_cod']; ?>" />
+  </td>
+  </tr>
+  <tr>
+    <td width="10%">Estados: </td>
+    <td width="14%" id="est">
+      <div id="contenedor5">
+        <select name="estado" id="estado" style="width:120px;" onchange="llenar_ciudades(this.value)" required>
+          <option value="TODOS">TODAS</option>
+        </select>
+    </td>
+    <td width="10%">Ciudades: </td>
+    <td width="14%" id="ct">
+      <div id="contenedor6">
+        <select name="ciudad" id="ciudad" style="width:120px;" required>
+          <option value="TODOS">TODAS</option>
+        </select>
+    </td>
+  </tr>
+  </div>
+  </div>
+  </tr>
   </table>
+  </div>
   <hr />
 
   <div id="cargar"></div>
