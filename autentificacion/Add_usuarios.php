@@ -19,8 +19,12 @@ if (isset($_GET['codigo'])) { //== ''
                     men_usuarios.login, men_usuarios.email,
 					men_usuarios.r_cliente, men_usuarios.r_rol,
                     men_usuarios.status,
-					men_usuarios.cod_region, IFNULL(regiones.descripcion, 'TODAS') region
-               FROM men_usuarios LEFT JOIN regiones ON men_usuarios.cod_region = regiones.codigo, men_perfiles
+					men_usuarios.cod_region, IFNULL(regiones.descripcion, 'TODAS') region,
+					men_usuarios.cod_estado, IFNULL(estados.descripcion, 'TODAS') estado,
+					men_usuarios.cod_ciudad, IFNULL(ciudades.descripcion, 'TODAS') ciudad
+               FROM men_usuarios LEFT JOIN regiones ON men_usuarios.cod_region = regiones.codigo
+			   LEFT JOIN estados ON men_usuarios.cod_estado = estados.codigo
+			   LEFT JOIN ciudades ON men_usuarios.cod_ciudad = ciudades.codigo, men_perfiles
               WHERE men_usuarios.cod_perfil = men_perfiles.codigo
 			    AND men_usuarios.codigo = '$codigo' ";
 	$query = $bd->consultar($sql);
@@ -35,6 +39,10 @@ if (isset($_GET['codigo'])) { //== ''
 	$perfil     = $result['perfil'];
 	$cod_region = $result['cod_region'];
 	$region     = $result['region'];
+	$cod_estado = $result['cod_estado'];
+	$estado     = $result['estado'];
+	$cod_ciudad = $result['cod_ciudad'];
+	$ciudad     = $result['ciudad'];
 	$r_cliente  = $result['r_cliente'];
 	$r_rol      = $result['r_rol'];
 	$status     = $result['status'];
@@ -54,6 +62,10 @@ if (isset($_GET['codigo'])) { //== ''
 	$perfil     = 'Seleccione...';
 	$cod_region = '';
 	$region = 'TODAS';
+	$cod_estado = '';
+	$estado     = 'TODAS';
+	$cod_ciudad = '';
+	$ciudad     = 'TODAS';
 	$r_cliente  = '';
 	$r_rol      = '';
 	$status     = '';
@@ -150,6 +162,36 @@ if (isset($_GET['codigo'])) { //== ''
 						<option value="<?php echo $cod_region; ?>"><?php echo $region; ?></option>
 						<?php
 						$sql = " SELECT codigo, descripcion FROM regiones WHERE status = 'T' ORDER BY 2 ASC ";
+						$query01 = $bd->consultar($sql);
+						while ($row01 = $bd->obtener_fila($query01, 0)) {
+						?>
+							<option value="<?php echo $row01[0]; ?>"><?php echo $row01[1]; ?></option>
+						<?php } ?>
+					</select><br /><span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="etiqueta">Estado:</td>
+				<td>
+					<select name="estado" style="width:200px">
+						<option value="<?php echo $cod_estado; ?>"><?php echo $estado; ?></option>
+						<?php
+						$sql = " SELECT codigo, descripcion FROM estados WHERE status = 'T' ORDER BY 2 ASC ";
+						$query01 = $bd->consultar($sql);
+						while ($row01 = $bd->obtener_fila($query01, 0)) {
+						?>
+							<option value="<?php echo $row01[0]; ?>"><?php echo $row01[1]; ?></option>
+						<?php } ?>
+					</select><br /><span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="etiqueta">Ciudad:</td>
+				<td>
+					<select name="ciudad" style="width:200px">
+						<option value="<?php echo $cod_ciudad; ?>"><?php echo $ciudad; ?></option>
+						<?php
+						$sql = " SELECT codigo, descripcion FROM ciudades WHERE status = 'T' ORDER BY 2 ASC ";
 						$query01 = $bd->consultar($sql);
 						while ($row01 = $bd->obtener_fila($query01, 0)) {
 						?>

@@ -92,10 +92,36 @@ class novedades_reporte
 		return $this->datos;
 	}
 
-
 	public function llenar_regiones()
 	{
 		$sql   = "SELECT codigo, descripcion from regiones where regiones.`status` <> 'F'";
+		$query = $this->bd->consultar($sql);
+		while ($datos = $this->bd->obtener_fila($query)) {
+			$this->datos[] = $datos;
+		}
+		return $this->datos;
+	}
+
+	public function llenar_estados($region)
+	{
+		$sql   = "SELECT codigo, descripcion from estados where estados.`status` <> 'F'";
+		if ($region !== '' && $region !== null && $region !== 'TODOS') {
+			$sql .= " AND estados.cod_region = '$region' ";
+		}
+		return $sql;
+		$query = $this->bd->consultar($sql);
+		while ($datos = $this->bd->obtener_fila($query)) {
+			$this->datos[] = $datos;
+		}
+		return $this->datos;
+	}
+
+	public function llenar_ciudades($estado)
+	{
+		$sql   = "SELECT codigo, descripcion from ciudades where ciudades.`status` <> 'F'";
+		if ($estado !== '' && $estado !== null  && $estado !== 'TODOS') {
+			$sql .= " AND ciudades.cod_estado = '$estado' ";
+		}
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
@@ -171,7 +197,7 @@ class novedades_reporte
 	}
 
 	///////////////////////////////////////////////7
-	public function obtener_cantidad_novedades_pendientes($perfil, $usuario, $estatus, $region)
+	public function obtener_cantidad_novedades_pendientes($perfil, $usuario, $estatus, $region, $estado, $ciudad)
 	{
 
 
@@ -190,6 +216,7 @@ class novedades_reporte
 				
 					and nov_procesos.cod_us_ing <> '$usuario'
 						and nov_perfiles.respuesta = 'T'
+						AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
 				";
 		} else {
 			$where = "WHERE  nov_procesos.cod_novedad = novedades.codigo and nov_procesos_det.cod_nov_proc = nov_procesos.codigo AND novedades.`status` = 'T'
@@ -203,25 +230,34 @@ class novedades_reporte
 					
 						and nov_procesos.cod_us_ing <> '$usuario'
 							and nov_perfiles.respuesta = 'T'
+							AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
 				";
 		}
 
 		if ($region != '' && $region != null) {
-			$sql = "SELECT nov_procesos.codigo ,nov_status.descripcion as stat, concat(men_usuarios.nombre,' ',men_usuarios.apellido) nombre,nov_procesos_det.observacion, novedades.descripcion,nov_status.codigo cod_status,nov_procesos_det.fec_us_ing fecha, nov_procesos_det.cod_us_ing usuario
-			FROM nov_procesos, clientes_ubicacion, nov_procesos_det,novedades,nov_perfiles, men_usuarios,nov_status
-			$where
-			AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
-			AND clientes_ubicacion.cod_region = '$region'
-			GROUP BY nov_procesos.codigo
-			ORDER BY stat ASC, fecha ASC ";
+			$where .= " AND clientes_ubicacion.cod_region = '$region' ";
 		} else {
-			$sql = "SELECT nov_procesos.codigo ,nov_status.descripcion as stat, concat(men_usuarios.nombre,' ',men_usuarios.apellido) nombre,nov_procesos_det.observacion, novedades.descripcion,nov_status.codigo cod_status,nov_procesos_det.fec_us_ing fecha, nov_procesos_det.cod_us_ing usuario
-			FROM nov_procesos, nov_procesos_det,novedades,nov_perfiles, men_usuarios,nov_status
-			$where
-			AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '')
-			GROUP BY nov_procesos.codigo
-			ORDER BY stat ASC, fecha ASC ";
+			$where .= " AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '') ";
 		}
+
+		if ($estado != '' && $estado != null) {
+			$where .= " AND clientes_ubicacion.cod_estado = '$estado' ";
+		} else {
+			$where .= " AND (men_usuarios.cod_estado = NULL OR men_usuarios.cod_estado = '') ";
+		}
+
+		if ($ciudad != '' && $ciudad != null) {
+			$where .= " AND clientes_ubicacion.cod_ciudad = '$ciudad' ";
+		} else {
+			$where .= " AND (men_usuarios.cod_ciudad = NULL OR men_usuarios.cod_ciudad = '') ";
+		}
+
+
+		$sql = "SELECT nov_procesos.codigo ,nov_status.descripcion as stat, concat(men_usuarios.nombre,' ',men_usuarios.apellido) nombre,nov_procesos_det.observacion, novedades.descripcion,nov_status.codigo cod_status,nov_procesos_det.fec_us_ing fecha, nov_procesos_det.cod_us_ing usuario
+		FROM nov_procesos, clientes_ubicacion, nov_procesos_det,novedades,nov_perfiles, men_usuarios,nov_status
+		$where
+		GROUP BY nov_procesos.codigo
+		ORDER BY stat ASC, fecha ASC ";
 
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
@@ -231,7 +267,7 @@ class novedades_reporte
 	}
 
 	///////////////////////////////////
-	public function llenar_tabla_novedades_pendientes($depar, $estatus, $region)
+	public function llenar_tabla_novedades_pendientes($depar, $estatus, $region, $estado, $ciudad)
 	{
 
 		if ($estatus != "TODOS") {
@@ -302,19 +338,60 @@ class novedades_reporte
 			$where2 .= " AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '') ";
 		}
 
+		if ($estado != 'TODOS') {
+			$where .= " AND men_usuarios.cod_estado = '$estado' 
+			AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
+			AND men_usuarios.cod_estado = estados.codigo
+			AND men_usuarios.cod_estado = clientes_ubicacion.cod_estado ";
+
+			$where2 .= " AND (men_usuarios.cod_estado = NULL OR men_usuarios.cod_estado = '') AND clientes_ubicacion.cod_estado = '$estado'";
+		} else {
+			$where .= " AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
+			AND men_usuarios.cod_estado = regiones.codigo
+			AND men_usuarios.cod_estado = clientes_ubicacion.cod_estado ";
+
+			$where2 .= " AND (men_usuarios.cod_estado = NULL OR men_usuarios.cod_estado = '') ";
+		}
+
+
+		if ($ciudad != 'TODOS') {
+			$where .= " AND men_usuarios.cod_ciudad = '$ciudad' 
+			AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
+			AND men_usuarios.cod_ciudad = estados.codigo
+			AND men_usuarios.cod_ciudad = clientes_ubicacion.cod_ciudad ";
+
+			$where2 .= " AND (men_usuarios.cod_ciudad = NULL OR men_usuarios.cod_ciudad = '') AND clientes_ubicacion.cod_ciudad = '$ciudad'";
+		} else {
+			$where .= " AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
+			AND men_usuarios.cod_ciudad = ciudades.codigo
+			AND men_usuarios.cod_ciudad = clientes_ubicacion.cod_ciudad ";
+
+			$where2 .= " AND (men_usuarios.cod_ciudad = NULL OR men_usuarios.cod_ciudad = '') ";
+		}
+
 		$sql   = "SELECT DISTINCT nov_procesos.codigo codigo_nov ,men_usuarios.codigo codigo_usuario,men_usuarios.cod_perfil,
 			men_usuarios.cod_region,
 						IFNULL(
 							regiones.descripcion,
 							'TODAS'
 						) region,
+						men_usuarios.cod_estado,
+						IFNULL(
+							estados.descripcion,
+							'TODAS'
+						) estado,
+						men_usuarios.cod_ciudad,
+						IFNULL(
+							ciudades.descripcion,
+							'TODAS'
+						) ciudad,
 				men_usuarios.codigo,men_usuarios.nombre , men_usuarios.apellido , men_perfiles.descripcion , men_usuarios.cedula , men_usuarios.codigo usuario 
-			from men_usuarios, regiones, clientes_ubicacion, men_perfiles, nov_perfiles, nov_procesos_det, novedades, nov_procesos ,nov_status
+			from men_usuarios, regiones, estados, ciudades, clientes_ubicacion, men_perfiles, nov_perfiles, nov_procesos_det, novedades, nov_procesos ,nov_status
 	
 			$where ";
 
 		$sql2 = " UNION SELECT DISTINCT nov_procesos.codigo codigo_nov ,men_usuarios.codigo codigo_usuario,men_usuarios.cod_perfil,
-				men_usuarios.cod_region, 'TODAS' region,
+				men_usuarios.cod_region, 'TODAS' region, men_usuarios.cod_estado, 'TODAS' estado, men_usuarios.cod_ciudad, 'TODAS' ciudad,
 			men_usuarios.codigo,men_usuarios.nombre , men_usuarios.apellido , men_perfiles.descripcion , men_usuarios.cedula , men_usuarios.codigo usuario 
 			from men_usuarios, men_perfiles, nov_perfiles, nov_procesos_det, novedades, nov_procesos ,nov_status, clientes_ubicacion
 	
@@ -323,6 +400,7 @@ class novedades_reporte
 			ORDER BY nombre";
 
 		$sqlunion = $sql . ' ' . $sql2;
+
 		$query = $this->bd->consultar($sqlunion);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;

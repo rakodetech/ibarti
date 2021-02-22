@@ -10,6 +10,8 @@ function consultar(vista) {
 	llenar_estatus(vista);
 	llenar_departamentos();
 	llenar_regiones();
+	llenar_estados(null);
+	llenar_ciudades(null);
 }
 
 function llenar_estatus(vista) {
@@ -48,6 +50,58 @@ function llenar_regiones() {
 			var data = JSON.parse(response);
 
 			var select = d3.select("#form_reportes").select("#prueba").select("#rt").select("#contenedor4").select("#regiones");
+			data.forEach((res) => {
+				select.append("option").attr("value", res[0]).text(res[1]);
+			});
+
+			//noti es el elemento de notificacion cargado al inicio del menu
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+
+}
+
+function llenar_estados(region = null) {
+	console.log(region);
+	var parametros = { region }
+
+	$.ajax({
+		data: parametros,
+		url: 'packages/novedades_rp/views/Get_estados.php',
+		type: 'get',
+		success: function (response) {
+			var data = JSON.parse(response);
+
+			var select = d3.select("#form_reportes").select("#prueba").select("#est").select("#contenedor5").select("#estado");
+			data.forEach((res) => {
+				select.append("option").attr("value", res[0]).text(res[1]);
+			});
+
+			//noti es el elemento de notificacion cargado al inicio del menu
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+
+}
+
+
+function llenar_ciudades(estado = null) {
+	var parametros = { estado }
+
+	$.ajax({
+		data: parametros,
+		url: 'packages/novedades_rp/views/Get_ciudades.php',
+		type: 'get',
+		success: function (response) {
+			var data = JSON.parse(response);
+
+			var select = d3.select("#form_reportes").select("#prueba").select("#ct").select("#contenedor6").select("#ciudad");
 			data.forEach((res) => {
 				select.append("option").attr("value", res[0]).text(res[1]);
 			});
@@ -375,10 +429,12 @@ function llenar_tb_novedades_pendientes() {
 	var departamentos = $("#departamentos").val();
 	var estatus = $("#status").val();
 	var region = $("#regiones").val();
+	var estado = $("#estado").val();
+	var ciudad = $("#ciudad").val();
 	var error = 0;
 	var errorMessage = ' ';
 	if (error == 0) {
-		var parametros = { "departamentos": departamentos, "estatus": estatus, "region": region };
+		var parametros = { "departamentos": departamentos, "estatus": estatus, "region": region, "estado": estado, "ciudad": ciudad };
 
 		$.ajax({
 			data: parametros,
@@ -406,6 +462,8 @@ function llenar_tb_novedades_pendientes() {
 
 				var head = tabla.append('thead').append('tr').attr('class', 'fondo00');
 				head.append('th').attr('class', 'etiqueta').text("Región");
+				head.append('th').attr('class', 'etiqueta').text("Estado");
+				head.append('th').attr('class', 'etiqueta').text("Ciudad");
 				head.append('th').attr('class', 'etiqueta').text("Nombre");
 				head.append('th').attr('class', 'etiqueta').text("Apellido");
 				head.append('th').attr('class', 'etiqueta').text("Perfil");
@@ -422,11 +480,13 @@ function llenar_tb_novedades_pendientes() {
 						}
 					}).on("click", (d) => {
 
-						llenar_grafica_novedades_pendientes((d.values[0].nombre + " " + d.values[0].apellido), d.values[0].descripcion, d.values[0].codigo, d.values[0].cod_perfil, d.values[0].cod_region);
+						llenar_grafica_novedades_pendientes((d.values[0].nombre + " " + d.values[0].apellido), d.values[0].descripcion, d.values[0].codigo, d.values[0].cod_perfil, d.values[0].cod_region, d.values[0].cod_estado, d.values[0].cod_ciudad);
 						//mostrar_pendiente((d.nombre+ " " + d.apellido),d.descripcion,d.cedula,d.codigo,d.cod_perfil,d.cantidad,d.usuario);
 
 					});
 				tr.append("td").text((d, i) => d.values[0].region);
+				tr.append("td").text((d, i) => d.values[0].estado);
+				tr.append("td").text((d, i) => d.values[0].ciudad);
 				tr.append("td").text((d, i) => d.values[0].nombre);
 				tr.append("td").text((d, i) => d.values[0].apellido);
 				tr.append("td").text((d, i) => d.values[0].descripcion);
@@ -451,7 +511,7 @@ function llenar_tb_novedades_pendientes() {
 
 }
 //////////////////////////////////////////////7
-function llenar_grafica_novedades_pendientes(nombre, departamento, cod_usuario, cod_perfil, cod_region) {
+function llenar_grafica_novedades_pendientes(nombre, departamento, cod_usuario, cod_perfil, cod_region, cod_estado, cod_ciudad) {
 	var estatus = $("#status").val();
 	var acumulado = 0;
 
@@ -459,7 +519,9 @@ function llenar_grafica_novedades_pendientes(nombre, departamento, cod_usuario, 
 		"perfil": cod_perfil,
 		"usuario": cod_usuario,
 		"estatus": estatus,
-		"region": cod_region
+		"region": cod_region,
+		"estado": cod_estado,
+		"ciudad": cod_ciudad,
 	};
 	$.ajax({
 		data: parametros,
