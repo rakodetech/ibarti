@@ -77,7 +77,7 @@
   <hr />
 
   <div id="cargar"></div>
-  <div class="listar"></div>
+  <div id="listar" class="listar"></div>
   <div align="center"><br />
     <span class="art-button-wrapper">
       <span class="art-button-l"> </span>
