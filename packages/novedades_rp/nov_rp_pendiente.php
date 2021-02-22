@@ -22,7 +22,7 @@
 <form name="form_reportes" id="form_reportes" action="<?php echo $archivo; ?>" method="post" target="_blank">
 
   <hr />
-  <table width="100%" class="etiqueta" id="prueba">
+  <table width="100%" class="etiqueta listar" id="prueba">
     <tr>
       <td width="10%">Status: </td>
       <td width="14%" id="at">
