@@ -467,7 +467,7 @@ function llenar_tb_novedades_pendientes() {
 				head.append('th').attr('class', 'etiqueta').text("Nombre");
 				head.append('th').attr('class', 'etiqueta').text("Apellido");
 				head.append('th').attr('class', 'etiqueta').text("Perfil");
-				head.append('th').attr('class', 'etiqueta').text("Cantidad de novedades");
+				head.append('th').attr('class', 'etiqueta').text("Cantidad");
 
 
 
@@ -846,7 +846,7 @@ function llenar_tb_novedades_general() {
 				head.append('th').attr('class', 'etiqueta').text("Nombre");
 				head.append('th').attr('class', 'etiqueta').text("Apellido");
 				head.append('th').attr('class', 'etiqueta').text("Perfil");
-				head.append('th').attr('class', 'etiqueta').text("Cantidad de novedades");
+				head.append('th').attr('class', 'etiqueta').text("Cantidad");
 
 
 				var tr = tbody.selectAll("tr").data(nuevo).enter()
