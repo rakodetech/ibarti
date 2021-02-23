@@ -1,7 +1,7 @@
 <?php
 define("SPECIALCONSTANT", true);
 session_start();
-$Nmenu   = 5307;
+$Nmenu   = 5308;
 require("../autentificacion/aut_config.inc.php");
 include_once('../' . Funcion);
 require_once("../" . class_bdI);
@@ -13,8 +13,8 @@ if (($_POST['fecha_desde'] == "" or $_POST['fecha_hasta'] == "")) {
 }
 
 $reporte         = $_POST['reporte'];
-$archivo         = "rp_pl_supervisor_" . $fecha . "";
-$titulo          = "PLANIFICACION DE TRABAJADOR REAL \n";
+$archivo         = "rp_pl_participantes_" . $fecha . "";
+$titulo          = "PARTICIPANTES\n";
 
 if (isset($reporte)) {
 	$region     = $_POST['region'];
@@ -27,13 +27,14 @@ if (isset($reporte)) {
 
 	$fecha_D   = conversion($_POST['fecha_desde']);
 	$fecha_H   = conversion($_POST['fecha_hasta']);
-	$where = " WHERE p.fecha_inicio BETWEEN \"$fecha_D\" AND ADDDATE(\"$fecha_H\", 1)
-		AND p.codigo = pd.cod_planif_cl_trab
-		AND p.cod_ficha = f.cod_ficha
-		AND p.cod_cliente = cl.codigo
-		AND p.cod_ubicacion = cu.codigo
-		AND pd.cod_proyecto = pp.codigo 
-		AND pd.cod_actividad = pa.codigo ";
+	$where = " WHERE pd.fecha_inicio BETWEEN \"$fecha_D\" AND ADDDATE(\"$fecha_H\", 1)
+	AND p.cod_ficha = f.cod_ficha
+	AND pd.codigo = p.cod_det
+	AND pd.cod_actividad = pa.codigo
+	AND pd.cod_proyecto = pp.codigo
+	AND pd.cod_planif_cl_trab = pt.codigo
+	AND pt.cod_cliente = clientes.codigo
+	AND pt.cod_ubicacion = cu.codigo ";
 
 
 	if ($region != "TODOS") {
@@ -49,11 +50,11 @@ if (isset($reporte)) {
 	}
 
 	if ($cliente  != "TODOS") {
-		$where   .= " AND p.cod_cliente = '$cliente' ";
+		$where   .= " AND pt.cod_cliente = '$cliente' ";
 	}
 
 	if ($ubicacion != "TODOS") {
-		$where   .= " AND p.cod_ubicacion = '$ubicacion' ";
+		$where   .= " AND pt.cod_ubicacion = '$ubicacion' ";
 	}
 
 	if ($proyecto != "TODOS") {
@@ -64,15 +65,31 @@ if (isset($reporte)) {
 		$where   .= " AND pd.cod_actividad = '$actividad' ";
 	}
 
-	$sql = "SELECT DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') fecha, p.cod_ficha, CONCAT(f.apellidos, ' ', f.nombres) ap_nombre, 
-		p.cod_cliente, cl.nombre cliente, p.cod_ubicacion, cu.descripcion ubicacion, 
-		pd.cod_proyecto, pp.descripcion proyecto, pd.cod_actividad, pa.descripcion actividad,
-		TIME(pd.fecha_inicio) hora_inicio, TIME(pd.fecha_fin) hora_fin,
-		pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado
-		FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd, clientes cl, clientes_ubicacion cu, ficha f,
-		planif_proyecto pp, planif_actividad pa
-		$where
-		ORDER BY 1,2,12,4,6,10 ASC";
+	$sql = "SELECT
+	DATE_FORMAT(pd.fecha_inicio, '%Y-%m-%d') fecha,
+	p.cod_ficha,
+	CONCAT(f.nombres, f.apellidos) ap_nombre,
+	pt.cod_cliente,
+	clientes.nombre cliente,
+	pt.cod_ubicacion,
+	cu.descripcion ubicacion,
+	pd.cod_proyecto,
+	pp.descripcion proyecto,
+	pd.cod_actividad,
+	pa.descripcion actividad,
+	TIME(pd.fecha_inicio) hora_inicio,
+	TIME(pd.fecha_fin) hora_fin
+	FROM
+	planif_clientes_superv_trab_det_participantes p,
+	planif_clientes_superv_trab_det pd,
+	planif_clientes_superv_trab pt,
+	ficha f,
+	planif_actividad pa,
+	planif_proyecto pp,
+	clientes,
+	clientes_ubicacion cu
+	$where
+	ORDER BY cod_ficha";
 
 	if ($reporte == 'excel') {
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
@@ -84,14 +101,14 @@ if (isset($reporte)) {
 		echo "<tr><th> Fecha </th><th> " . $leng['ficha'] . " </th><th> " . $leng['trabajador'] . " </th>
 		<th> Cod. Cliente </th><th> " . $leng['cliente'] . " </th><th> Cod. Ubicación </th><th> " . $leng['ubicacion'] . " </th>
 		<th> Cod. Proyecto </th><th> Proyecto </th><th> Cod. Actividad </th><th> Actividad </th><th> Hora Inicio </th>
-		<th> Hora Fin </th><th> Minutos decicados </th><th> Realizado </th>
+		<th> Hora Fin </th>
 		</tr>";
 
 		while ($row01 = $bd->obtener_num($query01)) {
 			echo "<tr><td> " . $row01[0] . " </td><td>" . $row01[1] . "</td><td>" . $row01[2] . "</td><td>" . $row01[3] . "</td>
 			<td>" . $row01[4] . "</td><td>" . $row01[5] . "</td><td>" . $row01[6] . "</td><td>" . $row01[7] . "</td>
 			<td>" . $row01[8] . "</td><td>" . $row01[9] . "</td><td>" . $row01[10] . "</td><td>" . $row01[11] . "</td>
-			<td>" . $row01[12] . "</td><td>" . $row01[13] . "</td><td>" . $row01[14] . "</td></tr>";
+			<td>" . $row01[12] . "</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -121,8 +138,6 @@ if (isset($reporte)) {
 		<th  class='etiqueta'>Actividad </th>
 		<th  class='etiqueta'>Hora Inicio </th>
 		<th  class='etiqueta'>Hora Fin </th>
-		<th  class='etiqueta'>Minutos</th>
-		<th  class='etiqueta'>Realizado </th>
 		</tr>";
 
 		$f = 0;
@@ -140,9 +155,7 @@ if (isset($reporte)) {
 			<td  >" . $datos["proyecto"] . "</td>
 			<td  >" . $datos["actividad"] . "</td>
 			<td  >" . $datos["hora_inicio"] . "</td>
-			<td  >" . $datos["hora_fin"] . "</td>
-			<td  >" . $datos["minutos"] . "</td>
-			<td  >" . $datos["realizado"] . "</td></tr>";
+			<td  >" . $datos["hora_fin"] . "</td></tr>";
 
 			$f++;
 		}

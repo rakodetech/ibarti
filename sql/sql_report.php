@@ -188,5 +188,22 @@ $sql_perfil = "SELECT men_perfiles.codigo, men_perfiles.descripcion
 $sql_proyecto = "SELECT planif_proyecto.codigo, planif_proyecto.descripcion
                   FROM planif_proyecto ORDER BY 2 ASC";
 
+
+$sql_proyecto_paticipantes = "SELECT
+                  planif_proyecto.codigo,
+                  planif_proyecto.descripcion
+                FROM
+                  planif_proyecto,
+                  planif_actividad
+                WHERE
+                  planif_actividad.cod_proyecto = planif_proyecto.codigo
+                  AND planif_actividad.participantes = 'T'
+                GROUP BY
+                  planif_proyecto.codigo
+                ORDER BY 2 ASC";
+
 $sql_actividad = "SELECT planif_actividad.codigo, planif_actividad.descripcion
                     FROM planif_actividad ORDER BY 2 ASC";
+
+$sql_actividad_paticipantes = "SELECT planif_actividad.codigo, planif_actividad.descripcion
+                    FROM planif_actividad WHERE planif_actividad.participantes = 'T' ORDER BY 2 ASC";
