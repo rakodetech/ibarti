@@ -23,6 +23,8 @@ $pass_ant = md5($_POST['passOLD']); // PASSWORDS ANTERIOR
 $email     = $_POST['email'];
 $perfil    = $_POST['perfil'];
 $region    = $_POST['region'];
+$estado    = $_POST['estado'];
+$ciudad    = $_POST['ciudad'];
 if (isset($_POST['check'])) {
 	$check     =   'S';
 } else {
@@ -91,7 +93,7 @@ if (isset($_POST['proced'])) {
 			}
 		}
 	}
-	$sql    = "$SELECT $proced('$metodo', '$codigo', '$cedula', '$perfil', '$region',  
+	$sql    = "$SELECT $proced('$metodo', '$codigo', '$cedula', '$perfil', '$region',  '$estado',  '$ciudad',  
 									'$nombre', '$apellido','$login', '$check',
 									'$password', '$pass_ant','$email', '$as_orden',
 									 '$r_cliente', '$r_rol', '', '',
@@ -99,4 +101,4 @@ if (isset($_POST['proced'])) {
 	$query = $bd->consultar($sql);
 }
 
-require_once('../funciones/sc_direccionar.php');
+//require_once('../funciones/sc_direccionar.php');
