@@ -101,4 +101,4 @@ if (isset($_POST['proced'])) {
 	$query = $bd->consultar($sql);
 }
 
-//require_once('../funciones/sc_direccionar.php');
+require_once('../funciones/sc_direccionar.php');
