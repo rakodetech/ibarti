@@ -34,7 +34,7 @@ class Notificaciones
 
 		$where = " where nov_procesos.cod_novedad = novedades.codigo
 		AND nov_status.control_notificaciones = 'T'
-		-- and nov_procesos.fec_us_mod > DATE_SUB(DATE_FORMAT(CURDATE(), '%Y-%m-%d'), INTERVAL control.dias_nov_notif DAY) 
+		and nov_procesos.fec_us_mod > DATE_SUB(DATE_FORMAT(CURDATE(), '%Y-%m-%d'), INTERVAL control.dias_nov_notif DAY) 
 		and men_usuarios.codigo = nov_procesos.cod_us_mod
 		and nov_status.codigo = nov_procesos.cod_nov_status
 		and nov_procesos_det.cod_nov_proc = nov_procesos.codigo
