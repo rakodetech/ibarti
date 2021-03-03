@@ -15,9 +15,9 @@ $leng =  array("rif" =>"Rif" ,
                "psic_fec" =>"Fecha Elaboración Examen Psicol&oacute;gico",
                "psic_desc" =>"Examen Psicol&oacute;gico" ,
                "psic_observ" =>"Observaci&oacute;n Exam. Pisicol&oacute;gico",
-               "pol_fec" =>"Fecha de Chequeo Policial" ,
-               "pol_desc" =>"Chequeo Policial" ,
-               "pol_observ" =>"Observaci&oacute;n Chequeo Policial" ,
+               "pol_fec" =>"Fecha de Chequeo Especial" ,
+               "pol_desc" =>"Chequeo Especial" ,
+               "pol_observ" =>"Observaci&oacute;n Chequeo Especial" ,
                "pre_emp_fec" =>"Fecha de Examen Preempleo" ,
                "pre_emp_desc" =>"Chequeo Examen Preempleo" ,
                "pre_emp_observ" =>"Observaci&oacute;n Chequeo Examen Preempleo" ,
@@ -55,4 +55,3 @@ $leng =  array("rif" =>"Rif" ,
                "Servicio" => "Servicios Cliente",
 
              );
- ?>
