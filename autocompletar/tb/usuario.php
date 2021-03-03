@@ -20,7 +20,7 @@ switch ($filtro) {
 		$where  .= " WHERE LOCATE('$typing',  men_usuarios.cedula) ";
 		break;
 	case 'nombre':
-		$where  .= " WHERE LOCATE('$typing', men_usuarios.nombres) ";
+		$where  .= " WHERE LOCATE('$typing', men_usuarios.nombre) ";
 		break;
 	case 'apellido':
 		$where  .= " WHERE LOCATE('$typing',  men_usuarios.apellido) ";
@@ -56,11 +56,11 @@ if ($filtro == 'codigo' || $filtro == 'login') {
 		$descripcion = $datos['apellido'] . " &nbsp; " . $datos['nombre'] . " &nbsp;(" . $datos['cedula'] . ")";
 		$cod          = $datos[0];
 
-		?>
+?>
 
-			<li onselect=" this.setText('<?php echo $descripcion ?>').setValue('<?php echo  $cod ?>') ">
-				<b></b> <?php echo $descripcion ?>
+		<li onselect=" this.setText('<?php echo $descripcion ?>').setValue('<?php echo  $cod ?>') ">
+			<b></b> <?php echo $descripcion ?>
 
-			</li>
-	<?php }
-	} ?>
+		</li>
+<?php }
+} ?>
