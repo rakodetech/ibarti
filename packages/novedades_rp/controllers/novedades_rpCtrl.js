@@ -441,12 +441,12 @@ function llenar_tb_novedades_pendientes() {
 			url: 'packages/novedades_rp/views/Get_tb_novedades_pendientes.php',
 			type: 'post',
 			beforeSend: function () {
-				$(".listar").html("<img src='imagenes/loading.gif' /> Procesando, espere por favor...");
+				$("#listar").html("<img src='imagenes/loading.gif' /> Procesando, espere por favor...");
 
 			},
 			success: function (response) {
 
-				$(".listar").html("");
+				$("#listar").html("");
 				var data = JSON.parse(response);
 				//console.log(data);
 				var nuevo = d3.nest()
@@ -457,7 +457,7 @@ function llenar_tb_novedades_pendientes() {
 					console.log(res.values[0].descripcion);
 				});
 				*/
-				var tabla = d3.select('.listar').append('table').attr('width', '100%').attr('class', 'tabla_sistema');
+				var tabla = d3.select('#listar').append('table').attr('width', '100%').attr('class', 'tabla_sistema');
 				var tbody = tabla.append('tbody');
 
 				var head = tabla.append('thead').append('tr').attr('class', 'fondo00');
@@ -466,7 +466,7 @@ function llenar_tb_novedades_pendientes() {
 				head.append('th').attr('class', 'etiqueta').text("Ciudad");
 				head.append('th').attr('class', 'etiqueta').text("Nombre");
 				head.append('th').attr('class', 'etiqueta').text("Apellido");
-				head.append('th').attr('class', 'etiqueta').attr("style", "width:20px;").text("Perfil");
+				head.append('th').attr('class', 'etiqueta').text("Perfil");
 				head.append('th').attr('class', 'etiqueta').text("Cantidad");
 
 
