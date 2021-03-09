@@ -125,7 +125,7 @@ echo '
 <tr>
 <td colspan="4" style="text-align: right;">
 <b>Valor total: </b>' . $total . ' de ' . $total_max . '<br>
-<b>Porcentaje promedio: </b>' . (($total * 100) / $total_max) . ' %
+<b>Porcentaje promedio: </b>' . round(($total * 100) / $total_max) . ' %
 </td>
 </tr>
 <tr>
