@@ -75,10 +75,10 @@ echo '
 	</table>
     <table width="100%" style="padding-top: 10px;" border="1px">
 	<tr>
-		<td class="etiqueta" width="50%">Check List:</td>
-		<td class="etiqueta" width="5%">Valor:</td>
-        <td class="etiqueta" width="5%">Porcentaje:</td>
-		<td class="etiqueta" width="40%">Observacion:</td>
+		<td class="etiqueta" width="45%" align="center">Check List</td>
+		<td class="etiqueta" width="10%" align="center">Valor</td>
+        <td class="etiqueta" width="5%" align="center">%</td>
+		<td class="etiqueta" width="40%" align="center">Observación</td>
 	</tr>';
 $sql = "SELECT
         novedades.codigo,
@@ -112,10 +112,10 @@ $total = 0;
 $total_max = 0;
 while ($datos = $bd->obtener_fila($query, 0)) {
     echo '<tr>
-      <td width="38%">' . $datos[1] . '</td>
-	  <td width="10%">' . $datos[4] . '  (' . $datos[5] . ' de ' . $datos[6] . ')</td>
-      <td width="12%" align="center">' . $datos[7] . ' %</td>
-      <td width="40%">' . $datos[2] . '</td>
+      <td>' . $datos[1] . '</td>
+	  <td width="15%" align="center">' . $datos[4] . '  <br> (' . $datos[5] . ' de ' . $datos[6] . ')</td>
+      <td align="center" width="5%">' . $datos[7] . ' %</td>
+      <td>' . $datos[2] . '</td>
     </tr>';
     $total += $datos[5];
     $total_max += $datos[6];
