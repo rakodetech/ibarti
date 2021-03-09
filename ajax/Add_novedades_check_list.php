@@ -14,25 +14,25 @@ $ubicacion = $_POST['ubicacion'];
 if ($tipo != "") {
 	$sql = "SELECT campo03,campo04 from nov_tipo where codigo='" . $tipo . "'";
 	$query = $bd->consultar($sql);
-	while ($datos = $bd->obtener_fila($query, 0)) { 
-		if($datos['campo03']!=""){
-			echo '<div style="border:1px solid;"><label aling="left">Datos Adicionales:</label><br><table width="100%"><tr><td width="5%">'.$datos["campo03"].':</td><td width="10%"><input type="text" name="campo03"></td><td width="85%"></td></tr></table></div>';
-		}else{
-			echo 'vacio';
+	while ($datos = $bd->obtener_fila($query, 0)) {
+		if ($datos['campo03'] != "") {
+			echo '<div style="border:1px solid;"><label aling="left">Datos Adicionales:</label><br><table width="100%"><tr><td width="5%">' . $datos["campo03"] . ':</td><td width="10%"><input type="text" name="campo03"></td><td width="85%"></td></tr></table></div>';
+		} else {
+			echo '';
 		}
 	}
 }
 
-$where = " WHERE nov_cl_ubicacion.cod_cl_ubicacion = '$ubicacion' 
-                 AND nov_cl_ubicacion.cod_novedad = novedades.codigo
-				 AND novedades.`status` = 'T'
-                 AND novedades.cod_nov_clasif = '$clasif' 
-				 AND novedades.cod_nov_tipo = '$tipo' ";
-
-$sql   = " SELECT novedades.codigo, novedades.descripcion 
-				 FROM nov_cl_ubicacion, novedades                      
-			   $where
-			 ORDER BY  novedades.orden, 2 ASC ";
+$sql   = " SELECT
+		novedades.codigo,
+		novedades.descripcion
+		FROM
+		novedades,
+		nov_check_list_det
+		WHERE
+		novedades.`status` = 'T'
+		AND nov_check_list_det.cod_novedades = novedades.codigo
+		AND nov_check_list_det.cod_check_list = '$codigo' ";
 
 ?><table width="100%" align="center">
 	<tr>

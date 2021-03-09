@@ -275,7 +275,6 @@ class novedades_reporte
 				and men_perfiles.codigo = nov_perfiles.cod_perfil
 				and nov_status.codigo = '$estatus'
 				and nov_procesos.cod_nov_status = nov_status.codigo
-	
 				";
 		} else {
 			$where = "where men_usuarios.cod_perfil = men_perfiles.codigo
@@ -322,49 +321,40 @@ class novedades_reporte
 		}
 
 		$where2 = $where;
+		$where .= " AND (men_usuarios.cod_region = regiones.codigo OR men_usuarios.cod_estado = estados.codigo OR  men_usuarios.cod_ciudad = ciudades.codigo)
+		AND (men_usuarios.cod_region = clientes_ubicacion.cod_region OR men_usuarios.cod_estado = clientes_ubicacion.cod_estado OR men_usuarios.cod_ciudad = clientes_ubicacion.cod_ciudad )
+		AND clientes_ubicacion.cod_region = regiones.codigo
+		AND clientes_ubicacion.cod_estado = estados.codigo
+		AND clientes_ubicacion.cod_ciudad = ciudades.codigo ";
 
 		if ($region != 'TODOS') {
 			$where .= " AND men_usuarios.cod_region = '$region' 
-			AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
 			AND men_usuarios.cod_region = regiones.codigo
 			AND men_usuarios.cod_region = clientes_ubicacion.cod_region ";
 
-			$where2 .= " AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '') AND clientes_ubicacion.cod_region = '$region'";
+			$where2 .= " AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '' OR men_usuarios.cod_region = '$region')";
 		} else {
-			$where .= " AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
-			AND men_usuarios.cod_region = regiones.codigo
-			AND men_usuarios.cod_region = clientes_ubicacion.cod_region ";
-
 			$where2 .= " AND (men_usuarios.cod_region = NULL OR men_usuarios.cod_region = '') ";
 		}
 
 		if ($estado != 'TODOS') {
 			$where .= " AND men_usuarios.cod_estado = '$estado' 
-			AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
 			AND men_usuarios.cod_estado = estados.codigo
 			AND men_usuarios.cod_estado = clientes_ubicacion.cod_estado ";
 
-			$where2 .= " AND (men_usuarios.cod_estado = NULL OR men_usuarios.cod_estado = '') AND clientes_ubicacion.cod_estado = '$estado'";
+			$where2 .= " AND (men_usuarios.cod_estado = NULL OR men_usuarios.cod_estado = '' OR men_usuarios.cod_estado = '$estado')";
 		} else {
-			$where .= " AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
-			AND men_usuarios.cod_estado = regiones.codigo
-			AND men_usuarios.cod_estado = clientes_ubicacion.cod_estado ";
-
 			$where2 .= " AND (men_usuarios.cod_estado = NULL OR men_usuarios.cod_estado = '') ";
 		}
 
 
 		if ($ciudad != 'TODOS') {
 			$where .= " AND men_usuarios.cod_ciudad = '$ciudad' 
-			AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
-			AND men_usuarios.cod_ciudad = estados.codigo
-			AND men_usuarios.cod_ciudad = clientes_ubicacion.cod_ciudad ";
-
-			$where2 .= " AND (men_usuarios.cod_ciudad = NULL OR men_usuarios.cod_ciudad = '') AND clientes_ubicacion.cod_ciudad = '$ciudad'";
-		} else {
-			$where .= " AND nov_procesos.cod_ubicacion = clientes_ubicacion.codigo
 			AND men_usuarios.cod_ciudad = ciudades.codigo
 			AND men_usuarios.cod_ciudad = clientes_ubicacion.cod_ciudad ";
+
+			$where2 .= " AND (men_usuarios.cod_ciudad = NULL OR men_usuarios.cod_ciudad = '' OR men_usuarios.cod_ciudad = '$ciudad' )";
+		} else {
 
 			$where2 .= " AND (men_usuarios.cod_ciudad = NULL OR men_usuarios.cod_ciudad = '') ";
 		}
@@ -400,6 +390,8 @@ class novedades_reporte
 			ORDER BY nombre";
 
 		$sqlunion = $sql . ' ' . $sql2;
+
+		//return $sqlunion;
 
 		$query = $this->bd->consultar($sqlunion);
 		while ($datos = $this->bd->obtener_fila($query)) {

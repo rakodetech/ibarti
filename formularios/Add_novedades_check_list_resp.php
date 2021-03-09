@@ -120,6 +120,12 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 
 ?>
 <script language="JavaScript" type="text/javascript">
+	function Pdf() {
+		console.log("Pdf");
+		$('#pdf').attr('action', "reportes/rp_nov_check_list_pdf.php");
+		$('#pdf').submit();
+	}
+
 	function Add_filtroX() { // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
 
 		var clasif = document.getElementById("clasif").value;
@@ -292,12 +298,14 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 				<select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:200px">
 					<?php echo $supervisor; ?>
 				</select><br />
-				<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>
+				<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span>
+			</td>
 			<td class="etiqueta">Nombre:</td>
 			<td><input id="stdName" type="text" style="width:300px" disabled="disabled" value="<?php echo $trabajador; ?>" />
 				<span id="input01"><input type="hidden" name="trabajador" id="stdID" value="<?php echo $cod_ficha; ?>" /> <br />
 					<span class="textfieldRequiredMsg">Debe De Seleccionar Un Campo De la Lista.</span>
-					<span class="textfieldInvalidFormatMsg">El Formato es Invalido</span> </span></td>
+					<span class="textfieldInvalidFormatMsg">El Formato es Invalido</span> </span>
+			</td>
 		</tr>
 		<tr>
 			<td class="etiqueta"><?php echo $leng["cliente"]; ?>:</td>
@@ -340,13 +348,15 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 				<span id="Counterror_mess1" class="texto">&nbsp;</span><br />
 				<span class="textareaRequiredMsg">El Campo es Requerido.</span>
 				<span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
-				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span></td>
+				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span>
+			</td>
 			<td class="etiqueta">Repuesta:</td>
 			<td id="textarea02"><textarea name="repuesta" cols="45" rows="2"><?php echo $respuesta; ?></textarea>
 				<span id="Counterror_mess2" class="texto">&nbsp;</span><br />
 				<span class="textareaRequiredMsg">El Campo es Requerido.</span>
 				<span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
-				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span></td>
+				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span>
+			</td>
 		</tr>
 		<tr>
 			<td class="etiqueta">Status:</td>
@@ -409,7 +419,8 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 							}
 						} else {
 							echo	'<option value="' . $cod_tipo . '">' . $tipo . '</option>';
-						} ?></select> </td>
+						} ?></select>
+				</td>
 			</tr>
 		</table>
 	</fieldset>
@@ -459,6 +470,13 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 		</table>
 	</div>
 	<div align="center">
+		<?php if ($metodo <> "agregar") {
+			echo '<span class="art-button-wrapper">
+		<span class="art-button-l"> </span>
+		<span class="art-button-r"> </span>
+		<input type="button" name="pdf" onClick="Pdf()" value="Imprimir" class="readon art-button" />
+		</span>&nbsp;';
+		} ?>
 		<span class="art-button-wrapper">
 			<span class="art-button-l"> </span>
 			<span class="art-button-r"> </span>
@@ -486,6 +504,9 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 		<input type="hidden" name="r_cliente" id="r_cliente" valuee="<?php echo $_SESSION['r_cliente']; ?>" />
 		<input type="hidden" name="usuario" id="usuario" value="<?php echo $_SESSION['usuario_cod']; ?>" />
 	</div>
+</form>
+<form id="pdf" name="pdf" action="" method="post" target="_blank">
+	<input type="hidden" name="codigo" value="<?php echo $codigo; ?>">
 </form>
 </body>
 

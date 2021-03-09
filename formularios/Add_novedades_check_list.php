@@ -185,8 +185,9 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 	function Valores() {
 		document.getElementById("contanto").value = document.getElementById("cl_ubic_contato").value;
 		document.getElementById("campo_04").value = document.getElementById("cl_ubic_campo_04").value;
-		Clasif_Tipo();
+
 		// Clasificacion y Tipo
+		Clasif_Tipo();
 	}
 
 	function Clasif_Tipo() {
@@ -236,10 +237,11 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 		var cliente = document.getElementById("cliente").value;
 		var ubicacion = document.getElementById("ubicacion").value;
 		var superv = document.getElementById("stdID").value;
-
 		var error = 0;
 		var errorMessage = ' ';
-
+		var radio_checked = $("#checklist").val()
+		console.log(radio_checked);
+		return;
 		if (clasif == '') {
 			var error = error + 1;
 			var errorMessage = ' Debe Selecionar Un Clasificacion';
@@ -271,6 +273,34 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 			alert(errorMessage);
 		}
 	}
+
+
+	function Add_ajax01(codigo, archivo, contenido) { // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
+		if (codigo != '') {
+			var parametros = {
+				codigo,
+				archivo,
+				contenido
+			};
+			$.ajax({
+				data: parametros,
+				url: archivo,
+				type: 'post',
+				success: function(response) {
+					$("#" + contenido).html(response);
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+				}
+			});
+		}
+	}
+
+	function change_client(value) {
+		Add_ajax01(value, 'ajax/Add_cl_ubicacion.php', 'select03');
+		Clasif_Tipo();
+	}
 </script>
 <form action="scripts/sc_<?php echo $archivo; ?>.php" method="post" name="add" id="add">
 	<div id="Contenedor01"></div>
@@ -295,16 +325,18 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 				<select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:200px">
 					<?php echo $supervisor; ?>
 				</select><br />
-				<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>
+				<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span>
+			</td>
 			<td class="etiqueta">Nombre:</td>
 			<td><input id="stdName" type="text" style="width:300px" disabled="disabled" value="<?php echo $trabajador; ?>" />
 				<span id="input01"><input type="hidden" name="trabajador" id="stdID" value="<?php echo $cod_ficha; ?>" /> <br />
 					<span class="textfieldRequiredMsg">Debe De Seleccionar Un Campo De la Lista.</span>
-					<span class="textfieldInvalidFormatMsg">El Formato es Invalido</span> </span></td>
+					<span class="textfieldInvalidFormatMsg">El Formato es Invalido</span> </span>
+			</td>
 		</tr>
 		<tr>
 			<td class="etiqueta"><?php echo $leng["cliente"]; ?>:</td>
-			<td id="select02"><select name="cliente" id="cliente" style="width:200px" onchange="Add_ajax01(this.value, 'ajax/Add_cl_ubicacion.php', 'select03'), Clasif_Tipo()">
+			<td id="select02"><select name="cliente" id="cliente" style="width:200px" onchange="change_client(this.value)">
 					<option value="<?php echo $cod_cliente; ?>"><?php echo $cliente; ?></option>
 					<?php
 					if ($metodo == 'agregar') {
@@ -344,20 +376,23 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 				<span id="Counterror_mess1" class="texto">&nbsp;</span><br />
 				<span class="textareaRequiredMsg">El Campo es Requerido.</span>
 				<span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
-				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span></td>
+				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span>
+			</td>
 			<td class="etiqueta">Repuesta:</td>
 			<td id="textarea02"><textarea name="repuesta" cols="42" rows="2" readonly="readonly"><?php echo $respuesta; ?></textarea>
 				<span id="Counterror_mess2" class="texto">&nbsp;</span><br />
 				<span class="textareaRequiredMsg">El Campo es Requerido.</span>
 				<span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
-				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span></td>
+				<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 500.</span>
+			</td>
 		</tr>
 		<tr>
 			<td class="etiqueta">Status:</td>
 			<td id="select10"><select name="status" style="width:200px">
 					<option value="<?php echo $cod_status; ?>"><?php echo $status; ?></option>
 				</select><br />
-				<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span></td>
+				<span class="selectRequiredMsg">Debe Seleccionar Un Campo.</span>
+			</td>
 			<td class="etiqueta">Usuario Mod. Sistema: </td>
 			<td><?php echo $us_mod; ?></td>
 		</tr>
