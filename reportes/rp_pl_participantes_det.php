@@ -78,7 +78,9 @@ if (isset($reporte)) {
 	pd.cod_actividad,
 	pa.descripcion actividad,
 	TIME(pd.fecha_inicio) hora_inicio,
-	TIME(pd.fecha_fin) hora_fin
+	TIME(pd.fecha_fin) hora_fin,
+	f.telefono,
+	f.celular
 	FROM
 	planif_clientes_superv_trab_det_participantes p,
 	planif_clientes_superv_trab_det pd,
@@ -98,15 +100,15 @@ if (isset($reporte)) {
 
 		$query01  = $bd->consultar($sql);
 		echo "<table border=1>";
-		echo "<tr><th> Fecha </th><th> " . $leng['ficha'] . " </th><th> " . $leng['trabajador'] . " </th>
+		echo "<tr><th> Fecha </th><th> " . $leng['ficha'] . " </th><th> " . $leng['trabajador'] . " </th><th>Telefono</th><th>Celular</th>
 		<th> Cod. Cliente </th><th> " . $leng['cliente'] . " </th><th> Cod. Ubicación </th><th> " . $leng['ubicacion'] . " </th>
 		<th> Cod. Proyecto </th><th> Proyecto </th><th> Cod. Actividad </th><th> Actividad </th><th> Hora Inicio </th>
 		<th> Hora Fin </th>
 		</tr>";
 
 		while ($row01 = $bd->obtener_num($query01)) {
-			echo "<tr><td> " . $row01[0] . " </td><td>" . $row01[1] . "</td><td>" . $row01[2] . "</td><td>" . $row01[3] . "</td>
-			<td>" . $row01[4] . "</td><td>" . $row01[5] . "</td><td>" . $row01[6] . "</td><td>" . $row01[7] . "</td>
+			echo "<tr><td> " . $row01[0] . " </td><td>" . $row01[1] . "</td><td>" . $row01[2] . "</td><td>" . $row01[13] . "</td><td>" . $row01[14] . "</td>
+			<td>" . $row01[3] . "</td><td>" . $row01[4] . "</td><td>" . $row01[5] . "</td><td>" . $row01[6] . "</td><td>" . $row01[7] . "</td>
 			<td>" . $row01[8] . "</td><td>" . $row01[9] . "</td><td>" . $row01[10] . "</td><td>" . $row01[11] . "</td>
 			<td>" . $row01[12] . "</td></tr>";
 		}
@@ -132,6 +134,7 @@ if (isset($reporte)) {
 		<th class='etiqueta'>Fecha</th>
 		<th  class='etiqueta'>" . $leng['ficha'] . "</th>
 		<th  class='etiqueta'>" . $leng['trabajador'] . "</th>
+		<th  class='etiqueta'>Telf. / Celular</th>
 		<th  class='etiqueta'>" . $leng['cliente'] . "</th>
 		<th  class='etiqueta'>" . $leng['ubicacion'] . "</th>
 		<th  class='etiqueta'>Proyecto </th>
@@ -150,6 +153,7 @@ if (isset($reporte)) {
 			echo   "		<td  >" . $datos["fecha"] . "</td>
 			<td  >" . $datos["cod_ficha"] . "</td>
 			<td  >" . $datos["ap_nombre"] . "</td>
+			<td  >" . $datos["telefono"] . " / " . $datos["celular"] . "</td>
 			<td  >" . $datos["cliente"] . "</td>
 			<td  >" . $datos["ubicacion"] . "</td>
 			<td  >" . $datos["proyecto"] . "</td>

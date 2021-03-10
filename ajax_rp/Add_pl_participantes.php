@@ -59,6 +59,8 @@ TIME(pd.fecha_inicio) hora_inicio,
 TIME(pd.fecha_fin) hora_fin,
 p.cod_ficha,
 CONCAT(f.nombres, f.apellidos) ap_nombre,
+f.telefono,
+f.celular,
 pt.cod_cliente,
 clientes.abrev abrev_cliente,
 clientes.nombre cliente,
@@ -85,6 +87,7 @@ ORDER BY cod_ficha";
 		<th class="etiqueta">Fecha</th>
 		<th class="etiqueta"><?php echo $leng['ficha'] ?></th>
 		<th class="etiqueta"><?php echo $leng['trabajador'] ?></th>
+		<th class="etiqueta">Telf. / Celular</th>
 		<th class="etiqueta"><?php echo $leng['cliente'] ?></th>
 		<th class="etiqueta"><?php echo $leng['ubicacion'] ?></th>
 		<th class="etiqueta">Proyecto </th>
@@ -108,6 +111,7 @@ ORDER BY cod_ficha";
 		<td class="texto">' . $datos["fecha"] . '</td>
 		<td class="texto">' . longitud($datos["cod_ficha"]) . '</td>
 		<td class="texto">' . longitud($datos["ap_nombre"]) . '</td>
+		<td class="texto">' . $datos["telefono"] . ' / ' . $datos["celular"] . '</td>
 		<td class="texto">' . longitud($datos["cliente"]) . '</td>
 		<td class="texto">' . longitud($datos["ubicacion"]) . '</td>
 		<td class="texto">' . longitud($datos["proyecto"]) . '</td>
