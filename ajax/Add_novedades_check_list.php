@@ -23,16 +23,16 @@ if ($tipo != "") {
 	}
 }
 
-$sql   = " SELECT
-		novedades.codigo,
-		novedades.descripcion
-		FROM
-		novedades,
-		nov_check_list_det
-		WHERE
-		novedades.`status` = 'T'
-		AND nov_check_list_det.cod_novedades = novedades.codigo
-		AND nov_check_list_det.cod_check_list = '$codigo' ";
+$where = " WHERE nov_cl_ubicacion.cod_cl_ubicacion = '$ubicacion' 
+AND nov_cl_ubicacion.cod_novedad = novedades.codigo
+AND novedades.`status` = 'T'
+AND novedades.cod_nov_clasif = '$clasif' 
+AND novedades.cod_nov_tipo = '$tipo' ";
+
+$sql   = " SELECT novedades.codigo, novedades.descripcion 
+FROM nov_cl_ubicacion, novedades                      
+$where
+ORDER BY  novedades.orden, 2 ASC ";
 
 ?><table width="100%" align="center">
 	<tr>
