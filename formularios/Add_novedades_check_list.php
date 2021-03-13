@@ -240,8 +240,7 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 		var error = 0;
 		var errorMessage = ' ';
 		var radio_checked = $("#checklist").val()
-		console.log(radio_checked);
-		return;
+
 		if (clasif == '') {
 			var error = error + 1;
 			var errorMessage = ' Debe Selecionar Un Clasificacion';
