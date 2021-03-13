@@ -57,6 +57,7 @@ if ($metodo == 'modificar') {
     <ul class="TabbedPanelsTabGroup">
       <li class="TabbedPanelsTab"><?php echo $leng['cliente']; ?></li>
       <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>><?php echo "Contactos " . $leng['cliente']; ?></li>
+      <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>><?php echo "Documentos " . $leng['cliente']; ?></li>
       <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>>Datos Adiccionales <?php echo $leng['cliente']; ?></li>
       <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>><?php echo $leng['ubicacion']; ?></li>
       <li class="TabbedPanelsTab" <?php echo 'style="' . $vistas . '"' ?>><?php echo $leng['contratacion']; ?></li>
@@ -67,6 +68,7 @@ if ($metodo == 'modificar') {
     <div class="TabbedPanelsContentGroup">
       <div class="TabbedPanelsContent"><?php include('p_cliente.php'); ?></div>
       <div class="TabbedPanelsContent"><?php include('p_cliente_contactos.php'); ?></div>
+      <div class="TabbedPanelsContent"><?php include('p_cliente_documentos.php'); ?></div>
       <div class="TabbedPanelsContent"><?php include('p_cliente_ad.php'); ?></div>
       <div class="TabbedPanelsContent"><?php include('../../cl_ubicacion/index.php'); ?></div>
       <div class="TabbedPanelsContent"><?php include('../../cl_contratacion/index.php'); ?></div>
