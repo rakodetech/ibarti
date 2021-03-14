@@ -5,7 +5,7 @@ $metodo       = "agregar";
 $archivo = "area=packages/cliente/cliente/index&Nmenu=&codigo=$codigo&mod=$mod&pagina=3&metodo=modificar";
 $codigo = $cl['codigo'];
 ?>
-<form action="scripts/sc_clientes_doc.php" method="post" name="add" id="add">
+<form id="addDoc">
 	<hr>
 	<legend>Documento Trabajador </legend>
 	<hr>
@@ -96,18 +96,8 @@ $codigo = $cl['codigo'];
 	<div align="center"><span class="art-button-wrapper">
 			<span class="art-button-l"> </span>
 			<span class="art-button-r"> </span>
-			<input type="submit" name="salvar" id="salvar" value="Guardar" class="readon art-button" />
+			<input type="button" name="salvar" id="salvar" value="Guardar" onclick="saveDocuments()" class="readon art-button" />
 		</span>&nbsp;
-		<span class="art-button-wrapper">
-			<span class="art-button-l"> </span>
-			<span class="art-button-r"> </span>
-			<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />
-		</span>&nbsp;
-		<span class="art-button-wrapper">
-			<span class="art-button-l"> </span>
-			<span class="art-button-r"> </span>
-			<input type="button" id="volver04" value="Volver" onClick="history.back(-1);" class="readon art-button" />
-		</span>
 		<input name="metodo" type="hidden" value="<?php echo $metodo; ?>" />
 		<input name="proced" type="hidden" value="<?php echo $proced; ?>" />
 		<input name="codigo" type="hidden" value="<?php echo $codigo; ?>" />

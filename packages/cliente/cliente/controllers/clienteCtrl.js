@@ -2,6 +2,11 @@ $(function () {
   Cons_cliente("", "agregar");
 });
 
+$('#addDoc').submit(function (ev) {
+  saveDocuments();
+  ev.preventDefault();
+});
+
 function Cons_cliente(cod, metodo) {
   var usuario = $("#usuario").val();
   var error = 0;
@@ -457,4 +462,20 @@ function consultar_contactos() {
 
 function Pdf() {
   $("#pdf").submit();
+}
+
+
+function saveDocuments() {
+  $.ajax({
+    type: "post",
+    url: "scripts/sc_clientes_doc.php",
+    data: $('#addDoc').serialize(),
+    success: function () {
+      toastr.success("Actualización Exitosa");
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      alert(xhr.status);
+      alert(thrownError);
+    }
+  });
 }
