@@ -46,6 +46,7 @@ if (isset($_POST['metodo'])) {
 									        '$campo01', '$campo02', '$campo03', '$campo04', 
 											'$usuario', '$date', '$usuario','$date' , '$activo')";
 			}
+			echo $sql;
 			$query = $bd->consultar($sql);
 			break;
 		case 'modificar':
