@@ -68,7 +68,7 @@ if (isset($_POST['metodo'])) {
 			break;
 	}
 }
-require_once('../funciones/sc_direccionar.php');
+//require_once('../funciones/sc_direccionar.php');
 ?>
 
 <body>
