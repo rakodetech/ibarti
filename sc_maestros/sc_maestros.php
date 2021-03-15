@@ -64,6 +64,7 @@ if (isset($_POST['metodo'])) {
 			break;
 		case 'borrar':
 			$sql = "DELETE FROM $tabla WHERE  $tabla_id = '$codigo'";
+			echo $sql;
 			$query = $bd->consultar($sql);
 			break;
 	}
