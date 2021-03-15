@@ -46,7 +46,6 @@ if (isset($_POST['metodo'])) {
 									        '$campo01', '$campo02', '$campo03', '$campo04', 
 											'$usuario', '$date', '$usuario','$date' , '$activo')";
 			}
-			echo $sql;
 			$query = $bd->consultar($sql);
 			break;
 		case 'modificar':
@@ -64,12 +63,11 @@ if (isset($_POST['metodo'])) {
 			break;
 		case 'borrar':
 			$sql = "DELETE FROM $tabla WHERE  $tabla_id = '$codigo'";
-			echo $sql;
 			$query = $bd->consultar($sql);
 			break;
 	}
 }
-//require_once('../funciones/sc_direccionar.php');
+require_once('../funciones/sc_direccionar.php');
 ?>
 
 <body>
