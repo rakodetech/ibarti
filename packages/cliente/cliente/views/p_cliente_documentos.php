@@ -7,7 +7,7 @@ $codigo = $cl['codigo'];
 ?>
 <form id="addDoc">
 	<hr>
-	<legend>Documento Trabajador </legend>
+	<legend>Documentos </legend>
 	<hr>
 	<table width="100%" align="center">
 		<tr>
