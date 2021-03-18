@@ -75,7 +75,7 @@ $archivo = "area=packages/cliente/cliente/index&Nmenu=&codigo=$codigo&metodo=mod
 		while ($datos = $bd->obtener_fila($query, 0)) {
 			extract($datos);
 			$img_src = $url_doc . "" . $link;
-			if (file_exists("../../../../" . $link)) {
+			if (file_exists("../../../../" . $link) && $link != null && $link != "") {
 
 				$img_ext =  imgExtension($img_src);
 				$img_src = 	'<a target="_blank" href="' . $img_src . '"><img class="imgLink" src="' . $img_ext . '" width="22px" height="22px" /></a>';
