@@ -11,8 +11,6 @@ $titulo     = "Subir Imagen ";
 //$img_src    = $url.$link;		
 $directorio = "../imagenes/documentos_cl/";
 $url_new    = "imagenes/documentos_cl/";
-echo $url;
-echo $link;
 if (file_exists("../../../../" . $link)) {
 
   $img_src = $link;
