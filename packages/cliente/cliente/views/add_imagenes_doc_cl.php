@@ -1,25 +1,21 @@
 <?php
-$doc          = $_GET["doc"];
-$cliente        = $_GET["cliente"];
-echo $doc;
-echo $cliente;
-$sql      = "SELECT control.url_doc, IFNULL(clientes_documentos.link, 0) link 
-              FROM control LEFT JOIN clientes_documentos 
-              ON clientes_documentos.cod_cliente = '$cliente' 
-              AND clientes_documentos.cod_documento = '$doc' ";
-$query01  = $bd->consultar($sql);
-$row01    = mysql_fetch_row($query01);
+require "../modelo/cliente_modelo.php";
+$bd = new Cliente();
+$doc          = $_POST["doc"];
+$cliente        = $_POST["cliente"];
+$row01    = $bd->get_documento($cliente, $doc);
 $url      = $row01[0];
 $link     = $row01[1];
 
 $titulo     = "Subir Imagen ";
 //$img_src    = $url.$link;		
-$img_src    = $link;
 $directorio = "../imagenes/documentos_cl/";
 $url_new    = "imagenes/documentos_cl/";
-if (file_exists($img_src)) {
-  //if (!getimagesize($img_src))  {
+echo $url;
+echo $link;
+if (file_exists("../../../../" . $link)) {
 
+  $img_src = $link;
 } else {
   $img_src = "imagenes/img-no-disponible.png";
 }

@@ -231,7 +231,9 @@ function uploadActualizarCliente(url) {
         success: function (data) {
             message = $("<span class='success'>La imagen ha subido correctamente. Actualizando</span>");
             showMessage(message);
-            window.history.go(-1);
+            $("#fotografia").attr('src', url);
+            Close();
+            //window.history.go(-1);
         },
         //si ha ocurrido un error
         error: function () {

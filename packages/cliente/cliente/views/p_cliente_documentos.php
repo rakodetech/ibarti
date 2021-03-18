@@ -2,8 +2,17 @@
 //	require_once('autentificacion/aut_verifica_menu.php');
 $proced      = "p_clientes_documentos";
 $metodo       = "agregar";
-$archivo = "area=packages/cliente/cliente/index&Nmenu=&codigo=$codigo&mod=$mod&pagina=3&metodo=modificar";
-$codigo = $cl['codigo'];
+if (isset($_POST['codigo'])) {
+	$codigo = $_POST['codigo'];
+	define("SPECIALCONSTANT", true);
+	include_once('../../../../funciones/funciones.php');
+	require("../../../../autentificacion/aut_config.inc.php");
+	require_once("../../../../" . class_bdI);
+	$bd = new DataBase();
+} else {
+	$codigo = $cl['codigo'];
+}
+$archivo = "area=packages/cliente/cliente/index&Nmenu=&codigo=$codigo&metodo=modificar";
 ?>
 <form id="addDoc">
 	<hr>
@@ -62,6 +71,7 @@ $codigo = $cl['codigo'];
 			documentos_cl.orden ASC";
 		}
 		$query = $bd->consultar($sql);
+
 		while ($datos = $bd->obtener_fila($query, 0)) {
 			extract($datos);
 			$img_src = $url_doc . "" . $link;
@@ -72,8 +82,8 @@ $codigo = $cl['codigo'];
 			} else {
 				$img_src = 	'<img src="imagenes/img-no-disponible_p.png" width="22px" height="22px" />';
 			}
-			$subir = "Vinculo('inicio.php?area=formularios/add_imagenes_doc_cl&cliente=$codio&doc=$cod_documento')";
-
+			//$subir = "Vinculo('inicio.php?area=formularios/add_imagenes_doc_cl&cliente=$codigo&doc=$cod_documento')";
+			$subir = "modalUpload('$codigo', '$cod_documento')";
 			echo '<tr>
 							<td class="texto">' . longitudMax($descripcion) . '</td>
 							<td class="texto">SI <input type = "radio" name="documento' . $cod_documento . '"  value = "S" style="width:auto"

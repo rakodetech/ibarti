@@ -479,3 +479,33 @@ function saveDocuments() {
     }
   });
 }
+
+function modalUpload(cliente, doc) {
+  ModalOpen();
+  $("#modal_title").text("Cargar Documento");
+  $("#contenido_modal").html("");
+
+  var error = 0;
+  var errorMessage = ' ';
+  if (error == 0) {
+    var parametros = {
+      doc, cliente
+    };
+    $.ajax({
+      data: parametros,
+      url: 'packages/cliente/cliente/views/add_imagenes_doc_cl.php',
+      type: 'post',
+      success: function (response) {
+        $("#contenido_modal").html(response);
+        //iniciar_tab(0);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
+    });
+  } else {
+    alert(errorMessage);
+  }
+
+}

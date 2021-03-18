@@ -2,7 +2,44 @@
   $("#bus_cliente").on('submit', function(evt) {
     evt.preventDefault();
     buscar_cliente(true);
-  })
+  });
+
+  function Close() {
+    $("#myModal").hide();
+    if (true) {
+      var cliente = $("#c_codigo").val();
+      updateListDocuments(cliente);
+    }
+  }
+
+  function ModalOpen() {
+    $("#myModal").show();
+  }
+
+  function updateListDocuments(cliente) {
+    var error = 0;
+    var errorMessage = ' ';
+    if (error == 0) {
+      var parametros = {
+        codigo: cliente
+      };
+      $.ajax({
+        data: parametros,
+        url: 'packages/cliente/cliente/views/p_cliente_documentos.php',
+        type: 'post',
+        success: function(response) {
+          $("#TabPanelDocuments").html(response);
+          //iniciar_tab(0);
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          alert(xhr.status);
+          alert(thrownError);
+        }
+      });
+    } else {
+      alert(errorMessage);
+    }
+  }
 </script>
 <?php
 require "../modelo/cliente_modelo.php";
@@ -32,7 +69,7 @@ if ($metodo == 'modificar') {
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
-      <span class="close" onclick="CloseModal()">&times;</span>
+      <span class="close" onclick="Close()">&times;</span>
       <span id="modal_title"></span>
     </div>
     <div class="modal-body">
@@ -68,7 +105,7 @@ if ($metodo == 'modificar') {
     <div class="TabbedPanelsContentGroup">
       <div class="TabbedPanelsContent"><?php include('p_cliente.php'); ?></div>
       <div class="TabbedPanelsContent"><?php include('p_cliente_contactos.php'); ?></div>
-      <div class="TabbedPanelsContent"><?php include('p_cliente_documentos.php'); ?></div>
+      <div class="TabbedPanelsContent" id="TabPanelDocuments"><?php include('p_cliente_documentos.php'); ?></div>
       <div class="TabbedPanelsContent"><?php include('p_cliente_ad.php'); ?></div>
       <div class="TabbedPanelsContent"><?php include('../../cl_ubicacion/index.php'); ?></div>
       <div class="TabbedPanelsContent"><?php include('../../cl_contratacion/index.php'); ?></div>
