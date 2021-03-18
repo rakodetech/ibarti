@@ -10,4 +10,5 @@ bd/class_mysql2.php
 imagenes/fotos/*
 imagenes/cedula/*
 imagenes/documentos/*
+imagenes/documentos_cl/*
 imagenes/temp/*
