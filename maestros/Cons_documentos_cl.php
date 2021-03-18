@@ -14,14 +14,15 @@ $vinculo = "inicio.php?area=pestanas_maestro/maestros&Nmenu=" . $_GET['Nmenu'] .
 	<table width="90%" border="0" align="center">
 		<tr class="fondo00">
 			<th width="20%" class="etiqueta">Codigo</th>
-			<th width="50%" class="etiqueta">Descripcion</th>
+			<th width="50%" class="etiqueta">Descripción</th>
+			<th width="50%" class="etiqueta">Orden</th>
 			<th width="15%" class="etiqueta">Status</th>
 			<th width="15%" align="center"><a href="<?php echo $vinculo . "&codigo=''&metodo=agregar"; ?>"><img src="imagenes/nuevo.bmp" alt="Agregar" title="Agregar Registro" width="30px" height="30px" border="null" /></a></th>
 		</tr>
 		<?php
 		$usuario = $_SESSION['usuario_cod'];
 		$valor = 0;
-		$sql = " SELECT codigo, descripcion, status FROM $tabla ORDER BY 2 ASC ";
+		$sql = " SELECT codigo, descripcion, status, orden FROM $tabla ORDER BY orden ASC ";
 
 		$query = $bd->consultar($sql);
 
@@ -38,6 +39,7 @@ $vinculo = "inicio.php?area=pestanas_maestro/maestros&Nmenu=" . $_GET['Nmenu'] .
 			echo '<tr class="' . $fondo . '"> 
                   <td class="texto">' . $datos[0] . '</td> 
                   <td class="texto">' . $datos[1] . '</td>
+				  <td class="texto">' . $datos[3] . '</td>
 				  <td class="texto">' . statuscal($datos[2]) . '</td>
 				  <td align="center"><a href="' . $vinculo . '&codigo=' . $datos[0] . '&metodo=modificar"><img src="imagenes/actualizar.bmp" alt="Modificar" title="Modificar Registro" width="20px" height="20px" border="null"/></a>&nbsp;<img src="imagenes/borrar.bmp"  width="20px" height="20px" title="Borrar Registro" border="null" onclick="' . $Borrar . '" class="imgLink"/></td> 
             </tr>';

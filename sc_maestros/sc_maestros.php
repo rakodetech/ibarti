@@ -17,6 +17,9 @@ $tabla_id = 'codigo';
 $codigo      = $_POST['codigo'];
 $descripcion = $_POST['descripcion'];
 $tipo = $_POST['tipo'];
+if (isset($_POST['orden'])) {
+	$orden = $_POST['orden'];
+}
 $campo01 = $_POST['campo01'];
 $campo02 = $_POST['campo02'];
 $campo03 = $_POST['campo03'];
@@ -40,11 +43,19 @@ if (isset($_POST['metodo'])) {
 							'$campo01', '$campo02', '$campo03', '$campo04', 
 							'$usuario', '$date', '$usuario','$date' , '$activo', '$planificable')";
 			} else {
-				$sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
+				if ($tabla == 'documentos_cl') {
+					$sql = "INSERT INTO $tabla (codigo, descripcion, orden, campo01, campo02, campo03, campo04,
+                                            cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
+                                    VALUES ('$codigo', '$descripcion', $orden,
+									        '$campo01', '$campo02', '$campo03', '$campo04', 
+											'$usuario', '$date', '$usuario','$date' , '$activo')";
+				} else {
+					$sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
                                             cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
                                     VALUES ('$codigo', '$descripcion',
 									        '$campo01', '$campo02', '$campo03', '$campo04', 
 											'$usuario', '$date', '$usuario','$date' , '$activo')";
+				}
 			}
 			$query = $bd->consultar($sql);
 			break;
@@ -57,6 +68,9 @@ if (isset($_POST['metodo'])) {
 								  status      = '$activo'";
 			if ($tabla == 'cargos') {
 				$sql .= " ,planificable = '$planificable', cod_tipo = $tipo ";
+			}
+			if ($tabla == 'documentos_cl') {
+				$sql .= " ,orden = $orden ";
 			}
 			$sql .= " WHERE codigo = '$codigo'";
 			$query = $bd->consultar($sql);

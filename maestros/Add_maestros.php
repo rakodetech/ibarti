@@ -18,10 +18,17 @@ if ($metodo == 'modificar') {
     $sql_tipos = "SELECT codigo, descripcion FROM tipos_cargo WHERE status = 'T';";
     $query_tipos = $bd->consultar($sql_tipos);
   } else {
-    $sql = " SELECT $tabla.codigo, $tabla.descripcion,
+    if ($tabla == 'documentos_cl') {
+      $sql = " SELECT $tabla.codigo, $tabla.descripcion, $tabla.orden,
 	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
 				    $tabla.status
              FROM $tabla WHERE codigo = '$codigo' ";
+    } else {
+      $sql = " SELECT $tabla.codigo, $tabla.descripcion,
+	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
+				    $tabla.status
+             FROM $tabla WHERE codigo = '$codigo' ";
+    }
   }
   $query = $bd->consultar($sql);
   $result = $bd->obtener_fila($query, 0);
@@ -37,12 +44,16 @@ if ($metodo == 'modificar') {
   if ($tabla == 'cargos') {
     $planificable      = $result['planificable'];
   }
+  if ($tabla == 'documentos_cl') {
+    $orden      = $result['orden'];
+  }
   $readonly = 'readonly="readonly"';
 } else {
   $readonly = '';
   $codigo      = '';
   $codigo_onblur = "Add_ajax_maestros(this.value, 'ajax/validar_maestros.php', 'Contenedor', '$tabla')";
   $descripcion = '';
+  $orden = '';
   $campo01     = '';
   $campo02     = '';
   $campo03     = '';
@@ -87,6 +98,15 @@ if ($metodo == 'modificar') {
         }
       }
       echo '</select>
+            </td>    
+          </tr>';
+    }
+    if ($tabla == 'documentos_cl') {
+      echo '<tr>
+            <td class="etiqueta">Orden:</td> 
+            <td>
+            <input type="number" name="orden" style="width:250px" value="' . $orden . '" /><br />
+            <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
             </td>    
           </tr>';
     }
