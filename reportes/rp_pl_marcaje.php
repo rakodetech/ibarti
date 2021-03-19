@@ -1,13 +1,13 @@
 <link rel="stylesheet" type="text/css" href="latest/stylesheets/autocomplete.css" />
 <script type="text/javascript" src="latest/scripts/autocomplete.js"></script>
 <?php
-$Nmenu   = '5305';
+$Nmenu   = '5308';
 $mod     =  $_GET['mod'];
 require_once('autentificacion/aut_verifica_menu.php');
 require_once('sql/sql_report.php');
 $bd = new DataBase();
-$archivo = "reportes/rp_pl_supervisor_det.php?Nmenu=$Nmenu&mod=$mod";
-$titulo  = " PLANIFICACIÓN DE PERSONAL ";
+$archivo = "reportes/rp_pl_marcaje_det.php?Nmenu=$Nmenu&mod=$mod";
+$titulo  = " MARCAJE DE PERSONAL ";
 
 $titulo      = "REPORTE $titulo";
 $codigo      = '';
@@ -40,6 +40,7 @@ $codigo      = '';
 		var ubicacion = $("#ubicacion").val();
 		var proyecto = $("#proyecto").val();
 		var actividad = $("#actividad").val();
+		var realizado = $("#realizado").val();
 
 		var trabajador = $("#stdID").val();
 		var fecha_desde = $("#fecha_desde").val();
@@ -79,13 +80,14 @@ $codigo      = '';
 				"fecha_hasta": fecha_hasta,
 				"proyecto": proyecto,
 				"actividad": actividad,
+				"realizado": realizado,
 				"Nmenu": Nmenu,
 				"mod": mod,
 				"archivo": archivo
 			};
 			$.ajax({
 				data: parametros,
-				url: 'ajax_rp/Add_pl_supervisor.php',
+				url: 'ajax_rp/Add_pl_marcaje.php',
 				type: 'post',
 				beforeSend: function() {
 					$("#img_actualizar").remove();
@@ -169,6 +171,12 @@ $codigo      = '';
 					} ?></select></td>
 		</tr>
 		<tr>
+			<td>Realizado: </td>
+			<td><select name="realizado" id="realizado" style="width:120px;">
+					<option value="TODOS"> TODOS </option>
+					<option value="S"> SI </option>
+					<option value="N"> NO </option>
+				</select></td>
 			<td>Filtro Trab.:</td>
 			<td id="select01">
 				<select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">

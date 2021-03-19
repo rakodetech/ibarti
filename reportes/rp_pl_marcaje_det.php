@@ -13,8 +13,8 @@ if (($_POST['fecha_desde'] == "" or $_POST['fecha_hasta'] == "")) {
 }
 
 $reporte         = $_POST['reporte'];
-$archivo         = "rp_pl_personal_" . $fecha . "";
-$titulo          = "PLANIFICACION DE PERSONAL \n";
+$archivo         = "rp_pl_marcaje_" . $fecha . "";
+$titulo          = "MARCAJE DE PERSONAL \n";
 
 if (isset($reporte)) {
 	$region     = $_POST['region'];
@@ -24,6 +24,7 @@ if (isset($reporte)) {
 	$trabajador = $_POST['trabajador'];
 	$proyecto    = $_POST['proyecto'];
 	$actividad  = $_POST['actividad'];
+	$realizado  = $_POST['realizado'];
 
 	$fecha_D   = conversion($_POST['fecha_desde']);
 	$fecha_H   = conversion($_POST['fecha_hasta']);
@@ -64,12 +65,22 @@ if (isset($reporte)) {
 		$where   .= " AND pd.cod_actividad = '$actividad' ";
 	}
 
+	if ($realizado != "TODOS") {
+		if ($realizado != "S") {
+			$where   .= " AND pd.realizado = 'T' ";
+		} else if ($realizado == "N") {
+			$where   .= " AND pd.realizado = 'F' ";
+		}
+	}
+
 	$sql = "SELECT DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') fecha, p.cod_ficha, CONCAT(f.apellidos, ' ', f.nombres) ap_nombre, 
 		p.cod_cliente, cl.nombre cliente, p.cod_ubicacion, cu.descripcion ubicacion, 
 		pd.cod_proyecto, pp.descripcion proyecto, pd.cod_actividad, pa.descripcion actividad,
 		TIME(pd.fecha_inicio) hora_inicio, TIME(pd.fecha_fin) hora_fin,
-		pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado
-		FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd, clientes cl, clientes_ubicacion cu, ficha f,
+		pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado, psod.observacion
+		FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd
+		LEFT JOIN planif_clientes_superv_trab_det_observ psod ON pd.codigo = psod.cod_det, 
+		clientes cl, clientes_ubicacion cu, ficha f,
 		planif_proyecto pp, planif_actividad pa
 		$where
 		ORDER BY 1,2,12,4,6,10 ASC";
@@ -84,14 +95,14 @@ if (isset($reporte)) {
 		echo "<tr><th> Fecha </th><th> " . $leng['ficha'] . " </th><th> " . $leng['trabajador'] . " </th>
 		<th> Cod. Cliente </th><th> " . $leng['cliente'] . " </th><th> Cod. Ubicación </th><th> " . $leng['ubicacion'] . " </th>
 		<th> Cod. Proyecto </th><th> Proyecto </th><th> Cod. Actividad </th><th> Actividad </th><th> Hora Inicio </th>
-		<th> Hora Fin </th><th> Minutos decicados </th><th> Realizado </th>
+		<th> Hora Fin </th><th> Minutos decicados </th><th> Realizado </th><th> Observación </th>
 		</tr>";
 
 		while ($row01 = $bd->obtener_num($query01)) {
 			echo "<tr><td> " . $row01[0] . " </td><td>" . $row01[1] . "</td><td>" . $row01[2] . "</td><td>" . $row01[3] . "</td>
 			<td>" . $row01[4] . "</td><td>" . $row01[5] . "</td><td>" . $row01[6] . "</td><td>" . $row01[7] . "</td>
 			<td>" . $row01[8] . "</td><td>" . $row01[9] . "</td><td>" . $row01[10] . "</td><td>" . $row01[11] . "</td>
-			<td>" . $row01[12] . "</td><td>" . $row01[13] . "</td><td>" . $row01[14] . "</td></tr>";
+			<td>" . $row01[12] . "</td><td>" . $row01[13] . "</td><td>" . $row01[14] . "</td></td><td>" . $row01[15] . "</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -121,8 +132,8 @@ if (isset($reporte)) {
 		<th  class='etiqueta'>Actividad </th>
 		<th  class='etiqueta'>Hora Inicio </th>
 		<th  class='etiqueta'>Hora Fin </th>
-		<th  class='etiqueta'>Minutos</th>
 		<th  class='etiqueta'>Realizado </th>
+		<th  class='etiqueta'>Observacion </th>
 		</tr>";
 
 		$f = 0;
@@ -141,8 +152,8 @@ if (isset($reporte)) {
 			<td  >" . $datos["actividad"] . "</td>
 			<td  >" . $datos["hora_inicio"] . "</td>
 			<td  >" . $datos["hora_fin"] . "</td>
-			<td  >" . $datos["minutos"] . "</td>
-			<td  >" . $datos["realizado"] . "</td></tr>";
+			<td  >" . $datos["realizado"] . "</td>
+			<td  >" . $datos["observacion"] . "</td></tr>";
 
 			$f++;
 		}
