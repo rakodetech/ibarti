@@ -111,7 +111,7 @@ $bd = new DataBase();
 		</tr>
 	</table>
 	<hr />
-	<div id="listar">&nbsp;</div>
+	<div class="listar" id="listar">&nbsp;</div>
 	<div align="center"><br />
 		<span class="art-button-wrapper">
 			<span class="art-button-l"> </span>

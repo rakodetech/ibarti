@@ -67,7 +67,7 @@ StatusD (
 	clientes_documentos.vencimiento
 ) vencimiento,
 IFNULL(clientes_documentos.venc_fecha, 'NO VENCE') venc_fecha,
-clientes_documentos.fec_us_ing fec_ingreso
+DATE_FORMAT(clientes_documentos.fec_us_ing, '%Y-%m-%d') fec_ingreso
 FROM
 clientes,
 clientes_documentos,
