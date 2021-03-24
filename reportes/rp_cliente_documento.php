@@ -17,6 +17,7 @@ $bd = new DataBase();
 		var documento = $("#documento").val();
 		var doc_vencimiento = $("#doc_vencimiento").val();
 		var doc_vencido = $("#doc_vencido").val();
+		var c_activo = $("#c_activo").val();
 
 		var error = 0;
 		var errorMessage = ' ';
@@ -39,7 +40,7 @@ $bd = new DataBase();
 				}
 			}
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			ajax.send("cliente=" + cliente + "&region=" + region + "&documento=" + documento + "&doc_check=" + doc_check + "&doc_vencimiento=" + doc_vencimiento + "&doc_vencido=" + doc_vencido + "");
+			ajax.send("cliente=" + cliente + "&region=" + region + "&documento=" + documento + "&doc_check=" + doc_check + "&doc_vencimiento=" + doc_vencimiento + "&doc_vencido=" + doc_vencido + "&c_activo=" + c_activo + "");
 
 		} else {
 			alert(errorMessage);
@@ -79,6 +80,12 @@ $bd = new DataBase();
 					while ($row01 = $bd->obtener_fila($query01, 0)) {
 						echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
 					} ?>
+				</select></td>
+			<td><?php echo $leng['cliente']; ?> Estatus: </td>
+			<td><select name="c_activo" id="c_activo" style="width:120px;">
+					<option value="TODOS"> TODOS </option>
+					<option value="T"> ACTIVO </option>
+					<option value="F"> INACTIVO </option>
 				</select></td>
 			<td width="4%" id="cont_img"><img class="imgLink" src="imagenes/actualizar.png" border="0" onclick="Add_filtroX()"></td>
 

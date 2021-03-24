@@ -14,6 +14,7 @@ $documento     = $_POST['documento'];
 $doc_check     = $_POST['doc_check'];
 $doc_vencimiento     = $_POST['doc_vencimiento'];
 $doc_vencido     = $_POST['doc_vencido'];
+$c_activo     = $_POST['c_activo'];
 
 $reporte       = $_POST['reporte'];
 $trabajador    = $_POST['trabajador'];
@@ -53,6 +54,13 @@ AND clientes.cod_region = regiones.codigo
 			$where  .= " AND clientes_documentos.venc_fecha < \"" . date("Y-m-d") . "\"";
 		} else if ($doc_vencido == "N") {
 			$where  .= "  AND (clientes_documentos.venc_fecha >= \"" . date("Y-m-d") . "\" OR ISNULL(clientes_documentos.venc_fecha)) ";
+		}
+	}
+	if ($c_activo != "TODOS") {
+		if ($c_activo == "T") {
+			$where  .= " AND clientes.status = 'T' ";
+		} else if ($c_activo == "F") {
+			$where  .= "  AND clientes.status = 'F' ";
 		}
 	}
 
