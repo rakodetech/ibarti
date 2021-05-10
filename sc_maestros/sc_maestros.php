@@ -23,6 +23,9 @@ if (isset($_POST['tipo'])) {
 if (isset($_POST['orden'])) {
 	$orden = $_POST['orden'];
 }
+if (isset($_POST['motivo'])) {
+	$motivo = $_POST['motivo'];
+}
 $campo01 = $_POST['campo01'];
 $campo02 = $_POST['campo02'];
 $campo03 = $_POST['campo03'];
@@ -57,6 +60,12 @@ if (isset($_POST['metodo'])) {
                                     VALUES ('$codigo', '$descripcion', $orden,
 									        '$campo01', '$campo02', '$campo03', '$campo04', 
 											'$usuario', '$date', '$usuario','$date' , '$activo')";
+				} else if ($tabla == 'ficha_egreso_motivo') {
+					$sql = "INSERT INTO $tabla (codigo, descripcion, motivo, campo01, campo02, campo03, campo04,
+					cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
+					VALUES ('$codigo', '$descripcion', '$motivo',
+							'$campo01', '$campo02', '$campo03', '$campo04', 
+							'$usuario', '$date', '$usuario','$date' , '$activo')";
 				} else {
 					$sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
                                             cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
@@ -79,6 +88,9 @@ if (isset($_POST['metodo'])) {
 			}
 			if ($tabla == 'documentos_cl') {
 				$sql .= " ,orden = $orden ";
+			}
+			if ($tabla == 'ficha_egreso_motivo') {
+				$sql .= " ,motivo = '$motivo' ";
 			}
 			$sql .= " WHERE codigo = '$codigo'";
 			$query = $bd->consultar($sql);

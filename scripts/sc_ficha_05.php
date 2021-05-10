@@ -69,4 +69,4 @@ if (isset($_POST['proced'])) {
 							'$observacion2', '$usuario', '$status', '$cod_motivo_egreso')";
 	$query = $bd->consultar($sql);
 }
-// require_once('../funciones/sc_direccionar.php');
+require_once('../funciones/sc_direccionar.php');

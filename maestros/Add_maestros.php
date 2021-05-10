@@ -23,6 +23,10 @@ if ($metodo == 'modificar') {
 	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
 				    $tabla.status
              FROM $tabla WHERE codigo = '$codigo' ";
+    } else if ($tabla == 'ficha_egreso_motivo') {
+      $sql = " SELECT $tabla.codigo, $tabla.motivo, $tabla.descripcion,
+	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	$tabla.status
+             FROM $tabla WHERE codigo = '$codigo' ";
     } else {
       $sql = " SELECT $tabla.codigo, $tabla.descripcion,
 	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
@@ -46,6 +50,9 @@ if ($metodo == 'modificar') {
   }
   if ($tabla == 'documentos_cl') {
     $orden      = $result['orden'];
+  }
+  if ($tabla == 'ficha_egreso_motivo') {
+    $motivo      = $result['motivo'];
   }
   $readonly = 'readonly="readonly"';
 } else {
@@ -86,6 +93,16 @@ if ($metodo == 'modificar') {
       </td>
     </tr>
     <?php
+    if ($tabla == 'ficha_egreso_motivo') {
+      echo  '<tr>
+          <td class="etiqueta">Motivo:</td>
+          <td id="radio01_5" class="texto">
+            Renuncia <input type="radio" name="motivo" value="R" style="width:auto"' .  CheckX($motivo, 'R') . ' />
+            Despido <input type="radio" name="motivo" value="D" style="width:auto"' .  CheckX($motivo, 'D') . ' /><br />
+            <span class="radioRequiredMsg">Debe seleccionar un Campo.</span>
+          </td>
+        </tr>';
+    }
     if ($tabla == 'cargos') {
       echo '<tr>
             <td class="etiqueta">Tipo:</td> 
@@ -144,5 +161,8 @@ if ($metodo == 'modificar') {
   });
   var input02 = new Spry.Widget.ValidationTextField("input02", "none", {
     validateOn: ["blur", "change"]
+  });
+  var radio01_5 = new Spry.Widget.ValidationRadio("radio01_5", {
+    validateOn: ["change", "blur"]
   });
 </script>

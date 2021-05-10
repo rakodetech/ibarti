@@ -110,20 +110,20 @@ if (count($result) == 0) {
         </td>
       </tr>
       <tr>
-        <td class="etiqueta">Tipo de Egreso:</td>
+        <td class="etiqueta">Motivo de Egreso:</td>
         <td id="radio01_5" class="texto">
-          Renuncia <input type="radio" name="motivo" value="R" style="width:auto" <?php echo  CheckX($motivo, 'R'); ?> />
-          Despido <input type="radio" name="motivo" value="D" style="width:auto" <?php echo  CheckX($motivo, 'D'); ?> /><br />
+          Renuncia <input type="radio" name="motivo" value="R" style="width:auto" <?php echo  CheckX($motivo, 'R'); ?> onclick="handleMotivoClick(this.value);" />
+          Despido <input type="radio" name="motivo" value="D" style="width:auto" <?php echo  CheckX($motivo, 'D'); ?> onclick="handleMotivoClick(this.value);" /><br />
           <span class="radioRequiredMsg">Debe seleccionar un Campo.</span>
         </td>
       </tr>
       <tr>
-        <td height="20" class="etiqueta">Motivo de egreso:</td>
+        <td height="20" class="etiqueta">Causa de egreso:</td>
         <td id="select10_6">
-          <select name="cod_motivo_egreso" style="width:200px;">
+          <select name="cod_motivo_egreso" id="causa" style="width:200px;">
             <option value="<?php echo $cod_motivo_egreso; ?>"><?php echo $motivo_egreso; ?></option>
-            <?php $sql = " SELECT codigo, descripcion FROM ficha_egreso_motivo 
-                                         WHERE status = 'T' AND ficha_egreso_motivo.codigo <> '$cod_motivo_egreso' ORDER BY 2 ASC ";
+            <?php $sql = "  SELECT codigo, descripcion 
+            FROM ficha_egreso_motivo  WHERE status = 'T' AND motivo = '$motivo' AND ficha_egreso_motivo.codigo <> '$cod_motivo_egreso' ORDER BY 2 ASC ";
             $query = $bd->consultar($sql);
             while ($datos = $bd->obtener_fila($query, 0)) {
             ?>
@@ -478,4 +478,25 @@ if (count($result) == 0) {
   var select10_6 = new Spry.Widget.ValidationSelect("select10_6", {
     validateOn: ["blur", "change"]
   });
+
+  function handleMotivoClick(motivo) {
+    var parametros = {
+      "motivo": motivo,
+    }
+    $.ajax({
+      data: parametros,
+      url: 'ajax/Add_causas.php',
+      type: 'post',
+      beforeSend: function() {
+        $("#causa").html('<img src="imagenes/loading3.gif" border="null" class="imgLink" width="30px" height="30px">');
+      },
+      success: function(response) {
+        $("#causa").html(response);
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
+    });
+  }
 </script>
