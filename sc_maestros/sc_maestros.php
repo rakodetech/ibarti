@@ -16,7 +16,10 @@ $tabla_id = 'codigo';
 
 $codigo      = $_POST['codigo'];
 $descripcion = $_POST['descripcion'];
-$tipo = $_POST['tipo'];
+$tipo = null;
+if (isset($_POST['tipo'])) {
+	$tipo = $_POST['tipo'];
+}
 if (isset($_POST['orden'])) {
 	$orden = $_POST['orden'];
 }
@@ -24,9 +27,14 @@ $campo01 = $_POST['campo01'];
 $campo02 = $_POST['campo02'];
 $campo03 = $_POST['campo03'];
 $campo04 = $_POST['campo04'];
-
-$activo      = statusbd($_POST['activo']);
-$planificable = statusbd($_POST['planificable']);
+$activo = 'F';
+if (isset($_POST['activo'])) {
+	$activo      = statusbd($_POST['activo']);
+}
+$planificable = null;
+if (isset($_POST['planificable'])) {
+	$planificable = statusbd($_POST['planificable']);
+}
 
 $href     = $_POST['href'];
 $usuario  = $_POST['usuario'];
