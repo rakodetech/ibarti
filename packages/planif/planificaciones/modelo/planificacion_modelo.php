@@ -362,8 +362,7 @@ class Planificacion
 		c.descripcion cargo,
 		c.codigo cod_cargo,
 		a.cantidad,
-		a.fec_us_mod fecha_mod,
-		CONCAT(mu.apellido,', ',mu.nombre) nombres
+		a.fec_us_mod fecha_mod
 		FROM
 		clientes_contratacion_ap AS a,
 		turno AS t,
@@ -374,11 +373,9 @@ class Planificacion
 		clientes AS cl,
 		clientes_ubicacion AS cu,
 		clientes_ub_puesto AS cp,
-		cargos c,
-		men_usuarios mu
+		cargos c
 		WHERE
 		a.cod_turno = t.codigo
-		AND mu.codigo = a.cod_us_mod
 		AND t.cod_horario = h.codigo
 		AND c.codigo = a.cod_cargo
 		AND t.cod_dia_habil = dias_habiles.codigo
@@ -453,7 +450,7 @@ class Planificacion
 		WHERE planif_clientes_trab_det.cod_planif_cl = '$apertura' AND  planif_clientes_trab_det.cod_cliente = $cliente AND planif_clientes_trab_det.cod_ubicacion = $ubic)
 		AND v_ficha.cod_ficha NOT IN (SELECT clientes_vetados.cod_ficha FROM clientes_vetados
 		WHERE clientes_vetados.cod_cliente = $cliente AND clientes_vetados.cod_ubicacion = $ubic)";
-		
+
 		$query = $this->bd->consultar($sql);
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
