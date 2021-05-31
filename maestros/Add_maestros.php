@@ -18,7 +18,7 @@ if ($metodo == 'modificar') {
     $sql_tipos = "SELECT codigo, descripcion FROM tipos_cargo WHERE status = 'T';";
     $query_tipos = $bd->consultar($sql_tipos);
   } else {
-    if ($tabla == 'documentos_cl') {
+    if ($tabla == 'documentos' || $tabla == 'documentos_cl') {
       $sql = " SELECT $tabla.codigo, $tabla.descripcion, $tabla.orden,
 	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
 				    $tabla.status
@@ -48,7 +48,7 @@ if ($metodo == 'modificar') {
   if ($tabla == 'cargos') {
     $planificable      = $result['planificable'];
   }
-  if ($tabla == 'documentos_cl') {
+  if ($tabla == 'documentos' || $tabla == 'documentos_cl') {
     $orden      = $result['orden'];
   }
   if ($tabla == 'ficha_egreso_motivo') {
@@ -118,11 +118,11 @@ if ($metodo == 'modificar') {
             </td>    
           </tr>';
     }
-    if ($tabla == 'documentos_cl') {
+    if ($tabla == 'documentos' || $tabla == 'documentos_cl') {
       echo '<tr>
             <td class="etiqueta">Orden:</td> 
             <td>
-            <input type="number" name="orden" style="width:250px" value="' . $orden . '" /><br />
+            <input type="number" name="orden" style="width:50px" value="' . $orden . '" /><br />
             <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
             </td>    
           </tr>';
