@@ -1,29 +1,35 @@
 <?php
-	$Nmenu = '423';
-	$mod   = $_GET['mod'];
-	require_once('autentificacion/aut_verifica_menu.php');
-	$tabla = "ficha";
-	$bd = new DataBase();
-	$archivo = "ficha_sin_ficha";
-	$titulo = " RRHH ACTIVO SIN FICHA ";
-	$vinculo = "inicio.php?area=pestanas/add_$archivo&Nmenu=$Nmenu&mod=$mod";
+$Nmenu = '423';
+$mod   = $_GET['mod'];
+require_once('autentificacion/aut_verifica_menu.php');
+$tabla = "ficha";
+$bd = new DataBase();
+$archivo = "ficha_sin_ficha";
+$titulo = " RRHH ACTIVO SIN FICHA ";
+$vinculo = "inicio.php?area=pestanas/add_$archivo&Nmenu=$Nmenu&mod=$mod";
+
+if ($_SESSION['ficha_preingreso'] == "N") {
+	Redirec("inicio.php?area=pestanas/add_$archivo&Nmenu=" . $Nmenu . "&mod=" . $mod);
+}
 ?>
-<div align="center" class="etiqueta_title"> CONSULTA <?php echo $titulo;?> </div> <hr />
+<div align="center" class="etiqueta_title"> CONSULTA <?php echo $titulo; ?> </div>
+<hr />
 <div id="Contenedor01"></div>
-<div id="listar"><table width="100%" border="0" align="center">
+<div id="listar">
+	<table width="100%" border="0" align="center">
 		<tr class="fondo00">
-            <th width="20%" class="etiqueta"><?php echo $leng["estado"];?></th>
-			<th width="10%" class="etiqueta"><?php echo $leng["ci"];?></th>
+			<th width="20%" class="etiqueta"><?php echo $leng["estado"]; ?></th>
+			<th width="10%" class="etiqueta"><?php echo $leng["ci"]; ?></th>
 			<th width="30%" class="etiqueta">Nombre</th>
-            <th width="11%" class="etiqueta">Fec. Ingreso</th>
-            <th width="11%" class="etiqueta">Fecha Ult. <br />Actualizacion</th>
-            <th width="10%" class="etiqueta">Status</th>
-		    <th width="8%" align="center">&nbsp;</th>
+			<th width="11%" class="etiqueta">Fec. Ingreso</th>
+			<th width="11%" class="etiqueta">Fecha Ult. <br />Actualizacion</th>
+			<th width="10%" class="etiqueta">Status</th>
+			<th width="8%" align="center">&nbsp;</th>
 		</tr>
-    <?php
-	$usuario = $_SESSION['usuario_cod'];
-	$valor = 0;
-	$sql = " SELECT preingreso.cedula, estados.descripcion AS estados,
+		<?php
+		$usuario = $_SESSION['usuario_cod'];
+		$valor = 0;
+		$sql = " SELECT preingreso.cedula, estados.descripcion AS estados,
                     IFNULL(v_ficha_sin_eventuales.cod_ficha, 'S') AS valor,
                     CONCAT(preingreso.apellidos, ' ',preingreso.nombres) AS nombres,  preingreso.fec_preingreso,
                     preingreso.fec_us_ing, preingreso.fec_us_mod,
@@ -36,30 +42,53 @@
                 AND IFNULL(v_ficha_sin_eventuales.cod_ficha, 'S') = 'S'
            ORDER BY 4 DESC ";
 
-   $query = $bd->consultar($sql);
+		$query = $bd->consultar($sql);
 
-		while ($datos=$bd->obtener_fila($query,0)){
-		if ($valor == 0){
-			$fondo = 'fondo01';
-		$valor = 1;
-		}else{
-			$fondo = 'fondo02';
-			$valor = 0;
-		}
+		while ($datos = $bd->obtener_fila($query, 0)) {
+			if ($valor == 0) {
+				$fondo = 'fondo01';
+				$valor = 1;
+			} else {
+				$fondo = 'fondo02';
+				$valor = 0;
+			}
 
-	// $Modificar = "Add_Mod01('".$datos[0]."', 'modificar')";
-	   $Borrar = "Borrar01('".$datos[0]."')";
-        echo '<tr class="'.$fondo.'">
-                <td>'.longitud($datos["estados"]).'</td>
-				  <td>'.$datos["cedula"].'</td>
-                  <td>'.longitud($datos["nombres"]).'</td>
-				  <td>'.$datos["fec_preingreso"].'</td>
-			      <td>'.$datos["fec_us_mod"].'</td>
-				  <td>'.$datos["status"].'</td>
-				  <td align="center"><a href="'.$vinculo.'&codigo='.$datos[0].'&metodo=agregar"><img src="imagenes/nuevo.bmp" alt="Agregar" title="Agregar Registro" width="20" height="20" border="null"/></a></td>
+			// $Modificar = "Add_Mod01('".$datos[0]."', 'modificar')";
+			$Borrar = "Borrar01('" . $datos[0] . "')";
+			echo '<tr class="' . $fondo . '">
+                <td>' . longitud($datos["estados"]) . '</td>
+				  <td>' . $datos["cedula"] . '</td>
+                  <td>' . longitud($datos["nombres"]) . '</td>
+				  <td>' . $datos["fec_preingreso"] . '</td>
+			      <td>' . $datos["fec_us_mod"] . '</td>
+				  <td>' . $datos["status"] . '</td>
+				  <td align="center"><img onclick="validateAddFicha(\'' . $datos[0] . '\', \'' . $vinculo . '\')" src="imagenes/nuevo.bmp" alt="Agregar" title="Agregar Registro" width="20" height="20" border="null"/></td>
             </tr>';
-        }
-     echo '<input type="hidden" name="tabla" id="tabla" value="'.$tabla.'"/>';
-	?>
-    </table>
+		}
+		echo '<input type="hidden" name="tabla" id="tabla" value="' . $tabla . '"/>';
+		?>
+	</table>
 </div>
+<script>
+	function validateAddFicha(cedula, vinculo) {
+		$.ajax({
+			data: {
+				cedula
+			},
+			url: 'packages_mant/general/views/validateAddFicha.php',
+			type: 'post',
+			success: function(response) {
+				var resp = JSON.parse(response);
+				if (resp.error) {
+					toastr.error(resp.mensaje);
+				} else {
+					location.href = vinculo + '&codigo=' + cedula + '&metodo=agregar';
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		});
+	}
+</script>
