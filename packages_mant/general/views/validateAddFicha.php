@@ -28,7 +28,8 @@ if (isset($_POST['cedula'])) {
                 ),
                 ' ',
                 'puntos'
-            ) porcentaje
+            ) porcentaje,
+            control.porc_min_aprob_encuesta_preing
         FROM
             nov_check_list_trab,
             nov_check_list_trab_det,
