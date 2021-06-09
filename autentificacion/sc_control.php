@@ -1,7 +1,7 @@
 <?php
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
-require_once("../".class_bd);
+require_once("../" . class_bd);
 $bd = new DataBase();
 
 //include_once('../funciones/mensaje_error.php');
@@ -13,14 +13,14 @@ $p_nuevo       = $_POST['p_nuevo'];
 $p_aprobado    = $_POST['p_aprobado'];
 $p_rechazado   = $_POST['p_rechazado'];
 
-$ficha_preingreso = $_POST['ficha_preingreso']; 
+$ficha_preingreso = $_POST['ficha_preingreso'];
 $ficha_activo  = $_POST['ficha_activo'];
 $rol           = $_POST['rol'];
 $ing_status_sistema = $_POST['ing_status_sistema'];
 $expedientes_dias  = $_POST['expedientes_dias'];
 $vale_concepto = $_POST['vale_concepto'];
 $vale_monto    = $_POST['vale_monto'];
-$c_cestaticket = $_POST['c_cestaticket']; 
+$c_cestaticket = $_POST['c_cestaticket'];
 $c_hora_extras_d = $_POST['c_hora_extras_d'];
 $c_hora_extras_n = $_POST['c_hora_extras_n'];
 $c_retirado    = $_POST['c_retirado'];
@@ -52,15 +52,16 @@ $notificar_resp = $_POST['notificaciones_resp'];
 $colores_notif = $_POST['colores'];
 $dias_nov_notif = $_POST['dias_nov'];
 $min_nov_notif = $_POST['min_nov'];
+$porc_min_aprob_encuesta_preing = $_POST['porc_min_aprob_encuesta_preing'];
 
 $href     = $_POST['href'];
-$usuario  = $_POST['usuario']; 
+$usuario  = $_POST['usuario'];
 $proced   = $_POST['proced'];
 $metodo   = $_POST['metodo'];
 
-	if(isset($_POST['proced'])){
+if (isset($_POST['proced'])) {
 
-	 $sql    = "$SELECT $proced('$metodo', '$pais', '$cl_principal', '$rif', 
+	$sql    = "$SELECT $proced('$metodo', '$pais', '$cl_principal', '$rif', 
 								'$p_nuevo', '$p_aprobado', '$p_rechazado', '$ing_status_sistema',
 								'$ficha_activo', '$rol', '$expedientes_dias', '$vale_concepto', 
 								'$vale_monto', '$c_cestaticket', '$c_hora_extras_d', '$c_hora_extras_n',
@@ -68,57 +69,55 @@ $metodo   = $_POST['metodo'];
 								'$nota_unif', '$nota_doc', '$s_cargo', '$cl_campo_04', 
 								'$cl_campo_04_d', '$turno_dl', '$ar_linea', '$uniforme_linea', '$ficha_preingreso',
 								'$nov_clasif_sms', '$url_doc', '$rop_meses','$host_smtp',
-								'$puerto_smtp', '$protocolo_smtp', '$cuenta_smtp','$password_smtp',$dias_nov_notif,$min_nov_notif)";	
-				  
-	 $query = $bd->consultar($sql);	  			   		
+								'$puerto_smtp', '$protocolo_smtp', '$cuenta_smtp','$password_smtp',$dias_nov_notif,
+								$min_nov_notif, $porc_min_aprob_encuesta_preing)";
 
-			$sql = "UPDATE nov_status SET control_mensajeria  = 'F'";						  
-		    $query = $bd->consultar($sql);	
-					 
-	 foreach($mensajeria as $valorX){	
-			$sql = "UPDATE nov_status SET    		
+	$query = $bd->consultar($sql);
+
+	$sql = "UPDATE nov_status SET control_mensajeria  = 'F'";
+	$query = $bd->consultar($sql);
+
+	foreach ($mensajeria as $valorX) {
+		$sql = "UPDATE nov_status SET    		
                            control_mensajeria     = 'T'
-					 WHERE nov_status.codigo = '$valorX'";						  
-		    $query = $bd->consultar($sql);			 
-		 }		
-		 
+					 WHERE nov_status.codigo = '$valorX'";
+		$query = $bd->consultar($sql);
+	}
 
-$sql = "UPDATE nov_status SET control_notificaciones  = 'F' , control_notificaciones_res  = 'F' ";						  
-			$query = $bd->consultar($sql);	
-			
 
-	foreach($notificar as $h=>$valorY){	
-			$sql = "UPDATE nov_status SET    		
+	$sql = "UPDATE nov_status SET control_notificaciones  = 'F' , control_notificaciones_res  = 'F' ";
+	$query = $bd->consultar($sql);
+
+
+	foreach ($notificar as $h => $valorY) {
+		$sql = "UPDATE nov_status SET    		
                            control_notificaciones = 'T',
-						   color_notificaciones = '".$colores_notif[$h]."'
+						   color_notificaciones = '" . $colores_notif[$h] . "'
 					 WHERE nov_status.codigo = '$valorY'";
 
-		    $query = $bd->consultar($sql);			 
-		 }
-
-		 $sql= "SELECT codigo from nov_status";
-		 $consulta = $bd->consultar($sql);
-
-		 foreach($notificar_resp as $h=>$valorz){	
-			$sql = "UPDATE nov_status SET nov_status.control_notificaciones_res = 'T' WHERE nov_status.codigo = '$valorz'";
-					 
-
-		    $query = $bd->consultar($sql);			 
-		 }
-
-		 $sql= "SELECT codigo from nov_status";
-		 $consulta = $bd->consultar($sql);
-
-	
-
-	while ($cod_novedad= $bd->fetch_assoc($consulta)){
-		
-		$sql= "UPDATE nov_status set control_notif_orden = ".$_POST[$cod_novedad['codigo']]." WHERE codigo='".$cod_novedad['codigo']."'";
-		
-		$query = $bd->consultar($sql);			 
+		$query = $bd->consultar($sql);
 	}
 
+	$sql = "SELECT codigo from nov_status";
+	$consulta = $bd->consultar($sql);
 
+	foreach ($notificar_resp as $h => $valorz) {
+		$sql = "UPDATE nov_status SET nov_status.control_notificaciones_res = 'T' WHERE nov_status.codigo = '$valorz'";
+
+
+		$query = $bd->consultar($sql);
 	}
-require_once('../funciones/sc_direccionar.php');  
-?>
+
+	$sql = "SELECT codigo from nov_status";
+	$consulta = $bd->consultar($sql);
+
+
+
+	while ($cod_novedad = $bd->fetch_assoc($consulta)) {
+
+		$sql = "UPDATE nov_status set control_notif_orden = " . $_POST[$cod_novedad['codigo']] . " WHERE codigo='" . $cod_novedad['codigo'] . "'";
+
+		$query = $bd->consultar($sql);
+	}
+}
+require_once('../funciones/sc_direccionar.php');

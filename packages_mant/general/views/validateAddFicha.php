@@ -35,7 +35,8 @@ if (isset($_POST['cedula'])) {
             nov_tipo,
             nov_clasif,
             preingreso,
-            novedades
+            novedades,
+            control
         WHERE
             nov_check_list_trab.codigo = nov_check_list_trab_det.cod_check_list
         AND nov_clasif.codigo = nov_check_list_trab.cod_nov_clasif
@@ -45,7 +46,7 @@ if (isset($_POST['cedula'])) {
         AND novedades.status = 'T'
         AND nov_check_list_trab.cedula = '$cedula'
         GROUP BY nov_check_list_trab.codigo
-        HAVING SUM(nov_check_list_trab_det.valor) >= 50";
+        HAVING SUM(nov_check_list_trab_det.valor) >= control.porc_min_aprob_encuesta_preing";
 
         $query = $bd->consultar($sql_evaluaciones);
         $result['tests'] = array();
@@ -62,8 +63,7 @@ if (isset($_POST['cedula'])) {
         } elseif ($datos['existe'] == 1) {
             $result['error'] = false;
         }
-        if(count($result['tests'])){
-            
+        if (count($result['tests'])) {
         }
     } catch (Exception $e) {
         $error =  $e->getMessage();
