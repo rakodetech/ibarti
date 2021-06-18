@@ -40,6 +40,7 @@ $url_doc        = $_POST['url_doc'];
 $rop_meses      = $_POST['rop_meses'];
 
 $mensajeria     = $_POST['mensajeria'];
+$clasif_mensajeria     = $_POST['clasif_mensajeria'];
 
 $host_smtp      = $_POST['host_smtp'];
 $puerto_smtp      = $_POST['puerto_smtp'];
@@ -73,6 +74,16 @@ if (isset($_POST['proced'])) {
 								$min_nov_notif, $porc_min_aprob_encuesta_preing)";
 
 	$query = $bd->consultar($sql);
+
+	$sql = "UPDATE nov_clasif SET control_mensajeria  = 'F'";
+	$query = $bd->consultar($sql);
+
+	foreach ($clasif_mensajeria as $valorX) {
+		$sql = "UPDATE nov_clasif SET    		
+                           control_mensajeria     = 'T'
+					 WHERE nov_clasif.codigo = '$valorX'";
+		$query = $bd->consultar($sql);
+	}
 
 	$sql = "UPDATE nov_status SET control_mensajeria  = 'F'";
 	$query = $bd->consultar($sql);
