@@ -8,49 +8,47 @@ $proced = "p_control";
 $titulo = "MODIFICAR $titulo";
 
 $sql = " SELECT control.fec_inicio,  control.cod_pais,
-                    paises.descripcion AS pais, control.administrador,
-                    control.oesvica AS cod_cliente, clientes.nombre AS cliente,
-					control.cl_rif,  control.ficha_preingreso,
-                    control.preingreso_nuevo, control.preingreso_aprobado,
-                    control.preingreso_rechazado, control.ficha_activo AS cod_ficha_activo,
-                    ficha_status.descripcion AS ficha_activo, control.expedientes_dias,
-                    control.vale_concepto, control.vale_monto,
-                    control.cod_nomina, control.ingreso_status_sistema,
-					control.cod_cestaticket, cest.descripcion AS cestaticket,
-                    control.cod_hora_extras AS cod_hora_extras_d, hora_ex_d.descripcion AS hora_extras_d,
-					control.cod_hora_extras_n,  hora_ex_n.descripcion AS hora_extras_n,
-					control.concep_retirado AS cod_c_retirado,
-					r.descripcion AS c_retirado,
-                    control.concepto_rep AS cod_concepto_rep, conceptos.descripcion AS concepto_rep,
-                    control.dias_proyeccion, control.lim_apertura_plantilla,
-                    control.novedad, control.foros_codigo,
-					control.cod_rol, roles.descripcion AS rol,
-					control.nota_unif, control.nota_doc,
-					control.cod_superv_cargo,
-					cargos.descripcion AS superv_cargo,
-					control.cl_campo_04_act, control.cl_campo_04_desc,
-                    control.cod_turno_dl, turno.descripcion AS turno_dl ,
-                    control.control_arma_linea AS cod_ar_linea, prod_lineas.descripcion AS ar_linea,
-                    control.control_uniforme_linea AS cod_uniforme_linea, pl.descripcion AS uniforme_linea,
-                    control.cod_nov_clasif_sms, nov_clasif.descripcion AS nov_clasif_sms ,
-					control.url_doc, control.rop_meses,control.dias_nov_notif,control.min_nov_notif, control.porc_min_aprob_encuesta_preing
-               FROM control, paises, clientes, ficha_status,
-			        conceptos, conceptos AS r, conceptos AS cest, conceptos AS hora_ex_d, conceptos AS hora_ex_n,
-					roles, cargos, turno, prod_lineas, prod_lineas pl, nov_clasif
-              WHERE control.cod_pais = paises.codigo
-                AND control.oesvica = clientes.codigo
-                AND control.ficha_activo = ficha_status.codigo
-			    AND control.concepto_rep = conceptos.codigo
-                AND control.concep_retirado = r.codigo
-                AND control.cod_cestaticket = cest.codigo
-                AND control.cod_hora_extras = hora_ex_d.codigo
-                AND control.cod_hora_extras_n = hora_ex_n.codigo
-				AND control.cod_rol = roles.codigo
-				AND control.cod_superv_cargo = cargos.codigo
-                AND control.cod_turno_dl = turno.codigo
-                AND control.control_arma_linea = prod_lineas.codigo
-                AND control.control_uniforme_linea = pl.codigo
-			AND control.cod_nov_clasif_sms = nov_clasif.codigo  ";
+paises.descripcion AS pais, control.administrador,
+control.oesvica AS cod_cliente, clientes.nombre AS cliente,
+control.cl_rif,  control.ficha_preingreso,
+control.preingreso_nuevo, control.preingreso_aprobado,
+control.preingreso_rechazado, control.ficha_activo AS cod_ficha_activo,
+ficha_status.descripcion AS ficha_activo, control.expedientes_dias,
+control.vale_concepto, control.vale_monto,
+control.cod_nomina, control.ingreso_status_sistema,
+control.cod_cestaticket, cest.descripcion AS cestaticket,
+control.cod_hora_extras AS cod_hora_extras_d, hora_ex_d.descripcion AS hora_extras_d,
+control.cod_hora_extras_n,  hora_ex_n.descripcion AS hora_extras_n,
+control.concep_retirado AS cod_c_retirado,
+r.descripcion AS c_retirado,
+control.concepto_rep AS cod_concepto_rep, conceptos.descripcion AS concepto_rep,
+control.dias_proyeccion, control.lim_apertura_plantilla,
+control.novedad, control.foros_codigo,
+control.cod_rol, roles.descripcion AS rol,
+control.nota_unif, control.nota_doc,
+control.cod_superv_cargo,
+cargos.descripcion AS superv_cargo,
+control.cl_campo_04_act, control.cl_campo_04_desc,
+control.cod_turno_dl, turno.descripcion AS turno_dl ,
+control.control_arma_linea AS cod_ar_linea, prod_lineas.descripcion AS ar_linea,
+control.control_uniforme_linea AS cod_uniforme_linea, pl.descripcion AS uniforme_linea,
+control.url_doc, control.rop_meses,control.dias_nov_notif,control.min_nov_notif, control.porc_min_aprob_encuesta_preing
+FROM control, paises, clientes, ficha_status,
+conceptos, conceptos AS r, conceptos AS cest, conceptos AS hora_ex_d, conceptos AS hora_ex_n,
+roles, cargos, turno, prod_lineas, prod_lineas pl, nov_clasif
+WHERE control.cod_pais = paises.codigo
+AND control.oesvica = clientes.codigo
+AND control.ficha_activo = ficha_status.codigo
+AND control.concepto_rep = conceptos.codigo
+AND control.concep_retirado = r.codigo
+AND control.cod_cestaticket = cest.codigo
+AND control.cod_hora_extras = hora_ex_d.codigo
+AND control.cod_hora_extras_n = hora_ex_n.codigo
+AND control.cod_rol = roles.codigo
+AND control.cod_superv_cargo = cargos.codigo
+AND control.cod_turno_dl = turno.codigo
+AND control.control_arma_linea = prod_lineas.codigo
+AND control.control_uniforme_linea = pl.codigo ";
 
 $query = $bd->consultar($sql);
 $result = $bd->obtener_fila($query, 0);
