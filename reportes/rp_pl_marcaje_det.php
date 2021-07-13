@@ -1,7 +1,7 @@
 <?php
 define("SPECIALCONSTANT", true);
 session_start();
-$Nmenu   = 5307;
+$Nmenu   = 5308;
 require("../autentificacion/aut_config.inc.php");
 include_once('../' . Funcion);
 require_once("../" . class_bdI);
