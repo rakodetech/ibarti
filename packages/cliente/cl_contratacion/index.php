@@ -1,8 +1,8 @@
 <script language="javascript">
-$("#cont_ap_form").on('submit', function(evt){
-	 evt.preventDefault();
-	 save_contratacion_det($("#cont_ap_fecha").val());
-});
+	$("#cont_ap_form").on('submit', function(evt) {
+		evt.preventDefault();
+		save_contratacion_det($("#cont_ap_fecha").val());
+	});
 </script>
 <link rel="stylesheet" href="css/modal.css" type="text/css" media="screen" />
 <script type="text/javascript" src="funciones/modal.js"></script>
@@ -10,7 +10,7 @@ $("#cont_ap_form").on('submit', function(evt){
 <div id="modal_cont_ap" class="modal">
 	<div class="modal-content">
 		<div class="modal-header">
-			<span class="close" onclick="{$('#modal_cont_ap').hide();}" >&times;</span>
+			<span class="close" onclick="{$('#modal_cont_ap').hide();}">&times;</span>
 			<span>Aperturas Existentes</span>
 		</div>
 		<div class="modal-body">
@@ -18,29 +18,29 @@ $("#cont_ap_form").on('submit', function(evt){
 			<br>
 			<form action="" method="post" name="cont_ap_form" id="cont_ap_form">
 				<div align="center"><span>Fecha:</span>
-					<input type="date" id="cont_ap_fecha" value="<?php echo date("d-m-Y");?>" required>
+					<input type="date" id="cont_ap_fecha" min="<?php echo date("d-m-Y"); ?>" value="<?php echo date("d-m-Y"); ?>" required>
 				</div>
 				<br>
 				<div align="center"><span class="art-button-wrapper" id="contrato_ap">
-					<span class="art-button-l"> </span>
-					<span class="art-button-r"> </span>
-					<input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />
-				</span>&nbsp;
-				<span class="art-button-wrapper">
-					<span class="art-button-l"> </span>
-					<span class="art-button-r"> </span>
-					<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />
-				</span>&nbsp;
-				<span class="art-button-wrapper">
-					<span class="art-button-l"> </span>
-					<span class="art-button-r"> </span>
-					<input type="button" id="volver" value="Volver" onclick="{$('#modal_cont_ap').hide();}" class="readon art-button" />
-				</span>
-			</div>
+						<span class="art-button-l"> </span>
+						<span class="art-button-r"> </span>
+						<input type="submit" name="salvar" id="salvar" value="Guardar" class="readon art-button" />
+					</span>&nbsp;
+					<span class="art-button-wrapper">
+						<span class="art-button-l"> </span>
+						<span class="art-button-r"> </span>
+						<input type="reset" id="limpiar" value="Restablecer" class="readon art-button" />
+					</span>&nbsp;
+					<span class="art-button-wrapper">
+						<span class="art-button-l"> </span>
+						<span class="art-button-r"> </span>
+						<input type="button" id="volver" value="Volver" onclick="{$('#modal_cont_ap').hide();}" class="readon art-button" />
+					</span>
+				</div>
 
-		</form>		
+			</form>
+		</div>
 	</div>
 </div>
-</div>
 <div id="Cont_contratacion"></div>
-<input type="hidden" id="cont_cliente" value="<?php echo $_POST['codigo'];?>">
+<input type="hidden" id="cont_cliente" value="<?php echo $_POST['codigo']; ?>">
