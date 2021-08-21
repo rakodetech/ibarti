@@ -12,6 +12,10 @@ $titulo  = " Participantes ";
 $titulo      = "REPORTE $titulo";
 $codigo      = '';
 ?>
+/* TODO: Redireccionar al perticipante al checklist correspondiente a la actividad en la que participó
+al dar click en alguna de las filas del reporte.
+Nota: El check list debe estar relacionado con una actividad que aplique participantes. Controlar que no existá mas de un checklist por actividad
+*/
 <script language="JavaScript" type="text/javascript">
 	function cargar_actividades(proyecto) {
 		var parametros = {

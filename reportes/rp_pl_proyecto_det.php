@@ -38,17 +38,19 @@ if (isset($reporte)) {
 		$where   .= " AND planif_actividad.codigo = '$actividad' ";
 	}
 
-	$sql = "SELECT
+	$sql = "SELECT DISTINCT
 	planif_proyecto.codigo,
 	planif_proyecto.descripcion,
 	planif_proyecto.abrev,
+	planif_actividad.codigo cod_actividad,
+	planif_actividad.descripcion actividad,
 	Valores(planif_proyecto.`status`) AS `status`
 	FROM
 	planif_proyecto
-	LEFT JOIN planif_actividad ON planif_actividad.cod_proyecto = planif_proyecto.codigo
+	LEFT JOIN planif_actividad ON planif_actividad.cod_proyecto = planif_proyecto.codigo AND planif_actividad.status = 'T'
 	LEFT JOIN planif_proyecto_cargos ON planif_proyecto_cargos.cod_proyecto = planif_proyecto.codigo
 	$where
-	GROUP BY planif_proyecto.codigo";
+	ORDER BY planif_proyecto.codigo";
 
 
 	if ($reporte == 'excel') {
@@ -69,22 +71,23 @@ if (isset($reporte)) {
 		</tr>";
 
 		while ($datos = $bd->obtener_fila($query01, 0)) {
-			echo '<tr>
-			<td class="texto">' . $datos["codigo"] . '</td>
-			<td class="texto">' . $datos["descripcion"] . '</td>
-			<td class="texto">' . $datos["abrev"] . '</td>
-			<td class="texto">';
 			$sql_actividades = "SELECT
 				planif_actividad.descripcion
 			FROM
 				planif_actividad
 			WHERE
 				cod_proyecto = " . $datos["codigo"] . " AND `status` = 'T'";
+			$nro_actividades = 0;
 			$query_actividades = $bd->consultar($sql_actividades);
 			while ($actividad = $bd->obtener_fila($query_actividades, 0)) {
-				echo $actividad["descripcion"] . ",";
+				$nro_actividades += 1;
 			}
-			echo '</td><td class="texto">';
+			echo '<tr>
+			<td class="texto">' . $datos["codigo"] . '</td>
+			<td class="texto">' . $datos["descripcion"] . '</td>
+			<td class="texto">' . $datos["abrev"] . '</td>
+			<td class="texto">' . $datos["actividad"] . '</td>
+			<td class="texto">';
 			$sql_cargos = "SELECT
 				planif_proyecto_cargos.cod_cargo,
 				cargos.descripcion
@@ -97,14 +100,18 @@ if (isset($reporte)) {
 				echo $cargo["descripcion"] . ",";
 			}
 			echo '</td><td class="texto">';
-			$sql_minutos = "SELECT
-				SUM(minutos) minutos
-			FROM
-				planif_actividad	
-			WHERE cod_proyecto = " . $datos["codigo"] . " AND `status` = 'T'";
-			$query_minutos = $bd->consultar($sql_minutos);
-			$minutos = $bd->obtener_fila($query_minutos, 0);
-			echo $minutos["minutos"];
+			if ($datos["cod_actividad"]) {
+				$sql_minutos = "SELECT
+					SUM(minutos) minutos
+				FROM
+					planif_actividad	
+				WHERE cod_proyecto = " . $datos["codigo"] . " AND codigo = " . $datos["cod_actividad"] . " AND `status` = 'T'";
+				$query_minutos = $bd->consultar($sql_minutos);
+				$minutos = $bd->obtener_fila($query_minutos, 0);
+				echo $minutos["minutos"];
+			} else {
+				echo 0;
+			}
 			echo "</td>";
 			echo '<td class="texto">' . $datos["status"] . '</td></tr>';
 		}
@@ -130,7 +137,7 @@ if (isset($reporte)) {
 		<th class='etiqueta'>Código</th>
 		<th class='etiqueta'>Proyecto</th>
 		<th class='etiqueta'>Abreviatura</th>
-		<th class='etiqueta'>Actividades</th>
+		<th class='etiqueta'>Actividad</th>
 		<th class='etiqueta'>Cargos</th>
 		<th class='etiqueta'>Minutos</th>
 		<th class='etiqueta'>Activo</th>
@@ -138,6 +145,17 @@ if (isset($reporte)) {
 
 		$f = 0;
 		while ($datos = $bd->obtener_fila($query, 0)) {
+			$sql_actividades = "SELECT
+				planif_actividad.descripcion
+			FROM
+				planif_actividad
+			WHERE
+				cod_proyecto = " . $datos["codigo"] . " AND `status` = 'T'";
+			$nro_actividades = 0;
+			$query_actividades = $bd->consultar($sql_actividades);
+			while ($actividad = $bd->obtener_fila($query_actividades, 0)) {
+				$nro_actividades += 1;
+			}
 			if ($f % 2 == 0) {
 				echo "<tr>";
 			} else {
@@ -147,18 +165,8 @@ if (isset($reporte)) {
 			<td class="texto">' . $datos["codigo"] . '</td>
 			<td class="texto">' . $datos["descripcion"] . '</td>
 			<td class="texto">' . $datos["abrev"] . '</td>
+			<td class="texto">' . $datos["actividad"] . '</td>
 			<td class="texto">';
-			$sql_actividades = "SELECT
-				planif_actividad.descripcion
-			FROM
-				planif_actividad
-			WHERE
-				cod_proyecto = " . $datos["codigo"] . " AND `status` = 'T'";
-			$query_actividades = $bd->consultar($sql_actividades);
-			while ($actividad = $bd->obtener_fila($query_actividades, 0)) {
-				echo $actividad["descripcion"] . "</br>,";
-			}
-			echo '</td><td class="texto">';
 			$sql_cargos = "SELECT
 				planif_proyecto_cargos.cod_cargo,
 				cargos.descripcion
@@ -171,14 +179,18 @@ if (isset($reporte)) {
 				echo $cargo["descripcion"] . "</br>,";
 			}
 			echo '</td><td class="texto">';
-			$sql_minutos = "SELECT
-				SUM(minutos) minutos
-			FROM
-				planif_actividad	
-			WHERE cod_proyecto = " . $datos["codigo"] . " AND `status` = 'T'";
-			$query_minutos = $bd->consultar($sql_minutos);
-			$minutos = $bd->obtener_fila($query_minutos, 0);
-			echo $minutos["minutos"];
+			if ($datos["cod_actividad"]) {
+				$sql_minutos = "SELECT
+					SUM(minutos) minutos
+				FROM
+					planif_actividad	
+				WHERE cod_proyecto = " . $datos["codigo"] . " AND codigo = " . $datos["cod_actividad"] . " AND `status` = 'T'";
+				$query_minutos = $bd->consultar($sql_minutos);
+				$minutos = $bd->obtener_fila($query_minutos, 0);
+				echo $minutos["minutos"];
+			} else {
+				echo 0;
+			}
 			echo "</td>";
 			echo '<td class="texto">' . $datos["status"] . '</td></tr>';
 			$f++;
