@@ -92,7 +92,7 @@ if (isset($metodo)) {
 		while ($datos = $bd->obtener_fila($query, 0)) {
 			$cod_nov = $datos[1];
 			echo '<tr>
-      <td>' . $datos[2] . '></td>
+      <td>' . $datos[2] . '</td>
 	  <td>SI <input type = "radio" name="check_list_valor_' . $cod_nov . '"  value = "T"  style="width:auto" ' . CheckX($datos[3], "T") . ' /> NO<input type = "radio" name="check_list_valor_' . $cod_nov . '"  value = "F" style="width:auto" ' . CheckX($datos[3], 'F') . ' /></td>
       <td>' . $datos[4] . '</td>
     </tr>';
