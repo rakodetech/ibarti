@@ -65,9 +65,10 @@ $sql = "SELECT p.cod_ficha, CONCAT(f.apellidos, ' ', f.nombres) ap_nombre, p.cod
 p.cod_ubicacion, cu.descripcion ubicacion, DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') fecha, 
 TIME(pd.fecha_inicio) hora_inicio, TIME(pd.fecha_fin) hora_fin,
 pd.cod_proyecto, pp.descripcion proyecto, pd.cod_actividad, pa.descripcion actividad,
-pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado, psod.observacion
+pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado, psod.observacion,  CONCAT(men_usuarios.nombre, ' ', men_usuarios.apellido) marcado_por
 FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd
-LEFT JOIN planif_clientes_superv_trab_det_observ psod ON pd.codigo = psod.cod_det, clientes cl, clientes_ubicacion cu, ficha f,
+LEFT JOIN planif_clientes_superv_trab_det_observ psod ON pd.codigo = psod.cod_det
+LEFT JOIN men_usuarios ON pd.cod_us_marcaje = men_usuarios.codigo, clientes cl, clientes_ubicacion cu, ficha f,
 planif_proyecto pp, planif_actividad pa
 $where
 ORDER BY 1,8,3,5,7 ASC";
@@ -84,6 +85,7 @@ ORDER BY 1,8,3,5,7 ASC";
 		<th class="etiqueta">Hora Inicio </th>
 		<th class="etiqueta">Hora Fin </th>
 		<th class="etiqueta">Realizado </th>
+		<th class="etiqueta">Marcado Por </th>
 		<th class="etiqueta">Observación </th>
 	</tr>
 	<?php
@@ -109,6 +111,7 @@ ORDER BY 1,8,3,5,7 ASC";
 		<td class="texto">' . longitud($datos["hora_inicio"]) . '</td>
 		<td class="texto">' . longitud($datos["hora_fin"]) . '</td>
 		<td class="texto">' . longitud($datos["realizado"]) . '</td>
+		<td class="texto">' . $datos["marcado_por"] . '</td>
 		<td class="texto">' . longitud($datos["observacion"]) . '</td>
 		</tr>';
 	}; ?>
