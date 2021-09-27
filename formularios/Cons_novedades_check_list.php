@@ -107,7 +107,7 @@ $titulo   = "NOVEDADES CHECK LIST INGRESOS";
 						} ?>
 					</select></td>
 				<td><?php echo $leng["cliente"]; ?>: </td>
-				<td><select name="cliente" id="cliente" style="width:120px;" required>
+				<td><select name="cliente" id="cliente" style="width:120px;" onchange="Add_Cl_Ubic(this.value, 'contenido_ubic', 'T', '120')" required>
 						<?php
 						echo $select_cl;
 						$query01 = $bd->consultar($sql_cliente);
@@ -115,7 +115,7 @@ $titulo   = "NOVEDADES CHECK LIST INGRESOS";
 							echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
 						} ?></select></td>
 				<td><?php echo $leng["ubicacion"]; ?>: </td>
-				<td><select name="ubicacion" id="ubicacion" style="width:120px;">
+				<td id="contenido_ubic"><select name="ubicacion" id="ubicacion" style="width:120px;">
 						<option value="TODOS">TODOS</option>
 						<?php
 						$query01 = $bd->consultar($sql_ubicacion);

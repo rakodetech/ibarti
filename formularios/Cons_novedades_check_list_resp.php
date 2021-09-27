@@ -112,14 +112,8 @@ $titulo   = "NOVEDADES CHECK LIST REPUESTA ";
 							echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
 						} ?></select></td>
 				<td><?php echo $leng["ubicacion"]; ?>: </td>
-				<td><select name="ubicacion" id="ubicacion" style="width:120px;">
+				<td id="contenido_ubic"><select name="ubicacion" id="ubicacion" style="width:120px;">
 						<option value="TODOS">TODOS</option>
-						<?php
-
-						$query01 = $bd->consultar($sql01);
-						while ($row01 = $bd->obtener_fila($query01, 0)) {
-							echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
-						} ?>
 					</select></td>
 				<td>Código:</td>
 				<td><input style="width:120px;" name="codigo" id="codigo" type="text" /></td>
