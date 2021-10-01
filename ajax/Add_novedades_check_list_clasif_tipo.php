@@ -8,7 +8,42 @@ $bd = new DataBase();
 //include_once('../funciones/mensaje_error.php');
 $ubicacion = $_POST['codigo'];
 $perfil    = $_POST['perfil'];
+$ficha    = $_POST['ficha'];
 ?><table width="100%">
+	<?php
+	if (isset($_POST['perfil'])) {
+	?>
+		<td class="etiqueta" width="15%">ACTIVIDAD:</td>
+		<td width="25%" id="select06"><select name="proyecto" id="proyecto" style="width:150px;" onchange="getClasif(this.value)">
+				<option value="">Seleccione...</option>
+				<?php
+				$sql01 = "SELECT
+				planif_actividad.codigo,
+				planif_actividad.descripcion
+			FROM
+				planif_actividad";
+				/*$sql01    = "SELECT
+					planif_actividad.codigo,
+					planif_actividad.descripcion
+				FROM
+					-- nov_planif_actividad,
+					-- planif_clientes_superv_trab_det_participantes,
+					-- planif_clientes_superv_trab_det,
+					-- planif_actividad
+				-- WHERE
+					-- planif_clientes_superv_trab_det_participantes.cod_det = planif_clientes_superv_trab_det.codigo
+				-- AND planif_clientes_superv_trab_det.cod_actividad = nov_planif_actividad.cod_actividad
+				-- AND nov_planif_actividad.cod_actividad = planif_actividad.codigo 
+				-- AND planif_clientes_superv_trab_det_participantes.cod_ficha = '$ficha'";
+				*/
+				$query01 = $bd->consultar($sql01);
+				while ($row01 = $bd->obtener_fila($query01, 0)) {
+					echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
+				} ?>
+			</select> </td>
+	<?php
+	}
+	?>
 	<tr>
 		<td class="etiqueta" width="15%">CLASIFICACION:</td>
 		<td width="25%" id="select04"><select name="clasif" id="clasif" style="width:150px;" onchange="getTipos(this.value)">
