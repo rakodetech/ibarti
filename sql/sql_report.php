@@ -186,7 +186,7 @@ $sql_perfil = "SELECT men_perfiles.codigo, men_perfiles.descripcion
                  FROM men_perfiles ORDER BY 2 ASC";
 
 $sql_proyecto = "SELECT planif_proyecto.codigo, planif_proyecto.descripcion
-                  FROM planif_proyecto ORDER BY 2 ASC";
+                  FROM planif_proyecto WHERE planif_proyecto.status = 'T' ORDER BY 2 ASC";
 
 
 $sql_proyecto_paticipantes = "SELECT
