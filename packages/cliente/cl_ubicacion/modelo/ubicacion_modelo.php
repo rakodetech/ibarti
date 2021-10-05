@@ -167,7 +167,7 @@ class Ubicacion
 		$this->datos   = array();
 		$sql = " SELECT a.codigo, a.descripcion FROM nom_calendario a
 							WHERE a.`status` = 'T' 
-							-- AND a.tipo = 'VAR'  
+							AND a.tipo = 'VAR'  
 							AND a.codigo <> '$cod'
 							ORDER BY 2 ASC ";
 		$query = $this->bd->consultar($sql);
