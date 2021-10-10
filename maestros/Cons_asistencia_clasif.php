@@ -1,10 +1,10 @@
 <?php
 $Nmenu = '370';
 require_once('autentificacion/aut_verifica_menu.php');
-$tabla = "motivo_falta";
+$tabla = "asistencia_clasif";
 $bd = new DataBase();
-$archivo = "motivo_falta";
-$titulo = " Motivos de Faltas";
+$archivo = "asistencia_clasif";
+$titulo = " CLASIFICACIÓN ASISTENCIA ";
 $vinculo = "inicio.php?area=pestanas_maestro/maestros&Nmenu=" . $_GET['Nmenu'] . "&mod=" . $_GET['mod'] . "&titulo=$titulo&tb=$tabla&archivo=$archivo";
 ?>
 <div align="center" class="etiqueta_title"> Consulta <?php echo $titulo; ?> </div>

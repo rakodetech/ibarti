@@ -23,6 +23,11 @@ if (isset($_POST['tipo'])) {
 if (isset($_POST['orden'])) {
 	$orden = $_POST['orden'];
 }
+
+if (isset($_POST['conceptos'])) {
+	$conceptos = $_POST['conceptos'];
+}
+
 if (isset($_POST['motivo'])) {
 	$motivo = $_POST['motivo'];
 }
@@ -75,6 +80,16 @@ if (isset($_POST['metodo'])) {
 				}
 			}
 			$query = $bd->consultar($sql);
+			if ($tabla == 'asistencia_clasif') {
+				$sql = "DELETE FROM asistencia_clasif_concepto WHERE cod_asistencia_clasif = '$codigo'";
+				$query = $bd->consultar($sql);
+				foreach ($conceptos as $cod_concepto) {
+					// $array[3] se actualizará con cada valor de $array...
+					$sql_concepto = "INSERT INTO asistencia_clasif_concepto(cod_asistencia_clasif, cod_concepto, cod_us_ing, fec_us_ing) 
+					VALUES('$codigo', '$cod_concepto', '$usuario', '$date')";
+					$query = $bd->consultar($sql_concepto);
+				}
+			}
 			break;
 		case 'modificar':
 			$sql = "UPDATE $tabla SET   
@@ -94,6 +109,16 @@ if (isset($_POST['metodo'])) {
 			}
 			$sql .= " WHERE codigo = '$codigo'";
 			$query = $bd->consultar($sql);
+			if ($tabla == 'asistencia_clasif') {
+				$sql = "DELETE FROM asistencia_clasif_concepto WHERE cod_asistencia_clasif = '$codigo'";
+				$query = $bd->consultar($sql);
+				foreach ($conceptos as $cod_concepto) {
+					// $array[3] se actualizará con cada valor de $array...
+					$sql_concepto = "INSERT INTO asistencia_clasif_concepto(cod_asistencia_clasif, cod_concepto, cod_us_ing, fec_us_ing) 
+					VALUES('$codigo', '$cod_concepto', '$usuario', '$date')";
+					$query = $bd->consultar($sql_concepto);
+				}
+			}
 			break;
 		case 'borrar':
 			$sql = "DELETE FROM $tabla WHERE  $tabla_id = '$codigo'";

@@ -88,7 +88,7 @@ if ($metodo == 'modificar') {
     </tr>
     <tr>
       <td class="etiqueta">Descripci&oacute;n: </td>
-      <td id="input02"><input type="text" name="descripcion" maxlength="60" style="width:250px" value="<?php echo $descripcion; ?>" /><br />
+      <td id="input02"><input type="text" name="descripcion" maxlength="100" style="width:300px" value="<?php echo $descripcion; ?>" /><br />
         <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
       </td>
     </tr>
@@ -134,6 +134,59 @@ if ($metodo == 'modificar') {
       </td>
     </tr>
   </table>
+  <?php
+  if ($tabla == 'asistencia_clasif') {
+  ?>
+    <legend>CONCEPTOS ASOCIADOS</legend>
+    <table width="80%" align="center" class="tabla_sistema">
+      <tr>
+        <th class="etiqueta">C&oacute;digo</th>
+        <th class="etiqueta">Abrev</th>
+        <th class="etiqueta">Descripción</th>
+        <th class="etiqueta">Check</th>
+      </tr>
+      <?php
+      $sql_conceptos_asist_diario = "SELECT
+        conceptos.codigo,
+        conceptos.descripcion,
+        conceptos.abrev,
+        IF (
+          ISNULL(
+            asistencia_clasif_concepto.cod_concepto
+          ),
+          'NO',
+          'SI'
+        ) existe
+      FROM
+        conceptos
+      LEFT JOIN asistencia_clasif_concepto ON conceptos.codigo = asistencia_clasif_concepto.cod_concepto
+      AND asistencia_clasif_concepto.cod_asistencia_clasif = '$codigo'
+      WHERE
+        conceptos.`status` = 'T'
+      AND conceptos.asist_diaria = 'T'
+      ORDER BY 3 ASC";
+
+      $query = $bd->consultar($sql_conceptos_asist_diario);
+
+      while ($datos = $bd->obtener_fila($query, 0)) {
+        if ($datos[3] == 'NO') {
+          $checkX   = '';
+        } else {
+          $checkX        = 'checked="checked"';
+        }
+        echo '<tr>
+          <td> ' . $datos[0] . '</td>
+          <td> ' . $datos[1] . '</td>
+          <td> ' . $datos[2] . '</td>
+          <td><input type="checkbox" name="conceptos[]" value="' . $datos[0] . '" style="width:auto" ' . $checkX . '/></td>
+        </tr>';
+      }
+
+      ?>
+    </table>
+  <?php
+  }
+  ?>
   <div align="center"><span class="art-button-wrapper">
       <span class="art-button-l"> </span>
       <span class="art-button-r"> </span>
