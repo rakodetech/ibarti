@@ -26,6 +26,8 @@ if (isset($_POST['orden'])) {
 
 if (isset($_POST['conceptos'])) {
 	$conceptos = $_POST['conceptos'];
+} else {
+	$conceptos = [];
 }
 
 if (isset($_POST['motivo'])) {
@@ -83,6 +85,7 @@ if (isset($_POST['metodo'])) {
 			if ($tabla == 'asistencia_clasif') {
 				$sql = "DELETE FROM asistencia_clasif_concepto WHERE cod_asistencia_clasif = '$codigo'";
 				$query = $bd->consultar($sql);
+
 				foreach ($conceptos as $cod_concepto) {
 					// $array[3] se actualizará con cada valor de $array...
 					$sql_concepto = "INSERT INTO asistencia_clasif_concepto(cod_asistencia_clasif, cod_concepto, cod_us_ing, fec_us_ing) 
