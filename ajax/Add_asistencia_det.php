@@ -106,8 +106,8 @@ $sql_conceptos = "SELECT conceptos.codigo, conceptos.descripcion, conceptos.abre
 						   <option value="">seleccione...</option>';
 
 			echo '</select></td>
-			  <td id="conceptoX"><select name="concepto" id="concepto" style="width:75px" onchange="ActualizarClasif(\'\', this.value)"><option value="">Selec...</option>                  </select></td>
-			  <td id="clasif_asistenciaX"><select name="clasif_asistencia" id="clasif_asistencia" style="width:120px"><option value="">Selec...</option>                  </select></td>
+			  <td id="conceptoX"><select name="concepto" id="concepto" style="width:55px" onchange="ActualizarClasif(\'\', this.value)"><option value="">Selec...</option>                  </select></td>
+			  <td id="clasif_asistenciaX"><select name="clasif_asistencia" id="clasif_asistencia" style="width:120px"><option value="">Seleccione</option>                </select></td>
 			  <td><input value="0.00" type="text" name="horaD" id="horaD" style="width:40px" maxlength="5"/></td>
   			  <td><input value="0.00" type="text" name="horaN" id="horaN" style="width:40px" maxlength="5"/></td>
   			  <td><input type="text" name="vale"  id="vale" style="width:40px" value="0" maxlength="8"/></td>'; ?>
@@ -157,7 +157,7 @@ $sql_conceptos = "SELECT conceptos.codigo, conceptos.descripcion, conceptos.abre
 					echo '<option value="' . $row06[0] . '">' . $row06[1] . '</option>';
 				}
 				echo '</select></td>
-           	      <td id="conceptoX' . $i . '"><select id="concepto' . $i . '" style="width:75px;" onchange="spryValidarSelect(this.id), ActualizarClasif(' . $i . ',this.value)">								   
+           	      <td id="conceptoX' . $i . '"><select id="concepto' . $i . '" style="width:55px;" onchange="spryValidarSelect(this.id), ActualizarClasif(' . $i . ',this.value)">								   
 					 <option value="' . $datos["cod_concepto"] . '">' . $datos["abrev"] . Feriado_as($datos["feriado"], "FER") . Feriado_as($datos["NL"], "NL") . '</option>';
 				$query04 = $bd->consultar($sql_conceptos);
 				while ($row04 = $bd->obtener_fila($query04, 0)) {

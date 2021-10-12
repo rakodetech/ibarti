@@ -30,6 +30,7 @@ while ($row02 = $bd->obtener_fila($query, 0)) {
 if ($options == '') {
      echo '<option value="9999">N/A</option>';
 } else {
+     echo '<option value="">Seleccione</option>';
      echo $options;
 }
 echo '</select>';
