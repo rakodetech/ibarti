@@ -203,6 +203,7 @@ if (isset($_POST['proced'])) {
 								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";
 	echo $sql;
 	$query = $bd->consultar($sql);
+	echo $query;
 }
 
 if ($metodo == "agregar") {
