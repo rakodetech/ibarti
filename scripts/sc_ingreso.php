@@ -200,7 +200,7 @@ if (isset($_POST['proced'])) {
 								'$refl02_fec_egreso', '$refl02_direccion', '$refl02_observacion', '$refl02_retiro',
 								'$refl02_apto', '$t_camisa', '$t_pantalon', '$n_zapato',
 								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";
-	echo $sql;
+	//echo $sql;
 	$query = $bd->consultar($sql);
 }
 
@@ -212,7 +212,7 @@ if ($metodo == "agregar") {
 	}
 	</script>';
 }
-//require_once('../funciones/sc_direccionar.php');
+require_once('../funciones/sc_direccionar.php');
 ?>
 
 <body>
