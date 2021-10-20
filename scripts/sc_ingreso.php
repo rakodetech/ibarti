@@ -208,7 +208,7 @@ if (isset($_POST['proced'])) {
 		echo $e;
 	}
 
-	echo $sql;
+	//echo $sql;
 }
 
 if ($metodo == "agregar") {
@@ -219,7 +219,7 @@ if ($metodo == "agregar") {
 	}
 	</script>';
 }
-//require_once('../funciones/sc_direccionar.php');
+require_once('../funciones/sc_direccionar.php');
 ?>
 
 <body>
