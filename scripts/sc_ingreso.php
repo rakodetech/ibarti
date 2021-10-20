@@ -6,9 +6,10 @@
 	<title>Documento sin t&iacute;tulo</title>
 </head>
 <?php
+define("SPECIALCONSTANT", true);
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
-require_once("../" . class_bd);
+require_once("../" . class_bdI);
 $bd = new DataBase();
 $tabla    = $_POST['tabla'];
 $tabla_id = 'codigo';
