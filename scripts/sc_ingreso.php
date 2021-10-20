@@ -194,13 +194,14 @@ if (isset($_POST['proced'])) {
 								'$refp02_observacion', '$refp02_apto', '$refp03_nombre', '$refp03_ocupacion', 
 								'$refp03_telf', '$refp03_parentezco', '$refp03_direccion', '$refp03_observacion', 
 								'$refp03_apto', '$refl01_empresa', '$refl01_telf', '$refl01_contacto',
-								'$refl01_cargo', '$refl01_sueldo_inic', '$refl01_sueldo_fin', '$refl01_fec_ingreso',                                '$refl01_fec_egreso', '$refl01_direccion', '$refl01_observacion', '$refl01_retiro',
+								'$refl01_cargo', '$refl01_sueldo_inic', '$refl01_sueldo_fin', '$refl01_fec_ingreso',                                
+								'$refl01_fec_egreso', '$refl01_direccion', '$refl01_observacion', '$refl01_retiro',
 								'$refl01_apto', '$refl02_empresa', '$refl02_telf', '$refl02_contacto',
 								'$refl02_cargo', '$refl02_sueldo_inic', '$refl02_sueldo_fin', '$refl02_fec_ingreso',
 								'$refl02_fec_egreso', '$refl02_direccion', '$refl02_observacion', '$refl02_retiro',
 								'$refl02_apto', '$t_camisa', '$t_pantalon', '$n_zapato',
 								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";
-	//echo $sql;
+	echo $sql;
 	$query = $bd->consultar($sql);
 }
 
@@ -212,7 +213,7 @@ if ($metodo == "agregar") {
 	}
 	</script>';
 }
-require_once('../funciones/sc_direccionar.php');
+//require_once('../funciones/sc_direccionar.php');
 ?>
 
 <body>
