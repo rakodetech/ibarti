@@ -7,11 +7,11 @@ $bd = new DataBase();
 //require_once('../autentificacion/aut_config.inc.php'); 
 //include_once('../funciones/mensaje_error.php');
 $ubicacion = $_POST['codigo'];
-$perfil    = $_POST['perfil'];
-$ficha    = $_POST['ficha'];
 ?><table width="100%">
 	<?php
 	if (isset($_POST['perfil'])) {
+		$perfil    = $_POST['perfil'];
+		$ficha    = $_POST['ficha'];
 	?>
 		<td class="etiqueta" width="15%">ACTIVIDAD:</td>
 		<td width="25%" id="select06"><select name="proyecto" id="proyecto" style="width:150px;" onchange="getClasif(this.value)">
