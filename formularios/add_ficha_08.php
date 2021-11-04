@@ -27,7 +27,7 @@ $sql01 =	"SELECT ficha_historial_covid19.codigo,
 ?>
 <script language="javascript">
 	function Historial(metodo) { // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
-
+		$("#button_historial_dosis").attr('disabled', true);
 		var codigo = $("#codigo_dosis").val();
 		var cod_ficha = $("#codigo").val();
 		var fecha = $("#fecha_dosis").val();
@@ -71,7 +71,7 @@ $sql01 =	"SELECT ficha_historial_covid19.codigo,
 				url: 'scripts/sc_ficha_08.php',
 				type: 'post',
 				beforeSend: function() {
-					$("#button_historial").remove();
+					$("#button_historial_dosis").remove();
 					$("#cont_button_08").html("<img src='imagenes/loading.gif' /> Procesando, espere por favor...");
 				},
 				success: function(response) {
@@ -87,6 +87,7 @@ $sql01 =	"SELECT ficha_historial_covid19.codigo,
 		} else {
 			alert(errorMessage);
 		}
+		$("#button_historial_dosis").attr('disabled', false);
 	}
 </script>
 <div align="center" class="etiqueta_title"> HISTORIAL DE DOSIS</div>
@@ -117,7 +118,7 @@ $sql01 =	"SELECT ficha_historial_covid19.codigo,
 			<td width="10%"><span class="art-button-wrapper">
 					<span class="art-button-l"> </span>
 					<span class="art-button-r"> </span>
-					<id="cont_button_08"><input type="button" name="submit" id="button_historial" value="Ingresar" onclick="Historial('agregar')" class="readon art-button" />
+					<id="cont_button_08"><input type="button" name="submit" id="button_historial_dosis" value="Ingresar" onclick="Historial('agregar')" class="readon art-button" />
 				</span>
 				<input type="hidden" name="codigo_dosis" id="codigo_dosis" value="0" />
 				</span></th>
@@ -128,7 +129,7 @@ $sql01 =	"SELECT ficha_historial_covid19.codigo,
 	<table width="100%" border="0" align="center">
 		<tr class="fondo00">
 			<th width="20%" class="etiqueta">Fecha </th>
-			<th width="20%" class="etiqueta">Cotrato </th>
+			<th width="20%" class="etiqueta">Dosis </th>
 			<th width="32%" class="etiqueta">Observacion</th>
 			<th width="28%" class="etiqueta">Usuario Ingreso </th>
 		</tr>
