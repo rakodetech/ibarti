@@ -26,7 +26,7 @@ $sql01 =	"SELECT ficha_historial_covid19.codigo,
 								 ORDER BY codigo DESC  ";
 ?>
 <script language="javascript">
-	function Historial(metodo) { // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
+	function HistorialDosis(metodo) { // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 		$("#button_historial_dosis").attr('disabled', true);
 		var codigo = $("#codigo_dosis").val();
 		var cod_ficha = $("#codigo").val();
@@ -118,7 +118,7 @@ $sql01 =	"SELECT ficha_historial_covid19.codigo,
 			<td width="10%"><span class="art-button-wrapper">
 					<span class="art-button-l"> </span>
 					<span class="art-button-r"> </span>
-					<id="cont_button_08"><input type="button" name="submit" id="button_historial_dosis" value="Ingresar" onclick="Historial('agregar')" class="readon art-button" />
+					<id="cont_button_08"><input type="button" name="submit" id="button_historial_dosis" value="Ingresar" onclick="HistorialDosis('agregar')" class="readon art-button" />
 				</span>
 				<input type="hidden" name="codigo_dosis" id="codigo_dosis" value="0" />
 				</span></th>
