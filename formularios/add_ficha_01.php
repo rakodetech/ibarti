@@ -1,9 +1,21 @@
-<link rel="stylesheet" type="text/css" href="./latest/stylesheets/autocomplete.css" />
-<script type="text/javascript" src="./latest/scripts/autocomplete.js"></script>
 <link rel="stylesheet" href="css/modal_planif.css" type="text/css" media="screen" />
 <!-- Styles Google maps searchs autocomplete list -->
 <style>
 	/* Google Maps */
+
+	.label {
+		box-sizing: border-box;
+		background: #05F24C;
+		box-shadow: 2px 2px 4px #333;
+		border: 5px solid #346FF7;
+		height: 20px;
+		width: 20px;
+		border-radius: 10px;
+		-webkit-animation: pulse 1s ease 1s 3;
+		-moz-animation: pulse 1s ease 1s 3;
+		animation: pulse 1s ease 1s 3;
+	}
+
 	.autocomplete-input-container {
 		position: absolute;
 		z-index: 1;
@@ -228,7 +240,7 @@
 
 		/* 		var image = {
 					url: $("#foto").attr("src"),
-					scaledSize: new google.maps.Size(30, 30), // scaled size
+					scaledSize: new google.maps.Size(40, 40), // scaled size
 					origin: new google.maps.Point(0, 0), // Origin
 					anchor: new google.maps.Point(0, 0) // anchor
 				}; */
@@ -240,7 +252,8 @@
 				lng: lng
 			},
 			anchorPoint: new google.maps.Point(0, -29),
-			//icon: image
+			//icon: image,
+			labelClass: "label"
 		});
 
 		google.maps.event.addListener(marker, "dragend", function() {
@@ -860,7 +873,7 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 			<tr>
 				<td class="etiqueta">Dirección:</td>
 				<td id="textarea01" colspan="3">
-					<textarea name="direccion" cols="50" rows="3" id="direccion_google" hidden="true"><?php echo $direccion_google; ?></textarea>
+					<input name="direccion_google" id="direccion_google" type="hidden" value="<?php echo $direccion_google; ?>" />
 					<textarea name="direccion" cols="50" rows="3"><?php echo $direccion; ?></textarea>
 					<span id="Counterror_mess1" class="texto">&nbsp;</span><br />
 					<span class="textareaRequiredMsg">El Campo es Requerido.</span>
