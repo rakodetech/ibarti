@@ -25,7 +25,7 @@ class Ubicacion
 		                  clientes_ubicacion.cod_calendario, nom_calendario.descripcion AS calendario,
 		                  clientes_ubicacion.descripcion, clientes_ubicacion.direccion,
 		                  clientes_ubicacion.contacto, clientes_ubicacion.telefono,
-		                  clientes_ubicacion.email,  clientes_ubicacion.latitud,  clientes_ubicacion.longitud,
+		                  clientes_ubicacion.email,  clientes_ubicacion.latitud,  clientes_ubicacion.longitud, clientes_ubicacion.direccion_google,
 		        clientes_ubicacion.campo01, clientes_ubicacion.campo02,
 		        clientes_ubicacion.campo03, clientes_ubicacion.campo04,
 		        clientes_ubicacion.`status`
@@ -58,7 +58,7 @@ class Ubicacion
 			'cod_calendario' => '', 'calendario' => 'Seleccione...',
 			'direccion' => '',  'contacto' => '', 'cargo' => '',  'telefono' => '',
 			'cod_zona' => '', 'email' => '', 'observacion' => '',
-			'latitud' => '', 'longitud' => '',
+			'latitud' => '', 'longitud' => '', 'direccion_google' => '',
 			'campo01' => '', 'campo02' => '', 'campo03' => '', 'campo04' => '',
 			'cod_us_ing' => '', 'fec_us_ing' => '', 'cod_us_mod' => '', 'fec_us_mod' => '', 'status' => ''
 		);
@@ -75,7 +75,8 @@ class Ubicacion
 										clientes_ubicacion.cod_zona, zonas.descripcion  zona,
 					          clientes_ubicacion.cod_calendario, nom_calendario.descripcion calendario,
 	                  clientes_ubicacion.descripcion, clientes_ubicacion.direccion,
-	                  clientes_ubicacion.contacto,clientes_ubicacion.latitud,clientes_ubicacion.longitud, clientes_ubicacion.cargo,
+	                  clientes_ubicacion.contacto,clientes_ubicacion.latitud,clientes_ubicacion.longitud, 
+					  clientes_ubicacion.direccion_google, clientes_ubicacion.cargo,
 						        clientes_ubicacion.telefono,
 	                  clientes_ubicacion.email, clientes_ubicacion.observacion,
 						        clientes_ubicacion.campo01, clientes_ubicacion.campo02,

@@ -78,6 +78,10 @@ function save_cliente() {
   var campo03 = $("#c_campo03").val();
   var campo04 = $("#c_campo04").val();
 
+  var latitud = $("#c_latitud").val();
+  var longitud = $("#c_longitud").val();
+  var direccion_google = $("#c_direccion_google").val();
+
   var lunes = Status($("#c_lunes:checked").val());
   var martes = Status($("#c_martes:checked").val());
   var miercoles = Status($("#c_miercoles:checked").val());
@@ -128,7 +132,10 @@ function save_cliente() {
       campo04: campo04,
       proced: proced,
       usuario: usuario,
-      metodo: metodo
+      metodo: metodo,
+      latitud: latitud,
+      longitud: longitud,
+      direccion_google: direccion_google
     };
 
     $.ajax({

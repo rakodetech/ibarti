@@ -21,7 +21,7 @@ class Cliente
 		clientes.cod_vendedor, vendedores.nombre AS vendedor, clientes.cod_region,
 		regiones.descripcion AS region, clientes.abrev, clientes.rif,
 		clientes.nit, clientes.nombre, clientes.telefono, clientes.contacto,
-		clientes.status
+		clientes.status, clientes.latitud, clientes.longitud, clientes.direccion_google
 		FROM clientes, clientes_tipos, vendedores, regiones
 		WHERE clientes.cod_cl_tipo = clientes_tipos.codigo
 		AND clientes.cod_vendedor = vendedores.codigo
@@ -51,7 +51,8 @@ class Cliente
 			'jueves' => '', 'viernes' => '', 'sabado' => '', 'domingo' => '',
 			'limite_cred' => '', 'plazo_pago' => '', 'desc_global' => '', 'desc_p_pago' => '',
 			'campo01' => '', 'campo02' => '', 'campo03' => '', 'campo04' => '',
-			'cod_us_ing' => '', 'fec_us_ing' => '', 'cod_us_mod' => '', 'fec_us_mod' => '', 'status' => ''
+			'cod_us_ing' => '', 'fec_us_ing' => '', 'cod_us_mod' => '', 'fec_us_mod' => '', 'status' => '',
+			'latitud' => '', 'longitud' => '', 'direccion_google' => ''
 		);
 		return $this->datos;
 	}
@@ -70,7 +71,8 @@ class Cliente
 		a.jueves, a.viernes, a.sabado, a.domingo,
 		a.limite_cred, a.plazo_pago, a.desc_global, a.desc_p_pago,
 		a.campo01, a.campo02, a.campo03, a.campo04, a.contacto,
-		a.cod_us_ing, a.fec_us_ing,a.cod_us_mod, a.fec_us_mod, a.`status`
+		a.cod_us_ing, a.fec_us_ing,a.cod_us_mod, a.fec_us_mod, a.`status`, 
+		a.latitud, a.longitud, a.direccion_google
 		FROM clientes a , clientes_tipos , vendedores , regiones
 		WHERE a.codigo = '$cod'
 		AND a.cod_cl_tipo = clientes_tipos.codigo
@@ -116,7 +118,7 @@ class Cliente
 		clientes.cod_vendedor, vendedores.nombre AS vendedor, clientes.cod_region,
 		regiones.descripcion AS region, clientes.abrev, clientes.rif,
 		clientes.nit, clientes.nombre, clientes.telefono,
-		clientes.status
+		clientes.status, clientes.latitud, clientes.longitud, clientes.direccion_google
 		FROM clientes, clientes_tipos, vendedores, regiones
 		WHERE clientes.cod_cl_tipo = clientes_tipos.codigo
 		AND clientes.cod_vendedor = vendedores.codigo

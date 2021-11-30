@@ -6,10 +6,10 @@ $bd = new DataBase();
 $result = array();
 
 $data = array();
-if(isset($_POST['motivo'])){
+if (isset($_POST['motivo'])) {
 	$motivo = $_POST['motivo'];
 	if ($motivo == "set_contactos") {
-	
+
 		$codigos					= $_POST['cliente'];
 		$arreglo_codigos = $_POST['codigos'];
 		$arreglo_nombres = $_POST['nombres'];
@@ -17,7 +17,7 @@ if(isset($_POST['motivo'])){
 		$arreglo_telefonos = $_POST['telefonos'];
 		$arreglo_correos = $_POST['correos'];
 		$arreglo_observaciones = $_POST['observacion'];
-	
+
 		$sql = 'DELETE FROM clientes_contactos where clientes_contactos.cod_cliente = "' . $codigos . '"';
 		$query = $bd->consultar($sql);
 		$sql = '';
@@ -37,11 +37,11 @@ if(isset($_POST['motivo'])){
 			$result['error'] = true;
 			$result['mensaje'] = $error;
 		}
-	
+
 		print_r(json_encode($result));
 		return json_encode($result);
 	} else {
-		
+
 		if ($motivo == "get_contactos") {
 			$codigos					= $_POST['cliente'];
 			$sql = 'SELECT 
@@ -58,11 +58,10 @@ if(isset($_POST['motivo'])){
 			}
 			print_r(json_encode($data));
 			return json_encode($data);
-		} 
+		}
 	}
-	
-}else {
-	
+} else {
+
 	foreach ($_POST as $nombre_campo => $valor) {
 		$variables = "\$" . $nombre_campo . "='" . $valor . "';";
 		eval($variables);
@@ -73,10 +72,10 @@ if(isset($_POST['motivo'])){
 	if (isset($_POST['proced'])) {
 
 		try {
-			if(!$limite_cred) $limite_cred=0;
-			if(!$plazo_pago) $plazo_pago=0;
-			if(!$desc_global) $desc_global=0;
-			if(!$desc_p_pago) $desc_p_pago=0;
+			if (!$limite_cred) $limite_cred = 0;
+			if (!$plazo_pago) $plazo_pago = 0;
+			if (!$desc_global) $desc_global = 0;
+			if (!$desc_p_pago) $desc_p_pago = 0;
 
 			$sql    = "$SELECT $proced('$metodo', '$codigo', '$cl_tipo', '$vendedor',
 																 '$region', '$abrev', '$rif', '$nit',
