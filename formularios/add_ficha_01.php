@@ -1,3 +1,100 @@
+<link rel="stylesheet" type="text/css" href="./latest/stylesheets/autocomplete.css" />
+<script type="text/javascript" src="./latest/scripts/autocomplete.js"></script>
+<link rel="stylesheet" href="css/modal_planif.css" type="text/css" media="screen" />
+<!-- Styles Google maps searchs autocomplete list -->
+<style>
+	/* Google Maps */
+	.autocomplete-input-container {
+		position: absolute;
+		z-index: 1;
+		width: 100%;
+	}
+
+	.autocomplete-input {
+		text-align: center;
+	}
+
+	#my-input-autocomplete {
+		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+		font-size: 15px;
+		border-radius: 3px;
+		border: 0;
+		margin-top: 10px;
+		width: 290px;
+		height: 40px;
+		text-overflow: ellipsis;
+		padding: 0 1em;
+	}
+
+	#my-input-autocomplete:focus {
+		outline: none;
+	}
+
+	.autocomplete-results {
+		margin: 0 auto;
+		right: 0;
+		left: 0;
+		position: absolute;
+		display: none;
+		background-color: white;
+		width: 80%;
+		padding: 0;
+		list-style-type: none;
+		margin: 0 auto;
+		border: 1px solid #d2d2d2;
+		border-top: 0;
+		box-sizing: border-box;
+	}
+
+	.autocomplete-item {
+		padding: 5px 5px 5px 35px;
+		height: 26px;
+		line-height: 26px;
+		border-top: 1px solid #d9d9d9;
+		position: relative;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+
+	.autocomplete-icon {
+		display: block;
+		position: absolute;
+		top: 7px;
+		bottom: 0;
+		left: 8px;
+		width: 20px;
+		height: 20px;
+		background-repeat: no-repeat;
+		background-position: center center;
+	}
+
+	.autocomplete-icon.icon-localities {
+		background-image: url(https://images.woosmap.com/icons/locality.svg);
+	}
+
+	.autocomplete-item:hover .autocomplete-icon.icon-localities {
+		background-image: url(https://images.woosmap.com/icons/locality-selected.svg);
+	}
+
+	.autocomplete-item:hover {
+		background-color: #f2f2f2;
+		cursor: pointer;
+	}
+
+	.autocomplete-results::after {
+		content: "";
+		padding: 1px 1px 1px 0;
+		height: 18px;
+		box-sizing: border-box;
+		text-align: right;
+		display: block;
+		background-image: url(https://maps.gstatic.com/mapfiles/api-3/images/powered-by-google-on-white3_hdpi.png);
+		background-position: right;
+		background-repeat: no-repeat;
+		background-size: 120px 14px
+	}
+</style>
 <script type="text/javascript">
 	function Pdf() {
 		$('#pdf').attr('action', "reportes/rp_ficha.php");
@@ -11,8 +108,174 @@
 			$('#seccion_militar').hide();
 		}
 	}
-</script>
 
+	var map;
+	var marker;
+
+	function closeModalMap() {
+		$("#myModalMap").hide();
+	}
+
+	function debounce(func, wait, immediate) {
+		var timeout;
+		return function() {
+			var context = this,
+				args = arguments;
+			var later = function() {
+				timeout = null;
+				if (!immediate) func.apply(context, args);
+			};
+			var callNow = immediate && !timeout;
+			clearTimeout(timeout);
+			timeout = setTimeout(later, wait);
+			if (callNow) func.apply(context, args);
+		};
+	}
+
+	function displaySuggestions(predictions, status) {
+		var inputContainer = document.querySelector('autocomplete-input-container');
+		var serviceDetails = new google.maps.places.PlacesService(map);
+		var autocomplete_input = document.getElementById('my-input-autocomplete');
+		var autocomplete_results = document.querySelector('.autocomplete-results');
+		if (status != google.maps.places.PlacesServiceStatus.OK) {
+			toastr.error(status);
+			return;
+		}
+		var results_html = [];
+		predictions.forEach(function(prediction) {
+			results_html.push(`<li class="autocomplete-item" data-type="place" data-place-id=${prediction.place_id}><span class="autocomplete-icon icon-localities"></span>      			    <span class="autocomplete-text">${prediction.description}</span></li>`);
+		});
+		autocomplete_results.innerHTML = results_html.join("");
+		autocomplete_results.style.display = 'block';
+		var autocomplete_items = autocomplete_results.querySelectorAll('.autocomplete-item');
+		for (var autocomplete_item of autocomplete_items) {
+			autocomplete_item.addEventListener('click', function() {
+				var prediction = {};
+				const selected_text = this.querySelector('.autocomplete-text').textContent;
+				const place_id = this.getAttribute('data-place-id');
+				var request = {
+					placeId: place_id,
+					fields: ['name', 'geometry']
+				};
+
+				serviceDetails.getDetails(request, function(place, status) {
+					if (status == google.maps.places.PlacesServiceStatus.OK) {
+						if (!place.geometry) {
+							console.log("Returned place contains no geometry");
+							return;
+						}
+						var bounds = new google.maps.LatLngBounds();
+						marker.setPosition(place.geometry.location);
+						if (place.geometry.viewport) {
+							bounds.union(place.geometry.viewport);
+						} else {
+							bounds.extend(place.geometry.location);
+						}
+						map.fitBounds(bounds);
+					}
+					autocomplete_input.value = selected_text;
+					autocomplete_results.style.display = 'none';
+				});
+			})
+		}
+	};
+
+	function initMap() {
+		var inputContainer = document.querySelector('autocomplete-input-container');
+		var autocomplete_input = document.getElementById('my-input-autocomplete');
+		var direccion_input = $("#direccion_google").val();
+		autocomplete_input.value = direccion_input;
+		var autocomplete_results = document.querySelector('.autocomplete-results');
+		var buttonSave = document.getElementById('buttonSave');
+		var options = {
+			types: ['address']
+		}
+		var lat = Number($("#latitud").val());
+		var lng = Number($("#longitud").val());
+
+		map = new google.maps.Map(document.getElementById("mapG"), {
+			center: {
+				lat: lat,
+				lng: lng
+			},
+			zoom: 18,
+			streetViewControl: false,
+			fullscreenControl: false,
+			mapTypeControl: false
+			//disableDefaultUI: true
+		});
+
+		/* 		map.controls[google.maps.ControlPosition.TOP_LEFT].push(autocomplete_input);
+				map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonSave); */
+
+		var service = new google.maps.places.AutocompleteService();
+
+		autocomplete_input.addEventListener('input', debounce(function() {
+			var value = this.value;
+			value.replace('"', '\\"').replace(/^\s+|\s+$/g, '');
+			if (value !== "" && this.value.length > 2) {
+				service.getPlacePredictions({
+					input: value,
+					fields: ['name', 'geometry']
+				}, (predictions, status) => {
+					displaySuggestions(predictions, status);
+				});
+			} else {
+				autocomplete_results.innerHTML = '';
+				autocomplete_results.style.display = 'none';
+			}
+		}, 1500));
+
+		marker = new google.maps.Marker({
+			map: map,
+			draggable: true,
+			position: {
+				lat: lat,
+				lng: lng
+			},
+			anchorPoint: new google.maps.Point(0, -29)
+		});
+		google.maps.event.addListener(marker, "dragend", function() {
+			var point = marker.getPosition();
+			map.panTo(point);
+		});
+
+		$("#myModalMap").show();
+	}
+
+	function saveLatLng() {
+		var point_current = marker.getPosition();
+		var lat = point_current.lat();
+		var lng = point_current.lng();
+		var error = 0;
+		var errorMessage = ' ';
+		if (error == 0) {
+			var parametros = {
+				"lat": point_current.lat(),
+				"lng": point_current.lng(),
+				"ficha": $("#cod_ficha").val(),
+				"address": $('#my-input-autocomplete').val()
+			};
+			$.ajax({
+				data: parametros,
+				url: 'scripts/sc_lat_lng.php',
+				type: 'post',
+				success: (response) => {
+					$("#latitud").val(lat);
+					$("#longitud").val(lng);
+					toastr.success('Guardado con éxito.');
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					toastr.error(xhr.status);
+					toastr.error(thrownError);
+				}
+			});
+
+		} else {
+			toastr.error(errorMessage);
+		}
+	}
+</script>
 <?php
 // require_once('autentificacion/aut_verifica_menu.php');
 $archivo = "$area&Nmenu=$Nmenu&codigo=$codigo&mod=$mod&pagina=0&metodo=modificar";
@@ -40,7 +303,7 @@ if ($metodo == 'modificar' or $metodo == 'consultar') {
 	v_ficha.celular,
 	v_ficha.correo, v_ficha.experiencia,
 	v_ficha.sexo, v_ficha.telefono,
-	v_ficha.direccion, v_ficha.observacion,
+	v_ficha.direccion, v_ficha.direccion_google, v_ficha.observacion,
 	v_ficha.cod_ficha_status_militar, v_ficha.status_militar_obs, v_ficha.servicio_militar
 	FROM v_ficha LEFT JOIN men_usuarios ON v_ficha.cod_us_ing = men_usuarios.codigo
 	WHERE v_ficha.cod_ficha = '$codigo' ";
@@ -64,6 +327,7 @@ if ($metodo == 'modificar' or $metodo == 'consultar') {
 	$experiencia    = $result['experiencia'];
 	$correo         = $result['correo'];
 	$direccion      = $result['direccion'];
+	$direccion_google = $result['direccion_google'];
 	$cod_estado     = $result['cod_estado'];
 	$estado         = $result['estado'];
 	$cod_ciudad     = $result['cod_ciudad'];
@@ -361,6 +625,7 @@ if ($metodo == 'modificar' or $metodo == 'consultar') {
 		$experiencia    = $result['experiencia'];
 		$correo         = $result['correo'];
 		$direccion      = $result['direccion'];
+		$direccion_google = '';
 		$cod_ocupacion  = $result['cod_ocupacion'];
 		$ocupacion      = $result['ocupacion'];
 		$cod_estado     = $result['cod_estado'];
@@ -416,6 +681,7 @@ if ($metodo == 'modificar' or $metodo == 'consultar') {
 		$experiencia    = '';
 		$correo         = '';
 		$direccion      = '';
+		$direccion_google = '';
 		$cod_ocupacion  = '';
 		$ocupacion      = 'Seleccione...';
 		$cod_estado     = '';
@@ -584,20 +850,14 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 				</td>
 			</tr>
 			<tr>
-				<td class="etiqueta">Direcci&oacute;n:</td>
-				<td id="textarea01" colspan="3"><textarea name="direccion" cols="50" rows="3"><?php echo $direccion; ?></textarea>
+				<td class="etiqueta">Dirección:</td>
+				<td id="textarea01" colspan="3">
+					<textarea name="direccion" cols="50" rows="3" id="direccion_google" hidden="true"><?php echo $direccion_google; ?></textarea>
+					<textarea name="direccion" cols="50" rows="3"><?php echo $direccion; ?></textarea>
 					<span id="Counterror_mess1" class="texto">&nbsp;</span><br />
 					<span class="textareaRequiredMsg">El Campo es Requerido.</span>
 					<span class="textareaMinCharsMsg">Debe Escribir mas de 4 caracteres.</span>
 					<span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 255.</span>
-				</td>
-			</tr>
-			<tr>
-				<td class="etiqueta">Latitud: </td>
-				<td><input type="text" name="latitud" maxlength="60" size="26" value="<?php echo $latitud; ?>" />
-				</td>
-				<td class="etiqueta">Longitud: </td>
-				<td><input type="text" name="longitud" maxlength="60" size="26" value="<?php echo $longitud; ?>" />
 				</td>
 			</tr>
 			<tr>
@@ -822,6 +1082,14 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 				</td>
 			</tr>
 			<tr>
+				<td class="etiqueta">Latitud: </td>
+				<td><input type="text" name="latitud" id="latitud" maxlength="60" size="26" value="<?php echo $latitud; ?>" />
+				</td>
+				<td class="etiqueta">Longitud: </td>
+				<td><input type="text" name="longitud" id="longitud" maxlength="60" size="26" value="<?php echo $longitud; ?>" />
+				</td>
+			</tr>
+			<tr>
 				<td class="etiqueta">Status: </td>
 				<td id="select10"><select name="status" style="width:200px">
 						<option value="<?php echo $cod_status; ?>"><?php echo $status; ?></option>
@@ -876,6 +1144,11 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 			<span class="art-button-wrapper">
 				<span class="art-button-l"> </span>
 				<span class="art-button-r"> </span>
+				<input type="button" name="setAddress" id="setAddress" value="Mapa" class="readon art-button" onclick="initMap();" />
+			</span>&nbsp;
+			<span class="art-button-wrapper">
+				<span class="art-button-l"> </span>
+				<span class="art-button-r"> </span>
 				<input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
 			</span>
 			<input name="metodo" type="hidden" value="<?php echo $metodo; ?>" />
@@ -887,6 +1160,34 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 		</div>
 	</fieldset>
 </form>
+
+<div id="myModalMap" class="modal">
+	<div class="modal-content">
+		<div class="modal-header">
+			<span class="close" onclick="closeModalMap()">&times;</span>
+			<span>Mapa de Dirección</span>
+		</div>
+		<div class="modal-body">
+			<div id="modal_contenido" style="height: 600px;">
+				<!-- Search input -->
+				<div class="autocomplete-input-container">
+					<div class="autocomplete-input">
+						<textarea cols="100" rows="4" id="my-input-autocomplete" placeholder="Busca una dirección" autocomplete="off" role="combobox"></textarea>
+					</div>
+					<ul class="autocomplete-results">
+					</ul>
+				</div>
+				<!-- Google map -->
+				<div id="mapG" style="height: 90%;"></div>
+				<span class="art-button-wrapper" id="buttonSave" style="margin-bottom: 20px; height: 40px !important;">
+					<span class="art-button-l"> </span>
+					<span class="art-button-r"> </span>
+					<input type="button" id="volver" value="Guardar" class="readon art-button" onclick="saveLatLng()" />
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	var input01 = new Spry.Widget.ValidationTextField("input01", "none", {
 		minChars: 4,
