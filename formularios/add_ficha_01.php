@@ -226,6 +226,12 @@
 			}
 		}, 1500));
 
+		/* 		var image = {
+					url: $("#foto").attr("src"),
+					scaledSize: new google.maps.Size(30, 30), // scaled size
+					origin: new google.maps.Point(0, 0), // Origin
+					anchor: new google.maps.Point(0, 0) // anchor
+				}; */
 		marker = new google.maps.Marker({
 			map: map,
 			draggable: true,
@@ -233,8 +239,10 @@
 				lat: lat,
 				lng: lng
 			},
-			anchorPoint: new google.maps.Point(0, -29)
+			anchorPoint: new google.maps.Point(0, -29),
+			//icon: image
 		});
+
 		google.maps.event.addListener(marker, "dragend", function() {
 			var point = marker.getPosition();
 			map.panTo(point);
@@ -720,9 +728,9 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 					$filename = "imagenes/fotos/$cedula.jpg";
 
 					if (file_exists($filename)) {
-						echo '<img src="' . $filename . '" width="110px" height="130px" />';
+						echo '<img id="foto" src="' . $filename . '" width="110px" height="130px" />';
 					} else {
-						echo '<img src="imagenes/img_no_disp.png" width="110px" height="130px"/>';
+						echo '<img id="foto" src="imagenes/img_no_disp.png" width="110px" height="130px"/>';
 					} ?>
 				</td>
 			</tr>
