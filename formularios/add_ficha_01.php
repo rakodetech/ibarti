@@ -205,11 +205,13 @@
 		var lat = Number($("#latitud").val());
 		var lng = Number($("#longitud").val());
 
+		var positionInitial = {
+			lat: lat === 0 || lat === undefined ? 10.1675248 : lat,
+			lng: lng === 0 || lng === undefined ? -67.9637274 : lng
+		}
+
 		map = new google.maps.Map(document.getElementById("mapG"), {
-			center: {
-				lat: lat,
-				lng: lng
-			},
+			center: positionInitial,
 			zoom: 18,
 			streetViewControl: false,
 			fullscreenControl: false,
@@ -238,22 +240,21 @@
 			}
 		}, 1500));
 
-		/* 		var image = {
+		/* 		
+		var image = {
 					url: $("#foto").attr("src"),
 					scaledSize: new google.maps.Size(40, 40), // scaled size
 					origin: new google.maps.Point(0, 0), // Origin
 					anchor: new google.maps.Point(0, 0) // anchor
-				}; */
+				}; 
+		*/
+
 		marker = new google.maps.Marker({
 			map: map,
 			draggable: true,
-			position: {
-				lat: lat,
-				lng: lng
-			},
+			position: positionInitial,
 			anchorPoint: new google.maps.Point(0, -29),
-			//icon: image,
-			labelClass: "label"
+			//icon: image
 		});
 
 		google.maps.event.addListener(marker, "dragend", function() {
