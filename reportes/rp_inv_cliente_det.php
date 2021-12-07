@@ -118,7 +118,7 @@ if (isset($reporte)) {
 			<td>" . $row01[11] . "</td>
 			<td>" . $row01[12] . "</td>
 			<td>" . $row01[13] . "</td>
-			<td>" . statuscal($row01[11]) . "</td>
+			<td>" . statuscal($row01[14]) . "</td>
 			<td>" . $row01[18] . "</td>
 			<td>" . floatval($row01[19]) . "</td>
 			<td>" . floatval($row01[20]) . "</td></tr>";
