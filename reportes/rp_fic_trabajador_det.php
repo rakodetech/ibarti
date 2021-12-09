@@ -98,7 +98,7 @@ if (isset($reporte)) {
 	preing_camisas.descripcion AS camisa, preing_pantalon.descripcion AS pantalon, preing_zapatos.descripcion AS zapato,
 	v_ficha.fec_ingreso,  v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso,
 	v_ficha.`status`,v_ficha.fec_us_mod,Concat(men_usuarios.nombre,' ',men_usuarios.apellido) us_mod, v_ficha.dosis_covid19,
-	IF(v_ficha.latitud, 'SI', 'NO') geolocalizacion, v_ficha.latitud, v_ficha.longitud
+	IF(v_ficha.latitud, 'SI', 'NO') geolocalizacion, v_ficha.latitud, v_ficha.longitud, IFNULL(ficha_egreso.entrega_uniforme, 'N') entrega_uniforme 
 	FROM  v_ficha LEFT JOIN ficha_egreso ON v_ficha.cod_ficha = ficha_egreso.cod_ficha, bancos, ficha_n_contracto, preing_camisas,
 	preing_pantalon, preing_zapatos, nivel_academico,men_usuarios
 	$where
@@ -121,7 +121,7 @@ if (isset($reporte)) {
 		<th> Banco </th><th> Cta. Bancaria </th><th> T. Camisa </th><th>T. Pantalón </th>
 		<th>N. Zapato</th> <th> Fec. Ingreso </th><th> Fecha Ing. Sistema </th><th> Fec.. " . $leng['contrato'] . " </th>
 		<th> Fec. Egreso </th><th> Dosis COVID-19 </th><th> Status </th><th> Fecha Ultima Modificacion </th><th> Usuario Ultima Modificacion </th>
-		<th>Geolocalización</th><th>Latitud</th><th>Longitud</th>";
+		<th>Geolocalización</th><th>Latitud</th><th>Longitud</th><th>Entregó Uniforme</th></tr>";
 		//<th> Servicio Militar </th><th> Rango Militar </th>
 
 
@@ -135,7 +135,7 @@ if (isset($reporte)) {
 			<td>" . $row01[24] . "</td><td>" . $row01[25] . "</td><td>" . $row01[26] . "</td><td>" . $row01[27] . "</td>
 			<td>" . $row01[28] . "</td><td>" . $row01[29] . "</td> <td>" . $row01[30] . "</td><td>" . $row01[34] . "</td>
 			<td>" . $row01[31] . "</td> <td>" . $row01[32] . "</td><td>" . $row01[33] . "</td><td>" . $row01[35] . "</td>
-			<td>'$row01[36]'</td><td>'$row01[37]'</td>
+			<td>'$row01[36]'</td><td>'$row01[37]'</td><td>" . $row01[38] . "</td>
 			</tr>";
 			//<td>".$row01[33]."</td><td>".$row01[34]."</td>
 		}
@@ -185,7 +185,7 @@ if (isset($reporte)) {
 			<td width='18%'>" . $row[8] . "</td>
 			<td width='18%'>" . $row[9] . "</td>
 			<td width='19%'>" . $row[20] . "</td>
-			<td width='10%'>" . $row[31] . "</td>";
+			<td width='10%'>" . $row[31] . "</td></tr>";
 
 			$f++;
 		}
