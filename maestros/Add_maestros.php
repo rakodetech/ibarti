@@ -56,6 +56,10 @@ if ($metodo == 'modificar') {
   }
   $readonly = 'readonly="readonly"';
 } else {
+  if ($tabla == 'cargos') {
+    $sql_tipos = "SELECT codigo, descripcion FROM tipos_cargo WHERE status = 'T';";
+    $query_tipos = $bd->consultar($sql_tipos);
+  }
   $readonly = '';
   $codigo      = '';
   $codigo_onblur = "Add_ajax_maestros(this.value, 'ajax/validar_maestros.php', 'Contenedor', '$tabla')";
@@ -187,7 +191,8 @@ if ($metodo == 'modificar') {
   <?php
   }
   ?>
-  <div align="center"><span class="art-button-wrapper">
+  <div align="center">
+    <span class="art-button-wrapper">
       <span class="art-button-l"> </span>
       <span class="art-button-r"> </span>
       <input type="submit" name="salvar" id="salvar" value="Guardar" class="readon art-button" />
