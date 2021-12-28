@@ -63,7 +63,7 @@ if (isset($_POST['metodo'])) {
                                '$ubicacion', '$ubicacion_old', '$concepto', '$concepto_old',
 							   '$clasif_asistencia', '$horaD', '$horaN', '$vale', '$feriado',
 							   '$NL', '$usuario')";
-			echo $sql;
+
 			$query = $bd->consultar($sql);
 
 			$sql = "SELECT v_ficha.nombres, conceptos.descripcion
