@@ -33,8 +33,9 @@ if ($vale == "") {
 if ($horaD == "") {
 	$horaD = 0.00;
 }
+
 if ($horaN == "") {
-	$NL = 0.00;
+	$horaN = 0.00;
 }
 
 if ($clasif_asistencia == "" || $clasif_asistencia == "9999") {
