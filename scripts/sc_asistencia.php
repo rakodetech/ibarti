@@ -27,6 +27,9 @@ if ($feriado == "") {
 if ($NL == "") {
 	$NL = 0;
 }
+if ($vale == "") {
+	$vale = 0;
+}
 if ($horaD == "") {
 	$horaD = 0.00;
 }
