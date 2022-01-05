@@ -79,6 +79,24 @@ class Planificacion
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
+	function delete_planif_ap($apertura)
+	{
+		$existencia  = array();
+		$sql = "SELECT a.codigo
+		FROM planif_clientes_trab a
+		WHERE a.cod_planif_cl = '$apertura' LIMIT 2";
+		$query = $this->bd->consultar($sql);
+		while ($datos = $this->bd->obtener_fila($query)) {
+			$existencia[] = $datos;
+		}
+		if (empty($existencia) && $apertura) {
+			$sql = "DELETE fROM planif_clientes WHERE codigo = '$apertura';";
+			$query = $this->bd->consultar($sql);
+			return $query;
+		}
+		return null;
+	}
+
 	function get_planif_apertura($cliente, $contratacion)
 	{
 		$this->datos  = array();
