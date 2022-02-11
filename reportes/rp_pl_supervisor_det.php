@@ -26,7 +26,7 @@ $archivo         = "rp_pl_supervisor_".$fecha."";
 $titulo          = "PLANIFICACION DE TRABAJADOR REAL \n";
 
 if(isset($reporte)){
-	$region     = $_POST['region'];
+$region     = $_POST['region'];
 $estado     = $_POST['estado'];
 $cliente    = $_POST['cliente'];
 $ubicacion  = $_POST['ubicacion'];
@@ -63,7 +63,7 @@ if($ubicacion != "TODOS"){
 	$where   .= " AND p.cod_ubicacion = '$ubicacion' ";
 }
 
-$sql = "SELECT DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') fecha, p.cod_ficha, CONCAT(f.apellidos, ' ', f.nombres) ap_nombre, 
+$sql = "SELECT pd.codigo, DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') fecha, p.cod_ficha, CONCAT(f.apellidos, ' ', f.nombres) ap_nombre, 
 p.cod_cliente, cl.nombre cliente, p.cod_ubicacion, cu.descripcion ubicacion, 
 pd.cod_proyecto, pp.descripcion proyecto, pd.cod_actividad, pa.descripcion actividad,
 TIME(pd.fecha_inicio) hora_inicio, TIME(pd.fecha_fin) hora_fin,
@@ -71,7 +71,7 @@ pa.minutos, IF(pd.realizado='T','SI', 'NO') realizado
 FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd, clientes cl, clientes_ubicacion cu, ficha f,
 planif_proyecto pp, planif_actividad pa
 $where
-ORDER BY 1,2,12,4,6,10 ASC";
+ORDER BY 1,2,3,13,5,7,11 ASC";
 
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
@@ -80,7 +80,7 @@ ORDER BY 1,2,12,4,6,10 ASC";
 
 		$query01  = $bd->consultar($sql);
 		echo "<table border=1>";
-		echo "<tr><th> Fecha </th><th> ".$leng['ficha']." </th><th> ".$leng['trabajador']." </th>
+		echo "<tr><th> Código </th><th> Fecha </th><th> ".$leng['ficha']." </th><th> ".$leng['trabajador']." </th>
 		<th> Cod. Cliente </th><th> ".$leng['cliente']." </th><th> Cod. Ubicación </th><th> ".$leng['ubicacion']." </th>
 		<th> Cod. Proyecto </th><th> Proyecto </th><th> Cod. Actividad </th><th> Actividad </th><th> Hora Inicio </th>
 		<th> Hora Fin </th><th> Minutos decicados </th><th> Realizado </th>
@@ -90,7 +90,7 @@ ORDER BY 1,2,12,4,6,10 ASC";
 			echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
 			<td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
 			<td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td>
-			<td>".$row01[12]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td></tr>";
+			<td>".$row01[12]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td></tr>";
 		}
 		echo "</table>";
 	}
