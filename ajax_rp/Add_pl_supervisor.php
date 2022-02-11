@@ -56,8 +56,8 @@ ORDER BY 1,2,9,4,6,8 ASC";
 
 ?><table width="100%" border="0" align="center">
 	<tr class="fondo00">
-		<th class="etiqueta">Fecha</th>
 		<th  class="etiqueta">Código</th>
+		<th class="etiqueta">Fecha</th>
 		<th  class="etiqueta"><?php echo $leng['ficha']?></th>
 		<th  class="etiqueta"><?php echo $leng['trabajador']?></th>
 		<th  class="etiqueta"><?php echo $leng['cliente']?></th>
