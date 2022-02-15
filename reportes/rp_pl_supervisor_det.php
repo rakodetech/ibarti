@@ -82,7 +82,7 @@ ORDER BY 1,2,3,13,5,7,11 ASC";
 		echo "<tr><th> Código </th><th> Fecha </th><th> ".$leng['ficha']." </th><th> ".$leng['trabajador']." </th>
 		<th> Cod. Cliente </th><th> ".$leng['cliente']." </th><th> Cod. Ubicación </th><th> ".$leng['ubicacion']." </th>
 		<th> Cod. Proyecto </th><th> Proyecto </th><th> Cod. Actividad </th><th> Actividad </th><th> Hora Inicio </th>
-		<th> Hora Fin </th><th> Minutos decicados </th><th> Realizado </th>
+		<th> Hora Fin </th><th> Minutos dedicados </th><th> Realizado </th>
 		</tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
