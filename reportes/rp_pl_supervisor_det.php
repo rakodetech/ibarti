@@ -72,6 +72,8 @@ planif_proyecto pp, planif_actividad pa
 $where
 ORDER BY 1,2,3,13,5,7,11 ASC";
 
+echo $sql;
+return;
 	if($reporte== 'excel'){
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
 		header("Content-type: application/vnd.ms-excel");
