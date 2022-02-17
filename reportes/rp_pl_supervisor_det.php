@@ -54,11 +54,11 @@ if($region != "TODOS"){
 		$where   .= " AND p.cod_ubicacion = '$ubicacion' ";
 	}
 
-	if ($proyecto != "TODOS") {
+	if ($proyecto != "TODOS" && $proyecto != NULL) {
 		$where   .= " AND pd.cod_proyecto = '$proyecto' ";
 	}
 
-	if ($actividad != "TODOS") {
+	if ($actividad != "TODOS" && $actividad != NULL) {
 		$where   .= " AND pd.cod_actividad = '$actividad' ";
 	}
 
