@@ -254,7 +254,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 			$valor = 0;
 		}
 		$vencido = "NO";
-		if($datos["vencido"] == "1"){
+		if($datos["vencido"] == 1){
 			$vendico = "SI";
 		}
         echo '<tr class="'.$fondo.'">
