@@ -255,7 +255,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 		}
 		$vencido = "NO";
 		if($datos["vencido"] == 1){
-			$vendico = "SI";
+			$vencido = "SI";
 		}
         echo '<tr class="'.$fondo.'">
 			      <td class="texto">'.$datos["fecha"].'</td>
