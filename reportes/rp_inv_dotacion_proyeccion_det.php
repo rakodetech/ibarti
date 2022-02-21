@@ -185,16 +185,11 @@ clientes_ub_uniforme.cantidad alcance,
 	 0
  )
 ) diff,
-(
-	IFNULL(
- SUM(v_prod_dot_max2.cantidad),
- 0
-)+ (
+ (
  clientes_ub_uniforme.cantidad - IFNULL(
 	 SUM(v_prod_dot_max2.cantidad),
 	 0
  )
-)
 ) cant_a_dotar,
 IF(clientes_ub_uniforme.vencimiento = 'T',
 DATE_ADD(
