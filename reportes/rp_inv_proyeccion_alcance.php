@@ -41,7 +41,7 @@ $d_proyeccion = $row01[0]; ?>
 
 
 		if (error == 0) {
-			var contenido = "listar";
+			var contenido = "contenido";
 
 			ajax = nuevoAjax();
 			ajax.open("POST", "ajax_rp/Add_inv_proyeccion_alcance.php", true);
@@ -141,7 +141,7 @@ $d_proyeccion = $row01[0]; ?>
 		</tr>
 	</table>
 	<hr />
-	<div class="listar">&nbsp;</div>
+	<div class="listar" id="contenido">&nbsp;</div>
 	<div align="center"><br />
 		<span class="art-button-wrapper">
 			<span class="art-button-l"> </span>
