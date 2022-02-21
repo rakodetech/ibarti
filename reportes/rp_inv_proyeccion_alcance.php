@@ -141,7 +141,7 @@ $d_proyeccion = $row01[0]; ?>
 		</tr>
 	</table>
 	<hr />
-	<div id="listar">&nbsp;</div>
+	<div class="listar">&nbsp;</div>
 	<div align="center"><br />
 		<span class="art-button-wrapper">
 			<span class="art-button-l"> </span>
