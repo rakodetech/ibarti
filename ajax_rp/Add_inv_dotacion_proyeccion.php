@@ -219,7 +219,8 @@ cod_ubicacion,
 cod_ficha,
 cod_linea,
 cod_sub_linea,
-cod_producto
+cod_producto,
+vencido
 HAVING
 vencido = 1 OR cantidad != alcance
 ORDER BY
