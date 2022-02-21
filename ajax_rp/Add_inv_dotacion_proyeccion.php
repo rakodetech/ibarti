@@ -239,6 +239,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 			<th width="5%" class="etiqueta">Alc.</th>
 			<th width="5%" class="etiqueta">Dif.</th>
 			<th width="5%" class="etiqueta">Dotar</th>
+			<th width="5%" class="etiqueta">Vencido</th>	
 	</tr>
     <?php
 	$valor = 0;
@@ -252,6 +253,10 @@ fecha ASC, ap_nombre ASC, producto ASC
 			$fondo = 'fondo02';
 			$valor = 0;
 		}
+		$vencido = "NO";
+		if($datos["vencido"] = 1){
+			$vendico = "SI";
+		}
         echo '<tr class="'.$fondo.'">
 			      <td class="texto">'.$datos["fecha"].'</td>
 				  <td class="texto">'.$datos["cod_ficha"].'</td>
@@ -263,6 +268,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 				  <td class="texto">'.$datos["alcance"].'</td>
 				  <td class="texto">'.$datos["diff"].'</td>
 				  <td class="texto">'.$datos["cant_a_dotar"].'</td>
+				  <td class="texto">'.$vencido.'</td>
            </tr>';
         };?>
     </table>
