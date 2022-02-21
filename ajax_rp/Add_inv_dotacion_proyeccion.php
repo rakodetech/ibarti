@@ -270,7 +270,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 				  <td class="texto">'.$datos["alcance"].'</td>
 				  <td class="texto">'.$datos["diff"].'</td>
 				  <td class="texto">'.$datos["cant_a_dotar"].'</td>
-				  <td class="texto">'.$vencido. ' '.$datos["vencido"].'</td>
+				  <td class="texto">'.$vencido. '</td>
            </tr>';
         };?>
     </table>

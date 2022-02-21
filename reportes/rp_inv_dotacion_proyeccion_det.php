@@ -251,10 +251,14 @@ fecha ASC, ap_nombre ASC, producto ASC
 		<th> Cantidad </th><th> Alcance </th><th> Diferencia </th><th> Cant. A Dotar </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
+			$vencido = "NO";
+			if($row01["21"] == 1){
+				$vencido = "SI";
+			}
 			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[3]."</td><td>".$row01[5]."</td>
 			<td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td>
 			<td>".$row01[12]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td><td>".$row01[16]."</td>
-			<td>".$row01[17]."</td><td>".$row01[18]."</td><td>".$row01[19]."</td><td>".$row01[20]."</td></tr>";
+			<td>".$row01[17]."</td><td>".$row01[18]."</td><td>".$row01[19]."</td><td>".$row01[20]."</td><td>".$vencido."</td></tr>";
 		}
 		echo "</table>";
 	}
