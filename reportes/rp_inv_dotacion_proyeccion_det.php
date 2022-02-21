@@ -236,7 +236,7 @@ cod_linea,
 cod_sub_linea,
 cod_producto
 HAVING
-vencido = 1
+vencido = 1 OR cantidad != alcance
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
