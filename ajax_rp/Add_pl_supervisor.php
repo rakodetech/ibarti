@@ -44,6 +44,14 @@ if ($ubicacion != "TODOS") {
 	$where   .= " AND p.cod_ubicacion = '$ubicacion' ";
 }
 
+if ($proyecto != "TODOS" && $proyecto != NULL) {
+	$where   .= " AND pd.cod_proyecto = '$proyecto' ";
+}
+
+if ($actividad != "TODOS" && $actividad != NULL) {
+	$where   .= " AND pd.cod_actividad = '$actividad' ";
+}
+
 $sql = "SELECT pd.codigo, p.cod_ficha, CONCAT(f.apellidos, ' ', f.nombres) ap_nombre, p.cod_cliente, cl.nombre cliente, 
 p.cod_ubicacion, cu.descripcion ubicacion, DATE_FORMAT(p.fecha_inicio, '%Y-%m-%d') fecha, 
 TIME(pd.fecha_inicio) hora_inicio, TIME(pd.fecha_fin) hora_fin,
