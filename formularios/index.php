@@ -6,6 +6,6 @@
 <table width="100%">
     <tr>
         <td><img src="imagenes/ibarti.jpg" border="0" /></td>
-        <td><img src="imagenes/cliente.png" border="0" /></td>
+        <td><img src="imagenes/cliente.jpeg" border="0" /></td>
     </tr>
 </table>
