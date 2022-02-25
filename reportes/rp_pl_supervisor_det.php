@@ -21,6 +21,8 @@ $region     = $_POST['region'];
 $estado     = $_POST['estado'];
 $cliente    = $_POST['cliente'];
 $ubicacion  = $_POST['ubicacion'];
+$proyecto    = $_POST['proyecto'];
+$actividad  = $_POST['actividad'];
 $trabajador = $_POST['trabajador'];
 
 $fecha_D   = conversion($_POST['fecha_desde']);
