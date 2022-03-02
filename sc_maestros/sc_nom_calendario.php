@@ -23,8 +23,9 @@ $metodo   = $_POST['metodo'];
    
 	$sql    = "$SELECT $proced('$metodo', '$codigo', '', '$descripcion',
 	                           '$tipo', '$usuario',  '$activo')";						  
- 	$query = $bd->consultar($sql);	  			   	
-	require_once('../funciones/sc_direccionar.php');  
+ 	$query = $bd->consultar($sql);	
+	echo $sql;  			   	
+	#require_once('../funciones/sc_direccionar.php');  
 ?>
 <body>
 </body>
