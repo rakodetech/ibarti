@@ -159,6 +159,7 @@ function save_rotacion(){
 								if(resp.error){
 									alert(resp.mensaje);
 								}else{
+									toastr.success('Actualizacion Exitosa!..');
 									CargarDetalle(rotacion);
 								}
 							},
