@@ -371,7 +371,7 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 		</tr>
 		<tr>
 			<td class="etiqueta">Observacion:</td>
-			<td id="textarea01"><textarea name="observacion" cols="42" rows="2" readonly="readonly"><?php echo $observacion; ?></textarea>
+			<td id="textarea01"><textarea name="observacion" cols="42" rows="2"><?php echo $observacion; ?></textarea>
 				<span id="Counterror_mess1" class="texto">&nbsp;</span><br />
 				<span class="textareaRequiredMsg">El Campo es Requerido.</span>
 				<span class="textareaMinCharsMsg">Debe Escribir mas de 10 caracteres.</span>
