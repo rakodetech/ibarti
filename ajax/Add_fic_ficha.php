@@ -35,10 +35,10 @@ $r_eli      = " ";
 
 	$vinculo = "inicio.php?area=pestanas/add_$archivo&Nmenu=$Nmenu&mod=$mod";
 
-	$FROM    = " FROM ficha, trab_roles, roles,  ficha_status, control ";
-	$WHERE   = " WHERE ficha.cod_ficha = trab_roles.cod_ficha
-                   AND trab_roles.cod_rol = roles.codigo
-                   AND ficha.cod_ficha_status = ficha_status.codigo
+	$FROM    = " FROM ficha 
+				LEFT JOIN trab_roles ON ficha.cod_ficha = trab_roles.cod_ficha 
+				LEFT JOIN roles ON trab_roles.cod_rol = roles.codigo,  ficha_status, control ";
+	$WHERE   = " WHERE ficha.cod_ficha_status = ficha_status.codigo
 	               AND ficha.cod_contracto <> control.contracto_eventuales ";
 
 	if($rol != "TODOS"){
@@ -64,7 +64,7 @@ $r_eli      = " ";
 	}
 
 	$sql = " SELECT ficha.cod_ficha, ficha.cedula, CONCAT(ficha.apellidos, ' ',ficha.nombres) AS nombres,
-                    roles.descripcion AS rol, ficha.fec_us_mod, ficha_status.descripcion AS status
+                    IFNULL(roles.descripcion, 'SIN DEFINIR') AS rol, ficha.fec_us_mod, ficha_status.descripcion AS status
 			 $FROM
              $WHERE
 			  ORDER BY 6 DESC";
