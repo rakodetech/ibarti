@@ -362,7 +362,7 @@ $sql_ciudad = " SELECT codigo, descripcion FROM ciudades WHERE cod_estado = '$co
 
 				</td>
 				<td class="etiqueta">N. Ficha:</td>
-				<td id="input02"><input type="text" name="cod_ficha" id="cod_ficha" maxlength="12" style="width:120px" value="<?php echo $cod_ficha; ?>" <?php echo $fic_read; ?> /><br />
+				<td id="input02"><input type="text" name="cod_ficha" id="cod_ficha" maxlength="12" style="width:120px" readonly="readonly" value="<?php echo $cod_ficha; ?>" <?php echo $fic_read; ?> /><br />
 					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
 					<span class="textfieldMinCharsMsg">Debe Escribir m&aacute;s de 2 caracteres.</span>
 				</td>

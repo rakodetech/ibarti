@@ -754,7 +754,7 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 				</td>
 				<td class="etiqueta">N. <?php echo $leng["ficha"]; ?>:</td>
-				<td id="input02"><input type="text" name="cod_ficha" id="cod_ficha" maxlength="12" size="15" value="<?php echo $cod_ficha; ?>" <?php echo $fic_read; ?> /><br />
+				<td id="input02"><input type="text" name="cod_ficha" id="cod_ficha" maxlength="12" size="15" readonly="readonly" value="<?php echo $cod_ficha; ?>" <?php echo $fic_read; ?> /><br />
 					<span class="textfieldRequiredMsg">El Campo es Requerido.</span>
 					<span class="textfieldMinCharsMsg">Debe Escribir m&aacute;s de 2 caracteres.</span>
 				</td>
