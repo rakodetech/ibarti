@@ -11,7 +11,7 @@ sleep(2);
 
 // Definimos variables generales
 
-define("maxUpload", 50000);
+define("maxUpload", 500000);
 define("maxWidth", 600);
 define("maxHeight", 800);
 
