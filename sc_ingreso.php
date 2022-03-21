@@ -201,8 +201,8 @@ $metodo   = $_POST['metodo'];
 								'$refl02_apto', '$t_camisa', '$t_pantalon', '$n_zapato',
 								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";	
 
-     echo $sql;
-	 //$query = $bd->consultar($sql);	  
+    
+	 $query = $bd->consultar($sql);	  
 	 }
 	 
 	if($metodo == "agregar"){
