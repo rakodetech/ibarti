@@ -31,7 +31,7 @@ $cargo        = $_POST["cargo"];
 $nivel_academico = $_POST["nivel_academico"];
 
 $fec_preingreso = conversion($_POST["fec_preingreso"]);
-$fec_psi     = conversion($_POST["fec_psi"]);
+/* $fec_psi     = conversion($_POST["fec_psi"]);
 $psi_apto    = $_POST["psi_apto"];
 $psic_observacion = htmlspecialchars($_POST["psic_observacion"]);
 $fec_pol     = conversion($_POST["fec_pol"]);
@@ -40,7 +40,7 @@ $pol_observacion = htmlspecialchars($_POST["pol_observacion"]);
 $fec_pre_emp     = conversion($_POST["fec_pre_emp"]);
 $pre_emp_apto    = $_POST["pre_emp_apto"];
 $pre_emp_observacion = htmlspecialchars($_POST["pre_emp_observacion"]);
-$observacion     = htmlspecialchars($_POST["observacion"]);
+ */$observacion     = htmlspecialchars($_POST["observacion"]);
 
 $status           = $_POST["status"];
 $refp01_nombre    = htmlspecialchars($_POST["refp01_nombre"]);
@@ -57,13 +57,13 @@ $refp02_parentezco = htmlspecialchars($_POST["refp02_parentezco"]);
 $refp02_apto    = $_POST["refp02_apto"];
 $refp02_direccion   = htmlspecialchars($_POST["refp02_direccion"]);
 $refp02_observacion = htmlspecialchars($_POST["refp02_observacion"]);
-$refp03_nombre  = htmlspecialchars($_POST["refp03_nombre"]);
+/* $refp03_nombre  = htmlspecialchars($_POST["refp03_nombre"]);
 $refp03_ocupacion = htmlspecialchars($_POST["refp03_ocupacion"]);
 $refp03_telf    = htmlspecialchars($_POST["refp03_telf"]);
 $refp03_parentezco = htmlspecialchars($_POST["refp03_parentezco"]);
 $refp03_apto   = $_POST["refp03_apto"];
 $refp03_direccion   = htmlspecialchars($_POST["refp03_direccion"]);
-$refp03_observacion = htmlspecialchars($_POST["refp03_observacion"]);
+$refp03_observacion = htmlspecialchars($_POST["refp03_observacion"]); */
 
 $refl01_empresa  = htmlspecialchars($_POST["refl01_empresa"]);
 $refl01_telf     = htmlspecialchars($_POST["refl01_telf"]);
@@ -119,7 +119,7 @@ $metodo   = $_POST['metodo'];
 	$rech      = 0;
 	$apt       = 0;
 
-	if($status == $apto){
+/* 	if($status == $apto){
 	   $status =  $aprobado;
 	}
 		
@@ -174,34 +174,56 @@ $metodo   = $_POST['metodo'];
 		}else{
 	   $status =  $status;		
 		}		
-	}		
+	}		 */
 	
 
 	if(isset($_POST['proced'])){
+		/* 
+		'$fec_psi', '$psi_apto', '$psic_observacion', 
+		'$fec_pol', '$pol_apto', '$pol_observacion',
+		'$fec_pre_emp', '$pre_emp_apto', '$pre_emp_observacion',  
+		*/
 
-	 $sql    = "$SELECT $proced('$metodo', '$codigo', '$nacionalidad',  '$estado_civil',
+		// '$refp03_nombre', '$refp03_ocupacion', '$refp03_telf', '$refp03_parentezco', '$refp03_direccion', '$refp03_observacion', '$refp03_apto', 
+		$sql    = "$SELECT $proced('$metodo', '$codigo', '$nacionalidad',  '$estado_civil',
 	                            '$apellido', '$nombre', '$fecha_nac', '$lugar_nac',
 							    '$sexo', '$telefono', '$celular', '$correo',
 								'$experiencia', '$direccion',
 								'$estado', '$ciudad', '$nivel_academico', '$cargo', 
-								'$fec_preingreso', '$fec_psi', '$psi_apto', '$psic_observacion', 
-								'$fec_pol', '$pol_apto', '$pol_observacion', 
-								'$fec_pre_emp', '$pre_emp_apto', '$pre_emp_observacion','$observacion',
+								'$fec_preingreso', 
+								'', '', '', 
+								'', '', '',
+								'', '', '', 
+								'$observacion',
 								'$refp01_nombre', '$refp01_ocupacion', '$refp01_telf', '$refp01_parentezco', 
 								'$refp01_direccion', '$refp01_observacion', '$refp01_apto', '$refp02_nombre', 
 								'$refp02_ocupacion', '$refp02_telf', '$refp02_parentezco', '$refp02_direccion', 
-								'$refp02_observacion', '$refp02_apto', '$refp03_nombre', '$refp03_ocupacion', 
-								'$refp03_telf', '$refp03_parentezco', '$refp03_direccion', '$refp03_observacion', 
-								'$refp03_apto', '$refl01_empresa', '$refl01_telf', '$refl01_contacto',
-								'$refl01_cargo', '0', '$refl01_sueldo_fin', '$refl01_fec_ingreso',                                '$refl01_fec_egreso', '$refl01_direccion', '$refl01_observacion', '$refl01_retiro',
+								'$refp02_observacion', '$refp02_apto', 				
+								'', '', '', '', '', '', '', 
+								'$refl01_empresa', '$refl01_telf', '$refl01_contacto',
+								'$refl01_cargo', '$refl01_sueldo_inic', '$refl01_sueldo_fin', '$refl01_fec_ingreso',                                '$refl01_fec_egreso', '$refl01_direccion', '$refl01_observacion', '$refl01_retiro',
 								'$refl01_apto', '$refl02_empresa', '$refl02_telf', '$refl02_contacto',
 								'$refl02_cargo', '$refl02_sueldo_inic', '$refl02_sueldo_fin', '$refl02_fec_ingreso',
 								'$refl02_fec_egreso', '$refl02_direccion', '$refl02_observacion', '$refl02_retiro',
 								'$refl02_apto', '$t_camisa', '$t_pantalon', '$n_zapato',
-								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";
+								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";	
 
-	 $query = $bd->consultar($sql);	  			   		
-	}
+	  	$query = $bd->consultar($sql);	
+			$sql = "SELECT chequeos.codigo AS cod_doc FROM chequeos;";
+			$query = $bd->consultar($sql);
+				while($datos=$bd->obtener_fila($query,0)){
+				extract($datos);
+				$observacion = $_POST['observacion_'.$cod_doc.''];
+			  	$status     = $_POST['status_'.$cod_doc.''];
+			  	$fecha      = $_POST['fec_'.$cod_doc.''] != "" ? $_POST['fec_'.$cod_doc.''] : '0000-00-00';
+		
+				 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status', '$fecha', '$observacion') 
+				 ON DUPLICATE KEY UPDATE status='$status', observacion='$observacion', fecha='$fecha';";
+				 echo $sql02. '</br>';
+				 $query02  = $bd->consultar($sql02);
+				}
+		}
+		   		
 
 	 if($metodo == "agregar"){
 
@@ -212,7 +234,7 @@ $metodo   = $_POST['metodo'];
 	</script>';	
 	}	
 
- require_once('../funciones/sc_direccionar.php'); 
+//  require_once('../funciones/sc_direccionar.php'); 
  	
 ?>
 

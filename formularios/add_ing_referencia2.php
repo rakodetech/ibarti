@@ -91,53 +91,6 @@
 			<input name="refp02_apto" type="radio" value="P" style="width:auto" <?php echo CheckX($refp02_apto, 'P');?>
                    /><br /><span class="radioRequiredMsg">Seleccione...</span></td>
   	</tr>
-	 <tr>
-         <td height="8" colspan="6" align="center"><hr></td>
-     </tr>
-    <tr>
-      <td class="etiqueta">Nombre: </td>
-      <td id="input09_2"><input type="text" name="refp03_nombre" maxlength="120" size="22"
-                              value="<?php echo $refp03_nombre;?>"/></td>
-      <td class="etiqueta">Ocupación: </td>
-      <td id="input10_2"><input type="text" name="refp03_ocupacion" maxlength="60" size="22"
-                             value="<?php echo $refp03_ocupacion;?>"/></td>
-   <tr>
-   </tr>
-      <td class="etiqueta">N. Telefono: </td>
-      <td id="input11_2"><input type="text" name="refp03_telf" maxlength="60" size="20"
-                              value="<?php echo $refp03_telf;?>"/></td>
-      <td class="etiqueta">Parentesco: </td>
-     <td id="input12_2"><input type="text" name="refp03_parentezco" maxlength="60" size="20"
-                             value="<?php echo $refp03_parentezco;?>"/> </td>
-    </tr>
-
-	<tr>
-     <td class="etiqueta">Dirección:</td>
-    <td id="textarea05_2"><textarea name="refp03_direccion" cols="40" rows="2"
-                                                ><?php echo $refp03_direccion;?></textarea>
-        <span id="Counterror_mess05_2" class="texto">&nbsp;</span><br />
-        <span class="textareaRequiredMsg">El Campo es Requerido.</span>
-        <span class="textareaMinCharsMsg">Debe Escribir mas de 4 caracteres.</span>
-        <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 255.</span></td>
-     <td class="etiqueta">Observaci&oacute;n:</td>
-    <td id="textarea06_2"><textarea name="refp03_observacion" cols="40" rows="2"
-                                    ><?php echo $refp03_observacion;?></textarea>
-        <span id="Counterror_mess06_2" class="texto">&nbsp;</span><br />
-        <span class="textareaRequiredMsg">El Campo es Requerido.</span>
-        <span class="textareaMinCharsMsg">Debe Escribir mas de 4 caracteres.</span>
-        <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 255.</span></td>
-	</tr>
-    <tr>
-    <td colspan="2">&nbsp;</td>
-      <td class="etiqueta">Status: </td>
-     <td id="radio03_2">&nbsp;&nbsp; <?php echo $leng["aceptado"];?>
-			<input name="refp03_apto" type="radio" value="S" style="width:auto" <?php echo CheckX($refp03_apto, 'S');?>
-                   />&nbsp;&nbsp; <?php echo $leng["rechazado"];?>
-			<input name="refp03_apto" type="radio" value="N" style="width:auto" <?php echo CheckX($refp03_apto, 'N');?>
-                   />&nbsp;&nbsp; <?php echo $leng["pendiente"];?>
-			<input name="refp03_apto" type="radio" value="P" style="width:auto" <?php echo CheckX($refp03_apto, 'P');?>
-                   /><br /><span class="radioRequiredMsg">Seleccione...</span></td>
-  	</tr>
   </table>
   </fieldset>
   <fieldset class="fieldset">
