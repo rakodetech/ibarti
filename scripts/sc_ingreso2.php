@@ -117,64 +117,7 @@ $metodo   = $_POST['metodo'];
 	$rechazado = $result['preingreso_rechazado'];
 	
 	$rech      = 0;
-	$apt       = 0;
-
-/* 	if($status == $apto){
-	   $status =  $aprobado;
-	}
-		
-	if(($status == $nuevo) or ($status == $rechazado)){
-		
-		if($refp01_apto == 'S'){
-		$apt++;
-		}elseif($refp01_apto == 'N'){
-		$rech++;	
-		}
-		
-		if($refp02_apto == 'S'){
-		$apt++;
-		}elseif($refp02_apto == 'N'){
-		$rech++;	
-		}		
-		
-		if($refp03_apto == 'S'){
-		$apt++;
-		}elseif($refp03_apto == 'N'){
-		$rech++;	
-		}		
-		
-		if($refl01_apto == 'S'){
-		$apt++;
-		}elseif($refl01_apto == 'N'){
-		$rech++;	
-		}	
-		
-		if($refl02_apto == 'S'){
-		$apt++;
-		}elseif($refl02_apto == 'N'){
-		$rech++;	
-		}
-						
-		if($psi_apto == 'A' OR $psi_apto== 'C'){
-		$apt++;
-		}elseif($psi_apto == 'R' ){
-		$rech++;	
-		}
-		
-		if($pol_apto == 'A'){
-		$apt++;
-		}elseif($pol_apto == 'R'){
-		$rech++;	
-		}			
-		// VALIDO
-		if($rech > 0){
-		$status =  $rechazado;	
-		}elseif($apt >= 7){
-	   $status = $apto;			
-		}else{
-	   $status =  $status;		
-		}		
-	}		 */
+	$apt       = true;
 	
 
 	if(isset($_POST['proced'])){
@@ -185,6 +128,69 @@ $metodo   = $_POST['metodo'];
 		*/
 
 		// '$refp03_nombre', '$refp03_ocupacion', '$refp03_telf', '$refp03_parentezco', '$refp03_direccion', '$refp03_observacion', '$refp03_apto', 
+		
+		if($status == $apto){
+			$status =  $aprobado;
+		 }
+
+		 if($refp01_apto == 'S'){
+			$apt++;
+			}elseif($refp01_apto == 'N'){
+			$rech++;	
+			}
+			
+			if($refp02_apto == 'S'){
+			$apt++;
+			}elseif($refp02_apto == 'N'){
+			$rech++;	
+			}
+			if($refl01_apto == 'S'){
+				$apt++;
+				}elseif($refl01_apto == 'N'){
+				$rech++;	
+				}	
+				
+				if($refl02_apto == 'S'){
+				$apt++;
+				}elseif($refl02_apto == 'N'){
+				$rech++;	
+				}
+		$sql = "SELECT chequeos.codigo AS cod_doc FROM chequeos;";
+		$query = $bd->consultar($sql);
+			while($datos=$bd->obtener_fila($query,0)){
+			extract($datos);
+			$observacion = $_POST['observacion_'.$cod_doc.''];
+			$requerido = $_POST['requerido_'.$cod_doc.''];
+				$visita = $_POST['visita_'.$cod_doc.''];
+			  $status     = $_POST['status_'.$cod_doc.''];
+			  $fecha      = $_POST['fec_'.$cod_doc.''] != "" ? $_POST['fec_'.$cod_doc.''] : '0000-00-00';
+			
+			 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status', '$fecha', '$observacion') 
+			 ON DUPLICATE KEY UPDATE status='$status', observacion='$observacion', fecha='$fecha';";
+			 echo $sql02. '</br>';
+			 $query02  = $bd->consultar($sql02);
+			
+			 if($requerido == 'T' && $apt == true && $status != 'A'){
+				 $apt = false;
+			 }
+
+			 if($visita == 'T' && $apt == true && $status == 'R'){
+				$apt = false;
+			 }
+			}
+		
+							 
+			if(($status == $nuevo) or ($status == $rechazado)){
+				// VALIDO
+				if($rech > 0){
+				$status =  $rechazado;	
+				}elseif($apt == true){
+			  	 $status = $apto;			
+				}else{
+			   	$status =  $status;		
+				}		
+			}
+
 		$sql    = "$SELECT $proced('$metodo', '$codigo', '$nacionalidad',  '$estado_civil',
 	                            '$apellido', '$nombre', '$fecha_nac', '$lugar_nac',
 							    '$sexo', '$telefono', '$celular', '$correo',
@@ -209,19 +215,7 @@ $metodo   = $_POST['metodo'];
 								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";	
 
 	  	$query = $bd->consultar($sql);	
-			$sql = "SELECT chequeos.codigo AS cod_doc FROM chequeos;";
-			$query = $bd->consultar($sql);
-				while($datos=$bd->obtener_fila($query,0)){
-				extract($datos);
-				$observacion = $_POST['observacion_'.$cod_doc.''];
-			  	$status     = $_POST['status_'.$cod_doc.''];
-			  	$fecha      = $_POST['fec_'.$cod_doc.''] != "" ? $_POST['fec_'.$cod_doc.''] : '0000-00-00';
-		
-				 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status', '$fecha', '$observacion') 
-				 ON DUPLICATE KEY UPDATE status='$status', observacion='$observacion', fecha='$fecha';";
-				 echo $sql02. '</br>';
-				 $query02  = $bd->consultar($sql02);
-				}
+
 		}
 		   		
 

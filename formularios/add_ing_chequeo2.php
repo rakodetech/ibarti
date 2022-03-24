@@ -6,9 +6,11 @@ $sql1 = "SELECT
 chequeos_trab.cedula,
 chequeos.tipo,
 chequeos.codigo,
+chequeos.requerido,
+chequeos.visita,
 chequeos.descripcion,
 chequeos_trab.fecha,
-IFNULL(chequeos_trab.status, 'R') status,
+chequeos_trab.status,
 chequeos_trab.observacion 
 FROM
 chequeos
@@ -18,9 +20,11 @@ $sql2 = "SELECT
 chequeos_trab.cedula,
 chequeos.tipo,
 chequeos.codigo,
+chequeos.requerido,
+chequeos.visita,
 chequeos.descripcion,
 chequeos_trab.fecha,
-IFNULL(chequeos_trab.status, 'R') status,
+chequeos_trab.status,
 chequeos_trab.observacion 
 FROM
 chequeos
@@ -30,9 +34,11 @@ $sql3 = "SELECT
 chequeos_trab.cedula,
 chequeos.tipo,
 chequeos.codigo,
+chequeos.requerido,
+chequeos.visita,
 chequeos.descripcion,
 chequeos_trab.fecha,
-IFNULL(chequeos_trab.status, 'R') status,
+chequeos_trab.status,
 chequeos_trab.observacion 
 FROM
 chequeos
@@ -48,26 +54,40 @@ WHERE chequeos.tipo = 3";
         while($datos=$bdC->obtener_fila($query1,0)){
           ?>
           <tr>
-              <td class="etiqueta">Fecha <?php echo $datos["descripcion"];?>:</td>
+              <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
               <td>
-                <input type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>" size="9" border="0" width="17px"></td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>" size="9" border="0" width="17px"></td>
               </td>
-          </tr>
-          <tr>
-              <td class="etiqueta">Chequeo <?php echo $datos["descripcion"];?>:</td>
-              <td class="texto"> &nbsp;&nbsp; <?php echo $leng["aprobado"];?>
-              <input name="status_<?php echo $datos["codigo"];?>" type="radio"  value="A" style="width:auto" <?php echo CheckX($hoja_vida_apto, 'A');?> />&nbsp;&nbsp; <?php echo $leng["reprobado"];?>
-              <input name="status_<?php echo $datos["codigo"];?>"  type="radio" value="R" style="width:auto" <?php echo CheckX($hoja_vida_apto, 'R');?> />
+              <td>
+                <span class="etiqueta">Chequeo</span>
+                &nbsp;&nbsp; <?php echo $leng["aprobado"];?>
+              <input name="status_<?php echo $datos["codigo"];?>" type="radio"  value="A" style="width:auto" <?php echo CheckX($datos["status"], 'A');?> />&nbsp;&nbsp; 
+              <?php echo $leng["reprobado"];?>
+              <input name="status_<?php echo $datos["codigo"];?>"  type="radio" value="R" style="width:auto" <?php echo CheckX($datos["status"], 'R');?> />
+              <?php
+              if($datos["requerido"] == 'F'){
+                ?>
+                &nbsp;&nbsp; <?php echo $leng["indefinido"];?>
+                <input name="satus_<?php echo $datos["codigo"];?>"  type="radio" value="I" style="width:auto" <?php echo CheckX($datos["status"], 'I');?> />
+                <?php
+              }
+              ?>
               <span class="radioRequiredMsg">Seleccione...</span>
               <input type="hidden" name="codigo_<?php echo $datos["codigo"];?>" value="<?php echo $datos["codigo"];?>" />
+              <input type="hidden" name="requerido_<?php echo $datos["codigo"];?>" value="<?php echo $datos["requerido"];?>" />
+              <input type="hidden" name="visita_<?php echo $datos["codigo"];?>" value="<?php echo $datos["visita"];?>" />
               </td>
           </tr>
           <tr>
-              <td class="etiqueta">Observación <?php echo $datos["descripcion"];?>:</td>
-              <td id="textarea03_3"><textarea  name="observacion_<?php echo $datos["codigo"];?>" cols="40" rows="2"><?php echo $datos["observacion"];?></textarea>
+            <td></td>
+              <td ><span class="etiqueta">Observación:</span>
+             <textarea  name="observacion_<?php echo $datos["codigo"];?>" cols="40" rows="2"><?php echo $datos["observacion"];?></textarea>
                 <span id="Counterror_mess03_3" class="texto">&nbsp;</span><br />
-                <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 120.</span></td>
+                <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 120.</span>
+                </td>
           </tr>
+          <tr><td colspan="3"> <br></td></tr>
+         
       <?php
         }
        ?>
@@ -82,26 +102,38 @@ WHERE chequeos.tipo = 3";
         while($datos=$bdC->obtener_fila($query2,0)){
           ?>
           <tr>
-              <td class="etiqueta">Fecha <?php echo $datos["descripcion"];?>:</td>
+              <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
               <td>
-                <input type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>"  size="9" border="0" width="17px"></td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>" size="9" border="0" width="17px"></td>
               </td>
-          </tr>
-          <tr>
-              <td class="etiqueta">Chequeo <?php echo $datos["descripcion"];?>:</td>
-              <td class="texto"> &nbsp;&nbsp; <?php echo $leng["aprobado"];?>
+              <td>
+                <span class="etiqueta">Chequeo</span>
+                &nbsp;&nbsp; <?php echo $leng["aprobado"];?>
               <input name="status_<?php echo $datos["codigo"];?>" type="radio"  value="A" style="width:auto" <?php echo CheckX($datos["status"], 'A');?> />&nbsp;&nbsp; <?php echo $leng["reprobado"];?>
               <input name="status_<?php echo $datos["codigo"];?>"  type="radio" value="R" style="width:auto" <?php echo CheckX($datos["status"], 'R');?> />
+              <?php
+              if($datos["requerido"] == 'F'){
+                ?>
+                &nbsp;&nbsp; <?php echo $leng["indefinido"];?>
+                <input name="satus_<?php echo $datos["codigo"];?>"  type="radio" value="I" style="width:auto" <?php echo CheckX($datos["status"], 'I');?> />
+                <?php
+              }
+              ?>
               <span class="radioRequiredMsg">Seleccione...</span>
               <input type="hidden" name="codigo_<?php echo $datos["codigo"];?>" value="<?php echo $datos["codigo"];?>" />
+              <input type="hidden" name="requerido_<?php echo $datos["codigo"];?>" value="<?php echo $datos["requerido"];?>" />
+              <input type="hidden" name="visita_<?php echo $datos["codigo"];?>" value="<?php echo $datos["visita"];?>" />
               </td>
           </tr>
           <tr>
-              <td class="etiqueta">Observación <?php echo $datos["descripcion"];?>:</td>
-              <td id="textarea03_3"><textarea  name="observacion_<?php echo $datos["codigo"];?>" cols="40" rows="2"><?php echo $datos["observacion"];?></textarea>
+            <td></td>
+              <td ><span class="etiqueta">Observación:</span>
+             <textarea  name="observacion_<?php echo $datos["codigo"];?>" cols="40" rows="2"><?php echo $datos["observacion"];?></textarea>
                 <span id="Counterror_mess03_3" class="texto">&nbsp;</span><br />
-                <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 120.</span></td>
+                <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 120.</span>
+                </td>
           </tr>
+          <tr><td colspan="3"> <br></td></tr>
         <?php
         }
         ?>
@@ -114,27 +146,39 @@ WHERE chequeos.tipo = 3";
             $query3 = $bdC->consultar($sql3);
             while($datos=$bdC->obtener_fila($query3,0)){
               ?>
-              <tr>
-                  <td class="etiqueta">Fecha <?php echo $datos["descripcion"];?>:</td>
-                  <td>
-                    <input type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>"  size="9" border="0" width="17px"></td>
-                  </td>
-              </tr>
-              <tr>
-                  <td class="etiqueta">Chequeo <?php echo $datos["descripcion"];?>:</td>
-                  <td class="texto"> &nbsp;&nbsp; <?php echo $leng["aprobado"];?>
-                  <input name="status_<?php echo $datos["codigo"];?>" type="radio"  value="A" style="width:auto" <?php echo CheckX($datos["status"], 'A');?> />&nbsp;&nbsp; <?php echo $leng["reprobado"];?>
-                  <input name="status_<?php echo $datos["codigo"];?>"  type="radio" value="R" style="width:auto" <?php echo CheckX($datos["status"], 'R');?> />
-                  <span class="radioRequiredMsg">Seleccione...</span>
-                  <input type="hidden" name="codigo_<?php echo $datos["codigo"];?>" value="<?php echo $datos["codigo"];?>" />
-                  </td>
-              </tr>
-              <tr>
-                  <td class="etiqueta">Observación <?php echo $datos["descripcion"];?>:</td>
-                  <td id="textarea03_3"><textarea  name="observacion_<?php echo $datos["codigo"];?>" cols="40" rows="2"><?php echo $datos["observacion"];?></textarea>
-                    <span id="Counterror_mess03_3" class="texto">&nbsp;</span><br />
-                    <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 120.</span></td>
-              </tr>
+          <tr>
+              <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
+              <td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>" size="9" border="0" width="17px"></td>
+              </td>
+              <td>
+                <span class="etiqueta">Chequeo</span>
+                &nbsp;&nbsp; <?php echo $leng["aprobado"];?>
+              <input name="status_<?php echo $datos["codigo"];?>" type="radio"  value="A" style="width:auto" <?php echo CheckX($datos["status"], 'A');?> />&nbsp;&nbsp; <?php echo $leng["reprobado"];?>
+              <input name="status_<?php echo $datos["codigo"];?>"  type="radio" value="R" style="width:auto" <?php echo CheckX($datos["status"], 'R');?> />
+              <?php
+              if($datos["requerido"] == 'F'){
+                ?>
+                &nbsp;&nbsp; <?php echo $leng["indefinido"];?>
+                <input name="satus_<?php echo $datos["codigo"];?>"  type="radio" value="I" style="width:auto" <?php echo CheckX($datos["status"], 'I');?> />
+                <?php
+              }
+              ?>
+              <span class="radioRequiredMsg">Seleccione...</span>
+              <input type="hidden" name="codigo_<?php echo $datos["codigo"];?>" value="<?php echo $datos["codigo"];?>" />
+              <input type="hidden" name="requerido_<?php echo $datos["codigo"];?>" value="<?php echo $datos["requerido"];?>" />
+              <input type="hidden" name="visita_<?php echo $datos["codigo"];?>" value="<?php echo $datos["visita"];?>" />
+              </td>
+          </tr>
+          <tr>
+            <td></td>
+              <td ><span class="etiqueta">Observación:</span>
+             <textarea  name="observacion_<?php echo $datos["codigo"];?>" cols="40" rows="2"><?php echo $datos["observacion"];?></textarea>
+                <span id="Counterror_mess03_3" class="texto">&nbsp;</span><br />
+                <span class="textareaMaxCharsMsg">El maximo de caracteres permitidos es 120.</span>
+                </td>
+          </tr>
+          <tr><td colspan="3"> <br></td></tr>
             <?php
             }
         ?>
@@ -156,3 +200,13 @@ WHERE chequeos.tipo = 3";
                 <input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
                 </span>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".fieldset .fechaC").each(function(a, i){
+    var fecha01 = new Spry.Widget.ValidationTextField($(this).attr('id'), "date", {format:"dd-mm-yyyy", hint:"DD-MM-AAA", 
+    validateOn:["blur", "change"], useCharacterMasking:true});
+        	});
+        });
+
+</script>

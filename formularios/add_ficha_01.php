@@ -835,7 +835,7 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 				</td>
 				<td class="etiqueta">Tel. Celular: </td>
-				<td id="custom01"><input type="text" name="celular" maxlength="40" size="25" value="<?php echo $celular; ?>" /><br />
+				<td><input type="text" name="celular" maxlength="40" size="25" value="<?php echo $celular; ?>" /><br />
 					<span class="textfieldRequiredMsg">El Campo es Requerido...</span>
 					<span class="textfieldInvalidFormatMsg">El Formato Es Invalido</span>
 				</td>
