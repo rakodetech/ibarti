@@ -163,7 +163,7 @@ $metodo   = $_POST['metodo'];
 			$requerido = $_POST['requerido_'.$cod_doc.''];
 				$visita = $_POST['visita_'.$cod_doc.''];
 			  $status     = $_POST['status_'.$cod_doc.''];
-			  $fecha      = $_POST['fec_'.$cod_doc.''] != "" ? $_POST['fec_'.$cod_doc.''] : '0000-00-00';
+			  $fecha      = $_POST['fec_'.$cod_doc.''] != "" ?  conversion($_POST['fec_'.$cod_doc.'']) : '0000-00-00';
 			
 			 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status', '$fecha', '$observacion') 
 			 ON DUPLICATE KEY UPDATE status='$status', observacion='$observacion', fecha='$fecha';";
@@ -197,9 +197,9 @@ $metodo   = $_POST['metodo'];
 								'$experiencia', '$direccion',
 								'$estado', '$ciudad', '$nivel_academico', '$cargo', 
 								'$fec_preingreso', 
-								'', '', '', 
-								'', '', '',
-								'', '', '', 
+								'0000-00-00', '', '', 
+								'0000-00-00', '', '',
+								'0000-00-00', '', '', 
 								'$observacion',
 								'$refp01_nombre', '$refp01_ocupacion', '$refp01_telf', '$refp01_parentezco', 
 								'$refp01_direccion', '$refp01_observacion', '$refp01_apto', '$refp02_nombre', 
