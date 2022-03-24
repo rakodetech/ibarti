@@ -167,7 +167,6 @@ $metodo   = $_POST['metodo'];
 			
 			 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status', '$fecha', '$observacion') 
 			 ON DUPLICATE KEY UPDATE status='$status', observacion='$observacion', fecha='$fecha';";
-			 echo $sql02. '</br>';
 			 $query02  = $bd->consultar($sql02);
 			
 			 if($requerido == 'T' && $apt == true && $status != 'A'){
@@ -228,7 +227,7 @@ $metodo   = $_POST['metodo'];
 	</script>';	
 	}	
 
-//  require_once('../funciones/sc_direccionar.php'); 
+require_once('../funciones/sc_direccionar.php'); 
  	
 ?>
 
