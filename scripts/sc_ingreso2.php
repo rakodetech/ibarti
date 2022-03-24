@@ -166,7 +166,7 @@ $metodo   = $_POST['metodo'];
 			  $fecha      = $_POST['fec_'.$cod_doc.''] != "" ?  conversion($_POST['fec_'.$cod_doc.'']) : '0000-00-00';
 			
 			 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status_doc', '$fecha', '$observacion') 
-			 ON DUPLICATE KEY UPDATE status='$status_doc', observacion='$observacion', fecha='$fecha';";
+			 ON DUPLICATE KEY UPDATE status='$status_doc', observacion='$observacion', fecha='$fecha');";
 			 $query02  = $bd->consultar($sql02);
 			
 			 if($requerido == 'T' && $apt == true && $status_doc != 'A'){
