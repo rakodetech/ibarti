@@ -162,18 +162,18 @@ $metodo   = $_POST['metodo'];
 			$observacion = $_POST['observacion_'.$cod_doc.''];
 			$requerido = $_POST['requerido_'.$cod_doc.''];
 				$visita = $_POST['visita_'.$cod_doc.''];
-			  $status     = $_POST['status_'.$cod_doc.''];
+			  $status_doc     = $_POST['status_'.$cod_doc.''];
 			  $fecha      = $_POST['fec_'.$cod_doc.''] != "" ?  conversion($_POST['fec_'.$cod_doc.'']) : '0000-00-00';
 			
-			 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status', '$fecha', '$observacion') 
-			 ON DUPLICATE KEY UPDATE status='$status', observacion='$observacion', fecha='$fecha';";
+			 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status_doc', '$fecha', '$observacion') 
+			 ON DUPLICATE KEY UPDATE status='$status_doc', observacion='$observacion', fecha='$fecha';";
 			 $query02  = $bd->consultar($sql02);
 			
-			 if($requerido == 'T' && $apt == true && $status != 'A'){
+			 if($requerido == 'T' && $apt == true && $status_doc != 'A'){
 				 $apt = false;
 			 }
 
-			 if($visita == 'T' && $apt == true && $status == 'R'){
+			 if($visita == 'T' && $apt == true && $status_doc == 'R'){
 				$apt = false;
 			 }
 			}
