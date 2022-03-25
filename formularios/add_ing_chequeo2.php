@@ -56,7 +56,7 @@ WHERE chequeos.tipo = 3";
           <tr>
               <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
               <td>
-                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>" size="9" border="0" width="17px"></td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo conversion($datos["fecha"]);?>" size="9" border="0" width="17px"></td>
               </td>
               <td>
                 <span class="etiqueta">Chequeo</span>
@@ -104,7 +104,7 @@ WHERE chequeos.tipo = 3";
           <tr>
               <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
               <td>
-                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>" size="9" border="0" width="17px"></td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo conversion($datos["fecha"]);?>" size="9" border="0" width="17px"></td>
               </td>
               <td>
                 <span class="etiqueta">Chequeo</span>
@@ -149,7 +149,7 @@ WHERE chequeos.tipo = 3";
           <tr>
               <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
               <td>
-                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $datos["fecha"];?>" size="9" border="0" width="17px"></td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo conversion($datos["fecha"]);?>" size="9" border="0" width="17px"></td>
               </td>
               <td>
                 <span class="etiqueta">Chequeo</span>
@@ -204,7 +204,7 @@ WHERE chequeos.tipo = 3";
 <script type="text/javascript">
 $(document).ready(function(){
     $(".fieldset .fechaC").each(function(a, i){
-    var fecha01 = new Spry.Widget.ValidationTextField($(this).attr('id'), "date", {format:"dd-mm-yyyy", hint:"DD-MM-AAA", 
+    var fecha01 = new Spry.Widget.ValidationTextField($(this).attr('id'), "date", {format:"dd-mm-yyyy", hint:"DD-MM-AAAA", 
     validateOn:["blur", "change"], useCharacterMasking:true});
         	});
         });
