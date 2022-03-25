@@ -52,11 +52,12 @@ WHERE chequeos.tipo = 3";
 
         $query1 = $bdC->consultar($sql1);
         while($datos=$bdC->obtener_fila($query1,0)){
+          $fecha = $datos["fecha"] != "" ?  conversion($datos["fecha"]) : $datos["fecha"];
           ?>
           <tr>
               <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
               <td>
-                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo conversion($datos["fecha"]);?>" size="9" border="0" width="17px"></td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $fecha;?>" size="9" border="0" width="17px"></td>
               </td>
               <td>
                 <span class="etiqueta">Chequeo</span>
@@ -100,11 +101,12 @@ WHERE chequeos.tipo = 3";
       <?php
         $query2 = $bdC->consultar($sql2);
         while($datos=$bdC->obtener_fila($query2,0)){
+          $fecha = $datos["fecha"] != "" ?  conversion($datos["fecha"]) : $datos["fecha"];
           ?>
           <tr>
               <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
               <td>
-                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo conversion($datos["fecha"]);?>" size="9" border="0" width="17px"></td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $fecha;?>" size="9" border="0" width="17px"></td>
               </td>
               <td>
                 <span class="etiqueta">Chequeo</span>
@@ -145,11 +147,12 @@ WHERE chequeos.tipo = 3";
       <?php
             $query3 = $bdC->consultar($sql3);
             while($datos=$bdC->obtener_fila($query3,0)){
+              $fecha = $datos["fecha"] != "" ?  conversion($datos["fecha"]) : $datos["fecha"];
               ?>
           <tr>
               <td class="etiqueta" rowspan="2"><?php echo $datos["descripcion"];?>:</td>
               <td>
-                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo conversion($datos["fecha"]);?>" size="9" border="0" width="17px"></td>
+                <span class="etiqueta">Fecha </span><input class="fechaC" type="text" name="fec_<?php echo $datos["codigo"];?>" id="fec_<?php echo $datos["codigo"];?>" value="<?php echo $fecha;?>" size="9" border="0" width="17px"></td>
               </td>
               <td>
                 <span class="etiqueta">Chequeo</span>
