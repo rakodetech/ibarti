@@ -164,10 +164,10 @@ $metodo   = $_POST['metodo'];
 				$visita = $_POST['visita_'.$cod_doc.''];
 			  $status_doc     = $_POST['status_'.$cod_doc.''];
 			  $fecha      = $_POST['fec_'.$cod_doc.''] != "" ?  conversion($_POST['fec_'.$cod_doc.'']) : '0000-00-00';
-			echo $_POST['fec_'.$cod_doc.''];
-			 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$status_doc', '$fecha', '$observacion') 
+
+			 $sql02    = "INSERT INTO chequeos_trab(cedula, codigo, fecha, status, observacion) VALUES ($codigo,'$cod_doc', '$fecha', '$status_doc', '$observacion') 
 			 ON DUPLICATE KEY UPDATE status='$status_doc', observacion='$observacion', fecha='$fecha';";
-			 echo $sql02;
+
 			 $query02  = $bd->consultar($sql02);
 			
 			 if($requerido == 'T' && $apt == true && $status_doc != 'A'){
@@ -228,7 +228,7 @@ $metodo   = $_POST['metodo'];
 	</script>';	
 	}	
 
-// require_once('../funciones/sc_direccionar.php'); 
+require_once('../funciones/sc_direccionar.php'); 
  	
 ?>
 
