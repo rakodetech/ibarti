@@ -228,7 +228,7 @@ $metodo   = $_POST['metodo'];
 	</script>';	
 	}	
 
-require_once('../funciones/sc_direccionar.php'); 
+// require_once('../funciones/sc_direccionar.php'); 
  	
 ?>
 
