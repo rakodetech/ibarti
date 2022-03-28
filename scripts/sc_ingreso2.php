@@ -182,7 +182,7 @@ $metodo   = $_POST['metodo'];
 							 
 			if(($status == $nuevo) or ($status == $rechazado)){
 				// VALIDO
-				if($rech > 0){
+				if($rech > 0 || $apt == false){
 				$status =  $rechazado;	
 				}elseif($apt == true){
 			  	 $status = $apto;			
