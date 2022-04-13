@@ -89,10 +89,9 @@ $metodo         = $_POST['metodo'];
 				$cod_valor    = $_POST["cod_valor_".$valorX.""]; 
 				$valor        = $_POST["check_list_valor_".$valorX.""];
 				$observacion  = htmlentities($_POST["observacion_".$valorX.""]); 
-					
+	
  				 $sql    = "$SELECT $proced2('$metodo', '$codigo','$valorX',  '$valor',
-											 '$observacion')";
-											 echo $sql;							  
+											 '$observacion')";							  
 				 $query = $bd->consultar($sql);
 				 
 				}
@@ -100,4 +99,4 @@ $metodo         = $_POST['metodo'];
 			}	
 		}
 	}
-// require_once('../funciones/sc_direccionar.php');
+require_once('../funciones/sc_direccionar.php');
