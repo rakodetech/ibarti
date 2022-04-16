@@ -375,26 +375,89 @@ $query05 = $bd->consultar($sql05);
 $row05   = $bd->obtener_fila($query05, 0);
 $orden   = $row05[0];
 
-$SQL_PAG = "SELECT asistencia.cod_ficha, ficha.cedula,
-					   CONCAT(ficha.apellidos, ' ', ficha.nombres) trabajador,
-					   asistencia.cod_cliente, clientes.nombre  cliente,
-					   asistencia.cod_ubicacion, clientes_ubicacion.descripcion ubicacion,
-					   asistencia.cod_concepto, conceptos.descripcion  concepto,
-					   IF(ISNULL(asistencia_clasif.descripcion),'9999',asistencia.cod_asistencia_clasif) cod_asistencia_clasif, 
-					   IF(ISNULL(asistencia_clasif.descripcion),'N/A',asistencia_clasif.descripcion) asistencia_clasif,
-					   conceptos.abrev, asistencia.hora_extra hora_extra_d,
-					   asistencia.hora_extra_n, asistencia.vale,
-					   asistencia.feriado, asistencia.no_laboral AS NL
-				  FROM asistencia LEFT JOIN asistencia_clasif ON asistencia_clasif.codigo = asistencia.cod_asistencia_clasif,
-				   ficha, trab_roles, clientes, clientes_ubicacion , conceptos
-			     WHERE asistencia.cod_as_apertura = '$cod_apertura'
-				   AND asistencia.cod_ficha = ficha.cod_ficha
-			       AND ficha.cod_ficha = trab_roles.cod_ficha
-			       AND asistencia.cod_cliente = clientes.codigo
-				   AND asistencia.cod_ubicacion = clientes_ubicacion.codigo
-				   AND asistencia.cod_concepto = conceptos.codigo
-				   AND trab_roles.cod_rol = '$cod_rol'
-			  ORDER BY $orden ASC";
+$SQL_PAG = "SELECT
+asistencia.cod_ficha,
+ficha.cedula,
+CONCAT( ficha.apellidos, ' ', ficha.nombres ) trabajador,
+asistencia.cod_cliente,
+clientes.nombre cliente,
+asistencia.cod_ubicacion,
+clientes_ubicacion.descripcion ubicacion,
+asistencia.cod_concepto,
+conceptos.descripcion concepto,
+IF
+( ISNULL( asistencia_clasif.descripcion ), '9999', asistencia.cod_asistencia_clasif ) cod_asistencia_clasif,
+IF
+( ISNULL( asistencia_clasif.descripcion ), 'N/A', asistencia_clasif.descripcion ) asistencia_clasif,
+conceptos.abrev,
+asistencia.hora_extra hora_extra_d,
+asistencia.hora_extra_n,
+asistencia.vale,
+asistencia.feriado,
+asistencia.no_laboral AS NL 
+FROM
+asistencia
+LEFT JOIN asistencia_clasif ON asistencia_clasif.codigo = asistencia.cod_asistencia_clasif,
+ficha,
+trab_roles,
+clientes,
+clientes_ubicacion,
+conceptos 
+WHERE
+asistencia.cod_as_apertura = '$cod_apertura' 
+AND asistencia.cod_ficha = ficha.cod_ficha 
+AND ficha.cod_ficha = trab_roles.cod_ficha 
+AND asistencia.cod_cliente = clientes.codigo 
+AND asistencia.cod_ubicacion = clientes_ubicacion.codigo 
+AND asistencia.cod_concepto = conceptos.codigo 
+AND trab_roles.cod_rol = '$cod_rol' UNION
+SELECT
+pctd.cod_ficha,
+f.cedula,
+CONCAT( f.apellidos, ' ', f.nombres ) trabajador,
+pctd.cod_cliente,
+c.nombre cliente,
+pctd.cod_ubicacion,
+cu.descripcion ubicacion,
+IF
+( cc.asist_diaria = 'F', cc.codigo, control.concepto_rep ) cod_concepto,
+IF
+( cc.asist_diaria = 'F', cc.descripcion, ccc.descripcion ) concepto,
+'9999' cod_asistencia_clasif,
+'N/A' asistencia_clasif,
+IF
+( cc.asist_diaria = 'F', cc.abrev, ccc.abrev ) concepto,
+0 hora_extra_d,
+0 hora_extra_n,
+0 vale,
+0 feriado,
+0 NL 
+FROM
+planif_clientes_trab_det pctd,
+ficha f,
+trab_roles,
+clientes c,
+clientes_ubicacion cu,
+turno t,
+horarios h,
+conceptos cc,
+control,
+conceptos ccc 
+WHERE
+pctd.fecha = '$fec_diaria' 
+AND pctd.cod_ficha = f.cod_ficha 
+AND pctd.cod_cliente = c.codigo 
+AND pctd.cod_ubicacion = cu.codigo 
+AND pctd.cod_turno = t.codigo 
+AND t.cod_horario = h.codigo 
+AND h.cod_concepto = cc.codigo 
+AND f.cod_contracto =  '$co_cont' 
+AND f.cod_ficha_status = control.ficha_activo
+AND f.cod_ficha = trab_roles.cod_ficha 
+AND trab_roles.cod_rol = '$cod_rol'  
+AND control.concepto_rep = ccc.codigo
+AND pctd.cod_ficha NOT IN ( SELECT cod_ficha FROM asistencia WHERE asistencia.cod_as_apertura = '$cod_apertura' )
+ORDER BY $orden ASC";
 
 // TODO LOS CLIENTES
 $sql_cliente = "SELECT clientes_ubicacion.cod_cliente, clientes.nombre AS cliente
