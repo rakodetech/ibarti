@@ -179,7 +179,7 @@ cod_ficha,
 cod_linea,
 cod_sub_linea,
 cod_producto
-HAVING cant_a_dotar > 0
+HAVING (cant_a_dotar > 0)
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
