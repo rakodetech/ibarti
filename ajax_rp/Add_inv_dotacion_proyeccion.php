@@ -164,10 +164,52 @@ IFNULL(
 		IFNULL(tallas.descripcion, '')
 		)
 	) producto,
-	IFNULL( SUM( v_prod_dot_sin_vencer.cantidad ), 0 ) cantidad,
-	clientes_ub_uniforme.cantidad alcance,
-	( clientes_ub_uniforme.cantidad - IFNULL( SUM( v_prod_dot_sin_vencer.cantidad ), 0 ) ) diff,
-	clientes_ub_uniforme.cantidad - IFNULL( v_prod_dot_sin_vencer.cantidad, 0 ) cant_a_dotar
+IFNULL(
+ SUM(v_prod_dot_max2.cantidad),
+ 0
+) cantidad,
+clientes_ub_uniforme.cantidad alcance,
+(
+ clientes_ub_uniforme.cantidad - IFNULL(
+	 SUM(v_prod_dot_max2.cantidad),
+	 0
+ )
+) diff,
+(IF
+	(
+		(DATE_ADD( DATE_FORMAT( IFNULL( v_prod_dot_max2.fecha_max, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD('$fecha_D', INTERVAL $d_proyeccion DAY ) = 0),
+		0,
+		( IFNULL( SUM( v_prod_dot_max2.cantidad ), 0 ) )
+		) + ( clientes_ub_uniforme.cantidad - IFNULL( SUM( v_prod_dot_max2.cantidad ), 0 ) ) 
+) cant_a_dotar,
+IF(clientes_ub_uniforme.vencimiento = 'T',
+DATE_ADD(
+ DATE_FORMAT(
+	 IFNULL(
+		 v_prod_dot_max2.fecha_max,
+		 '0001-01-01'
+	 ),
+	 '%Y-%m-%d'
+ ),
+ INTERVAL clientes_ub_uniforme.dias DAY
+) < DATE_ADD(
+ '$fecha_D',
+ INTERVAL $d_proyeccion DAY
+),
+DATE_ADD(
+ DATE_FORMAT(
+	 IFNULL(
+		 v_prod_dot_max2.fecha_max,
+		 '0001-01-01'
+	 ),
+	 '%Y-%m-%d'
+ ),
+ INTERVAL control.dias_proyeccion DAY
+) < DATE_ADD(
+ '$fecha_D',
+ INTERVAL $d_proyeccion DAY
+)
+) vencido
 FROM
 clientes_ub_uniforme
 ".$where."
@@ -178,8 +220,10 @@ cod_ubicacion,
 cod_ficha,
 cod_linea,
 cod_sub_linea,
-cod_producto
-HAVING cant_a_dotar > 0
+cod_producto,
+vencido
+HAVING
+vencido = 1 OR cantidad != alcance
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
