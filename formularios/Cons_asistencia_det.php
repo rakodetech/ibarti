@@ -420,13 +420,13 @@ c.nombre cliente,
 pctd.cod_ubicacion,
 cu.descripcion ubicacion,
 IF
-( cc.asist_diaria = 'F', cc.codigo, control.concepto_rep ) cod_concepto,
+( cc.cod_horario = '9999', cc.codigo, control.concepto_rep ) cod_concepto,
 IF
-( cc.asist_diaria = 'F', cc.descripcion, ccc.descripcion ) concepto,
+( cc.cod_horario = '9999', cc.descripcion, ccc.descripcion ) concepto,
 '9999' cod_asistencia_clasif,
 'N/A' asistencia_clasif,
 IF
-( cc.asist_diaria = 'F', cc.abrev, ccc.abrev ) concepto,
+( cc.cod_horario = '9999', cc.abrev, ccc.abrev ) concepto,
 0 hora_extra_d,
 0 hora_extra_n,
 0 vale,
