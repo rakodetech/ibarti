@@ -180,7 +180,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 				  <td class="texto">'.longitudMax($datos["producto"]).'</td>
 				  <td class="texto">'.$datos["cantidad"].'</td>
 				  <td class="texto">'.$datos["alcance"].'</td>
-				  <td class="texto">'.(Number($datos["alcance"]) - Number($datos["cantidad"])).'</td>
+				  <td class="texto">'.($datos["alcance"] - $datos["cantidad"]).'</td>
 				  <td class="texto">'.$vencido. '</td>
            </tr>';
         };?>
