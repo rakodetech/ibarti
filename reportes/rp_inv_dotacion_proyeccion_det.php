@@ -69,6 +69,7 @@ $sql = "SELECT
 	clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
 	clientes_ubicacion.descripcion ubicacion,
 	contractos.descripcion AS contrato,
+	cargos.description AS cargo,
 	IFNULL( prod_dotacion.cod_ficha, ficha.cod_ficha ) cod_ficha,
 	IFNULL( v_ficha.cedula, ficha.cedula ) cedula,
 	IFNULL( v_ficha.ap_nombre, CONCAT( ficha.apellidos, ' ', ficha.nombres ) ) ap_nombre,
@@ -115,6 +116,7 @@ FROM
 	INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo 
 	AND ficha.cod_ficha_status = control.ficha_activo 
 	AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+	INNER JOIN cargos ON cargos.cod_cargo = cargos.codigo
 	INNER JOIN trab_roles ON trab_roles.cod_ficha = ficha.cod_ficha
 	INNER JOIN roles ON trab_roles.cod_rol = roles.codigo
 	LEFT JOIN `prod_dotacion` ON `clientes_ub_uniforme`.`cod_cl_ubicacion` = `prod_dotacion`.`cod_ubicacion` 
@@ -169,7 +171,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[3]."</td><td>".$row01[5]."</td>
 			<td>".$row01[6]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td>
 			<td>".$row01[12]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td><td>".$row01[16]."</td>
-			<td>".$row01[17]."</td><td>".$row01[18]."</td><td>".($row01[18] - $row[17])."</td><td>".$vencido."</td></tr>";
+			<td>".$row01[17]."</td><td>".$row01[18]."</td><td>".($row01[19] - $row[18])."</td><td>".$vencido."</td></tr>";
 		}
 		echo "</table>";
 	}
@@ -212,9 +214,9 @@ fecha ASC, ap_nombre ASC, producto ASC
 			<td width='10%'>".$row[8]."</td>
 			<td width='20%'>".$row[10]."</td>
 			<td width='18%'>".$row[16]."</td>
-			<td width='5%'>".$row[17]."</td>
 			<td width='5%'>".$row[18]."</td>
-			<td width='5%'>".($row[18] - $row[17])."</td></tr>";
+			<td width='5%'>".$row[19]."</td>
+			<td width='5%'>".($row[19] - $row[18])."</td></tr>";
 
 			$f++;
 		}
