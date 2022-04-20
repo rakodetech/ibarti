@@ -165,7 +165,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 
 		while ($row01 = $bd->obtener_num($query01)){
 			$vencido = "NO";
-			if($row01["20"] == 1){
+			if($row01[20] == 1){
 				$vencido = "SI";
 			}
 			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[3]."</td><td>".$row01[5]."</td>
@@ -214,9 +214,9 @@ fecha ASC, ap_nombre ASC, producto ASC
 			<td width='10%'>".$row[8]."</td>
 			<td width='20%'>".$row[10]."</td>
 			<td width='18%'>".$row[16]."</td>
-			<td width='5%'>".$row[17]."</td>
 			<td width='5%'>".$row[18]."</td>
-			<td width='5%'>".($row[17] - $row[18])."</td></tr>";
+			<td width='5%'>".$row[19]."</td>
+			<td width='5%'>".($row[19] - $row[18])."</td></tr>";
 
 			$f++;
 		}
