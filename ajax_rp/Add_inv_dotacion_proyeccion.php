@@ -143,7 +143,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 
 <table width="100%" border="0" align="center">
 		<tr class="fondo00">
-  			<th width="10%" class="etiqueta">Fecha</th>
+  			<th width="10%" class="etiqueta">Fecha Ult. Dot.</th>
             <th width="10%" class="etiqueta"><?php echo $leng['ficha']?></th>
 			<th width="15%" class="etiqueta"><?php echo $leng['cliente']?></th>
 			<th width="15%" class="etiqueta"><?php echo $leng['ubicacion']?></th>
