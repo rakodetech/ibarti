@@ -69,7 +69,7 @@ $sql = "SELECT
 	clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
 	clientes_ubicacion.descripcion ubicacion,
 	contractos.descripcion AS contrato,
-	cargos.description AS cargo,
+	cargos.descripcion AS cargo,
 	IFNULL( prod_dotacion.cod_ficha, ficha.cod_ficha ) cod_ficha,
 	IFNULL( v_ficha.cedula, ficha.cedula ) cedula,
 	IFNULL( v_ficha.ap_nombre, CONCAT( ficha.apellidos, ' ', ficha.nombres ) ) ap_nombre,
@@ -116,7 +116,7 @@ FROM
 	INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo 
 	AND ficha.cod_ficha_status = control.ficha_activo 
 	AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
-	INNER JOIN cargos ON ficha.cod_cargo = cargos.codigo
+	INNER JOIN cargos ON cargos.codigo = ficha.cod_cargo
 	INNER JOIN trab_roles ON trab_roles.cod_ficha = ficha.cod_ficha
 	INNER JOIN roles ON trab_roles.cod_rol = roles.codigo
 	LEFT JOIN `prod_dotacion` ON `clientes_ub_uniforme`.`cod_cl_ubicacion` = `prod_dotacion`.`cod_ubicacion` 
