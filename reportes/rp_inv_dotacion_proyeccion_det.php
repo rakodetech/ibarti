@@ -214,9 +214,9 @@ fecha ASC, ap_nombre ASC, producto ASC
 			<td width='10%'>".$row[8]."</td>
 			<td width='20%'>".$row[10]."</td>
 			<td width='18%'>".$row[16]."</td>
+			<td width='5%'>".$row[17]."</td>
 			<td width='5%'>".$row[18]."</td>
-			<td width='5%'>".$row[19]."</td>
-			<td width='5%'>".($row[19] - $row[18])."</td></tr>";
+			<td width='5%'>".($row[18] - $row[17])."</td></tr>";
 
 			$f++;
 		}
