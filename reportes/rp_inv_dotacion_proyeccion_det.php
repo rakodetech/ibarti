@@ -107,7 +107,8 @@ $sql = "SELECT
 		clientes_ub_uniforme.vencimiento = 'T',
 		DATE_ADD( DATE_FORMAT( IFNULL( max( `prod_dotacion`.`fec_dotacion` ), '0001-01-01' ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY ),
 		DATE_ADD( DATE_FORMAT( IFNULL( max( `prod_dotacion`.`fec_dotacion` ), '0001-01-01' ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY ) 
-	) vencido 
+	) vencido,
+	prod_dotacion_det.cantidad cantidad_dot
 FROM
 	clientes_ub_uniforme
 	INNER JOIN control ON control.oesvica = control.oesvica
@@ -143,7 +144,7 @@ GROUP BY
 	cod_sub_linea,
 	cod_producto 
 HAVING
-	vencido = 1 
+	( vencido = 1 AND (cantidad_dot != alcance OR fecha = 'SIN DOTAR') ) 
 	OR ( vencido = 0 AND cantidad < alcance AND cantidad > 0 ) 
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
