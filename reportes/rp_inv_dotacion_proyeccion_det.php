@@ -120,8 +120,7 @@ FROM
 	INNER JOIN cargos ON cargos.codigo = ficha.cod_cargo
 	INNER JOIN trab_roles ON trab_roles.cod_ficha = ficha.cod_ficha
 	INNER JOIN roles ON trab_roles.cod_rol = roles.codigo
-	LEFT JOIN `prod_dotacion` ON `clientes_ub_uniforme`.`cod_cl_ubicacion` = `prod_dotacion`.`cod_ubicacion` 
-	AND `prod_dotacion`.`status` = 'T' 
+	LEFT JOIN `prod_dotacion` ON `prod_dotacion`.`status` = 'T' 
 	AND `prod_dotacion`.`anulado` = 'F' 
 	AND prod_dotacion.cod_ficha = ficha.cod_ficha
 	LEFT JOIN `prod_dotacion_det` ON `prod_dotacion`.`codigo` = `prod_dotacion_det`.`cod_dotacion` 
