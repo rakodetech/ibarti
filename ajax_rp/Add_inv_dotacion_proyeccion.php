@@ -130,10 +130,9 @@ FROM
 GROUP BY
 	cod_ficha,
 	cod_linea,
-	cod_sub_linea,
-	cod_producto 
+	cod_sub_linea
 HAVING
-	( vencido = 1 AND (cantidad_dot != alcance OR fecha = 'SIN DOTAR') ) 
+	( vencido = 1 OR fecha = 'SIN DOTAR')
 	OR ( vencido = 0 AND cantidad < alcance AND cantidad > 0 ) 
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
