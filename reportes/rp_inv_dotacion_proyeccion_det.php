@@ -147,7 +147,7 @@ GROUP BY
 	cod_linea,
 	cod_sub_linea
 HAVING
-	( vencido = 1  OR fecha = 'SIN DOTAR')
+	( vencido = 1 OR (fecha = 'SIN DOTAR' AND cantidad != alcance))
 	OR ( vencido = 0 AND cantidad < alcance ) 
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
