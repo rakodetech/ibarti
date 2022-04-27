@@ -62,7 +62,7 @@ if($contrato != "TODOS"){
 }
 
 $sql = "SELECT
-	IFNULL( max( `prod_dotacion`.`fec_dotacion` ), 'SIN DOTAR' ) AS fecha,
+	IF(ISNULL(productos.descripcion), 'SIN DOTAR', IFNULL( max( `prod_dotacion`.`fec_dotacion` ), 'SIN DOTAR' ) ) AS fecha,
 	estados.descripcion estado,
 	clientes.codigo cod_cliente,
 	clientes.nombre cliente,
@@ -78,7 +78,12 @@ $sql = "SELECT
 	clientes_ub_uniforme.cod_sub_linea,
 	prod_sub_lineas.descripcion AS sub_linea,
 	IFNULL( prod_dotacion_det.cod_producto, prod_sub_lineas.codigo ) cod_producto,
-	IFNULL( productos.descripcion, CONCAT( prod_sub_lineas.descripcion, ' ', IFNULL( tallas.descripcion, '' ) ) ) producto,
+	IF
+	(
+		ISNULL( productos.descripcion ),
+		CONCAT( prod_sub_lineas.descripcion, ' ', IFNULL( tallas.descripcion, '' ) ),
+		CONCAT( productos.descripcion, ' ', IFNULL( tallas.descripcion, '' ) ) 
+	) producto,
 	SUM(
 		IFNULL(
 			(
