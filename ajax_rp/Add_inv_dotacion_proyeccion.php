@@ -142,7 +142,7 @@ ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
 
-//  echo $sql;
+ echo $sql;
 ?>
 
 <table width="100%" border="0" align="center">
