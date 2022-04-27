@@ -26,7 +26,7 @@ $fecha_desde  = $_POST['fecha_desde'];
 $trabajador   = $_POST['trabajador'];
 $fecha_D   = conversion($_POST['fecha_desde']);
 
-$where = " WHERE control.oesvica = control.oesvica ";
+$where = " ";
 
 if($linea != "TODOS"){
 	$where .= " AND prod_lineas.codigo = '$linea' ";
@@ -62,53 +62,105 @@ if($contrato != "TODOS"){
 }
 
 $sql = "SELECT
-	IFNULL( max( `prod_dotacion`.`fec_dotacion` ), 'SIN DOTAR' ) AS fecha,
+max( `prod_dotacion`.`fec_dotacion` ) fecha,
+estados.descripcion estado,
+clientes.codigo cod_cliente,
+clientes.nombre cliente,
+clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
+clientes_ubicacion.descripcion ubicacion,
+contractos.descripcion AS contrato,
+ficha.cod_ficha,
+ficha.cedula,
+CONCAT( ficha.apellidos, ' ', ficha.nombres ) ap_nombre,
+prod_lineas.codigo cod_linea,
+prod_lineas.descripcion AS linea,
+clientes_ub_uniforme.cod_sub_linea,
+prod_sub_lineas.descripcion AS sub_linea,
+prod_sub_lineas.codigo cod_producto,
+CONCAT( productos.descripcion, ' ', IFNULL( tallas.descripcion, '' ) ) producto,
+SUM(
+	IFNULL(
+		(
+		SELECT
+			sum( `pdd`.`cantidad` ) 
+		FROM
+			prod_dotacion_det pdd 
+		WHERE
+			pdd.cod_sub_linea = prod_dotacion_det.cod_sub_linea 
+			AND pdd.cod_dotacion = prod_dotacion.codigo 
+			AND pdd.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea 
+		HAVING
+		IF
+			(
+				clientes_ub_uniforme.vencimiento = 'T',
+				DATE_ADD( DATE_FORMAT( IFNULL( prod_dotacion.fec_dotacion, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '2022-04-27', INTERVAL 0 DAY ),
+				DATE_ADD( DATE_FORMAT( IFNULL( prod_dotacion.fec_dotacion, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '2022-04-27', INTERVAL 0 DAY ) 
+			) = 0 
+		),
+		0 
+	) 
+) cantidad,
+clientes_ub_uniforme.cantidad alcance,
+IF
+(
+	clientes_ub_uniforme.vencimiento = 'T',
+	DATE_ADD( DATE_FORMAT( max( `prod_dotacion`.`fec_dotacion` ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '2022-04-27', INTERVAL 0 DAY ),
+	DATE_ADD( DATE_FORMAT( max( `prod_dotacion`.`fec_dotacion` ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '2022-04-27', INTERVAL 0 DAY ) 
+) vencido,
+prod_dotacion_det.cantidad cantidad_dot 
+FROM
+clientes_ub_uniforme
+INNER JOIN control ON control.oesvica = control.oesvica
+INNER JOIN prod_sub_lineas ON clientes_ub_uniforme.cod_sub_linea = prod_sub_lineas.codigo
+INNER JOIN prod_lineas ON prod_lineas.codigo = prod_sub_lineas.cod_linea
+INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo 
+AND ficha.cod_ficha_status = control.ficha_activo 
+AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+INNER JOIN trab_roles ON trab_roles.cod_ficha = ficha.cod_ficha
+INNER JOIN roles ON trab_roles.cod_rol = roles.codigo
+INNER JOIN `prod_dotacion` ON `prod_dotacion`.`status` = 'T' 
+AND `prod_dotacion`.`anulado` = 'F' 
+AND prod_dotacion.cod_ficha = ficha.cod_ficha
+LEFT JOIN `prod_dotacion_det` ON `prod_dotacion`.`codigo` = `prod_dotacion_det`.`cod_dotacion` 
+AND prod_dotacion_det.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea
+INNER JOIN `productos` ON `productos`.`item` = `prod_dotacion_det`.`cod_producto`
+LEFT JOIN `tallas` ON `productos`.`cod_talla` = `tallas`.`codigo`
+INNER JOIN contractos ON ficha.cod_contracto = contractos.codigo
+INNER JOIN clientes_ubicacion ON clientes_ub_uniforme.cod_cl_ubicacion = clientes_ubicacion.codigo 
+AND ficha.cod_ubicacion = clientes_ubicacion.codigo
+INNER JOIN estados ON clientes_ubicacion.cod_estado = estados.codigo
+INNER JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente 
+WHERE control.oesvica = control.oesvica 
+".$where."
+GROUP BY
+cod_ficha,
+cod_linea,
+cod_sub_linea 
+HAVING
+( vencido = 1 ) 
+OR ( vencido = 0 AND cantidad < alcance ) 
+UNION
+	SELECT
+	'SIN DOTAR' fecha,
 	estados.descripcion estado,
 	clientes.codigo cod_cliente,
 	clientes.nombre cliente,
 	clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
 	clientes_ubicacion.descripcion ubicacion,
 	contractos.descripcion AS contrato,
-	cargos.descripcion AS cargo,
-	IFNULL( prod_dotacion.cod_ficha, ficha.cod_ficha ) cod_ficha,
-	IFNULL( v_ficha.cedula, ficha.cedula ) cedula,
-	IFNULL( v_ficha.ap_nombre, CONCAT( ficha.apellidos, ' ', ficha.nombres ) ) ap_nombre,
+	ficha.cod_ficha,
+	ficha.cedula,
+	CONCAT( ficha.apellidos, ' ', ficha.nombres ) ap_nombre,
 	prod_lineas.codigo cod_linea,
 	prod_lineas.descripcion AS linea,
 	clientes_ub_uniforme.cod_sub_linea,
 	prod_sub_lineas.descripcion AS sub_linea,
-	IFNULL( prod_dotacion_det.cod_producto, prod_sub_lineas.codigo ) cod_producto,
-	IFNULL( productos.descripcion, CONCAT( prod_sub_lineas.descripcion, ' ', IFNULL( tallas.descripcion, '' ) ) ) producto,
-	SUM(
-		IFNULL(
-			(
-			SELECT
-				sum( `pdd`.`cantidad` ) 
-			FROM
-				prod_dotacion_det pdd 
-			WHERE
-				pdd.cod_sub_linea = prod_dotacion_det.cod_sub_linea 
-				AND pdd.cod_dotacion = prod_dotacion.codigo 
-				AND pdd.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea 
-			HAVING
-			IF
-				(
-					clientes_ub_uniforme.vencimiento = 'T',
-					DATE_ADD( DATE_FORMAT( IFNULL( prod_dotacion.fec_dotacion, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY ),
-					DATE_ADD( DATE_FORMAT( IFNULL( prod_dotacion.fec_dotacion, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY ) 
-				) = 0 
-			),
-			0 
-		) 
-	) cantidad,
+	prod_sub_lineas.codigo cod_producto,
+	prod_sub_lineas.descripcion producto,
+	0 cantidad,
 	clientes_ub_uniforme.cantidad alcance,
-	IF
-	(
-		clientes_ub_uniforme.vencimiento = 'T',
-		DATE_ADD( DATE_FORMAT( IFNULL( max( `prod_dotacion`.`fec_dotacion` ), '0001-01-01' ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY ),
-		DATE_ADD( DATE_FORMAT( IFNULL( max( `prod_dotacion`.`fec_dotacion` ), '0001-01-01' ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY ) 
-	) vencido,
-	prod_dotacion_det.cantidad cantidad_dot
+	1 vencido,
+	0 cantidad_dot 
 FROM
 	clientes_ub_uniforme
 	INNER JOIN control ON control.oesvica = control.oesvica
@@ -117,33 +169,26 @@ FROM
 	INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo 
 	AND ficha.cod_ficha_status = control.ficha_activo 
 	AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
-	INNER JOIN cargos ON cargos.codigo = ficha.cod_cargo
 	INNER JOIN trab_roles ON trab_roles.cod_ficha = ficha.cod_ficha
 	INNER JOIN roles ON trab_roles.cod_rol = roles.codigo
-	LEFT JOIN `prod_dotacion` ON `prod_dotacion`.`status` = 'T' 
-	AND `prod_dotacion`.`anulado` = 'F' 
-	AND prod_dotacion.cod_ficha = ficha.cod_ficha
-	LEFT JOIN `prod_dotacion_det` ON `prod_dotacion`.`codigo` = `prod_dotacion_det`.`cod_dotacion` 
-	AND prod_dotacion_det.cod_sub_linea = prod_sub_lineas.codigo
-	LEFT JOIN `productos` ON `productos`.`item` = `prod_dotacion_det`.`cod_producto`
-	LEFT JOIN `tallas` ON `productos`.`cod_talla` = `tallas`.`codigo`
-	LEFT JOIN `v_ficha` ON `clientes_ub_uniforme`.`cod_cargo` = `v_ficha`.`cod_cargo` 
-	AND prod_dotacion.cod_ficha = v_ficha.cod_ficha 
-	AND ficha.cod_ficha = v_ficha.cod_ficha 
-	AND v_ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
 	INNER JOIN contractos ON ficha.cod_contracto = contractos.codigo
 	INNER JOIN clientes_ubicacion ON clientes_ub_uniforme.cod_cl_ubicacion = clientes_ubicacion.codigo 
 	AND ficha.cod_ubicacion = clientes_ubicacion.codigo
 	INNER JOIN estados ON clientes_ubicacion.cod_estado = estados.codigo
 	INNER JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente 
-".$where."
-GROUP BY
-	cod_ficha,
-	cod_linea,
-	cod_sub_linea
-HAVING
-	( vencido = 1  OR fecha = 'SIN DOTAR')
-	OR ( vencido = 0 AND cantidad < alcance ) 
+WHERE
+	clientes_ub_uniforme.cod_sub_linea NOT IN (
+	SELECT
+		prod_dotacion_det.cod_sub_linea 
+	FROM
+		prod_dotacion,
+		prod_dotacion_det 
+	WHERE
+		prod_dotacion.codigo = prod_dotacion_det.cod_dotacion 
+		AND prod_dotacion.cod_ficha = ficha.cod_ficha 
+		AND prod_dotacion_det.cod_sub_linea = clientes_ub_uniforme.cod_sub_linea 
+	) 
+	".$where."
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
