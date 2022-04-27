@@ -132,12 +132,12 @@ GROUP BY
 	cod_sub_linea
 HAVING
 	( vencido = 1 OR fecha = 'SIN DOTAR')
-	OR ( vencido = 0 AND cantidad < alcance AND cantidad > 0 ) 
+	OR ( vencido = 0 AND cantidad < alcance ) 
 ORDER BY
 fecha ASC, ap_nombre ASC, producto ASC
 ";
 
-// echo $sql;
+//  echo $sql;
 ?>
 
 <table width="100%" border="0" align="center">
