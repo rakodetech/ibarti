@@ -84,8 +84,8 @@ SUM(
 		IF
 			(
 				clientes_ub_uniforme.vencimiento = 'T',
-				DATE_ADD( DATE_FORMAT( IFNULL( prod_dotacion.fec_dotacion, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '2022-04-27', INTERVAL 0 DAY ),
-				DATE_ADD( DATE_FORMAT( IFNULL( prod_dotacion.fec_dotacion, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '2022-04-27', INTERVAL 0 DAY ) 
+				DATE_ADD( DATE_FORMAT( IFNULL( prod_dotacion.fec_dotacion, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY ),
+				DATE_ADD( DATE_FORMAT( IFNULL( prod_dotacion.fec_dotacion, '0001-01-01' ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY )
 			) = 0 
 		),
 		0 
@@ -95,8 +95,8 @@ clientes_ub_uniforme.cantidad alcance,
 IF
 (
 	clientes_ub_uniforme.vencimiento = 'T',
-	DATE_ADD( DATE_FORMAT( max( `prod_dotacion`.`fec_dotacion` ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '2022-04-27', INTERVAL 0 DAY ),
-	DATE_ADD( DATE_FORMAT( max( `prod_dotacion`.`fec_dotacion` ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '2022-04-27', INTERVAL 0 DAY ) 
+	DATE_ADD( DATE_FORMAT( max( `prod_dotacion`.`fec_dotacion` ), '%Y-%m-%d' ), INTERVAL clientes_ub_uniforme.dias DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY ),
+	DATE_ADD( DATE_FORMAT( max( `prod_dotacion`.`fec_dotacion` ), '%Y-%m-%d' ), INTERVAL control.dias_proyeccion DAY ) < DATE_ADD( '$fecha_D', INTERVAL $d_proyeccion DAY )
 ) vencido,
 prod_dotacion_det.cantidad cantidad_dot 
 FROM
