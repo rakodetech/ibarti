@@ -213,7 +213,7 @@ fecha ASC, ap_nombre ASC, producto ASC
 
 		while ($row01 = $bd->obtener_num($query01)){
 			$vencido = "NO";
-			if($row01[20] == 1){
+			if($row01[19] == 1){
 				$vencido = "SI";
 			}
 			echo "<tr><td>".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[3]."</td><td>".$row01[5]."</td>
