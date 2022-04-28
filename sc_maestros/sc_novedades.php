@@ -27,11 +27,10 @@ $cantidad = $_POST['cantidad'];
 
 	$sql    = "$SELECT $proced('$metodo', '$codigo', '$orden', '$clasif', 
 	                           '$tipo', '$descripcion', '$usuario', '$activo',$dias_vencimiento)";						 		
-	echo $sql;
+
 	$query = $bd->consultar($sql);	
 	//if(count($valor)>0){
 		$sql   = "DELETE FROM nov_valores_det WHERE cod_novedades = '$codigo'";
-		echo $sql;
     $query = $bd->consultar($sql);	
 
 		 foreach($valor as $clave=>$valorX){
@@ -40,12 +39,12 @@ $cantidad = $_POST['cantidad'];
 		$sql = "INSERT INTO nov_valores_det
 					 (cod_valores, cod_novedades, valor)			
 			  VALUES ( '$valorX', '$codigo', '$cantidad[$clave]')";	
-					  echo $sql;
+					  
 		    $query = $bd->consultar($sql);			 
 		 }		   	
 	}
 	//}
 	
 	
-// require_once('../funciones/sc_direccionar.php');  
+require_once('../funciones/sc_direccionar.php');  
 ?>
