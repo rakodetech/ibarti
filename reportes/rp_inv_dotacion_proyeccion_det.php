@@ -69,6 +69,7 @@ clientes.nombre cliente,
 clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
 clientes_ubicacion.descripcion ubicacion,
 contractos.descripcion AS contrato,
+cargos.descripcion cargo,
 ficha.cod_ficha,
 ficha.cedula,
 CONCAT( ficha.apellidos, ' ', ficha.nombres ) ap_nombre,
@@ -116,6 +117,7 @@ INNER JOIN prod_lineas ON prod_lineas.codigo = prod_sub_lineas.cod_linea
 INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo 
 AND ficha.cod_ficha_status = control.ficha_activo 
 AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+INNER JOIN cargos ON cargos.codigo = clientes_ub_uniforme.cod_cargo AND  cargos.codigo = ficha.cod_cargo
 INNER JOIN trab_roles ON trab_roles.cod_ficha = ficha.cod_ficha
 INNER JOIN roles ON trab_roles.cod_rol = roles.codigo
 INNER JOIN `prod_dotacion` ON `prod_dotacion`.`status` = 'T' 
@@ -148,6 +150,7 @@ UNION
 	clientes_ub_uniforme.cod_cl_ubicacion cod_ubicacion,
 	clientes_ubicacion.descripcion ubicacion,
 	contractos.descripcion AS contrato,
+	cargos.descripcion cargo,
 	ficha.cod_ficha,
 	ficha.cedula,
 	CONCAT( ficha.apellidos, ' ', ficha.nombres ) ap_nombre,
@@ -169,6 +172,7 @@ FROM
 	INNER JOIN ficha ON ficha.cod_cargo = clientes_ub_uniforme.cod_cargo 
 	AND ficha.cod_ficha_status = control.ficha_activo 
 	AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+	INNER JOIN cargos ON cargos.codigo = clientes_ub_uniforme.cod_cargo AND  cargos.codigo = ficha.cod_cargo
 	INNER JOIN trab_roles ON trab_roles.cod_ficha = ficha.cod_ficha
 	INNER JOIN roles ON trab_roles.cod_rol = roles.codigo
 	INNER JOIN contractos ON ficha.cod_contracto = contractos.codigo
