@@ -458,7 +458,7 @@ AND trab_roles.cod_rol = '$cod_rol'
 AND control.concepto_rep = ccc.codigo
 AND pctd.cod_ficha NOT IN ( SELECT cod_ficha FROM asistencia WHERE asistencia.cod_as_apertura = '$cod_apertura' )
 ORDER BY $orden ASC";
-
+ echo $SQL_PAG;
 // TODO LOS CLIENTES
 $sql_cliente = "SELECT clientes_ubicacion.cod_cliente, clientes.nombre AS cliente
 				      FROM usuario_clientes ,  clientes_ubicacion , clientes
