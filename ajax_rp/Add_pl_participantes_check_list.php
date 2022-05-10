@@ -56,8 +56,6 @@ if ($actividad != "TODOS") {
 
 $sql = "SELECT
 DATE_FORMAT(pd.fecha_inicio, '%Y-%m-%d') fecha,
-TIME(pd.fecha_inicio) hora_inicio,
-TIME(pd.fecha_fin) hora_fin,
 p.cod_ficha,
 CONCAT(f.nombres, f.apellidos) ap_nombre,
 f.telefono,
@@ -93,7 +91,6 @@ ORDER BY cod_ficha";
 		<th class="etiqueta"><?php echo $leng['cliente'] ?> <br> <?php echo $leng['ubicacion'] ?></th>
 		<th class="etiqueta">Proyecto </th>
 		<th class="etiqueta">Actividad </th>
-		<th class="etiqueta">Hora Inicio/Fin</th>
 		<th class="etiqueta">Check List</th>
 	</tr>
 	<?php
@@ -116,7 +113,6 @@ ORDER BY cod_ficha";
 		<td class="texto">' . longitud($datos["cliente"]) . ' <br> '. longitud($datos["ubicacion"]) .'</td>
 		<td class="texto">' . longitud($datos["proyecto"]) . '</td>
 		<td class="texto">' . longitud($datos["actividad"]) . '</td>
-		<td class="texto">' . longitud($datos["hora_inicio"]) . '<br>'.longitud($datos["hora_fin"]) .'</td>
 		<td><a onclick="openModalCheckList('.$datos["codigo"].')"><img src="imagenes/nuevo.bmp" alt="Generar Check List" title="Generar Check List" width="20px" height="20px" border="null" /></a></td>
 		</tr>';
 	}; ?>

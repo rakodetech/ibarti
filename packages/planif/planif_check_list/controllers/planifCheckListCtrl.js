@@ -1,5 +1,4 @@
 function Add_filtroX() { // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
-    console.log('Add_filtroX');
     var rol = $("#rol").val();
     var region = $("#region").val();
     var estado = $("#estado").val();
