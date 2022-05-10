@@ -11,7 +11,7 @@ $ubicacion = $_POST['codigo'];
 	<?php
 	if (isset($_POST['perfil'])) {
 		$perfil    = $_POST['perfil'];
-		$ficha    = $_POST['ficha'];
+		// $ficha    = $_POST['ficha'];
 	?>
 		<td class="etiqueta" width="15%">ACTIVIDAD:</td>
 		<td width="25%" id="select06"><select name="proyecto" id="proyecto" style="width:150px;" onchange="getClasif(this.value)">

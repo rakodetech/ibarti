@@ -150,7 +150,7 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 		}
 
 		if (error == 0) {
-			var contenido = "listar";
+			var contenido = "listar_detalle";
 			ajax = nuevoAjax();
 			ajax.open("POST", "ajax/Add_novedades_check_list.php", true);
 			ajax.onreadystatechange = function() {
@@ -207,6 +207,10 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 			ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			ajax.send("codigo=" + ubicacion + "&perfil=" + perfil + "");
 		}
+	}
+
+	function getClasif(){
+		Add_filtroX();
 	}
 
 
@@ -416,7 +420,7 @@ $href2 = "'inicio.php?area=formularios/Add_novedades&Nmenu=$NmenuX&mod=$mod&meto
 			</tr>
 		</table>
 	</fieldset>
-	<div id="listar">
+	<div class="listar" id="listar_detalle">
 		<table width="100%" align="center">
 			<tr>
 				<td class="etiqueta" width="45%">Check List:</td>

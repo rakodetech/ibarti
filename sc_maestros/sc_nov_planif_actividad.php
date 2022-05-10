@@ -15,10 +15,10 @@ $novedad       =  $_POST['novedad'];
 
 $usuario  = $_POST['usuario'];
 
-$where = " WHERE novedades.cod_nov_clasif = '$nov_clasif' AND novedades.cod_nov_tipo = '$nov_tipo'";
+// $where = " WHERE novedades.cod_nov_clasif = '$nov_clasif' AND novedades.cod_nov_tipo = '$nov_tipo'";
 
-$sql   = "SELECT novedades.codigo FROM novedades $where ";
-$query = $bd->consultar($sql);
+// $sql   = "SELECT novedades.codigo FROM novedades $where ";
+// $query = $bd->consultar($sql);
 
 $metodo   = $_POST['metodo'];
 
@@ -27,19 +27,12 @@ if (isset($_POST['metodo'])) {
 	switch ($i) {
 
 		case 'actualizar':
-
-			while ($row03 = $bd->obtener_fila($query, 0)) {
-				$codigo = $row03[0];
-
-				$sql02 = " DELETE FROM nov_planif_actividad WHERE nov_planif_actividad.cod_actividad = $actividad
-                                              AND nov_planif_actividad.cod_novedad = '$codigo' ";
-				$query02 = $bd->consultar($sql02);
-			}
-
+			$sql02 = " DELETE FROM nov_planif_actividad WHERE nov_planif_actividad.cod_actividad = $actividad";
+			$query02 = $bd->consultar($sql02);
 			foreach ($novedad as $valorX) {
 
 				$sqlX = "INSERT INTO nov_planif_actividad (cod_actividad, cod_novedad, fecha, usuario )			
-	                          	      	   VALUES ($actividad, '$valorX', '$date_time', '$usuario')";
+	                          	      	   VALUES ($actividad, '$valorX', '$date_time', '$status')";
 
 				$queryX = $bd->consultar($sqlX);
 			}
