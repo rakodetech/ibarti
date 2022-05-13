@@ -75,8 +75,9 @@ if(isset($reporte)){
 					   ficha_egreso.fec_posible_pago, ficha_egreso.fec_pago,
 					   ficha_egreso.cheque, ficha_egreso.banco,
 					   ficha_egreso.importe, ficha_egreso.observacion,
-					   ficha_egreso.observacion2, v_ficha.`status`
-                  FROM v_ficha , ficha_egreso
+					   ficha_egreso.observacion2, v_ficha.`status`, 
+					   ficha_egreso_motivo.descripcion causa 
+                  FROM v_ficha , ficha_egreso LEFT JOIN ficha_egreso_motivo ON ficha_egreso.cod_ficha_egreso_motivo = ficha_egreso_motivo.codigo 
                        $where
               ORDER BY ficha_egreso.fec_egreso DESC";
 
@@ -95,7 +96,7 @@ if(isset($reporte)){
 			   <th> Preaviso</th><th> Fecha Inicio Preaviso </th><th> Fec. Culminación Preaviso </th><th> Calculo </th>
 			   <th> Calculo Status </th><th> Fec. Calculo </th><th> Fec. Posible de Pago </th><th> Fec. de Pago </th>
 			   <th> Cheque </th><th> Banco </th><th> Importe </th><th> Observación </th>
-			   <th> Comentario </th><th> Status </th></tr>";
+			   <th> Comentario </th><th> Status </th><th>Causa</th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
 		 echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
@@ -105,7 +106,7 @@ if(isset($reporte)){
 				   <td>".$row01[16]."</td><td>".$row01[17]."</td><td>".$row01[18]."</td><td>".$row01[19]."</td>
 				   <td>".$row01[20]."</td><td>".$row01[21]."</td><td>".$row01[22]."</td><td>".$row01[23]."</td>
 				   <td>".$row01[24]."</td><td>".$row01[25]."</td><td>".$row01[26]."</td>
-				   <td>".$row01[27]."</td><td>".$row01[28]."</td></tr>";
+				   <td>".$row01[27]."</td><td>".$row01[28]."</td><td>".$row01[29]."</td></tr>";
 		}
 		 echo "</table>";
 	}
