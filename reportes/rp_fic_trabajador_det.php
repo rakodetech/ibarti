@@ -101,7 +101,7 @@ if (isset($reporte)) {
 	IF(v_ficha.latitud, 'SI', 'NO') geolocalizacion, v_ficha.latitud, v_ficha.longitud, IFNULL(ficha_egreso.entrega_uniforme, 'N') entrega_uniforme,
 	ficha_egreso_motivo.descripcion motivo_egreso
 	FROM  v_ficha LEFT JOIN ficha_egreso ON v_ficha.cod_ficha = ficha_egreso.cod_ficha 
-	LEFT JOIN ficha_egreso_motivo ON ficha_egreso.motivo = ficha_egreso_motivo.codigo, bancos, ficha_n_contracto, preing_camisas,
+	LEFT JOIN ficha_egreso_motivo ON ficha_egreso.cod_ficha_egreso_motivo = ficha_egreso_motivo.codigo, bancos, ficha_n_contracto, preing_camisas,
 	preing_pantalon, preing_zapatos, nivel_academico,men_usuarios
 	$where
 	ORDER BY 7 ASC ";
