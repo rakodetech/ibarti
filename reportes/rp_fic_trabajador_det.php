@@ -123,7 +123,7 @@ if (isset($reporte)) {
 		<th> Nivel Académico </th><th> Cargo</th><th> " . $leng['contrato'] . "</th><th> N. " . $leng['contrato'] . " </th>
 		<th> Banco </th><th> Cta. Bancaria </th><th> T. Camisa </th><th>T. Pantalón </th>
 		<th>N. Zapato</th> <th> Fec. Ingreso </th><th> Fecha Ing. Sistema </th><th> Fec.. " . $leng['contrato'] . " </th>
-		<th> Fec. Egreso </th><th> Motivo de Egreso </th><th> Dosis COVID-19 </th><th> Status </th><th> Fecha Ultima Modificacion </th><th> Usuario Ultima Modificacion </th>
+		<th> Fec. Egreso </th><th> Causa de Egreso </th><th> Dosis COVID-19 </th><th> Status </th><th> Fecha Ultima Modificacion </th><th> Usuario Ultima Modificacion </th>
 		<th>Geolocalización</th><th>Latitud</th><th>Longitud</th><th>Entregó Uniforme</th></tr>";
 		//<th> Servicio Militar </th><th> Rango Militar </th>
 
