@@ -96,7 +96,7 @@ if (isset($reporte)) {
 	v_ficha.contracto, ficha_n_contracto.descripcion AS n_contracto,
 	bancos.descripcion AS banco,  v_ficha.cta_banco,
 	preing_camisas.descripcion AS camisa, preing_pantalon.descripcion AS pantalon, preing_zapatos.descripcion AS zapato,
-	v_ficha.fec_ingreso, v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso, ficha_egreso_motivo.descripcion motivo_egreso,
+	v_ficha.fec_ingreso, v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso,
 	v_ficha.`status`,v_ficha.fec_us_mod,Concat(men_usuarios.nombre,' ',men_usuarios.apellido) us_mod, v_ficha.dosis_covid19,
 	IF(v_ficha.latitud, 'SI', 'NO') geolocalizacion, v_ficha.latitud, v_ficha.longitud, IFNULL(ficha_egreso.entrega_uniforme, 'N') entrega_uniforme,
 	ficha_egreso_motivo.descripcion motivo_egreso
