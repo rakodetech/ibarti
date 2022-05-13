@@ -96,13 +96,16 @@ if (isset($reporte)) {
 	v_ficha.contracto, ficha_n_contracto.descripcion AS n_contracto,
 	bancos.descripcion AS banco,  v_ficha.cta_banco,
 	preing_camisas.descripcion AS camisa, preing_pantalon.descripcion AS pantalon, preing_zapatos.descripcion AS zapato,
-	v_ficha.fec_ingreso,  v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso,
+	v_ficha.fec_ingreso, v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso,
 	v_ficha.`status`,v_ficha.fec_us_mod,Concat(men_usuarios.nombre,' ',men_usuarios.apellido) us_mod, v_ficha.dosis_covid19,
-	IF(v_ficha.latitud, 'SI', 'NO') geolocalizacion, v_ficha.latitud, v_ficha.longitud, IFNULL(ficha_egreso.entrega_uniforme, 'N') entrega_uniforme 
-	FROM  v_ficha LEFT JOIN ficha_egreso ON v_ficha.cod_ficha = ficha_egreso.cod_ficha, bancos, ficha_n_contracto, preing_camisas,
+	IF(v_ficha.latitud, 'SI', 'NO') geolocalizacion, v_ficha.latitud, v_ficha.longitud, IFNULL(ficha_egreso.entrega_uniforme, 'N') entrega_uniforme,
+	ficha_egreso_motivo.descripcion motivo_egreso
+	FROM  v_ficha LEFT JOIN ficha_egreso ON v_ficha.cod_ficha = ficha_egreso.cod_ficha 
+	LEFT JOIN ficha_egreso_motivo ON ficha_egreso.cod_ficha_egreso_motivo = ficha_egreso_motivo.codigo, bancos, ficha_n_contracto, preing_camisas,
 	preing_pantalon, preing_zapatos, nivel_academico,men_usuarios
 	$where
 	ORDER BY 7 ASC ";
+
 	//,ficha_status_militar parte del FROM
 	//, if(v_ficha.servicio_militar='T','SI','NO') fic_militar, ficha_status_militar.descripcion rango_militar parte del SELECT
 	if ($reporte == 'excel') {
@@ -120,7 +123,7 @@ if (isset($reporte)) {
 		<th> Nivel Académico </th><th> Cargo</th><th> " . $leng['contrato'] . "</th><th> N. " . $leng['contrato'] . " </th>
 		<th> Banco </th><th> Cta. Bancaria </th><th> T. Camisa </th><th>T. Pantalón </th>
 		<th>N. Zapato</th> <th> Fec. Ingreso </th><th> Fecha Ing. Sistema </th><th> Fec.. " . $leng['contrato'] . " </th>
-		<th> Fec. Egreso </th><th> Dosis COVID-19 </th><th> Status </th><th> Fecha Ultima Modificacion </th><th> Usuario Ultima Modificacion </th>
+		<th> Fec. Egreso </th><th> Motivo de Egreso </th><th> Dosis COVID-19 </th><th> Status </th><th> Fecha Ultima Modificacion </th><th> Usuario Ultima Modificacion </th>
 		<th>Geolocalización</th><th>Latitud</th><th>Longitud</th><th>Entregó Uniforme</th></tr>";
 		//<th> Servicio Militar </th><th> Rango Militar </th>
 
@@ -133,7 +136,7 @@ if (isset($reporte)) {
 			<td>" . $row01[16] . "</td><td>" . $row01[17] . "</td><td>" . $row01[18] . "</td><td>" . $row01[19] . "</td>
 			<td>" . $row01[20] . "</td><td>" . $row01[21] . "</td><td>" . $row01[22] . "</td><td>Nº " . $row01[23] . "</td>
 			<td>" . $row01[24] . "</td><td>" . $row01[25] . "</td><td>" . $row01[26] . "</td><td>" . $row01[27] . "</td>
-			<td>" . $row01[28] . "</td><td>" . $row01[29] . "</td> <td>" . $row01[30] . "</td><td>" . $row01[34] . "</td>
+			<td>" . $row01[28] . "</td><td>" . $row01[29] . "</td> <td>" . $row01[30] . "</td><td>" . $row01[39] . "</td><td>" . $row01[34] . "</td>
 			<td>" . $row01[31] . "</td> <td>" . $row01[32] . "</td><td>" . $row01[33] . "</td><td>" . $row01[35] . "</td>
 			<td>'$row01[36]'</td><td>'$row01[37]'</td><td>" . $row01[38] . "</td>
 			</tr>";
