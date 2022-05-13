@@ -96,10 +96,11 @@ if (isset($reporte)) {
 	v_ficha.contracto, ficha_n_contracto.descripcion AS n_contracto,
 	bancos.descripcion AS banco,  v_ficha.cta_banco,
 	preing_camisas.descripcion AS camisa, preing_pantalon.descripcion AS pantalon, preing_zapatos.descripcion AS zapato,
-	v_ficha.fec_ingreso,  v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso,
+	v_ficha.fec_ingreso,  v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso, ficha_egreso_motivo.descripcion motivo_egreso,
 	v_ficha.`status`,v_ficha.fec_us_mod,Concat(men_usuarios.nombre,' ',men_usuarios.apellido) us_mod, v_ficha.dosis_covid19,
 	IF(v_ficha.latitud, 'SI', 'NO') geolocalizacion, v_ficha.latitud, v_ficha.longitud, IFNULL(ficha_egreso.entrega_uniforme, 'N') entrega_uniforme 
-	FROM  v_ficha LEFT JOIN ficha_egreso ON v_ficha.cod_ficha = ficha_egreso.cod_ficha, bancos, ficha_n_contracto, preing_camisas,
+	FROM  v_ficha LEFT JOIN ficha_egreso ON v_ficha.cod_ficha = ficha_egreso.cod_ficha
+	LEFT JOIN ficha_egreso_motivo ON ficha_egreso.motivo = ficha_egreso_motivo.codigo,, bancos, ficha_n_contracto, preing_camisas,
 	preing_pantalon, preing_zapatos, nivel_academico,men_usuarios
 	$where
 	ORDER BY 7 ASC ";
@@ -135,7 +136,7 @@ if (isset($reporte)) {
 			<td>" . $row01[24] . "</td><td>" . $row01[25] . "</td><td>" . $row01[26] . "</td><td>" . $row01[27] . "</td>
 			<td>" . $row01[28] . "</td><td>" . $row01[29] . "</td> <td>" . $row01[30] . "</td><td>" . $row01[34] . "</td>
 			<td>" . $row01[31] . "</td> <td>" . $row01[32] . "</td><td>" . $row01[33] . "</td><td>" . $row01[35] . "</td>
-			<td>'$row01[36]'</td><td>'$row01[37]'</td><td>" . $row01[38] . "</td>
+			<td>'$row01[36]'</td><td>'$row01[37]'</td><td>" . $row01[38] . "</td><td>" . $row01[39] . "</td>
 			</tr>";
 			//<td>".$row01[33]."</td><td>".$row01[34]."</td>
 		}
