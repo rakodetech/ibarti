@@ -24,7 +24,7 @@ $vinculo = "inicio.php?area=maestros/Add_$archivo&Nmenu=" . $_GET['Nmenu'] . "&m
 
 		if (error == 0) {
 
-			var contenido = "listar";
+			var contenido = "listar_datos";
 
 			ajax = nuevoAjax();
 			ajax.open("POST", "ajax/Add_novedades_m.php", true);
@@ -115,7 +115,7 @@ $vinculo = "inicio.php?area=maestros/Add_$archivo&Nmenu=" . $_GET['Nmenu'] . "&m
 		</tr>
 	</table>
 	<hr />
-	<div id="listar">
+	<div id="listar_datos" class="listar">
 		<table width="100%" align="center">
 			<tr class="fondo00">
 				<th width="8%" class="etiqueta">codigo</th>
