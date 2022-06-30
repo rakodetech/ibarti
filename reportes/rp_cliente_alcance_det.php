@@ -27,23 +27,23 @@ if(isset($reporte)){
 	
 	
 	if($region != "TODOS"){
-		$where .= " AND regiones.cod_region = '$region' ";
+		$where .= " AND regiones.codigo = '$region' ";
 	}
 	
 	if($estado != "TODOS"){
-			$where .= " AND estados.cod_estado = '$estado' ";  // cambie AND asistencia.co_cont = '$contracto'
+			$where .= " AND estados.codigo = '$estado' ";  // cambie AND asistencia.co_cont = '$contracto'
 		}
 	
 		if($ciudad != "TODOS"){
-			$where  .= " AND ciudades.cod_ciudad = '$ciudad' ";
+			$where  .= " AND ciudades.codigo = '$ciudad' ";
 		}
 	
 		if($cliente != "TODOS"){
-			$where .= " AND clientes.cod_cliente = '$cliente' ";
+			$where .= " AND clientes.codigo = '$cliente' ";
 		}
 	
 		if($ubicacion != "TODOS"){
-			$where .= " AND cliente_ubicacion.cod_ubicacion = '$ubicacion' "; 
+			$where .= " AND cliente_ubicacion.codigo = '$ubicacion' "; 
 		}
 	
 		if($vencimiento != "TODOS"){
