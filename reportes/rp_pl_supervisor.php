@@ -31,6 +31,24 @@ $codigo      = '';
 		});
 	}
 
+	function cargar_proyectos(area) {
+		var parametros = {
+			"codigo": area
+		};
+		$.ajax({
+			data: parametros,
+			url: 'ajax/Add_proyectos.php',
+			type: 'post',
+			success: function(response) {
+				$("#proyecto").html(response);
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		});
+	}
+
 	function Add_filtroX() { // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 
 		var rol = $("#rol").val();
@@ -38,6 +56,7 @@ $codigo      = '';
 		var estado = $("#estado").val();
 		var cliente = $("#cliente").val();
 		var ubicacion = $("#ubicacion").val();
+		var area_proyecto = $("#area_proyecto").val();
 		var proyecto = $("#proyecto").val();
 		var actividad = $("#actividad").val();
 
@@ -77,6 +96,7 @@ $codigo      = '';
 				"trabajador": trabajador,
 				"fecha_desde": fecha_desde,
 				"fecha_hasta": fecha_hasta,
+				"area_proyecto": area_proyecto,
 				"proyecto": proyecto,
 				"actividad": actividad,
 				"Nmenu": Nmenu,
@@ -151,6 +171,14 @@ $codigo      = '';
 			<td id="contenido_ubic"><select name="ubicacion" id="ubicacion" style="width:120px;">
 					<option value="TODOS">TODOS</option>
 				</select></td>
+				<td>Area de Proyecto:</td>
+			<td><select name="area_proyecto" id="area_proyecto" style="width:120px;" onchange="cargar_proyectos(this.value)" required>
+					<?php
+					echo '<option value="TODOS">TODOS</option>';
+					$query01 = $bd->consultar($sql_area_proyecto);
+					while ($row01 = $bd->obtener_fila($query01, 0)) {
+						echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
+					} ?></select></td>
 			<td>Proyecto:</td>
 			<td><select name="proyecto" id="proyecto" style="width:120px;" onchange="cargar_actividades(this.value)" required>
 					<?php
@@ -159,7 +187,9 @@ $codigo      = '';
 					while ($row01 = $bd->obtener_fila($query01, 0)) {
 						echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
 					} ?></select></td>
-			<td>Actividad:</td>
+		</tr>
+		<tr>
+		<td>Actividad:</td>
 			<td><select name="actividad" id="actividad" style="width:120px;" required>
 					<?php
 					echo '<option value="TODOS">TODOS</option>';
@@ -167,8 +197,6 @@ $codigo      = '';
 					while ($row01 = $bd->obtener_fila($query01, 0)) {
 						echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
 					} ?></select></td>
-		</tr>
-		<tr>
 			<td>Filtro Trab.:</td>
 			<td id="select01">
 				<select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">

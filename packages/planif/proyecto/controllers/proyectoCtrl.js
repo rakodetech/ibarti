@@ -61,6 +61,7 @@ function save_proyecto() {
 	var codigo = $("#r_codigo").val();
 	var abrev = $("#r_abrev").val();
 	var nombre = $("#r_nombre").val();
+	var area = $("#area_proyecto").val();
 	var status = Status($("#r_status:checked").val());
 	var usuario = $("#usuario").val();
 	var metodo = $("#h_metodo").val();
@@ -71,7 +72,7 @@ function save_proyecto() {
 			"codigo": codigo, "status": status,
 			"nombre": nombre, "abrev": abrev,
 			"proced": proced, "usuario": usuario,
-			"metodo": metodo
+			"area": area, "metodo": metodo
 		};
 		$.ajax({
 			data: parametros,

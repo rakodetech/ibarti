@@ -185,6 +185,10 @@ $sql_nov_tipo = "SELECT nov_tipo.codigo, nov_tipo.descripcion
 $sql_perfil = "SELECT men_perfiles.codigo, men_perfiles.descripcion
                  FROM men_perfiles ORDER BY 2 ASC";
 
+$sql_area_proyecto = "SELECT area_proyecto.codigo, area_proyecto.descripcion
+                  FROM area_proyecto WHERE area_proyecto.status = 'T' ORDER BY 2 ASC";
+
+
 $sql_proyecto = "SELECT planif_proyecto.codigo, planif_proyecto.descripcion
                   FROM planif_proyecto WHERE planif_proyecto.status = 'T' ORDER BY 2 ASC";
 

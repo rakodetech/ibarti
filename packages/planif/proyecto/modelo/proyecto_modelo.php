@@ -39,7 +39,8 @@ class Proyecto
   public function editar($cod)
   {
     $this->datos   = array();
-    $sql = " SELECT * FROM planif_proyecto a
+    $sql = " SELECT a.*, b.codigo cod_area, IFNULL(b.descripcion, 'SIN DEFINIR') area 
+    FROM planif_proyecto a LEFT JOIN area_proyecto b ON a.cod_area = b.codigo
             WHERE a.codigo = '$cod' ";
     $query = $this->bd->consultar($sql);
     return $this->datos = $this->bd->obtener_fila($query);

@@ -9,6 +9,7 @@ $region     = $_POST['region'];
 $estado     = $_POST['estado'];
 $cliente    = $_POST['cliente'];
 $ubicacion  = $_POST['ubicacion'];
+$area_proyecto    = $_POST['area_proyecto'];
 $proyecto    = $_POST['proyecto'];
 $actividad  = $_POST['actividad'];
 $trabajador = $_POST['trabajador'];
@@ -46,6 +47,10 @@ if ($ubicacion != "TODOS") {
 
 if ($proyecto != "TODOS" && $proyecto != NULL) {
 	$where   .= " AND pd.cod_proyecto = '$proyecto' ";
+}
+
+if ($area_proyecto != "TODOS" && $area_proyecto != NULL) {
+	$where   .= " AND pp.cod_area = '$area_proyecto' ";
 }
 
 if ($actividad != "TODOS" && $actividad != NULL) {

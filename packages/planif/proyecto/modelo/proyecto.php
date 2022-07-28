@@ -15,15 +15,15 @@ $result = array();
 	if(isset($_POST['proced'])){
 	try {
     if($metodo == "agregar"){
-      $sql = "INSERT INTO planif_proyecto (codigo, abrev, descripcion,
+      $sql = "INSERT INTO planif_proyecto (codigo, abrev, descripcion, cod_area,
                                     cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, `status`)
-                            VALUES (NULL, '$abrev', '$nombre',
+                            VALUES (NULL, '$abrev', '$nombre', '$area',
                                     '$usuario', current_date, '$usuario', current_date, '$status')";
     }else{
       $sql = "UPDATE planif_proyecto SET
              abrev          = '$abrev',     descripcion    = '$nombre',
              fec_us_mod     = current_date, cod_us_mod     = '$usuario',
-             `status`       = '$status'
+             cod_area = '$area', `status`       = '$status'
         WHERE codigo         = '$codigo'";
     }
 

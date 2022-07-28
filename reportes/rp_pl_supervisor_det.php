@@ -22,6 +22,7 @@ $estado     = $_POST['estado'];
 $cliente    = $_POST['cliente'];
 $ubicacion  = $_POST['ubicacion'];
 $proyecto    = $_POST['proyecto'];
+$area_proyecto    = $_POST['area_proyecto'];
 $actividad  = $_POST['actividad'];
 $trabajador = $_POST['trabajador'];
 
@@ -54,6 +55,10 @@ if($region != "TODOS"){
 
 	if ($ubicacion != "TODOS") {
 		$where   .= " AND p.cod_ubicacion = '$ubicacion' ";
+	}
+
+	if ($area_proyecto != "TODOS" && $area_proyecto != NULL) {
+		$where   .= " AND pp.cod_area = '$area_proyecto' ";
 	}
 
 	if ($proyecto != "TODOS" && $proyecto != NULL) {
