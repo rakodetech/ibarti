@@ -7,7 +7,7 @@ $bd = new DataBase();
 $result = array();
 $ficha   = $_POST['ficha'];
 $producto    = $_POST['producto'];
-$sql = "SELECT clientes_ub_alcance cod_producto
+$sql = "SELECT clientes_ub_alcance.cod_producto
     FROM clientes_ub_alcance,productos 
 WHERE productos.item = '$producto' 
 AND clientes_ub_alcance.cod_cl_ubicacion = '$ficha'";

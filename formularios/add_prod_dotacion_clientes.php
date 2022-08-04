@@ -9,8 +9,8 @@
 			var producto   = document.getElementById('producto_'+numX+'').value;
 			var cod_talla   = document.getElementById('cod_talla_'+numX+'').value;
 			comprobarTalla(ficha, producto,cod_talla,function(tallas_iguales){
-				if(tallas_iguales){
-					var cantidad = Number(document.getElementById('cantidad_'+numX+'').value);
+				if(tallas_iguales===false){
+				var cantidad =Number(document.getElementById('cantidad_'+numX+'').value);
 					var cantidad_max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
 					if(cantidad > cantidad_max){
 						toastr.error(cantidad+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+cantidad_max);
@@ -70,7 +70,7 @@ function comprobarTalla(ficha, producto,cod_talla,callback){
 
 function Activar01(codigo, relacion, contenido){  // LINEA //
 	if(codigo!=''){
-		var valor = "ajax/Add_prod_sub_linea_clientes.php";
+		var valor = "ajax/Add_prod_sub_linea.php";
 		ajax=nuevoAjax();
 		ajax.open("POST", valor, true);
 		ajax.onreadystatechange=function()
@@ -93,6 +93,7 @@ function cantidad_maxima(cod_almacen,relacion) {
 		type: 'post',
 		success: function(response) {
 			var resp = JSON.parse(response);
+            console.log('Policia:' + resp[0]);
 			if(resp){
 				$("#cantidad_"+relacion).attr('max',resp[0]);
 			}else if(cod_almacen != ""){
@@ -189,7 +190,7 @@ function validarAlcance(numX) {
 		var parametros = { "sub_linea": sub_linea, "ficha": ficha };
 		$.ajax({
 			data: parametros,
-			url: 'packages/cliente/cl_ubicacion/views/validarUniforme.php',
+			url: 'packages/cliente/cl_ubicacion/views/validarUniforme_clientes.php',
 			type: 'post',
 			success: function (response) {
 				var resp = JSON.parse(response);
@@ -277,7 +278,7 @@ if(input01 == ""){
 function prod_dotacion_det(numX){
 	var num     = numX+1;
 	if(numX != ''){
-		var valor = "ajax/Add_prod_dotacion_det.php";
+		var valor = "ajax/Add_prod_dotacion_det_clientes.php";
 		var contenido = "Contenedor01_"+numX+"";
 		ajax=nuevoAjax();
 		ajax.open("POST", valor, true);
@@ -298,7 +299,7 @@ function prod_dotacion_det(numX){
 
 function  dotacion_ref(codigo){  // LINEA //
 	if(codigo!=''){
-		var valor = "ajax/Add_prod_dotacion_ref.php";
+		var valor = "ajax/Add_prod_dotacion_ref_clientes.php";
 		ajax=nuevoAjax();
 		ajax.open("POST", valor, true);
 		ajax.onreadystatechange=function()
@@ -514,12 +515,12 @@ $proced      = "p_prod_dotacion";
 										</tr>
 									<?php }else{
 										$sql = " SELECT productos.cod_linea,  prod_lineas.descripcion AS linea,
-										prod_dotacion_det.cod_producto, concat(productos.descripcion,' ',tallas.descripcion) AS producto,
-										prod_dotacion_det.cantidad,productos.cod_sub_linea,  
+										prod_dotacion_det_clientes.cod_producto, concat(productos.descripcion,' ',tallas.descripcion) AS producto,
+										prod_dotacion_det_clientes.cantidad,productos.cod_sub_linea,  
 										prod_sub_lineas.descripcion AS sub_linea
-										FROM prod_dotacion_det , productos , prod_lineas,prod_sub_lineas,tallas
-										WHERE prod_dotacion_det.cod_dotacion = '$codigo'
-										AND prod_dotacion_det.cod_producto = productos.item
+										FROM prod_dotacion_det_clientes , productos , prod_lineas,prod_sub_lineas,tallas
+										WHERE prod_dotacion_det_clientes.cod_dotacion = '$codigo'
+										AND prod_dotacion_det_clientes.cod_producto = productos.item
 										AND productos.cod_linea = prod_lineas.codigo 
 										AND productos.cod_sub_linea = prod_sub_lineas.codigo 
 										AND productos.cod_talla = tallas.codigo";
