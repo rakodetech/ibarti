@@ -22,7 +22,7 @@ $result = array();
     }else{
       $sql = "UPDATE rotacion SET
              abrev          = '$abrev',     descripcion    = '$nombre',
-             cod_us_mod     = current_date, fec_us_mod     = '$usuario',
+             cod_us_mod     = '$usuario', fec_us_mod     = current_date,
              `status`       = '$status'
         WHERE codigo         = '$codigo'";
     }

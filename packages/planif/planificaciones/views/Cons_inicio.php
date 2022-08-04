@@ -33,7 +33,9 @@ $cliente  =  $plan->get_cliente();
       <td width="35%"><span id="apertura_cont"><select id="planf_apertura" onchange="mostrar_icono_apertura(this.value)" required onclick="cargar_planif(this.value)" style="width:200px">
             <option value="">Seleccione</option>
           </select><img class="imgLink" src="imagenes\ico_agregar.ico" alt="Agregar Planificacion" title="Agregar Planificacion" onclick="B_planif_apertura()" width="15px" height="15px">
-          <img class="imgLink" id="mod_ap_planif" style="display:none;" src="imagenes/detalle.bmp" alt="Modificar Apertura" title="Modificar Apertura" onclick="mod_apertura_planif()" width="15px" height="15px"></span></td>
+          <img class="imgLink" id="mod_ap_planif" style="display:none;" src="imagenes/detalle.bmp" alt="Modificar Apertura" title="Modificar Apertura" onclick="mod_apertura_planif()" width="15px" height="15px">
+          <img class="imgLink" id="delete_ap_planif" style="display:none;" src="imagenes/borrar.bmp" alt="Borrar Apertura" title="Borrar Apertura" onclick="delete_apertura_planif()" width="15px" height="15px"></span>
+      </td>
     </tr>
     <tr>
       <td height="8" colspan="4" align="center">

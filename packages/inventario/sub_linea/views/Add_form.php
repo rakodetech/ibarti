@@ -1,21 +1,21 @@
 <script language="javascript">
-  $("#add").on('submit', function(evt){
+  $("#add").on('submit', function(evt) {
     evt.preventDefault();
     save();
   });
 </script>
 <?php
 require "../modelo/sub_linea_modelo.php";
-require "../../../../".Leng;
+require "../../../../" . Leng;
 $codigo   = $_POST['codigo'];
 $metodo   = $_POST['metodo'];
 $modelo = new ProductoSubLinea;
 
-if($metodo == 'modificar'){
-  $titulo    = " MODIFICAR SUB LINEA (".$codigo.")";
+if ($metodo == 'modificar') {
+  $titulo    = " MODIFICAR SUB LINEA (" . $codigo . ")";
   $prod        = $modelo->editar($codigo);
   $lineas   = $modelo->get_lineas();
-}else{
+} else {
   $prod   = $modelo->inicio();
   $lineas   = $modelo->get_lineas();
   $titulo    = "AGREGAR SUB LINEA";
@@ -24,76 +24,83 @@ if($metodo == 'modificar'){
 $activo = $prod['status'];
 ?>
 
-<form name="add" id="add"> 
+<form name="add" id="add">
 
   <fieldset class="fieldset">
-   <span style="float: right;" align="center" >
-    <img  style ="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" onclick="borrarSubLinea()" id="borrar_modelo" />
-    <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" alt="Agregar" onclick="irAAgregarSubLinea()" title="Agregar Registro" id="agregar_modelo" />
-    <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="B_sub_lineas()" />
-  </span>
-  <legend> <?php echo $titulo;?> </legend>
-  <table width="80%" align="center">
-    <tr>
-      <td class="etiqueta">C&oacute;digo:</td>
-      <td><input type="text" name="codigo" id="codigo" maxlength="11" style="width:120px" value="<?php echo $codigo;?>" required/>
-        Activo: <input name="activo" id="activo" type="checkbox"  <?php echo statusCheck("$activo"); ?> value="T" /><br />
-      </td>
-    </tr>
-    <tr>
-      <td class="etiqueta">Linea:</td>
-      <td>
-        <select name="linea" id="linea" style="width:250px" required>
-          <?php
-          if($metodo == "agregar"){
-            echo '<option value="">Seleccione...</option>';
-          }
-          foreach ($lineas as  $datos) {
-            echo '<option value="'.$datos[0].'">'.$datos[1].'</option>';
-          }
-          ?>
-        </select></td>
+    <span style="float: right;" align="center">
+      <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/borrar.bmp" title="Borrar Registro" onclick="borrarSubLinea()" id="borrar_modelo" />
+      <img style="display: none;" border="null" width="25px" height="25px" src="imagenes/nuevo.bmp" alt="Agregar" onclick="irAAgregarSubLinea()" title="Agregar Registro" id="agregar_modelo" />
+      <img border="null" width="25px" height="25px" src="imagenes/buscar.bmp" title="Buscar Registro" id="buscar_producto_title" onclick="B_sub_lineas()" />
+    </span>
+    <legend> <?php echo $titulo; ?> </legend>
+    <table width="80%" align="center">
+      <tr>
+        <td class="etiqueta">C&oacute;digo:</td>
+        <td><input type="text" name="codigo" id="codigo" maxlength="11" style="width:120px" value="<?php echo $codigo; ?>" required />
+          Activo: <input name="activo" id="activo" type="checkbox" <?php echo statusCheck("$activo"); ?> value="T" /><br />
+        </td>
+      </tr>
+      <tr>
+        <td class="etiqueta">Linea:</td>
+        <td>
+          <select name="linea" id="linea" style="width:250px" required>
+            <?php
+            if ($metodo == "agregar") {
+              echo '<option value="">Seleccione...</option>';
+            }
+            foreach ($lineas as  $datos) {
+              if ($prod['cod_linea'] == $datos[0]) {
+                echo '<option value="' . $datos[0] . '" selected>' . $datos[1] . '</option>';
+              } else {
+                echo '<option value="' . $datos[0] . '">' . $datos[1] . '</option>';
+              }
+            }
+            ?>
+          </select>
+        </td>
       </tr>
       <tr>
         <td class="etiqueta">Descripcion: </td>
-        <td><input type="text" name="descripcion" id="descripcion" maxlength="60" style="width:350px" value="<?php echo $prod['descripcion'];?>" required/>
+        <td><input type="text" name="descripcion" id="descripcion" maxlength="60" style="width:350px" value="<?php echo $prod['descripcion']; ?>" required />
         </td>
-      </tr>   
+      </tr>
       <tr>
         <td class="etiqueta">Propiedades: </td>
         <td id="prop">
           <?php
-          echo 'Color: <input name="color" id="color" type="checkbox" '.statusCheck($prod['color']). ' value="T" /> 
+          echo 'Color: <input name="color" id="color" type="checkbox" ' . statusCheck($prod['color']) . ' value="T" /> 
 
-          Talla: <input name="talla" id="talla" type="checkbox" '.statusCheck($prod['talla']). ' value="T" /> 
+          Talla: <input name="talla" id="talla" type="checkbox" ' . statusCheck($prod['talla']) . ' value="T" /> 
 
-          Peso: <input name="peso" id="peso" type="checkbox" '.statusCheck($prod['peso']). ' value="T" /> 
+          Peso: <input name="peso" id="peso" type="checkbox" ' . statusCheck($prod['peso']) . ' value="T" /> 
           
-          Piecubico: <input name="piecubico" id="piecubico" type="checkbox" '.statusCheck($prod['piecubico']). ' value="T" />      ';
+          Piecubico: <input name="piecubico" id="piecubico" type="checkbox" ' . statusCheck($prod['piecubico']) . ' value="T" />      ';
           ?>
         </td>
-      </tr>   
+      </tr>
       <tr>
-        <tr> 
-         <td height="8" colspan="2" align="center"><hr></td>
-       </tr>	
-       <tr> 
-         <td colspan="2" >
-          <input type="hidden" name="metodo" id="metodo" value="<?php echo $metodo;?>">
+      <tr>
+        <td height="8" colspan="2" align="center">
+          <hr>
         </td>
       </tr>
-    </table>      
+      <tr>
+        <td colspan="2">
+          <input type="hidden" name="metodo" id="metodo" value="<?php echo $metodo; ?>">
+        </td>
+      </tr>
+    </table>
   </fieldset>
   <div align="center">
-   <span class="art-button-wrapper">
-    <span class="art-button-l"> </span>
-    <span class="art-button-r"> </span>
-    <input type="submit" name="salvar"  id="salvar" value="Guardar" class="readon art-button" />  
-  </span>&nbsp;
-  <span class="art-button-wrapper">
-    <span class="art-button-l"> </span>
-    <span class="art-button-r"> </span>
-    <input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />  
-  </span>
-</div>
+    <span class="art-button-wrapper">
+      <span class="art-button-l"> </span>
+      <span class="art-button-r"> </span>
+      <input type="submit" name="salvar" id="salvar" value="Guardar" class="readon art-button" />
+    </span>&nbsp;
+    <span class="art-button-wrapper">
+      <span class="art-button-l"> </span>
+      <span class="art-button-r"> </span>
+      <input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
+    </span>
+  </div>
 </form>

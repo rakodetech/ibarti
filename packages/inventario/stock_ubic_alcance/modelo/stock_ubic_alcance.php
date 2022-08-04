@@ -22,7 +22,7 @@ if (isset($_POST['metodo'])) {
   try {
     if (($metodo == "agregar") or ($metodo == "anular")) {
       $anulado = "F";
-      $nro_stock_alcance_c = "";
+      $nro_stock_alcance_c = 0;
       if ($metodo == "agregar") {
         $sql = " INSERT INTO ajuste_alcance(cod_ubicacion, fecha, motivo, cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod)
         VALUES ('$ubic','$fecha', '$descripcion', '$us', CURRENT_TIMESTAMP, '$us', CURRENT_TIMESTAMP); ";
@@ -34,9 +34,9 @@ if (isset($_POST['metodo'])) {
 
         foreach ($ped_reng as $obj) {
           $sql = " INSERT INTO ajuste_alcance_reng (cod_ajuste, reng_num,
-        cod_producto, cod_almacen, cantidad, aplicar,anulado,cod_anulado) VALUES
+        cod_producto, cod_almacen, cantidad, aplicar, cod_anulado) VALUES
         ($cod_stock_alcance, '$obj->reng_num','$obj->cod_producto', '$obj->cod_almacen',
-        $obj->cantidad, '$aplicar','$anulado','$nro_stock_alcance_c') ";
+        $obj->cantidad, '$aplicar',$nro_stock_alcance_c) ";
           $result['sql_reng'][] = $sql;
           $bd->consultar($sql);
           if (count($obj->eans) > 0) {

@@ -783,14 +783,14 @@ function Add_productos(ubicacion) {
     });
 }
 
-function cargarEANS(item, salida, ubicacion) {
+function cargarEANS(item, salida, almacen) {
     //console.log('cargarEANS');
     var reng_num_ean = 0;
     var salida = salida ? salida : null;
-    var ubicacion = ubicacion ? ubicacion : null;
+    var almacen = almacen ? almacen : null;
     console.log('SALIDA: ', salida, '  ubicacion:', ubicacion, ' ITEM: ', item);
     $.ajax({
-        data: { 'codigo': item, 'salida': salida, 'ubicacion': ubicacion },
+        data: { 'codigo': item, 'salida': salida, 'almacen': almacen },
         url: 'packages/inventario/stock_ubic_alcance/views/Add_EANS.php',
         type: 'post',
         success: function (response) {
@@ -814,7 +814,7 @@ function cargarEANS(item, salida, ubicacion) {
                 });
                 eanModalOpen();
             } else {
-                toastr.warning('Este producto no tiene EANS disponibles!.');
+                toastr.warning('Este producto no tiene EANS disponibles en este almacén!.');
             }
 
         },
@@ -843,7 +843,7 @@ function getIfEAN(item, cantidad, actualizar, callback) {
                     } else {
                         $("#boton_eans").attr("onclick", "guardarEans()");
                     }
-                    cargarEANS(item, true, $("#ubicacion").val());
+                    cargarEANS(item, true, $("#ped_almacen").val());
 
                     $("#cant_ing").html(cantidad);
                 }

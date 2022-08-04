@@ -229,11 +229,11 @@ class stock_ubic_alcance
     return $this->datos;
   }
 
-  public function get_eans($cod, $salida)
+  public function get_eans($cod, $almacen, $salida)
   {
     $this->datos   = array();
     if ($salida) {
-      $sql = " SELECT cod_ean FROM prod_ean WHERE inStock = 'F' AND cod_producto = '$cod'
+      $sql = " SELECT cod_ean FROM prod_ean WHERE inStock = 'T' AND cod_producto = '$cod' AND cod_almacen = '$almacen'
     ORDER BY 1 DESC";
     } else {
       $sql = " SELECT a.cod_producto, a.cod_ean

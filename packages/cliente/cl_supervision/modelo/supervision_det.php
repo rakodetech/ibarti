@@ -14,7 +14,7 @@ $codigo      = htmlentities($codigo);
 if(isset($_POST['proced'])){
   try {
     if(!$codigo) $codigo = 0;
-    $sql    = "$SELECT $proced('$metodo', $codigo, '$ubicacion', '$turno', '$cantidad', '$usuario')";
+    $sql    = "$SELECT $proced('$metodo', $codigo, '$ubicacion', '$turno', '$cargo', '$cantidad', '$usuario')";
     $result['sql'] = $sql;
     $query = $bd->consultar($sql);
   }catch (Exception $e) {
@@ -27,4 +27,3 @@ if(isset($_POST['proced'])){
 }
 print_r(json_encode($result));
 return json_encode($result);
-?>

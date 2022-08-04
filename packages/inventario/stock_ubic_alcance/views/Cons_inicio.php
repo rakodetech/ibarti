@@ -65,7 +65,7 @@ $listar  =  $ajuste->get();
   <table width="100%" border="0" align="center">
     <thead>
       <tr>
-        <th>N. Movimiento</th>
+        <th>Nro. Movimiento</th>
         <th>Ubicación</th>
         <th>Fecha</th>
         <th>Descripción</th>

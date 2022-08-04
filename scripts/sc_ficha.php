@@ -90,7 +90,8 @@ if(isset($_POST['proced'])){
 								'$region', '$cliente', '$ubicacion','$banco',
                 '$cta_banco', '$fec_profit',
 								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status', '$cod_ficha_status_militar', '$servicio_militar', '$status_militar_obs', '$turno' )";
+	//  echo $sql;							
 	 $query = $bd->consultar($sql);
 }
- require_once('../funciones/sc_direccionar.php');
+require_once('../funciones/sc_direccionar.php');
 ?>

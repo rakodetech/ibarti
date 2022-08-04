@@ -905,6 +905,39 @@ function mod_apertura_planif() {
 	});
 }
 
+function delete_apertura_planif() {
+	var apertura_ap = $("#planf_apertura").val();
+	var parametros = {
+		apertura: apertura_ap
+	};
+	if (confirm("Esta seguro que desea eliminar esta apertura")) {
+		$.ajax({
+			data: parametros,
+			url: 'packages/planif/planificaciones/views/delete_planificacion_apertura.php',
+			type: 'post',
+			beforeSend: function () {
+				$('#delete_ap_planif').attr('disabled', true);
+			},
+			success: function (response) {
+				if (response == true || response == 'true') {
+					toastr.success("Apertura eliminada correctamente");
+					Ocultar_all();
+					$("#planf_cliente").val("").change();
+				} else {
+					toastr.error("No se pudo eliminar la apertura");
+				}
+				$('#delete_ap_planif').attr('disabled', false);
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				$('#delete_ap_planif').attr('disabled', false);
+				alert(xhr.status);
+				alert(thrownError);
+			}
+		});
+	}
+
+}
+
 function ac_apertura_planif(parametros, callback) {
 	parametros.metodo = "modificar_apertura";
 	$.ajax({
@@ -934,9 +967,11 @@ function mostrar_icono_apertura(valor) {
 
 	if (valor != '') {
 		$('#mod_ap_planif').show();
+		$('#delete_ap_planif').show();
 
 	} else {
 		$('#mod_ap_planif').hide();
+		$('#delete_ap_planif').hide();
 	}
 }
 

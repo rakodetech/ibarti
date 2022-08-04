@@ -41,6 +41,7 @@ function Cons_proyecto(cod, metodo) {
 				$("#Cont_proyecto").html(response);
 				if (metodo == "modificar") {
 					CargarDetalle(cod);
+					CargarCargos(cod);
 				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
@@ -60,6 +61,7 @@ function save_proyecto() {
 	var codigo = $("#r_codigo").val();
 	var abrev = $("#r_abrev").val();
 	var nombre = $("#r_nombre").val();
+	var area = $("#area_proyecto").val();
 	var status = Status($("#r_status:checked").val());
 	var usuario = $("#usuario").val();
 	var metodo = $("#h_metodo").val();
@@ -70,7 +72,7 @@ function save_proyecto() {
 			"codigo": codigo, "status": status,
 			"nombre": nombre, "abrev": abrev,
 			"proced": proced, "usuario": usuario,
-			"metodo": metodo
+			"area": area, "metodo": metodo
 		};
 		$.ajax({
 			data: parametros,
@@ -107,8 +109,25 @@ function CargarDetalle(cod) {
 		type: 'post',
 		success: function (response) {
 			$("#Cont_detalleR").html(response);
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}
 
+function CargarCargos(cod) {
 
+	var usuario = $("#usuario").val();
+	var parametros = { "codigo": cod, "usuario": usuario };
+
+	$.ajax({
+		data: parametros,
+		url: 'packages/planif/proyecto/views/Add_cargos.php',
+		type: 'post',
+		success: function (response) {
+			$("#Cont_cargosR").html(response);
 		},
 		error: function (xhr, ajaxOptions, thrownError) {
 			alert(xhr.status);
@@ -126,6 +145,7 @@ function save_det(cod, metodo) {
 	var descripcion = $("#descripcion" + cod + "").val();
 	var minutos = $("#minutos" + cod + "").val();
 	var obligatoria = Status($('input:checkbox[id=obligatoria' + cod + ']:checked').val())
+	var participantes = Status($('input:checkbox[id=participantes' + cod + ']:checked').val())
 	var usuario = $("#usuario").val();
 	if ((descripcion != "" && descripcion != null && minutos != "" && minutos != null) || metodo == 'borrar') {
 		if (error == 0) {
@@ -137,7 +157,7 @@ function save_det(cod, metodo) {
 				"descripcion": descripcion,
 				"proced": proced, "usuario": usuario,
 				"metodo": metodo, "minutos": minutos,
-				"obligatoria": obligatoria
+				"obligatoria": obligatoria, "participantes": participantes
 			};
 			$.ajax({
 				data: parametros,
@@ -189,4 +209,38 @@ function Borrar_proyecto(cod) {
 			alert(thrownError);
 		}
 	});
+}
+
+
+function actualizar(cargo) {
+	var usuario = $("#usuario").val();
+	var proyecto = $("#r_codigo").val();
+	var status = 'F';
+	console.log('check' + cargo);
+	if ($('#check' + cargo).is(':checked')) {
+		status = 'T';
+	}
+	var parametros = {
+		cargo: cargo, proyecto: proyecto, estatus: status, usuario: usuario
+	};
+
+	$.ajax({
+		data: parametros,
+		url: 'packages/planif/proyecto/modelo/procesar.php',
+		type: 'post',
+		success: function (response) {
+			var resp = JSON.parse(response);
+			if (resp.error) {
+				toastr.error(resp.mensaje);
+			} else {
+				toastr.success('Actualizacion Exitosa!..');
+			}
+
+		},
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+
 }

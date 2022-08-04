@@ -18,7 +18,9 @@ class Planificacion
 	function get_cliente()
 	{
 		$this->datos   = array();
-		$sql = "  SELECT clientes.codigo, IF(COUNT(clientes_contratacion.codigo) = 0, 'S/P - ' , '') sc,
+		$sql = "  SELECT clientes.codigo, 
+		-- IF(COUNT(clientes_contratacion.codigo) = 0, 'S/P - ' , '') sc,
+		IF(COUNT(clientes_contratacion.codigo) = 0, '' , '') sc,
 		clientes.abrev, clientes.nombre cliente
 		FROM clientes LEFT JOIN clientes_contratacion ON clientes.codigo = clientes_contratacion.cod_cliente
 		WHERE clientes.`status` = 'T'
@@ -32,29 +34,84 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_supervisores($region, $filtro)
+	function get_supervisores($ubicacion, $filtro, $usuario, $cargo)
 	{
 		$this->datos   = array();
-
+		$sql = "SELECT clientes_ubicacion.cod_region FROM clientes_ubicacion WHERE  clientes_ubicacion.codigo = $ubicacion";
+		$query_region = $this->bd->consultar($sql);
+		$dato = $this->bd->obtener_fila($query_region);
+		$region = $dato[0];
 		$where = " WHERE v_ficha.cod_ubicacion = clientes_ubicacion.codigo
-		AND clientes_ubicacion.cod_region = '$region'
 		AND clientes_ubicacion.`status` = 'T'
 		AND v_ficha.cod_cargo = cargos.codigo
 		AND cargos.planificable = 'T'
-		AND v_ficha.cod_ficha_status = control.ficha_activo ";
+		AND v_ficha.cod_ficha_status = control.ficha_activo 
+		AND men_usuarios.codigo = '$usuario'
+		AND men_usuarios.cod_perfil = planif_perfil_cargos.cod_perfil
+		AND planif_perfil_cargos.cod_cargo = v_ficha.cod_cargo
+		AND planif_perfil_cargos.`status` = 'T'";
 
-		if($filtro != null AND $filtro != ""){
-			$where .= " AND (LOCATE('$filtro', v_ficha.cod_ficha) OR LOCATE('$filtro', v_ficha.ap_nombre)) ";
+		if ($filtro != null and $filtro != "") {
+			$where .= " AND (LOCATE('$filtro', v_ficha.cod_ficha) 
+			OR LOCATE('$filtro', v_ficha.ap_nombre) 
+			OR LOCATE('$filtro', cargos.descripcion)) ";
+		}
+
+		if ($cargo != '') {
+			$sql = "SELECT tipos_cargo.descripcion FROM cargos, tipos_cargo WHERE cargos.cod_tipo = tipos_cargo.codigo AND cargos.codigo = '$cargo'";
+			$query_tipo_cargo = $this->bd->consultar($sql);
+			$dato = $this->bd->obtener_fila($query_tipo_cargo);
+			$tipo_cargo = $dato[0];
+			if ($tipo_cargo == 'REGIONAL') {
+				$where .= " AND clientes_ubicacion.cod_region = '$region'";
+			}
+			$where .= " AND v_ficha.cod_cargo = '$cargo'";
 		}
 
 		$sql = "  SELECT v_ficha.cod_ficha, v_ficha.ap_nombre, v_ficha.cargo, v_ficha.nombres, v_ficha.apellidos, v_ficha.cedula, 
 		cargos.descripcion cargo
-		FROM v_ficha, cargos, control, clientes_ubicacion
-		".$where."
+		FROM v_ficha, cargos, control, clientes_ubicacion, men_usuarios, planif_perfil_cargos
+		" . $where . "
 		ORDER BY 1,3 ASC ";
 
 		$query = $this->bd->consultar($sql);
 
+		while ($datos = $this->bd->obtener_fila($query)) {
+			$this->datos[] = $datos;
+		}
+		return $this->datos;
+	}
+
+	public function get_cargos($cliente, $ubic)
+	{
+		$this->datos   = array();
+		$sql = " SELECT cargos.codigo, cargos.descripcion FROM cargos
+		WHERE cargos.`status` = 'T' AND cargos.`planificable` = 'T' ORDER BY 2 ASC  ";
+		if ($cliente != '') {
+			$sql = " SELECT
+						c.codigo,
+						c.descripcion
+					FROM
+						clientes_supervision a,
+						cargos c
+					WHERE
+						a.cod_cliente = $cliente
+					AND a.cod_cargo = c.codigo
+					GROUP BY 1  ";
+			if ($ubic != '') {
+				$sql = " SELECT
+						c.codigo,
+						c.descripcion
+					FROM
+						clientes_supervision a,
+						cargos c
+					WHERE
+						a.cod_ubicacion = $ubic
+					AND a.cod_cargo = c.codigo
+					GROUP BY 1  ";
+			}
+		}
+		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
@@ -112,11 +169,12 @@ class Planificacion
 	}
 
 
-	function get_planif_act($cliente)
+	function get_planif_act($ubic, $cargo)
 	{
 		$this->datos = array();
 		$sql = "SELECT a.* FROM planif_clientes_superv a
-		WHERE a.`status` = 'T' AND a.cod_cliente = '$cliente'
+		WHERE a.`status` = 'T' AND a.cod_ubicacion = $ubic
+		AND a.cod_cargo = '$cargo'
 		ORDER BY 1 DESC;";
 		$query    = $this->bd->consultar($sql);
 
@@ -177,16 +235,20 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_actividades($proyecto)
+	function get_actividades($proyecto, $ficha)
 	{
 		$this->datos  = array();
-		$where = " WHERE pa.`status` = 'T' AND pa.cod_proyecto = pp.codigo";
-		if($proyecto != null){
-			$where .= " AND pa.cod_proyecto = ".$proyecto." ";
+		$where = " WHERE pa.`status` = 'T' AND pa.cod_proyecto = pp.codigo
+			AND ficha.cod_ficha = '$ficha'
+			AND ficha.cod_cargo = ppc.cod_cargo
+			AND pa.cod_proyecto = ppc.cod_proyecto
+			AND ppc.`status` = 'T'";
+		if ($proyecto != null) {
+			$where .= " AND pa.cod_proyecto = " . $proyecto . " ";
 		}
 		$sql = "SELECT pp.codigo cod_proyecto, pp.descripcion proyecto_descripcion, pa.codigo, pa.descripcion, pa.minutos, pa.obligatoria
-		FROM  planif_actividad pa, planif_proyecto pp 
-		".$where."
+		FROM  planif_actividad pa, planif_proyecto pp, ficha, planif_proyecto_cargos ppc
+		" . $where . "
 		ORDER BY pp.codigo ASC, pa.codigo ASC, pa.obligatoria DESC, pa.descripcion DESC";
 
 		$query = $this->bd->consultar($sql);
@@ -196,25 +258,34 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_planif_ap_inicio($cliente)
+	function get_planif_ap_inicio($ubic, $cargo)
 	{
 		$this->datos  = array();
 		$sql = "SELECT a.codigo, IFNULL (DATE_ADD(fecha_fin, INTERVAL 1 DAY), CURDATE()) fecha_inicio
-		FROM planif_clientes_superv a WHERE a.cod_cliente = '$cliente'
+		FROM planif_clientes_superv a WHERE a.cod_ubicacion = $ubic AND a.cod_cargo = '$cargo'
 		ORDER BY a.codigo DESC LIMIT 0, 1; ";
 		$query = $this->bd->consultar($sql);
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function get_supervision_det($cliente)
+	function get_supervision_det($cliente, $ubicacion, $cargo)
 	{
 		$this->datos  = array();
-		$sql = "SELECT b.descripcion ubicacion, d.abrev turno_abrev, d.descripcion turno, a.cantidad
-		FROM clientes_supervision a, clientes_ubicacion b,	turno d
+		$sql = "SELECT b.descripcion ubicacion, d.descripcion turno, d.abrev turno_abrev, c.descripcion cargo, d.descripcion turno, a.cantidad
+		FROM clientes_supervision a, clientes_ubicacion b,	turno d, cargos c
 		WHERE b.cod_cliente = '$cliente'
 		AND a.cod_ubicacion = b.codigo
-		AND a.cod_turno = d.codigo ORDER BY 2 DESC ";
+		AND a.cod_cargo = c.codigo
+		AND a.cod_turno = d.codigo ";
 
+		if ($ubicacion !== '') {
+			$sql .= " AND b.codigo = '$ubicacion'";
+		}
+
+		if ($cargo !== '') {
+			$sql .= " AND a.cod_cargo = '$cargo'";
+		}
+		$sql .= " ORDER BY 2 DESC";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
@@ -222,28 +293,28 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_planif_det($apertura, $cliente, $region)
+	function get_planif_det($apertura, $ubic, $cargo)
 	{
 		$this->datos   = array();
 		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
 			pcst.cod_ubicacion, cu.descripcion ubicacion, pcstd.cod_proyecto, pp.descripcion proyecto,
-			pcstd.cod_actividad, pa.descripcion actividad,
-			pp.abrev abrev_proyecto, pcst.cod_ficha, CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, pcst.fecha_inicio, pcst.fecha_fin,
+			pcstd.cod_actividad, pa.descripcion actividad, pp.abrev abrev_proyecto, pcst.cod_ficha, 
+			CONCAT(f.apellidos,' ', f.nombres) trabajador, f.cedula, f.cod_cargo, c.descripcion cargo, pcst.fecha_inicio, pcst.fecha_fin,
 			pa.obligatoria, pcstd.fecha_inicio fecha_inicio_act, pcstd.fecha_fin fecha_fin_act, pcstd.realizado, pcst.completado
 			FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 				clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
 			WHERE pcst.cod_ficha = f.cod_ficha
 			AND f.cod_ficha_status= control.ficha_activo
-			AND pcst.cod_cliente = '$cliente'
 			AND pcst.cod_planif_cl = $apertura
 			AND f.cod_cargo = c.codigo
-			-- AND c.planificable = 'T'
+			AND c.planificable = 'T'
 			AND pcst.cod_cliente = cl.codigo
 			AND pcst.cod_ubicacion = cu.codigo
 			AND pcstd.cod_proyecto = pp.codigo
 			AND pcstd.cod_planif_cl_trab = pcst.codigo
 			AND pcstd.cod_actividad = pa.codigo
-			AND cu.cod_region = '$region'
+			AND cu.codigo = $ubic
+			AND c.codigo = '$cargo'
 			ORDER BY codigo ASC, obligatoria DESC, fecha_inicio_act ASC";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query)) {
@@ -264,24 +335,24 @@ class Planificacion
 		AND pcstd.cod_proyecto = pp.codigo
 		AND pcstd.cod_planif_cl_trab = pcst.codigo
 		AND pcstd.cod_actividad = pa.codigo";
-		
-		if($fecha_desde != NULL && $fecha_desde != '0000-00-00'){
+
+		if ($fecha_desde != NULL && $fecha_desde != '0000-00-00') {
 			$where .= " AND DATE_FORMAT(pcst.fecha_inicio, '%Y-%m-%d') >= '$fecha_desde'";
 		}
-		
-		if($fecha_hasta != NULL && $fecha_hasta != '0000-00-00'){
+
+		if ($fecha_hasta != NULL && $fecha_hasta != '0000-00-00') {
 			$where .= " AND DATE_FORMAT(pcst.fecha_fin, '%Y-%m-%d') <= '$fecha_hasta'";
 		}
 
-		if($cliente != NULL && $cliente != "TODOS"){
+		if ($cliente != NULL && $cliente != "TODOS") {
 			$where .= " AND pcst.cod_cliente = '$cliente'";
 		}
 
-		if($ubicacion != NULL && $ubicacion != "TODOS"){
+		if ($ubicacion != NULL && $ubicacion != "TODOS") {
 			$where .= " AND pcst.cod_ubicacion = '$ubicacion'";
 		}
 
-		if($ficha != NULL){
+		if ($ficha != NULL) {
 			$where   .= " AND  f.cod_ficha = '$ficha' ";
 		}
 
@@ -292,7 +363,7 @@ class Planificacion
 		pa.obligatoria, pcstd.fecha_inicio fecha_inicio_act, pcstd.fecha_fin fecha_fin_act, pcstd.realizado, pcst.completado
 		FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 				clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
-		".$where."
+		" . $where . "
 		ORDER BY codigo ASC, obligatoria DESC, fecha_inicio_act ASC";
 
 		$query = $this->bd->consultar($sql);
@@ -303,17 +374,17 @@ class Planificacion
 		return $this->datos;
 	}
 
-	function get_ultima_mod($apertura, $cliente)
+	function get_ultima_mod($apertura)
 	{
 		$this->datos   = array();
 		$sql = "SELECT MAX(a.fec_us_mod) fecha,CONCAT(b.apellido,' ',b.nombre) us_mod
 		FROM
 		planif_clientes_superv_trab a
 		INNER JOIN men_usuarios b ON a.cod_us_mod = b.codigo
-		WHERE a.cod_planif_cl = '$apertura' AND a.cod_cliente = '$cliente'";
+		WHERE a.cod_planif_cl = '$apertura'";
 
 		$query = $this->bd->consultar($sql);
-		return $datos = $this->bd->obtener_fila($query);
+		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
 	function get_planif_trab_ap($cod_pl_trab)
@@ -354,16 +425,16 @@ class Planificacion
 		AND pcstd.cod_planif_cl_trab = pcst.codigo
 		AND pcstd.cod_actividad = pa.codigo";
 
-		if($cliente != null){
+		if ($cliente != null) {
 			$where .= " AND pcst.cod_cliente = '$cliente'";
 		}
 
-		if($apertura != null){
+		if ($apertura != null) {
 			$where .= " AND pcst.cod_planif_cl = $apertura";
 		}
 
-		if($fechas != null){
-			$where .= " AND pcst.fecha_inicio >= '".$fechas['fecha_inicio']."' AND pcst.fecha_fin <= '".$fechas['fecha_fin']."'";
+		if ($fechas != null) {
+			$where .= " AND pcst.fecha_inicio >= '" . $fechas['fecha_inicio'] . "' AND pcst.fecha_fin <= '" . $fechas['fecha_fin'] . "'";
 		}
 
 		$sql = "SELECT pcst.codigo, pcst.cod_cliente, cl.nombre cliente,
@@ -373,7 +444,7 @@ class Planificacion
 		pa.obligatoria, pcstd.realizado, pcst.completado,	pcstd.fecha_inicio fecha_inicio_act, pcstd.fecha_fin fecha_fin_act
 		FROM planif_clientes_superv_trab_det pcstd, planif_clientes_superv_trab pcst, ficha f, cargos c, control, clientes cl, 
 			clientes_ubicacion cu, planif_proyecto pp, planif_actividad pa
-			".$where." 
+			" . $where . " 
 		ORDER BY
 			codigo ASC,
 			obligatoria DESC,
@@ -582,15 +653,16 @@ class Planificacion
 	}
 
 
-	function get_fechas_apertura($apertura, $cliente)
+	function get_fechas_apertura($apertura, $ubic, $cargo)
 	{
 		$this->datos  = array();
-		$sql = "SELECT fecha_inicio, fecha_fin FROM planif_clientes_superv WHERE cod_cliente = '$cliente' AND codigo = $apertura";
+		$sql = " SELECT fecha_inicio, fecha_fin FROM planif_clientes_superv 
+		WHERE cod_cargo = '$cargo' AND cod_ubicacion = $ubic AND codigo = $apertura ; ";
 		$query = $this->bd->consultar($sql);
 		return $this->datos = $this->bd->obtener_fila($query);
 	}
 
-	function validar_fecha($fecha, $cliente, $apertura, $region, $cod_ficha)
+	function validar_fecha($fecha, $cliente, $apertura, $ubicacion, $cod_ficha, $cargo)
 	{
 		$this->datos  = array();
 		$this->datos["data"]  = array();
@@ -598,7 +670,7 @@ class Planificacion
 		$sql = "SELECT Dia_semana(a.fecha) dia_semana, a.cod_ubicacion, cu.descripcion ubicacion, a.fecha,
 		Sum(a.cantidad)  cantidad, h.codigo  cod_horario, h.nombre  horario,
 		MIN(h.hora_entrada) hora_entrada, MAX(h.hora_salida) hora_salida
-		FROM clientes_supervision_ap  a,turno  t,horarios  h, dias_habiles, dias_habiles_det, dias_tipo, clientes_ubicacion cu
+		FROM clientes_supervision_ap  a,turno  t,horarios  h, dias_habiles, dias_habiles_det, dias_tipo, clientes_ubicacion cu, ficha f
 	   WHERE a.cod_turno = t.codigo AND t.cod_horario = h.codigo AND t.cod_dia_habil = dias_habiles.codigo
 	   AND dias_habiles_det.cod_dias_habiles = dias_habiles.codigo   
 	   AND ((dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND Dia_semana(a.fecha)= dias_tipo.descripcion) 
@@ -606,13 +678,15 @@ class Planificacion
 	   OR (dias_habiles_det.cod_dias_tipo = dias_tipo.dia AND DATE_FORMAT(a.fecha,'%d') = dias_tipo.descripcion))
 	   AND a.cod_ubicacion = cu.codigo AND a.cod_cliente = '$cliente' 
 	   AND a.cod_planif_cl = $apertura AND a.`status`='T'  AND a.fecha = '$fecha'
-	   AND cu.cod_region = '$region'
+	   AND cu.codigo = '$ubicacion' AND a.cod_cargo = f.cod_cargo
+		AND f.cod_ficha = '$cod_ficha'
+		AND a.cod_cargo = '$cargo'
 	   GROUP BY a.cod_cliente, a.cod_ubicacion, a.cod_turno, a.fecha";
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query, 0)) {
 			$this->datos["datacliente"][] = $datos;
 		}
-		if(count($this->datos["datacliente"])>0){
+		if (count($this->datos["datacliente"]) > 0) {
 			$sql = "SELECT a.cod_ficha, h.codigo  cod_horario, h.nombre  horario,
 			MIN(h.hora_entrada) hora_entrada, MAX(h.hora_salida) hora_salida,  dias_habiles.descripcion dias_habiles
 			FROM ficha a, horarios h, turno t, dias_habiles, dias_habiles_det, dias_tipo
@@ -627,16 +701,16 @@ class Planificacion
 			while ($datos = $this->bd->obtener_fila($query, 0)) {
 				$this->datos["data"][] = $datos;
 			}
-			if(count($this->datos["data"])==0){
-				$this->datos["msg"] = "El turno de la ficha ".$cod_ficha." no aplica la fecha ".$fecha."";
-			}else{
-				if($this->datos["data"][0]["cod_ficha"] === null){
-					$this->datos["msg"] = "El turno de la ficha ".$cod_ficha." no aplica la fecha ".$fecha."";
+			if (count($this->datos["data"]) == 0) {
+				$this->datos["msg"] = "El turno de la ficha " . $cod_ficha . " no aplica la fecha " . $fecha . "";
+			} else {
+				if ($this->datos["data"][0]["cod_ficha"] === null) {
+					$this->datos["msg"] = "El turno de la ficha " . $cod_ficha . " no aplica la fecha " . $fecha . "";
 					$this->datos["data"] = [];
 				}
 			}
-		}else{
-			$this->datos["msg"] = "El cliente no aplica la fecha ".$fecha."";
+		} else {
+			$this->datos["msg"] = "El cliente no aplica la fecha " . $fecha . " o el cargo del trabjador no es planificable en el mismo.";
 		}
 		return $this->datos;
 	}
@@ -663,7 +737,7 @@ class Planificacion
 		while ($datos = $this->bd->obtener_fila($query, 0)) {
 			$this->datos[] = $datos;
 		}
-		if(count($this->datos) > 0){
+		if (count($this->datos) > 0) {
 			$sql2 = " SELECT p.cod_ubicacion
 				FROM planif_clientes_superv_trab p, planif_clientes_superv_trab_det pd
 				WHERE p.codigo = pd.cod_planif_cl_trab 
@@ -674,10 +748,10 @@ class Planificacion
 				";
 			$i = 0;
 			foreach ($actividades as $key => $value) {
-				if($i == 0){
-					$sql2 .= " AND ((pd.cod_proyecto = ".$value['cod_proyecto']." AND  pd.cod_actividad = ".$value['codigo'].")";
-				}else{
-					$sql2 .= " OR (pd.cod_proyecto = ".$value['cod_proyecto']." AND pd.cod_actividad = ".$value['codigo'].")";
+				if ($i == 0) {
+					$sql2 .= " AND ((pd.cod_proyecto = " . $value['cod_proyecto'] . " AND  pd.cod_actividad = " . $value['codigo'] . ")";
+				} else {
+					$sql2 .= " OR (pd.cod_proyecto = " . $value['cod_proyecto'] . " AND pd.cod_actividad = " . $value['codigo'] . ")";
 				}
 				$i++;
 			};
@@ -697,17 +771,17 @@ class Planificacion
 				)
 			)";
 			$result["sql2"] = $sql2;
-	 		$query2 = $this->bd->consultar($sql2);
+			$query2 = $this->bd->consultar($sql2);
 			while ($datos = $this->bd->obtener_fila($query2, 0)) {
 				$horas[] = $datos;
 			}
-				if(count($horas) > 0){
-					$result["error"] = true;
-					$result["msg"] = "Ya existe planificacion en este rango de horas para esta ficha o ubicación.";
-					$result["data"] = $horas;
-					return $result;
-				} else {
-					/* 					
+			if (count($horas) > 0) {
+				$result["error"] = true;
+				$result["msg"] = "Ya existe planificacion en este rango de horas para esta ficha o ubicación.";
+				$result["data"] = $horas;
+				return $result;
+			} else {
+				/* 					
 					$sql3 = "SELECT SUBSTR(ADDTIME(MAX(p.fecha_fin), '00:10:00') FROM 12) hora_inicio
 					FROM planif_clientes_superv_trab p
 					WHERE  p.cod_ficha = '$ficha'
@@ -717,11 +791,10 @@ class Planificacion
 					$hora_inicio = $this->bd->obtener_fila($query3, 0);
 					$result["hora_inicio"] = $hora_inicio; 
 					*/
-					$result["data"] = $this->datos;
-					return $result;
-				}
-
-		}else{
+				$result["data"] = $this->datos;
+				return $result;
+			}
+		} else {
 			$result["msg"] = "Rango de horas no válido";
 			return $result;
 		}

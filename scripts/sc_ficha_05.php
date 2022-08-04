@@ -1,7 +1,7 @@
 <?php
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
-require_once("../".class_bd);
+require_once("../" . class_bd);
 $bd = new DataBase();
 $tabla    = 'ficha';
 
@@ -18,7 +18,7 @@ $calculo         = $_POST['calculo'];
 $calculo_status  = $_POST['calculo_status'];
 
 $fec_calculo     = conversion($_POST['fec_calculo']);
-$fec_posible_pago= conversion($_POST['fec_posible_pago']);
+$fec_posible_pago = conversion($_POST['fec_posible_pago']);
 $fec_pago        = conversion($_POST['fec_pago']);
 $cheque          = $_POST['cheque'];
 $banco           = $_POST['banco'];
@@ -27,29 +27,31 @@ $entrega_uniforme = $_POST['entrega_uniforme'];
 $observacion     = htmlspecialchars($_POST['observacion']);
 $observacion2    = htmlspecialchars($_POST['observacion2']);
 $status          = $_POST['status'];
-if($p_fec_inicio == ''){
-	$p_fec_inicio='0000-00-00';
+$cod_motivo_egreso          = $_POST['cod_motivo_egreso'];
+
+if ($p_fec_inicio == '') {
+	$p_fec_inicio = '0000-00-00';
 }
-if($p_fec_culminacion == ''){
-	$p_fec_culminacion='0000-00-00';
+if ($p_fec_culminacion == '') {
+	$p_fec_culminacion = '0000-00-00';
 }
-if($d_p_laboral == ''){
-	$d_p_laboral='0';
+if ($d_p_laboral == '') {
+	$d_p_laboral = '0';
 }
-if($d_p_cumplido == ''){
-	$d_p_cumplido='0';
+if ($d_p_cumplido == '') {
+	$d_p_cumplido = '0';
 }
-if($importe == ''){
-	$importe='0';
+if ($importe == '') {
+	$importe = '0';
 }
-if($fec_calculo == 'AAAA-MM-DD'){
-	$fec_calculo='0000-00-00';
+if ($fec_calculo == 'AAAA-MM-DD') {
+	$fec_calculo = '0000-00-00';
 }
-if($fec_posible_pago == 'AAAA-MM-DD'){
-	$fec_posible_pago='0000-00-00';
+if ($fec_posible_pago == 'AAAA-MM-DD') {
+	$fec_posible_pago = '0000-00-00';
 }
-if($fec_pago == 'AAAA-MM-DD'){
-	$fec_pago='0000-00-00';
+if ($fec_pago == 'AAAA-MM-DD') {
+	$fec_pago = '0000-00-00';
 }
 
 
@@ -58,14 +60,13 @@ $usuario  = $_POST['usuario'];
 $proced   = $_POST['proced'];
 $metodo   = $_POST['metodo'];
 
-if(isset($_POST['proced'])){
- $sql    = "$SELECT $proced('$metodo', '$codigo', '$fec_egreso', '$motivo',
+if (isset($_POST['proced'])) {
+	$sql    = "$SELECT $proced('$metodo', '$codigo', '$fec_egreso', '$motivo',
                             '$color', '$preaviso','$p_fec_inicio','$p_fec_culminacion',
 							'$d_p_laboral', '$d_p_cumplido','$calculo', '$calculo_status',
 							'$fec_calculo', '$fec_posible_pago', '$fec_pago', '$cheque',
 							'$banco','$importe','$entrega_uniforme', '$observacion',
-							'$observacion2', '$usuario', '$status')";
- $query = $bd->consultar($sql);
-	}
- require_once('../funciones/sc_direccionar.php');
-?>
+							'$observacion2', '$usuario', '$status', '$cod_motivo_egreso')";
+	$query = $bd->consultar($sql);
+}
+require_once('../funciones/sc_direccionar.php');

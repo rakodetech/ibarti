@@ -2,6 +2,11 @@ $(function () {
   Cons_cliente("", "agregar");
 });
 
+$('#addDoc').submit(function (ev) {
+  saveDocuments();
+  ev.preventDefault();
+});
+
 function Cons_cliente(cod, metodo) {
   var usuario = $("#usuario").val();
   var error = 0;
@@ -73,6 +78,10 @@ function save_cliente() {
   var campo03 = $("#c_campo03").val();
   var campo04 = $("#c_campo04").val();
 
+  var latitud = $("#c_latitud").val();
+  var longitud = $("#c_longitud").val();
+  var direccion_google = $("#c_direccion_google").val();
+
   var lunes = Status($("#c_lunes:checked").val());
   var martes = Status($("#c_martes:checked").val());
   var miercoles = Status($("#c_miercoles:checked").val());
@@ -123,7 +132,10 @@ function save_cliente() {
       campo04: campo04,
       proced: proced,
       usuario: usuario,
-      metodo: metodo
+      metodo: metodo,
+      latitud: latitud,
+      longitud: longitud,
+      direccion_google: direccion_google
     };
 
     $.ajax({
@@ -457,4 +469,50 @@ function consultar_contactos() {
 
 function Pdf() {
   $("#pdf").submit();
+}
+
+
+function saveDocuments() {
+  $.ajax({
+    type: "post",
+    url: "scripts/sc_clientes_doc.php",
+    data: $('#addDoc').serialize(),
+    success: function () {
+      toastr.success("Actualización Exitosa");
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      alert(xhr.status);
+      alert(thrownError);
+    }
+  });
+}
+
+function modalUpload(cliente, doc) {
+  ModalOpen();
+  $("#modal_title").text("Cargar Documento");
+  $("#contenido_modal").html("");
+
+  var error = 0;
+  var errorMessage = ' ';
+  if (error == 0) {
+    var parametros = {
+      doc, cliente
+    };
+    $.ajax({
+      data: parametros,
+      url: 'packages/cliente/cliente/views/add_imagenes_doc_cl.php',
+      type: 'post',
+      success: function (response) {
+        $("#contenido_modal").html(response);
+        //iniciar_tab(0);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+      }
+    });
+  } else {
+    alert(errorMessage);
+  }
+
 }

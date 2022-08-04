@@ -36,19 +36,19 @@ $sql_concepto_categoria = " SELECT concepto_categoria.codigo, concepto_categoria
                              FROM concepto_categoria
 				            ORDER BY 2 ASC ";
 
-if($_SESSION['r_rol'] == "F"){
-	$sql_rol           = "SELECT roles.codigo, roles.descripcion
+if ($_SESSION['r_rol'] == "F") {
+  $sql_rol           = "SELECT roles.codigo, roles.descripcion
 							FROM roles
 						ORDER BY descripcion ASC ";
 
- 		$select_rol     = '<option value="TODOS">TODOS</option>';
-}else{
-		$sql_rol = " SELECT roles.codigo, roles.descripcion
+  $select_rol     = '<option value="TODOS">TODOS</option>';
+} else {
+  $sql_rol = " SELECT roles.codigo, roles.descripcion
 					   FROM roles, usuario_roles
 					  WHERE roles.codigo = usuario_roles.cod_rol
-						AND usuario_roles.cod_usuario = '".$_SESSION['usuario_cod']."'
+						AND usuario_roles.cod_usuario = '" . $_SESSION['usuario_cod'] . "'
 				   ORDER BY 2 ASC ";
-	    $select_rol     = '<option value="">Seleccione...</option>';
+  $select_rol     = '<option value="">Seleccione...</option>';
 }
 
 
@@ -120,23 +120,23 @@ $sql_n_zapato  = " SELECT preing_zapatos.codigo, preing_zapatos.descripcion
                      FROM preing_zapatos
                     ORDER BY 2 ASC ";
 
-	if($_SESSION['r_cliente'] == "F"){
-	$sql_cliente    = "SELECT clientes.codigo, clientes.nombre
+if ($_SESSION['r_cliente'] == "F") {
+  $sql_cliente    = "SELECT clientes.codigo, clientes.nombre
 						 FROM clientes
 						ORDER BY 2 ASC ";
-    $select_cl     = '<option value="TODOS">TODOS</option>';
-	}else{
-		$sql_cliente = " SELECT clientes.codigo, clientes.nombre
+  $select_cl     = '<option value="TODOS">TODOS</option>';
+} else {
+  $sql_cliente = " SELECT clientes.codigo, clientes.nombre
                        FROM clientes
                       WHERE clientes.codigo IN (SELECT DISTINCT clientes_ubicacion.cod_cliente
                        FROM usuario_clientes, clientes_ubicacion
-                      WHERE usuario_clientes.cod_usuario = '".$_SESSION['usuario_cod']."'
+                      WHERE usuario_clientes.cod_usuario = '" . $_SESSION['usuario_cod'] . "'
                         AND usuario_clientes.cod_ubicacion = clientes_ubicacion.codigo)
 				   ORDER BY 2 ASC ";
-        $select_cl     = '<option value="">Seleccione...</option>';
-	}
+  $select_cl     = '<option value="">Seleccione...</option>';
+}
 
-  $sql_cliente_ch    = "SELECT DISTINCT clientes.codigo, clientes.nombre
+$sql_cliente_ch    = "SELECT DISTINCT clientes.codigo, clientes.nombre
   		                    FROM clientes_ub_ch, clientes, clientes_ubicacion
                          WHERE clientes_ub_ch.cod_cl_ubicacion = clientes_ubicacion.codigo
                            AND clientes_ubicacion.cod_cliente = clientes.codigo
@@ -185,4 +185,29 @@ $sql_nov_tipo = "SELECT nov_tipo.codigo, nov_tipo.descripcion
 $sql_perfil = "SELECT men_perfiles.codigo, men_perfiles.descripcion
                  FROM men_perfiles ORDER BY 2 ASC";
 
-?>
+$sql_area_proyecto = "SELECT area_proyecto.codigo, area_proyecto.descripcion
+                  FROM area_proyecto WHERE area_proyecto.status = 'T' ORDER BY 2 ASC";
+
+
+$sql_proyecto = "SELECT planif_proyecto.codigo, planif_proyecto.descripcion
+                  FROM planif_proyecto WHERE planif_proyecto.status = 'T' ORDER BY 2 ASC";
+
+
+$sql_proyecto_paticipantes = "SELECT
+                  planif_proyecto.codigo,
+                  planif_proyecto.descripcion
+                FROM
+                  planif_proyecto,
+                  planif_actividad
+                WHERE
+                  planif_actividad.cod_proyecto = planif_proyecto.codigo
+                  AND planif_actividad.participantes = 'T'
+                GROUP BY
+                  planif_proyecto.codigo
+                ORDER BY 2 ASC";
+
+$sql_actividad = "SELECT planif_actividad.codigo, planif_actividad.descripcion
+                    FROM planif_actividad ORDER BY 2 ASC";
+
+$sql_actividad_paticipantes = "SELECT planif_actividad.codigo, planif_actividad.descripcion
+                    FROM planif_actividad WHERE planif_actividad.participantes = 'T' ORDER BY 2 ASC";

@@ -18,7 +18,12 @@ $sql_proveedor  = "SELECT proveedores.codigo, proveedores.nombre descripcion
 $sql_n_contracto = " SELECT ficha_n_contracto.codigo, ficha_n_contracto.descripcion
                        FROM ficha_n_contracto
 					  ORDER BY 2 ASC ";
-            
+
+
+$sql_dosis_covid19 = " SELECT ficha_dosis_covid19.codigo, ficha_dosis_covid19.descripcion
+                       FROM ficha_dosis_covid19
+					  ORDER BY 2 ASC ";
+
 $sql_concepto    = " SELECT conceptos.codigo, conceptos.descripcion
                       FROM conceptos
 				     ORDER BY 2 ASC ";
@@ -32,21 +37,21 @@ $sql_concepto_categoria = " SELECT concepto_categoria.codigo, concepto_categoria
 				            ORDER BY 2 ASC ";
 
 
-if($_SESSION['r_rol'] == "F"){
-	$sql_rol           = "SELECT roles.codigo, roles.descripcion
+if ($_SESSION['r_rol'] == "F") {
+  $sql_rol           = "SELECT roles.codigo, roles.descripcion
 							FROM roles  WHERE roles.`status` = 'T'
 						ORDER BY descripcion ASC ";
 
-	$select_rol     = '<option value="TODOS">TODOS</option>';
-}else{
-			$sql_rol = " SELECT roles.codigo, roles.descripcion
+  $select_rol     = '<option value="TODOS">TODOS</option>';
+} else {
+  $sql_rol = " SELECT roles.codigo, roles.descripcion
 				           FROM roles, usuario_roles
                           WHERE roles.`status` = 'T'
                             AND roles.codigo = usuario_roles.cod_rol
-                            AND usuario_roles.cod_usuario = '".$_SESSION['usuario_cod']."'
+                            AND usuario_roles.cod_usuario = '" . $_SESSION['usuario_cod'] . "'
 				       ORDER BY 2 ASC ";
-	$select_rol     = '<option value="">Seleccione...</option>';
-	}
+  $select_rol     = '<option value="">Seleccione...</option>';
+}
 
 $sql_servicio_rol = "SELECT servicio_rol.codigo, servicio_rol.descripcion
                        FROM servicio_rol ORDER BY descripcion ASC ";
@@ -107,27 +112,26 @@ $sql_preing_status = "SELECT preing_status.codigo, preing_status.descripcion
                         FROM preing_status
 					   ORDER BY 2 ASC";
 
-	if($_SESSION['r_cliente'] == "F"){
-	$sql_cliente    = "SELECT clientes.codigo, clientes.nombre
+if ($_SESSION['r_cliente'] == "F") {
+  $sql_cliente    = "SELECT clientes.codigo, clientes.nombre
 						 FROM clientes WHERE clientes.`status` = 'T'
 						ORDER BY 2 ASC ";
 
-	$select_cl     = '<option value="TODOS">TODOS</option>';
-	}else{
-	$sql_cliente = " SELECT clientes.codigo, clientes.nombre
+  $select_cl     = '<option value="TODOS">TODOS</option>';
+} else {
+  $sql_cliente = " SELECT clientes.codigo, clientes.nombre
                        FROM clientes
 					   WHERE clientes.`status` = 'T'
                         AND clientes.codigo IN (SELECT DISTINCT clientes_ubicacion.cod_cliente
                        FROM usuario_clientes, clientes_ubicacion
-                      WHERE usuario_clientes.cod_usuario = '".$_SESSION['usuario_cod']."'
+                      WHERE usuario_clientes.cod_usuario = '" . $_SESSION['usuario_cod'] . "'
                         AND usuario_clientes.cod_ubicacion = clientes_ubicacion.codigo)
 				   ORDER BY 2 ASC ";
 
-	$select_cl     = '<option value="">Seleccione...</option>';
+  $select_cl     = '<option value="">Seleccione...</option>';
+}
 
-	}
-
-  $sql_cliente_ch    = "SELECT DISTINCT clientes.codigo, clientes.nombre
+$sql_cliente_ch    = "SELECT DISTINCT clientes.codigo, clientes.nombre
   		                    FROM clientes_ub_ch, clientes, clientes_ubicacion
                          WHERE clientes_ub_ch.cod_cl_ubicacion = clientes_ubicacion.codigo
                            AND clientes_ubicacion.cod_cliente = clientes.codigo
@@ -157,7 +161,7 @@ $sql_prod_tipo     = "SELECT prod_tipos.codigo, prod_tipos.descripcion
 $sql_linea       = "SELECT prod_lineas.codigo, prod_lineas.descripcion
                       FROM prod_lineas WHERE prod_lineas.`status` = 'T'
           ORDER BY 2 ASC";
-          
+
 $sql_tipo_mov_alcance =   "SELECT prod_mov_tipo.codigo, prod_mov_tipo.descripcion, prod_mov_tipo.tipo_movimiento 
           FROm prod_mov_tipo WHERE prod_mov_tipo.codigo = 'AJUS-' OR prod_mov_tipo.codigo = 'AJUS+'
           ORDER BY 2 ASC";
@@ -182,7 +186,7 @@ $sql_nov_novedad = "SELECT novedades.codigo, novedades.descripcion
                               WHERE novedades.`status` = 'T'
                                 AND novedades.cod_nov_clasif = nov_clasif.codigo
                                 AND nov_clasif.codigo = nov_perfiles.cod_nov_clasif
-                                AND nov_perfiles.cod_perfil = '".$_SESSION['cod_perfil']."'
+                                AND nov_perfiles.cod_perfil = '" . $_SESSION['cod_perfil'] . "'
                                 AND nov_clasif.campo04 = 'F'
                            ORDER BY 2 ASC";
 
@@ -192,7 +196,7 @@ $sql_nov_novedad_ing = "SELECT novedades.codigo, novedades.descripcion
                               WHERE novedades.`status` = 'T'
                                 AND novedades.cod_nov_clasif = nov_clasif.codigo
                                 AND nov_clasif.codigo = nov_perfiles.cod_nov_clasif
-                                AND nov_perfiles.cod_perfil = '".$_SESSION['cod_perfil']."'
+                                AND nov_perfiles.cod_perfil = '" . $_SESSION['cod_perfil'] . "'
                                 AND nov_perfiles.ingreso = 'T'
                                 AND nov_clasif.campo04 = 'F'
                            ORDER BY 2 ASC";
@@ -203,7 +207,7 @@ $sql_nov_novedad_resp = "SELECT novedades.codigo, novedades.descripcion
                               WHERE novedades.`status` = 'T'
                                 AND novedades.cod_nov_clasif = nov_clasif.codigo
                                 AND nov_clasif.codigo = nov_perfiles.cod_nov_clasif
-                                AND nov_perfiles.cod_perfil = '".$_SESSION['cod_perfil']."'
+                                AND nov_perfiles.cod_perfil = '" . $_SESSION['cod_perfil'] . "'
                                 AND nov_perfiles.respuesta = 'T'
                                 AND nov_clasif.campo04 = 'F'
                            ORDER BY 2 ASC";
@@ -219,7 +223,7 @@ $sql_nov_clasif = "SELECT nov_clasif.codigo, nov_clasif.descripcion
 $sql_nov_clasif2 = "SELECT nov_clasif.codigo,  nov_clasif.descripcion
 				               FROM nov_perfiles, nov_clasif
                               WHERE nov_perfiles.cod_nov_clasif = nov_clasif.codigo
-                                AND nov_perfiles.cod_perfil = '".$_SESSION['cod_perfil']."'
+                                AND nov_perfiles.cod_perfil = '" . $_SESSION['cod_perfil'] . "'
                                 AND nov_clasif.campo04 = 'F'
                            ORDER BY 2 ASC";
 
@@ -233,7 +237,3 @@ $sql_nov_tipo = "SELECT nov_tipo.codigo, nov_tipo.descripcion
 
 $sql_perfil = "SELECT men_perfiles.codigo, men_perfiles.descripcion
                  FROM men_perfiles ORDER BY 2 ASC";
-
-
-
-				  ?>

@@ -1,13 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<title>Documento sin t&iacute;tulo</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Documento sin t&iacute;tulo</title>
 </head>
 <?php
+define("SPECIALCONSTANT", true);
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
-require_once("../".class_bd);
+require_once("../" . class_bdI);
 $bd = new DataBase();
 $tabla    = $_POST['tabla'];
 $tabla_id = 'codigo';
@@ -103,83 +105,83 @@ $campo03 = htmlentities($_POST["campo03"]);
 $campo04 = htmlentities($_POST["campo04"]);
 
 $href     = $_POST['href'];
-$usuario  = $_POST['usuario']; 
+$usuario  = $_POST['usuario'];
 $proced   = $_POST['proced'];
 $metodo   = $_POST['metodo'];
 
- 	 $sql    = "SELECT control.preingreso_nuevo, control.preingreso_apto, 
+$sql    = "SELECT control.preingreso_nuevo, control.preingreso_apto, 
 	                   control.preingreso_aprobado, control.preingreso_rechazado
-                  FROM control";						  
-	$query     = $bd->consultar($sql);	
-	$result    = $bd->obtener_fila($query,0); 
-	$nuevo     = $result['preingreso_nuevo']; 
-	$aprobado  = $result['preingreso_aprobado']; 
-	$apto      = $result['preingreso_apto']; 
-	$rechazado = $result['preingreso_rechazado'];
-	$rech      = 0;
-	$apt       = 0;
+                  FROM control";
+$query     = $bd->consultar($sql);
+$result    = $bd->obtener_fila($query, 0);
+$nuevo     = $result['preingreso_nuevo'];
+$aprobado  = $result['preingreso_aprobado'];
+$apto      = $result['preingreso_apto'];
+$rechazado = $result['preingreso_rechazado'];
+$rech      = 0;
+$apt       = 0;
 
-	if($status == $apto){
-	   $status =  $aprobado;
+if ($status == $apto) {
+	$status =  $aprobado;
+}
+
+if (($status == $nuevo) or ($status == $rechazado)) {
+
+	if ($refp01_apto == 'S') {
+		$apt++;
+	} elseif ($refp01_apto == 'N') {
+		$rech++;
 	}
-		
-	if(($status == $nuevo) or ($status == $rechazado)){
-		
-		if($refp01_apto == 'S'){
-		$apt++;
-		}elseif($refp01_apto == 'N'){
-		$rech++;	
-		}
-		
-		if($refp02_apto == 'S'){
-		$apt++;
-		}elseif($refp02_apto == 'N'){
-		$rech++;	
-		}		
-		
-		if($refp03_apto == 'S'){
-		$apt++;
-		}elseif($refp03_apto == 'N'){
-		$rech++;	
-		}		
-		
-		if($refl01_apto == 'S'){
-		$apt++;
-		}elseif($refl01_apto == 'N'){
-		$rech++;	
-		}	
-		
-		if($refl02_apto == 'S'){
-		$apt++;
-		}elseif($refl02_apto == 'N'){
-		$rech++;	
-		}
-						
-		if($psi_apto == 'A'){
-		$apt++;
-		}elseif($psi_apto == 'R'){
-		$rech++;	
-		}
-		
-		if($pol_apto == 'A'){
-		$apt++;
-		}elseif($pol_apto == 'R'){
-		$rech++;	
-		}			
-		// VALIDO
-		if($rech > 0){
-		$status =  $rechazado;	
-		}elseif($apt >= 7){
-	   $status = $apto;			
-		}else{
-	   $status =  $status;		
-		}		
-	}		
-		
 
-	if(isset($_POST['proced'])){
+	if ($refp02_apto == 'S') {
+		$apt++;
+	} elseif ($refp02_apto == 'N') {
+		$rech++;
+	}
 
-	 $sql    = "$SELECT $proced('$metodo', '$codigo', '$nacionalidad',  '$estado_civil',
+	if ($refp03_apto == 'S') {
+		$apt++;
+	} elseif ($refp03_apto == 'N') {
+		$rech++;
+	}
+
+	if ($refl01_apto == 'S') {
+		$apt++;
+	} elseif ($refl01_apto == 'N') {
+		$rech++;
+	}
+
+	if ($refl02_apto == 'S') {
+		$apt++;
+	} elseif ($refl02_apto == 'N') {
+		$rech++;
+	}
+
+	if ($psi_apto == 'A') {
+		$apt++;
+	} elseif ($psi_apto == 'R') {
+		$rech++;
+	}
+
+	if ($pol_apto == 'A') {
+		$apt++;
+	} elseif ($pol_apto == 'R') {
+		$rech++;
+	}
+	// VALIDO
+	if ($rech > 0) {
+		$status =  $rechazado;
+	} elseif ($apt >= 7) {
+		$status = $apto;
+	} else {
+		$status =  $status;
+	}
+}
+
+
+if (isset($_POST['proced'])) {
+
+	$sql    = "$SELECT $proced('$metodo', '$codigo', '$nacionalidad',  '$estado_civil',
 	                            '$apellido', '$nombre', '$fecha_nac', '$lugar_nac',
 							    '$sexo', '$telefono', '$celular', '$correo',
 								'$experiencia', '$direccion',
@@ -193,26 +195,34 @@ $metodo   = $_POST['metodo'];
 								'$refp02_observacion', '$refp02_apto', '$refp03_nombre', '$refp03_ocupacion', 
 								'$refp03_telf', '$refp03_parentezco', '$refp03_direccion', '$refp03_observacion', 
 								'$refp03_apto', '$refl01_empresa', '$refl01_telf', '$refl01_contacto',
-								'$refl01_cargo', '$refl01_sueldo_inic', '$refl01_sueldo_fin', '$refl01_fec_ingreso',                                '$refl01_fec_egreso', '$refl01_direccion', '$refl01_observacion', '$refl01_retiro',
+								'$refl01_cargo', '$refl01_sueldo_inic', '$refl01_sueldo_fin', '$refl01_fec_ingreso',                                
+								'$refl01_fec_egreso', '$refl01_direccion', '$refl01_observacion', '$refl01_retiro',
 								'$refl01_apto', '$refl02_empresa', '$refl02_telf', '$refl02_contacto',
 								'$refl02_cargo', '$refl02_sueldo_inic', '$refl02_sueldo_fin', '$refl02_fec_ingreso',
 								'$refl02_fec_egreso', '$refl02_direccion', '$refl02_observacion', '$refl02_retiro',
 								'$refl02_apto', '$t_camisa', '$t_pantalon', '$n_zapato',
-								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";	
+								'$campo01', '$campo02', '$campo03', '$campo04', '$usuario',  '$status')";
+	try {
+		$query = $bd->consultar($sql);
+	} catch (Exception $e) {
+		echo $e;
+	}
 
-	 $query = $bd->consultar($sql);	  
-	 }
-	 
-	if($metodo == "agregar"){
+	//echo $sql;
+}
+
+if ($metodo == "agregar") {
 
 	echo '<script languaje="JavaScript" type="text/javascript">
 	if(confirm("¿Desea Agregar Fotos")) {
-		  location.href="../inicio.php?area=formularios/add_imagenes&ci='.$codigo.'&tipo=01";
+		  location.href="../inicio.php?area=formularios/add_imagenes&ci=' . $codigo . '&tipo=01";
 	}
-	</script>';	
-	}	
-  require_once('../funciones/sc_direccionar.php');  
+	</script>';
+}
+require_once('../funciones/sc_direccionar.php');
 ?>
+
 <body>
 </body>
+
 </html>

@@ -33,6 +33,7 @@ $pag = 0;
          <div class="TabbedPanelsContent"><?php include('formularios/add_ficha3_01.php');?></div>
 				 <div class="TabbedPanelsContent"><?php include("formularios/add_ficha_07.php");?></div>
   	  	 <div class="TabbedPanelsContent"><?php include('formularios/add_ficha_02.php');?></div>
+			 <div class="TabbedPanelsContent"><?php include('formularios/add_ficha2_03.php'); ?></div>
 		 <div class="TabbedPanelsContent"><?php include('formularios/add_ficha3_04.php');?></div>
 		 <div class="TabbedPanelsContent"><?php include('formularios/add_ficha3_05.php');?></div>
           <div class="TabbedPanelsContent"><?php include("formularios/add_ficha_06.php");?></div>

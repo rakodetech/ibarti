@@ -1,11 +1,11 @@
 <?php
-define("SPECIALCONSTANT",true);
+define("SPECIALCONSTANT", true);
 session_start();
 $Nmenu   = 524;
 require("../autentificacion/aut_config.inc.php");
 include_once('../funciones/funciones.php');
-require_once("../".class_bdI);
-require_once("../".Leng);
+require_once("../" . class_bdI);
+require_once("../" . Leng);
 $bd = new DataBase();
 
 $rol             = $_POST['rol'];
@@ -22,10 +22,10 @@ $trabajador      = $_POST['trabajador'];
 
 $reporte         = $_POST['reporte'];
 
-$archivo         = "rp_fic_trabajador_".$fecha."";
+$archivo         = "rp_fic_trabajador_" . $fecha . "";
 $titulo          = "  REPORTE FICHA TRABAJADOR \n";
 
-if(isset($reporte)){
+if (isset($reporte)) {
 
 	$where = "  WHERE v_ficha.cod_ficha = v_ficha.cod_ficha
 	AND v_ficha.cod_banco = bancos.codigo
@@ -38,52 +38,52 @@ if(isset($reporte)){
 
 	// and v_ficha.cod_ficha_status_militar = ficha_status_militar.codigo";
 
-	if($_POST['fecha_desde'] != ""){
+	if ($_POST['fecha_desde'] != "") {
 		$fecha_D         = conversion($_POST['fecha_desde']);
 		$where .= " AND v_ficha.fec_ingreso >= \"$fecha_D\" ";
 	}
 
-	if($_POST['fecha_hasta'] != ""){
+	if ($_POST['fecha_hasta'] != "") {
 		$fecha_H         = conversion($_POST['fecha_hasta']);
 		$where .= " AND v_ficha.fec_ingreso <= \"$fecha_H\" ";
 	}
 
-	if($rol != "TODOS"){
+	if ($rol != "TODOS") {
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
 	}
 
-	if($region != "TODOS"){
+	if ($region != "TODOS") {
 		$where .= " AND v_ficha.cod_region = '$region' ";
 	}
 
-	if($estado != "TODOS"){
+	if ($estado != "TODOS") {
 		$where .= " AND v_ficha.cod_estado = '$estado' ";  // cambie AND asistencia.co_cont = '$contracto'
 	}
 
-	if($ciudad != "TODOS"){
+	if ($ciudad != "TODOS") {
 		$where  .= " AND v_ficha.cod_ciudad = '$ciudad' ";
 	}
 
-	if($cliente != "TODOS"){
+	if ($cliente != "TODOS") {
 		$where .= " AND v_ficha.cod_cliente = '$cliente' ";
 	}
 
-	if($ubicacion != "TODOS"){
-		$where .= " AND v_ficha.cod_ubicacion = '$ubicacion' "; 
+	if ($ubicacion != "TODOS") {
+		$where .= " AND v_ficha.cod_ubicacion = '$ubicacion' ";
 	}
 
-	if($cargo != "TODOS"){
+	if ($cargo != "TODOS") {
 		$where  .= " AND v_ficha.cod_cargo = '$cargo' ";
 	}
 
-	if($contrato != "TODOS"){
+	if ($contrato != "TODOS") {
 		$where  .= " AND v_ficha.cod_contracto = '$contrato' ";
 	}
 
-	if($status != "TODOS"){
+	if ($status != "TODOS") {
 		$where .= " AND v_ficha.cod_ficha_status = '$status' ";
 	}
-	if($trabajador != NULL){
+	if ($trabajador != NULL) {
 		$where  .= " AND v_ficha.cod_ficha = '$trabajador' ";
 	}
 
@@ -96,15 +96,19 @@ if(isset($reporte)){
 	v_ficha.contracto, ficha_n_contracto.descripcion AS n_contracto,
 	bancos.descripcion AS banco,  v_ficha.cta_banco,
 	preing_camisas.descripcion AS camisa, preing_pantalon.descripcion AS pantalon, preing_zapatos.descripcion AS zapato,
-	v_ficha.fec_ingreso,  v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso,
-	v_ficha.`status`,v_ficha.fec_us_mod,Concat(men_usuarios.nombre,' ',men_usuarios.apellido) us_mod
-	FROM  v_ficha LEFT JOIN ficha_egreso ON v_ficha.cod_ficha = ficha_egreso.cod_ficha, bancos, ficha_n_contracto, preing_camisas,
+	v_ficha.fec_ingreso, v_ficha.fec_profit, v_ficha.fec_contracto, ficha_egreso.fec_egreso,
+	v_ficha.`status`,v_ficha.fec_us_mod,Concat(men_usuarios.nombre,' ',men_usuarios.apellido) us_mod, v_ficha.dosis_covid19,
+	IF(v_ficha.latitud, 'SI', 'NO') geolocalizacion, v_ficha.latitud, v_ficha.longitud, IFNULL(ficha_egreso.entrega_uniforme, 'N') entrega_uniforme,
+	ficha_egreso_motivo.descripcion motivo_egreso
+	FROM  v_ficha LEFT JOIN ficha_egreso ON v_ficha.cod_ficha = ficha_egreso.cod_ficha 
+	LEFT JOIN ficha_egreso_motivo ON ficha_egreso.cod_ficha_egreso_motivo = ficha_egreso_motivo.codigo, bancos, ficha_n_contracto, preing_camisas,
 	preing_pantalon, preing_zapatos, nivel_academico,men_usuarios
 	$where
 	ORDER BY 7 ASC ";
+
 	//,ficha_status_militar parte del FROM
 	//, if(v_ficha.servicio_militar='T','SI','NO') fic_militar, ficha_status_militar.descripcion rango_militar parte del SELECT
-	if($reporte== 'excel'){
+	if ($reporte == 'excel') {
 		echo "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />";
 		header("Content-type: application/vnd.ms-excel");
 		header("Content-Disposition:  filename=\"rp_$archivo.xls\";");
@@ -112,78 +116,79 @@ if(isset($reporte)){
 		$query01  = $bd->consultar($sql);
 		echo "<table border=1>";
 
-		echo "<tr><th> ".$leng['rol']." </th><th> ".$leng['region']." </th><th> ".$leng['estado']." </th><th> ".$leng['ciudad']." </th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th>
-		<th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> Apellido </th> <th> Nombre </th>
+		echo "<tr><th> " . $leng['rol'] . " </th><th> " . $leng['region'] . " </th><th> " . $leng['estado'] . " </th><th> " . $leng['ciudad'] . " </th><th> " . $leng['cliente'] . " </th><th> " . $leng['ubicacion'] . " </th>
+		<th> " . $leng['ficha'] . " </th><th> " . $leng['ci'] . " </th><th> Apellido </th> <th> Nombre </th>
 		<th> Fecha NACIMIENTO </th> <th> Sexo </th><th> Teléfono </th><th> Celular</th>
 		<th> Correo </th> <th> Experiencia </th><th> Dirección </th><th> Observación </th>
-		<th> Nivel Académico </th><th> Cargo</th><th> ".$leng['contrato']."</th><th> N. ".$leng['contrato']." </th>
+		<th> Nivel Académico </th><th> Cargo</th><th> " . $leng['contrato'] . "</th><th> N. " . $leng['contrato'] . " </th>
 		<th> Banco </th><th> Cta. Bancaria </th><th> T. Camisa </th><th>T. Pantalón </th>
-		<th>N. Zapato</th> <th> Fec. Ingreso </th><th> Fecha Ing. Sistema </th><th> Fec.. ".$leng['contrato']." </th>
-		<th> Fec. Egreso </th><th> Status </th><th> Fecha Ultima Modificacion </th>
-		</tr><th> Usuario Ultima Modificacion </th>";
+		<th>N. Zapato</th> <th> Fec. Ingreso </th><th> Fecha Ing. Sistema </th><th> Fec.. " . $leng['contrato'] . " </th>
+		<th> Fec. Egreso </th><th> Causa de Egreso </th><th> Dosis COVID-19 </th><th> Status </th><th> Fecha Ultima Modificacion </th><th> Usuario Ultima Modificacion </th>
+		<th>Geolocalización</th><th>Latitud</th><th>Longitud</th><th>Entregó Uniforme</th></tr>";
 		//<th> Servicio Militar </th><th> Rango Militar </th>
 
 
-		while ($row01 = $bd->obtener_num($query01)){
-			echo "<tr><td>".$row01[0]."</td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td>
-			<td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
-			<td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td>
-			<td>".$row01[12]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[15]."</td>
-			<td>".$row01[16]."</td><td>".$row01[17]."</td><td>".$row01[18]."</td><td>".$row01[19]."</td>
-			<td>".$row01[20]."</td><td>".$row01[21]."</td><td>".$row01[22]."</td><td>Nº ".$row01[23]."</td>
-			<td>".$row01[24]."</td><td>".$row01[25]."</td><td>".$row01[26]."</td><td>".$row01[27]."</td>
-			<td>".$row01[28]."</td><td>".$row01[29]."</td> <td>".$row01[30]."</td>
-			<td>".$row01[31]."</td> <td>".$row01[32]."</td><td>".$row01[33]."</td>
+		while ($row01 = $bd->obtener_num($query01)) {
+			echo "<tr><td>" . $row01[0] . "</td><td>" . $row01[1] . "</td><td>" . $row01[2] . "</td><td>" . $row01[3] . "</td>
+			<td>" . $row01[4] . "</td><td>" . $row01[5] . "</td><td>" . $row01[6] . "</td><td>" . $row01[7] . "</td>
+			<td>" . $row01[8] . "</td><td>" . $row01[9] . "</td><td>" . $row01[10] . "</td><td>" . $row01[11] . "</td>
+			<td>" . $row01[12] . "</td><td>" . $row01[13] . "</td><td>" . $row01[14] . "</td><td>" . $row01[15] . "</td>
+			<td>" . $row01[16] . "</td><td>" . $row01[17] . "</td><td>" . $row01[18] . "</td><td>" . $row01[19] . "</td>
+			<td>" . $row01[20] . "</td><td>" . $row01[21] . "</td><td>" . $row01[22] . "</td><td>Nº " . $row01[23] . "</td>
+			<td>" . $row01[24] . "</td><td>" . $row01[25] . "</td><td>" . $row01[26] . "</td><td>" . $row01[27] . "</td>
+			<td>" . $row01[28] . "</td><td>" . $row01[29] . "</td> <td>" . $row01[30] . "</td><td>" . $row01[39] . "</td><td>" . $row01[34] . "</td>
+			<td>" . $row01[31] . "</td> <td>" . $row01[32] . "</td><td>" . $row01[33] . "</td><td>" . $row01[35] . "</td>
+			<td>'$row01[36]'</td><td>'$row01[37]'</td><td>" . $row01[38] . "</td>
 			</tr>";
 			//<td>".$row01[33]."</td><td>".$row01[34]."</td>
 		}
 		echo "</table>";
 	}
 
-	if($reporte == 'pdf'){
+	if ($reporte == 'pdf') {
 
-		require_once('../'.ConfigDomPdf);
+		require_once('../' . ConfigDomPdf);
 
-		$dompdf= new DOMPDF();
+		$dompdf = new DOMPDF();
 
 		$query  = $bd->consultar($sql);
 
 		ob_start();
 
-		require('../'.PlantillaDOM.'/header_ibarti_2.php');
-		include('../'.pagDomPdf.'/paginacion_ibarti.php');
+		require('../' . PlantillaDOM . '/header_ibarti_2.php');
+		include('../' . pagDomPdf . '/paginacion_ibarti.php');
 
 		echo "<br><div>
 		<table>
 		<tbody>
 		<tr style='background-color: #4CAF50;'>
-		<th width='15%'>".$leng['rol']."</th>
-		<th width='10%'>".$leng['estado']."</th>
-		<th width='10%'>".$leng['cliente']."</th>
-		<th width='10%'>".$leng['ubicacion']."</th>
-		<th width='10%'>".$leng['ficha']."</th>
+		<th width='15%'>" . $leng['rol'] . "</th>
+		<th width='10%'>" . $leng['estado'] . "</th>
+		<th width='10%'>" . $leng['cliente'] . "</th>
+		<th width='10%'>" . $leng['ubicacion'] . "</th>
+		<th width='10%'>" . $leng['ficha'] . "</th>
 		<th width='18%'>Apellido</th>
 		<th width='18%'>Nombre</th>
-		<th width='19%'>".$leng['contrato']."</th>
+		<th width='19%'>" . $leng['contrato'] . "</th>
 		<th width='10%'>Status</th>
 		</tr>";
 
-		$f=0;
-		while ($row = $bd->obtener_num($query)){
-			if ($f%2==0){
+		$f = 0;
+		while ($row = $bd->obtener_num($query)) {
+			if ($f % 2 == 0) {
 				echo "<tr>";
-			}else{
+			} else {
 				echo "<tr class='class= odd_row'>";
 			}
-			echo   "<td width='15%'>".$row[0]."</td>
-			<td width='10%'>".$row[2]."</td>
-			<td width='10%'>".$row[4]."</td>
-			<td width='10%'>".$row[5]."</td>
-			<td width='10%'>".$row[6]."</td>
-			<td width='18%'>".$row[8]."</td>
-			<td width='18%'>".$row[9]."</td>
-			<td width='19%'>".$row[20]."</td>
-			<td width='10%'>".$row[31]."</td>";
+			echo   "<td width='15%'>" . $row[0] . "</td>
+			<td width='10%'>" . $row[2] . "</td>
+			<td width='10%'>" . $row[4] . "</td>
+			<td width='10%'>" . $row[5] . "</td>
+			<td width='10%'>" . $row[6] . "</td>
+			<td width='18%'>" . $row[8] . "</td>
+			<td width='18%'>" . $row[9] . "</td>
+			<td width='19%'>" . $row[20] . "</td>
+			<td width='10%'>" . $row[31] . "</td></tr>";
 
 			$f++;
 		}
@@ -194,8 +199,8 @@ if(isset($reporte)){
 		</body>
 		</html>";
 
-		$dompdf->load_html(ob_get_clean(),'UTF-8');
-		$dompdf->set_paper ('letter','landscape');
+		$dompdf->load_html(ob_get_clean(), 'UTF-8');
+		$dompdf->set_paper('letter', 'landscape');
 		$dompdf->render();
 		$dompdf->stream($archivo, array('Attachment' => 0));
 	}

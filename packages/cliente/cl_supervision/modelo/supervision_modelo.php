@@ -2,7 +2,7 @@
 define("SPECIALCONSTANT", true);
 include_once('../../../../funciones/funciones.php');
 require  "../../../../autentificacion/aut_config.inc.php";
-require_once  "../../../../".class_bdI;
+require_once  "../../../../" . class_bdI;
 
 class Supervision
 {
@@ -15,24 +15,43 @@ class Supervision
 		$this->bd = new Database;
 	}
 
-	public function inicio(){
+	public function inicio()
+	{
 		$this->datos   = array();
-		$this->datos   = array('codigo' => '',  'descripcion' => '',
+		$this->datos   = array(
+			'codigo' => '',  'descripcion' => '',
 			'fecha_inicio' => '', 'fecha_fin' => '',
-			'status' => 'T');
+			'status' => 'T'
+		);
 		return $this->datos;
 	}
 
-	public function get_superv_det($cliente){
+	public function get_superv_det($cliente)
+	{
 		$this->datos   = array();
-		$sql = " SELECT a.codigo, a.cod_ubicacion, clientes_ubicacion.descripcion ubicacion,
-		a.cod_turno, turno.descripcion turno,
-		a.cantidad, a.cod_us_ing, a.fec_us_ing, a.cod_us_mod, a.fec_us_mod
-		FROM clientes_supervision a , clientes_ubicacion, turno
-		WHERE a.cod_ubicacion = clientes_ubicacion.codigo
-		AND a.cod_turno = turno.codigo
-		AND clientes_ubicacion.cod_cliente = '$cliente'
- 		ORDER BY 3,5 ASC";
+		$sql = " SELECT
+			a.codigo,
+			a.cod_ubicacion,
+			clientes_ubicacion.descripcion ubicacion,
+			a.cod_turno,
+			turno.descripcion turno,
+			a.cod_cargo,
+			cargos.descripcion cargo,
+			a.cantidad,
+			a.cod_us_ing,
+			a.fec_us_ing,
+			a.cod_us_mod,
+			a.fec_us_mod
+		FROM
+			clientes_supervision a
+			LEFT JOIN cargos ON a.cod_cargo = cargos.codigo,
+			clientes_ubicacion,
+			turno
+		WHERE
+			a.cod_ubicacion = clientes_ubicacion.codigo
+			AND a.cod_turno = turno.codigo
+			AND clientes_ubicacion.cod_cliente = '$cliente'
+ 		ORDER BY 3,5,7 ASC";
 		$query = $this->bd->consultar($sql);
 
 		while ($datos = $this->bd->obtener_fila($query)) {
@@ -41,7 +60,8 @@ class Supervision
 		return $this->datos;
 	}
 
-	public function get_ubicacion($cliente){
+	public function get_ubicacion($cliente)
+	{
 		$this->datos   = array();
 		$sql = " SELECT clientes_ubicacion.codigo, clientes_ubicacion.descripcion
 		FROM clientes_ubicacion
@@ -49,32 +69,33 @@ class Supervision
 		AND clientes_ubicacion.`status` = 'T'
 		ORDER BY 2 ASC ";
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd->  obtener_fila($query)) {
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	public function get_turno(){
+	public function get_turno()
+	{
 		$this->datos   = array();
 		$sql = "SELECT turno.codigo, turno.descripcion FROM turno
 		WHERE turno.`status` = 'T' ORDER BY 2 ASC";
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd->  obtener_fila($query)) {
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 
-	public function get_cargo(){
+	public function get_cargo()
+	{
 		$this->datos   = array();
 		$sql = " SELECT cargos.codigo, cargos.descripcion FROM cargos
-		WHERE cargos.`status` = 'T' ORDER BY 2 ASC  ";
+		WHERE cargos.`status` = 'T' AND cargos.`planificable` = 'T' ORDER BY 2 ASC  ";
 		$query = $this->bd->consultar($sql);
-		while ($datos= $this->bd->  obtener_fila($query)) {
+		while ($datos = $this->bd->obtener_fila($query)) {
 			$this->datos[] = $datos;
 		}
 		return $this->datos;
 	}
 }
-?>

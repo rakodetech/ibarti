@@ -1,7 +1,7 @@
-function ModalOpen(){
- $("#myModal").show();
+function ModalOpen() {
+	$("#myModal").show();
 }
 
-function CloseModal(){
- 	$("#myModal").hide();
+function CloseModal() {
+	$("#myModal").hide();
 }

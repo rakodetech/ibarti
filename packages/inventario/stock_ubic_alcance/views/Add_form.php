@@ -86,7 +86,9 @@ if ($metodo == 'modificar') {
         </td>
       </tr>
       <?php
-      echo '<tr><td colspan="4"><p><b>Nota</b>: Ajuste ANULADO, ' . $ped['descripcion_anulacion'] . '</p></td></tr>';
+      if ($anulado == "T") {
+        echo '<tr><td colspan="4"><p><b>Nota</b>: Ajuste ANULADO, ' . $ped['descripcion_anulacion'] . '</p></td></tr>';
+      }
       ?>
       <tr>
         <td height="8" colspan="5" align="center">
@@ -106,7 +108,7 @@ if ($metodo == 'modificar') {
       } else {
         echo '<img class="imgLink" id="img_pdf" src="imagenes/pdf.gif" border="0" width="25px" title="imprimir a pdf"  onclick="imprimir()">';
 
-        if ($anulado == "F") {;
+        if ($anulado == "F") {
           echo '<span class="art-button-wrapper">
         <span class="art-button-l"> </span>
         <span class="art-button-r"> </span>
