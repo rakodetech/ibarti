@@ -52,7 +52,7 @@ if(isset($_POST['proced'])){
 		WHERE cod_ubicacion = '$ubicacion' ";
 	
 		$query = $bd->consultar($sql);
-		$datos = $bd->obtener_fila($query,0);
+/* 		$datos = $bd->obtener_fila($query,0);
 		$codigo = $datos[0];
 		$sql = " SELECT a.n_ajuste FROM control a ";
 		$query = $bd->consultar($sql);
@@ -67,7 +67,7 @@ if(isset($_POST['proced'])){
 	
 		$query = $bd->consultar($sql);
 		$sql = " UPDATE control SET n_ajuste = $cod_ajuste; ";
-		$query = $bd->consultar($sql);
+		$query = $bd->consultar($sql); */
 
 	}
 
@@ -86,7 +86,7 @@ if(isset($_POST['proced'])){
 			$almacen = $_POST['almacen_'.$i.''];
 				$sql = "$SELECT p_prod_dotacion_det_clientes('$metodo', '$codigo', '$producto', '$producto_old', '$almacen', '$cantidad')";
 				$query = $bd->consultar($sql);
-			
+/* 			
 			$sql = "SELECT cos_promedio
 			FROM ajuste_reng
 			WHERE ajuste_reng.cod_producto = '$producto' AND cod_almacen='$almacen'
@@ -115,7 +115,7 @@ if(isset($_POST['proced'])){
 			cod_producto,fec_vencimiento,lote, cantidad,  costo,  neto, aplicar,anulado,cod_anulado) VALUES
 			($cod_ajuste, ".$i.", '$almacen', '$producto','0000-00-00','19830906',$cantidad, $cos_promedio, $neto, 'OUT','F','$nro_ajuste_c') ";
 		
-			$query = $bd->consultar($sql);
+			$query = $bd->consultar($sql); */
 		}
 
 		if($incr > $i){
@@ -128,7 +128,7 @@ if(isset($_POST['proced'])){
 
 }
 
-	require_once('../funciones/sc_direccionar.php');
+	// require_once('../funciones/sc_direccionar.php');
 ?>
 <body>
 
