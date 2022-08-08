@@ -8,8 +8,8 @@ $result = array();
 $ficha   = $_POST['ficha'];
 $producto    = $_POST['producto'];
 $sql = "SELECT clientes_ub_alcance.cod_producto
-    FROM clientes_ub_alcance,productos 
-WHERE productos.item = '$producto' 
+    FROM clientes_ub_alcance
+WHERE clientes_ub_alcance.cod_producto= '$producto' 
 AND clientes_ub_alcance.cod_cl_ubicacion = '$ficha'";
  $query = $bd->consultar($sql);
 $result = $bd->obtener_fila($query,0);

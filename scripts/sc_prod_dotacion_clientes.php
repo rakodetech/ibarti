@@ -49,7 +49,7 @@ if(isset($_POST['proced'])){
 
 	if($metodo == "agregar"){
 		$sql    = "SELECT MAX(prod_dotacion_clientes.codigo) codigo FROM prod_dotacion_clientes
-		WHERE cod_ubicacion = '$trabajador' ";
+		WHERE cod_ubicacion = '$ubicacion' ";
 	
 		$query = $bd->consultar($sql);
 		$datos = $bd->obtener_fila($query,0);
@@ -84,7 +84,7 @@ if(isset($_POST['proced'])){
 			$producto_old = $producto;
 			$cantidad = $_POST['cantidad_'.$i.''];
 			$almacen = $_POST['almacen_'.$i.''];
-				$sql = "$SELECT p_prod_dotacion_det('$metodo', '$codigo', '$producto', '$producto_old', '$almacen', '$cantidad')";
+				$sql = "$SELECT p_prod_dotacion_det_clientes('$metodo', '$codigo', '$producto', '$producto_old', '$almacen', '$cantidad')";
 				$query = $bd->consultar($sql);
 			
 			$sql = "SELECT cos_promedio

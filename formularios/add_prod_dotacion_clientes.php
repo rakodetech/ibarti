@@ -9,7 +9,7 @@
 			var producto   = document.getElementById('producto_'+numX+'').value;
 			var cod_talla   = document.getElementById('cod_talla_'+numX+'').value;
 			comprobarTalla(ficha, producto,cod_talla,function(tallas_iguales){
-				if(tallas_iguales===false){
+				if(tallas_iguales){
 				var cantidad =Number(document.getElementById('cantidad_'+numX+'').value);
 					var cantidad_max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
 					if(cantidad > cantidad_max){
@@ -18,7 +18,8 @@
 						$("#salvar").click();
 					}
 				}else{
-					toastr.error("La talla no corresponde a la de la Configuracion!..")
+                    toastr.error("La talla no corresponde a la de la Configuracion!..")
+                    
 				}
 			});
 		}
@@ -50,6 +51,7 @@ function ActivarSubLinea(codigo, relacion, contenido){  // LINEA //
 }
 
 function comprobarTalla(ficha, producto,cod_talla,callback){ 
+    console.log('policia:'+ ficha + ' '+ producto+' '+ cod_talla);
 	if(ficha!=''){
 		var valor = "ajax/Add_prod_comp_talla_clientes.php";
 		ajax=nuevoAjax();
@@ -58,11 +60,11 @@ function comprobarTalla(ficha, producto,cod_talla,callback){
 		{
 			if (ajax.readyState==4){
 				var resp = JSON.parse(ajax.responseText);
-				callback(resp.cod_talla == cod_talla);
+				callback(resp.producto == producto);
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("ficha="+ficha+"&producto="+producto+"&cod_talla="+cod_talla+"");
+		ajax.send("ficha="+ficha+"&producto="+producto+"");
 	}else{
 		alert("Debe de Seleccionar Un Producto ");
 	}
@@ -93,7 +95,7 @@ function cantidad_maxima(cod_almacen,relacion) {
 		type: 'post',
 		success: function(response) {
 			var resp = JSON.parse(response);
-            console.log('Policia:' + resp[0]);
+            console.log('Politica:' + resp);
 			if(resp){
 				$("#cantidad_"+relacion).attr('max',resp[0]);
 			}else if(cod_almacen != ""){
@@ -392,7 +394,7 @@ if($metodo == 'modificar'){
 	$anulado       = "F";
 	$activo        = "T";
 }
-$proced      = "p_prod_dotacion";
+$proced      = "p_prod_dotacion_clientes";
 ?>
 
 <link rel="stylesheet" type="text/css" href="latest/stylesheets/autocomplete.css" />
