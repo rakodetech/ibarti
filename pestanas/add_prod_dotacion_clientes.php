@@ -10,7 +10,7 @@ if(isset($_GET['pagina'])){
 	$pag = 0;
 }
 ?>
-<form action="scripts/sc_<?php echo $archivo;?>.php" method="post" name="add" id="add">
+<form action="sc_maestros/sc_<?php echo $archivo;?>.php" method="post" name="add" id="add">
  <div align="center" class="etiqueta_title">
 	 </div>
  <div class="TabbedPanels" id="tp1">

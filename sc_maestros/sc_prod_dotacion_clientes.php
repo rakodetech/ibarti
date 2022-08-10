@@ -1,18 +1,3 @@
-<script type="text/javascript" src="../jquery.js"></script>
-<script language="JavaScript" type="text/javascript">
-	function Pdf(){
-		$('#pdf').attr('action', '../reportes/rp_inv_prod_dotacion.php');
-		$('#pdf').submit();
-	}
-</script>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<title>Documento sin t&iacute;tulo</title>
-</head>
-
 <?php
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
@@ -37,25 +22,22 @@ $usuario = $_POST["usuario"];
 $activo   = 'T';
 $href     = $_POST['href'];
 $proced   = $_POST['proced'];
-
 $metodo   = $_POST['metodo'];
 $nro_ajuste_c = "";
 if(isset($_POST['proced'])){
-	$sql    = "$SELECT $proced('$metodo', '$codigo', '$fecha','$cliente','$ubicacion', '$trabajador',
-	'$descripcion',
-	'$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo')";
+	$sql    = "$SELECT $proced('$metodo', '$codigo', '$fecha','$cliente','$ubicacion', '$trabajador','$descripcion','$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo')";
 	$query = $bd->consultar($sql);
 // procedimiento debe retonrar un valor pediente.. OJO ///
 // y eliminar el SELECT MAX
 
 	if($metodo == "agregar"){
-		$sql= "SELECT MAX(prod_dotacion_clientes.codigo) codigo FROM prod_dotacion_clientes
+		$sql    = "SELECT MAX(prod_dotacion_clientes.codigo) codigo FROM prod_dotacion_clientes
 		WHERE cod_ubicacion = '$ubicacion' ";
 	
 		$query = $bd->consultar($sql);
-       /*$datos = $bd->obtener_fila($query,0);
+ 		$datos = $bd->obtener_fila($query,0);
 		$codigo = $datos[0];
-		 $sql = " SELECT a.n_ajuste FROM control a ";
+		/* $sql = " SELECT a.n_ajuste FROM control a ";
 		$query = $bd->consultar($sql);
 		$data =$bd->obtener_fila($query,0);
 		$nro_ajuste   =  $data[0];
@@ -129,9 +111,8 @@ if(isset($_POST['proced'])){
 
 }
 
-	//require_once('../funciones/sc_direccionar.php');
+	require_once('../funciones/sc_direccionar.php');
 ?>
 <body>
 
 </body>
-</html>

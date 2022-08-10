@@ -18,25 +18,27 @@ $rol        = $_POST['rol'];
 $filtro     = $_POST['filtro'];
 $ficha      = $_POST['ficha'];
 
-	$where = "WHERE  clientes.codigo=clientes_ubicacion.cod_cliente and clientes.codigo=prod_dotacion_clientes.cod_cliente";
+	$where = " WHERE  v_ficha.cod_ficha = prod_dotacion.cod_ficha ";
 
 	if($periodo != "TODOS"){
-		$where .= " AND prod_dotacion_clientes.periodo  = '$periodo' ";
+		$where .= " AND prod_dotacion.periodo  = '$periodo' ";
 	}
 
 	if($rol != "TODOS"){
-		$where .= " AND clientes.codigo = '$rol' ";
+		$where .= " AND v_ficha.cod_rol = '$rol' ";
 	}
 
 	if(($filtro != "TODOS") and ($ficha) != ""){
-		$where .= "  AND prod_dotacion_clientes.cod_ubicacion = '$ficha' ";
+		$where .= "  AND prod_dotacion.cod_ficha = '$ficha' ";
 	}
 
- $sql = "SELECT prod_dotacion_clientes.codigo, prod_dotacion_clientes.fec_dotacion, clientes.codigo as cliente,clientes.nombre AS trabajador,
-					clientes_ubicacion.descripcion as nomubi,prod_dotacion_clientes.descripcion
-               FROM prod_dotacion_clientes inner join clientes on prod_dotacion_clientes.cod_cliente=clientes.codigo INNER JOIN clientes_ubicacion on prod_dotacion_clientes.cod_ubicacion=clientes_ubicacion.codigo
-           $where
-		   ORDER BY codigo ASC";
+ $sql = " SELECT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
+                 v_ficha.rol, v_ficha.cod_ficha,
+				 v_ficha.cedula, v_ficha.ap_nombre AS trabajador,
+				 prod_dotacion.descripcion
+            FROM v_ficha , prod_dotacion
+          $where
+		   ORDER BY 1 ASC";
    $query = $bd->consultar($sql);
 
 		echo '<table width="100%" border="0" class="fondo00">
@@ -44,8 +46,8 @@ $ficha      = $_POST['ficha'];
 				<th width="8%" class="etiqueta">Codigo</th>
 				<th width="8%" class="etiqueta">Fecha</th>
             	<th width="20%" class="etiqueta">'.$leng["rol"].'</th>
-				<th width="8%" class="etiqueta">'.$leng["cliente"].'</th>
-            	<th width="26%" class="etiqueta">'.$leng["ubicacion"].'</th>
+				<th width="8%" class="etiqueta">'.$leng["ficha"].'</th>
+            	<th width="26%" class="etiqueta">'.$leng["trabajador"].'</th>
             	<th width="26%" class="etiqueta">Descripcion</th>
 				<th width="4%"><a href="'.$vinculo.'&metodo=agregar"><img src="imagenes/nuevo.bmp" alt="Agregar Registro" width="20px" height="20px" title="Agregar Registro" border="null" /></a></th></tr>';
 		 $valor = 0;
@@ -54,7 +56,7 @@ $ficha      = $_POST['ficha'];
 		   $Borrar = "Borrar01('".$row02[0]."')";
 		if ($valor == 0){
 			$fondo = 'fondo01';
-		    $valor = 1;
+		$valor = 1;
 		}else{
 			$fondo = 'fondo02';
 			$valor = 0;
@@ -62,9 +64,9 @@ $ficha      = $_POST['ficha'];
 		echo'<tr class="'.$fondo.'">
 			  <td class="texto">'.$row02["codigo"].'</td>
 			  <td class="texto">'.$row02["fec_dotacion"].'</td>
-			  <td class="texto">'.longitud($row02["cliente"]).'</td>
-			  <td class="texto">'.$row02["trabajador"].'</td>
-			  <td class="texto">'.longitud($row02["nomubi"]).'</td>
+			  <td class="texto">'.longitud($row02["rol"]).'</td>
+			  <td class="texto">'.$row02["cod_ficha"].'</td>
+			  <td class="texto">'.longitud($row02["trabajador"]).'</td>
 			  <td class="texto">'.longitud($row02["descripcion"]).'</td>
 			  <td class="texto"><a href="'.$vinculo.'&codigo='.$row02['codigo'].'&metodo=modificar"><img src="imagenes/detalle.bmp" alt="Modificar" title="Modificar Registro" width="20px" height="20px" border="null"/></a>&nbsp;<img src="imagenes/borrar.bmp"  width="20px" height="20px" title="Borrar Registro" border="null" onclick="'.$Borrar.'" class="imgLink"/></td>
 		</tr>';

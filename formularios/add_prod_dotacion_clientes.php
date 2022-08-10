@@ -5,24 +5,9 @@
 		if($("#linea_1").attr("disabled")){
 			validarCamp('');
 		}else{
-			var numX     = parseInt(document.getElementById('incremento').value);
-			var producto   = document.getElementById('producto_'+numX+'').value;
-			var cod_talla   = document.getElementById('cod_talla_'+numX+'').value;
-			comprobarTalla(ficha, producto,cod_talla,function(tallas_iguales){
-				if(tallas_iguales){
-				var cantidad =Number(document.getElementById('cantidad_'+numX+'').value);
-					var cantidad_max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
-					if(cantidad > cantidad_max){
-						toastr.error(cantidad+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+cantidad_max);
-					}else{
-						$("#salvar").click();
-					}
-				}else{
-                    toastr.error("La talla no corresponde a la de la Configuracion!..")
-                    
-				}
-			});
-		}
+			$("#salvar").click();
+             
+            }
 	}
 
 	var cod_producto = "";
