@@ -18,7 +18,7 @@ if($metodo == 'modificar')
   $titulo   = "Modificar Movimiento";
   $ped      =  $ajuste->editar($codigo);
 }else{
- $titulo    = "Agregar Movimiento";
+ $titulo    = "Agregar Movimientocirilo";
  $ped       = $ajuste->inicio();
  $anulado   = "F";
  $codigo    = 0;
