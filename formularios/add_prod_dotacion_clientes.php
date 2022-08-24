@@ -34,7 +34,23 @@ function ActivarSubLinea(codigo, relacion, contenido){  // LINEA //
 		alert("Debe de Seleccionar Un Producto ");
 	}
 }
-
+function ActivarProductos(codigo, relacion, contenido){  // LINEA //
+	if(codigo!=''){
+		var valor = "ajax/Add_prod_lineaojo.php";
+		ajax=nuevoAjax();
+		ajax.open("POST", valor, true);
+		ajax.onreadystatechange=function()
+		{
+			if (ajax.readyState==4){
+				document.getElementById(contenido).innerHTML = ajax.responseText;
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("codigo="+codigo+"&relacion="+relacion+"");
+	}else{
+		alert("Debe de Seleccionar Un Producto ");
+	}
+}
 function comprobarTalla(ficha, producto,cod_talla,callback){ 
     console.log('policia:'+ ficha + ' '+ producto+' '+ cod_talla);
 	if(ficha!=''){
@@ -57,7 +73,7 @@ function comprobarTalla(ficha, producto,cod_talla,callback){
 
 function Activar01(codigo, relacion, contenido){  // LINEA //
 	if(codigo!=''){
-		var valor = "ajax/Add_prod_sub_linea.php";
+		var valor = "ajax/Add_prod_sub_linea_clientes.php";
 		ajax=nuevoAjax();
 		ajax.open("POST", valor, true);
 		ajax.onreadystatechange=function()
@@ -99,7 +115,7 @@ function cantidad_maxima(cod_almacen,relacion) {
 function Activar_almacen(codigo, relacion, contenido){  // LINEA //
 	cod_producto = codigo;
 	if(codigo!=''){
-		var valor = "ajax/Add_prod_almacen.php";
+		var valor = "ajax/Add_prod_almacen_clientes.php";
 		ajax=nuevoAjax();
 		ajax.open("POST", valor, true);
 		ajax.onreadystatechange=function()
@@ -172,7 +188,8 @@ function borrar2(num) {
 function validarAlcance(numX) {
 	var sub_linea = $("#sub_linea_"+numX).val()
 	var ficha = $("#stdID").val()
-	
+	var cod_prod=document.getElementById('producto_'+numX+'').value;
+    console.log(cod_prod);
 	if (numX) {
 		var parametros = { "sub_linea": sub_linea, "ficha": ficha };
 		$.ajax({
@@ -185,10 +202,17 @@ function validarAlcance(numX) {
 					toast.danger(resp.mensaje);
 				}else{
 					if(resp.length > 0){
-						prod_dotacion_det(numX);
+                        
+                        prod_dotacion_det(numX);
+                        prod_dotacion_modal(numX,cod_prod);
+                        prod_dotacion_det(numX);
+                        //activar modal si el producto tiene eans
+                        
 					}else{	
 						if(confirm("Esta sub linea no aplica para el alcance de la ubicación. Desea continuar?")){
 							prod_dotacion_det(numX);
+                            prod_dotacion_modal(numX,cod_prod);
+                            
 						}
 					}
 				}
@@ -201,6 +225,7 @@ function validarAlcance(numX) {
 	} else {
 		alert("Error en Data para aperturar");
 	}
+  
 }
 
 function validarCamp(metodo){
@@ -221,6 +246,7 @@ mensaje04 = " Debe Seleccionar Un Almacen \n ";
 select01  = document.getElementById('linea_'+numX+'').value;
 select02  = document.getElementById('sub_linea_'+numX+'').value;
 select03  = document.getElementById('producto_'+numX+'').value;
+        
 select04  = document.getElementById('almacen_'+numX+'').value;
 input01   = Number(document.getElementById('cantidad_'+numX+'').value);
 input01Max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
@@ -261,6 +287,27 @@ if(input01 == ""){
  }
 }
 
+function prod_dotacion_modal(numX,cod_prod){
+	var num     = numX+1;
+	if(cod_prod != ''){
+		var valor = "ajax/Add_prod_dotacion_det_clientes_modal.php";
+		var contenido = "Contenedor01_"+numX+"";
+		ajax=nuevoAjax();
+		ajax.open("POST", valor, true);
+		ajax.onreadystatechange=function()
+		{
+			if (ajax.readyState==4){
+				document.getElementById(contenido).innerHTML = ajax.responseText;
+				document.getElementById('incremento').value = num;
+				spryN(num);
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("codigo="+cod_prod+"");
+	}else{
+		alert("Falta Codificacion ");
+	}
+}
 
 function prod_dotacion_det(numX){
 	var num     = numX+1;
@@ -547,6 +594,7 @@ $proced      = "p_prod_dotacion_clientes";
 										<div id="Contenedor01_1"></div>
 										<div align="center">
 											<?php if ($metodo == "agregar"){ ?>
+                                                
 												<span class="art-button-wrapper">
 													<span class="art-button-l"> </span>
 													<span class="art-button-r"> </span>

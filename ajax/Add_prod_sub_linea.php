@@ -12,8 +12,8 @@ FROM productos,tallas
 WHERE productos.cod_sub_linea = '$codigo'
 AND productos.cod_talla = tallas.codigo
 AND productos.`status` = 'T'
--- AND productos.item IN (SELECT stock.cod_producto FROM stock WHERE stock.cod_producto = productos.item AND stock.stock_actual > 0 )
--- AND productos.ean = 'F'
+AND productos.item IN (SELECT stock.cod_producto FROM stock WHERE stock.cod_producto = productos.item AND stock.stock_actual > 0 )
+AND productos.ean = 'F'
 ORDER BY productos.descripcion ASC;";
 $query = $bd->consultar($sql);
 
