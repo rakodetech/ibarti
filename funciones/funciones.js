@@ -144,7 +144,13 @@ function EstadoFiltro(valor) {
 		validar.disabled = "";
 	}
 }
-
+function Salir01(idX) { // CARGAR EL MODULO DE AGREGAR //
+    numX=1;
+	if (confirm("�Esta Seguro de Cerrar")) {
+		document.getElementById('tabla'+numX).remove();
+		document.getElementById('incremento').value = numX -1;
+	}
+}
 function Borrar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
 	if (confirm("�Esta Seguro De Borrar Este Registro")) {
 		var tabla = document.getElementById("tabla").value;
@@ -161,7 +167,40 @@ function Borrar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
 		ajax.send("codigo=" + idX + "&metodo=borrar&tabla=" + tabla + "&activo=f&descipcion=");
 	}
 }
-
+function Procesar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
+	 var numX=idX;
+     var idean='';
+    if (confirm("�Desea Procesar listado EANS")) {
+		var tabla = "vectoreans";
+		var valor = "sc_maestros/sc_maestros_auxvector.php";
+		ajax = nuevoAjax();
+		ajax.open("POST", valor, true);
+		ajax.onreadystatechange = function () {
+			if (ajax.readyState == 4) {
+				document.getElementById("Contenedor01").innerHTML = ajax.responseText;
+				setTimeout(alert("" + document.getElementById("mensaje_aj").value + ""), Reload(), 1000);
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("codigo=" + idX + "&codigoean=" + idean + "&metodo=agregarean&tabla=" + tabla + "");
+	}
+}
+function Clickup(idX, idean) {  // CARGAR EL MODULO DE AGREGAR //
+    if (confirm("�Esta Seguro de Seleccionar Este Registro")) {
+		var tabla = "vectoreans";
+		var valor = "sc_maestros/sc_maestros_auxvector.php";
+		ajax = nuevoAjax();
+		ajax.open("POST", valor, true);
+		ajax.onreadystatechange = function () {
+			if (ajax.readyState == 4) {
+				document.getElementById("Contenedor01").innerHTML = ajax.responseText;
+				setTimeout(alert("" + document.getElementById("mensaje_aj").value + ""), Reload(), 1000);
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("codigo=" + idX + "&codigoean=" + idean + "&metodo=vector&tabla=" + tabla + "");
+	}
+}
 function Borrar02(codigo, codigo2) {  // CARGAR EL MODULO DE AGREGAR//
 
 	if (confirm("�Esta Seguro De Borrar Este Registro")) {

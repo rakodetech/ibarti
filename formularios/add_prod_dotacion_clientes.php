@@ -189,7 +189,7 @@ function validarAlcance(numX) {
 	var sub_linea = $("#sub_linea_"+numX).val()
 	var ficha = $("#stdID").val()
 	var cod_prod=document.getElementById('producto_'+numX+'').value;
-    console.log(cod_prod);
+    
 	if (numX) {
 		var parametros = { "sub_linea": sub_linea, "ficha": ficha };
 		$.ajax({
@@ -202,10 +202,33 @@ function validarAlcance(numX) {
 					toast.danger(resp.mensaje);
 				}else{
 					if(resp.length > 0){
+                        // ajax
+                        $.ajax({
+		                  data: { 'producto': cod_prod},
+		                url:'packages/cliente/cl_ubicacion/views/validarEANS_clientes.php',
+		                  type: 'post',
+		                  success: function(response) {
+			             var respeans = JSON.parse(response);
+                        console.log('Politica:' + respeans.length);
+			            if(respeans.length > 0){
+				            prod_dotacion_modal(numX,cod_prod);
+                          
+                           }else {
+                               prod_dotacion_det(numX);
+                            }
+		               },
+		               error: function(xhr, ajaxOptions, thrownError) {
+			                          alert(xhr.status);
+			                       alert(thrownError);
+		                        }
+	                    });
                         
-                        prod_dotacion_det(numX);
-                        prod_dotacion_modal(numX,cod_prod);
-                        prod_dotacion_det(numX);
+                        //fin nuevo ajax
+                        
+                       
+                        
+                       
+                        
                         //activar modal si el producto tiene eans
                         
 					}else{	
@@ -303,7 +326,7 @@ function prod_dotacion_modal(numX,cod_prod){
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo="+cod_prod+"");
+		ajax.send("codigo="+cod_prod+"&numero="+num+"");
 	}else{
 		alert("Falta Codificacion ");
 	}
@@ -357,6 +380,7 @@ function Anular(){  // CARGAR EL MODULO DE AGREGAR//
 
 </script>
 <?php
+include_once('../funciones/funciones.php');
 if($metodo == 'modificar'){
 	$codigo = $_GET['codigo'];
 	$bd = new DataBase();
@@ -427,6 +451,7 @@ if($metodo == 'modificar'){
 	$activo        = "T";
 }
 $proced      = "p_prod_dotacion_clientes";
+
 ?>
 
 <link rel="stylesheet" type="text/css" href="latest/stylesheets/autocomplete.css" />

@@ -52,7 +52,7 @@ if(isset($_SESSION['usuario_cod'])){
 		<div class="modal-body">
 			<div id="modal_contenido">
 				<br>
-				<div align="center" class="etiqueta_title">Listado de Eans <span id="span_cant_ing">(<span id="cant_ing"></span>)</span></div>
+				<div align="center" class="etiqueta_title">Listado de Eansojo <span id="span_cant_ing">(<span id="cant_ing"></span>)</span></div>
 				<br>
 				<hr />
 				<table id="listar_eans">

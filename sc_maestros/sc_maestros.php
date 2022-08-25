@@ -53,6 +53,22 @@ if (isset($_POST['metodo'])) {
 
 	$i = $_POST['metodo'];
 	switch ($i) {
+        case 'vector':
+            if ($tabla == 'vectoreans') {
+				$sql = "INSERT INTO $tabla (codigo,vector) 
+					VALUES ('$codigo', '$codigo')";
+                $query = $bd->consultar($sql);
+                
+			}
+            break;    
+        case 'agregarean':
+            if ($tabla == 'tabla1') {
+				$sql = "INSERT INTO $tabla (codigo,vector) 
+					VALUES ('$codigo', '$codigo')";
+                $query = $bd->consultar($sql);
+                
+			}
+            break;
 		case 'agregar':
 			if ($tabla == 'cargos') {
 				$sql = "INSERT INTO $tabla (codigo, descripcion, cod_tipo, campo01, campo02, campo03, campo04,
@@ -127,6 +143,7 @@ if (isset($_POST['metodo'])) {
 			$sql = "DELETE FROM $tabla WHERE  $tabla_id = '$codigo'";
 			$query = $bd->consultar($sql);
 			break;
+               
 	}
 }
 require_once('../funciones/sc_direccionar.php');

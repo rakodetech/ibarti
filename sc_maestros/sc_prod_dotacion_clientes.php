@@ -60,6 +60,22 @@ if(isset($_POST['proced'])){
 			$almacen = $_POST['almacen_'.$i.''];
 				$sql = "$SELECT p_prod_dotacion_det_clientes('$metodo', '$codigo', '$producto', '$producto_old', '$almacen', '$cantidad')";
 				$query = $bd->consultar($sql);
+                $sql2    = "SELECT *  FROM vectoreans WHERE codigo = '$producto'";
+                $query2 = $bd->consultar($sql2);
+                $sql3    = "SELECT codigo,cod_dotacion,cod_producto  FROM prod_dotacion_det_clientes WHERE cod_producto = '$producto'";
+                $query3 = $bd->consultar($sql3);
+                while ($pddc = $bd->obtener_fila($query3,0)){
+                    $iddetalle=$pddc["codigo"];
+                    $iddotacion=$pddc["cod_dotacion"];
+                    $idproducto=$pddc["cod_producto"];
+                    while($datos = $bd->obtener_fila($query2,0)){
+                        $codigoean=$datos["vector"];
+                        $sql = "INSERT INTO prod_dotacion_clientes_eans (cod_dotacion,cod_dotacion_det,cod_ean) 
+					   VALUES ('$iddotacion','$iddetalle','$codigoean')";
+                        $query = $bd->consultar($sql);
+                
+                    } 
+                } 
             /* 
               Ajuste de Inventario
 			*/
