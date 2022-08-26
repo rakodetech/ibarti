@@ -4,7 +4,7 @@ require("../autentificacion/aut_config.inc.php");
 require_once("../".class_bd);
 $bd = new DataBase();
 $rel   = $_POST['codigo'];
-
+$tieneeans="hidden";
 ?>
     <table width="100%" align="center">
 	<tr class="text" id="tr_1_<?php echo $rel;?>">
@@ -42,7 +42,8 @@ $rel   = $_POST['codigo'];
     <td id="input04_<?php echo $rel;?>"><input type="number" name="cantidad_<?php echo $rel;?>"
                                         id="cantidad_<?php echo $rel;?>" required="required"/></td>
     
-
+    <td width="8%"><input type="<?php echo $tieneeans ?>" id="boton_<?php echo $rel;?>" name="boton_<?php echo $rel;?>"  value="boton1"/></td>
+        
 	<td width="8%"><input type="hidden" name="relacion_<?php echo $rel;?>"  value="<?php echo $rel;?>"/></td>
        
     </tr></table>

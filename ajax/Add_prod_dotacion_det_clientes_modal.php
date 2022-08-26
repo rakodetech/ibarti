@@ -10,6 +10,7 @@ $bd = new DataBase();
 $rel2   = $_POST['codigo'];
 $bloqueEANS=$_POST['numero'];
 $rel=$_POST['numero'];
+$tieneeans=$_POST['tieneeans'];
 $vinculo    = "inicio.php?area=formularios/Add_EANS_clientes.php";
 $where="1=1";
 if ($rel2 <> "") { $where.=" AND prod_ean.cod_producto='$rel2'"; }
@@ -25,13 +26,13 @@ $titulo="Listado de EANS";
 $metodo="Agregar";
 $Borrar="inicio.php?area=formularios/borrar_EANS_clientes.php";
 $ndx='tabla' + '$bloqueEANS';    
-$procesar="Procesar01('".$rel."')";
+$procesar="Procesar01('".$rel2."','".$rel."')";
 $salida='salir';
 
 $salir = "Salir01('".$salida."')";
    $query = $bd->consultar($sql);
 
-		echo '<table width="100%" border="2" class="fondo00" id="'.$rel.'" name="'.$ndx.'">
+		echo '<table width="100%" border="2" class="fondo00" id="'.$rel2.'" name="'.$ndx.'">
 			<tr>
 				<th width="25%" class="etiqueta">Codigo</th>
 				<th width="25%" class="etiqueta">Eans</th>
@@ -113,7 +114,8 @@ echo '<tr class="'.$fondo.'">
     <td id="input04_<?php echo $rel;?>"><input type="number" name="cantidad_<?php echo $rel;?>"
                                         id="cantidad_<?php echo $rel;?>" required="required"/></td>
     
-
+    <td width="8%"><input type="<?php echo $tieneeans ?>" id="boton_<?php echo $rel;?>" name="boton_<?php echo $rel;?>"  value=""/></td>
+        
 	<td width="8%"><input type="hidden" name="relacion_<?php echo $rel;?>"  value="<?php echo $rel;?>"/></td>
        
     </tr></table>

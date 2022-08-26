@@ -194,10 +194,10 @@ function borrar2(num) {
 }
 
 function validarAlcance(numX) {
-	var sub_linea = $("#sub_linea_"+numX).val()
-	var ficha = $("#stdID").val()
+	var sub_linea = $("#sub_linea_"+numX).val();
+	var ficha = $("#stdID").val();
 	var cod_prod=document.getElementById('producto_'+numX+'').value;
-    
+    var esans='0';
 	if (numX) {
 		var parametros = { "sub_linea": sub_linea, "ficha": ficha };
 		$.ajax({
@@ -217,13 +217,13 @@ function validarAlcance(numX) {
 		                  type: 'post',
 		                  success: function(response) {
 			             var respeans = JSON.parse(response);
-                        console.log('Politica:' + respeans.length);
+                        
 			            if(respeans.length > 0){
-                            BotonVisible();
-				            prod_dotacion_modal(numX,cod_prod);
+                            esans='button';
+				            prod_dotacion_modal(numX,cod_prod,esans);
                           
                            }else {
-                               demoShow();
+                               esans='hidden';
                                prod_dotacion_det(numX);
                             }
 		               },
@@ -243,7 +243,8 @@ function validarAlcance(numX) {
                         
 					}else{	
 						if(confirm("Esta sub linea no aplica para el alcance de la ubicación. Desea continuar?")){
-				          prod_dotacion_modal(numX,cod_prod);
+                          esans='button';
+				          prod_dotacion_modal(numX,cod_prod,esans);
                             
 						}
 					}
@@ -319,7 +320,7 @@ if(input01 == ""){
  }
 }
 
-function prod_dotacion_modal(numX,cod_prod){
+function prod_dotacion_modal(numX,cod_prod,esans){
 	var num     = numX+1;
 	if(numX != ''){
 		var valor = "ajax/Add_prod_dotacion_det_clientes_modal.php";
@@ -335,7 +336,7 @@ function prod_dotacion_modal(numX,cod_prod){
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo="+cod_prod+"&numero="+num+"");
+		ajax.send("codigo="+cod_prod+"&numero="+num+"&tieneeans="+esans+"");
 	}else{
 		alert("Falta Codificacion ");
 	}
@@ -461,7 +462,7 @@ if($metodo == 'modificar'){
 	$activo        = "T";
 }
 $proced      = "p_prod_dotacion_clientes";
-
+$tieneeans="hidden";
 ?>
 
 <link rel="stylesheet" type="text/css" href="latest/stylesheets/autocomplete.css" />
@@ -581,7 +582,7 @@ $proced      = "p_prod_dotacion_clientes";
 											</select></td>
 											<td id="input04"><input type="number" name="cantidad_1" id="cantidad_1" min="1" value="0" /></td>
 											<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
-                                            <td id="input05_<?php echo $rel;?>"><input onmouseout="demoShow()" id="clickMe" type="button" value="EANS"/></td>
+                                            <td width="8%"><input type="<?php echo $tieneeans ?>" id="boton" name="boton"  value="EANS"/></td>
 										</tr>
 									<?php }else{
 										$sql = " SELECT productos.cod_linea,  prod_lineas.descripcion AS linea,

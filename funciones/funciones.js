@@ -167,9 +167,9 @@ function Borrar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
 		ajax.send("codigo=" + idX + "&metodo=borrar&tabla=" + tabla + "&activo=f&descipcion=");
 	}
 }
-function Procesar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
+function Procesar01(cod_prod,idX) {  // CARGAR EL MODULO DE AGREGAR //
 	
-     var idean='';
+    var idean='';
     if (confirm("�Desea Procesar listado EANS")) {
 		var tabla = "vectoreans";
 		var valor = "sc_maestros/sc_maestros_auxvector.php";
@@ -182,15 +182,19 @@ function Procesar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo=" + idX + "&codigoean=" + idean + "&metodo=agregarean&tabla=" + tabla + "");
+		ajax.send("codigo=" + cod_prod + "&codigoean=" + idean + "&metodo=agregarean&tabla=" + tabla + "");
 	} 
     
-    document.getElementById(idX).remove();
+    document.getElementById(cod_prod).remove();
     document.getElementById('botong').remove();
     document.getElementById('botons').remove();
-    document.getElementById("clickMe").style.visibility="visible";
-    document.getElementById("incremento").value= numX +1;
-       
+    document.getElementById("boton").type="button";
+    document.getElementById("boton_"+idX).value="EANS"; 
+    
+    
+    
+    
+    
 }
 function Clickup(idX, idean) {  // CARGAR EL MODULO DE AGREGAR //
     if (confirm("�Esta Seguro de Seleccionar Este Registro")) {
