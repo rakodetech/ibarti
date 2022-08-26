@@ -7,11 +7,12 @@ require "../".Leng;
 $bd = new DataBase();
 //require_once('../autentificacion/aut_config.inc.php');
 //include_once('../funciones/mensaje_error.php');
-$rel   = $_POST['codigo'];
+$rel2   = $_POST['codigo'];
 $bloqueEANS=$_POST['numero'];
+$rel=$_POST['numero'];
 $vinculo    = "inicio.php?area=formularios/Add_EANS_clientes.php";
 $where="1=1";
-if ($rel <> "") { $where.=" AND prod_ean.cod_producto='$rel'"; }
+if ($rel2 <> "") { $where.=" AND prod_ean.cod_producto='$rel2'"; }
 
 $where.=" ORDER BY prod_ean.cod_ean DESC";
 $query="SELECT count(*) as filas FROM productos,prod_ean WHERE productos.item=prod_ean.cod_producto AND ".$where;
@@ -26,10 +27,11 @@ $Borrar="inicio.php?area=formularios/borrar_EANS_clientes.php";
 $ndx='tabla' + '$bloqueEANS';    
 $procesar="Procesar01('".$rel."')";
 $salida='salir';
+
 $salir = "Salir01('".$salida."')";
    $query = $bd->consultar($sql);
 
-		echo '<table width="100%" border="2" class="fondo00" id="tabla1" name="'.$ndx.'">
+		echo '<table width="100%" border="2" class="fondo00" id="'.$rel.'" name="'.$ndx.'">
 			<tr>
 				<th width="25%" class="etiqueta">Codigo</th>
 				<th width="25%" class="etiqueta">Eans</th>
@@ -55,11 +57,64 @@ $salir = "Salir01('".$salida."')";
 			  <td class="texto"> <td class="aCentro" width="5%"><input type="checkbox" name="checkbox_socio" id="checkbox_socio" value="'.$row02["eans"].'" onclick="'.$clickip.'")</td>
 		     </tr>';
 		}
+
 echo '</table>'; mysql_free_result($query);
 echo '<tr class="'.$fondo.'">
-			  <td class="texto"><img src="imagenes/detalle.bmp"  width="20px" height="20px" title="Cerrar" border="null" onclick="'.$procesar.'" class="imgLink"/></td>
-			  <td class="texto"><img src="imagenes/detalle.bmp"  width="20px" height="20px" title="Cerrar" border="null" onclick="'.$salir.'" class="imgLink"/></td>
-		</tr>'
+			 <div align="center">
+					<span class="art-button-wrapper" id="botong">
+						<span class="art-button-l"> </span>
+						<span class="art-button-r"> </span>
+						<input name="botong" type="button" title="ProcesarEans" id="boton_eans" class="readon art-button" value="Procesar" onclick="'.$procesar.'"/>
+					</span>
+					<span class="art-button-wrapper" id="botons">
+						<span class="art-button-l"> </span>
+						<span class="art-button-r"> </span>
+						<input name="botons" type="button" title="Cancelar" class="readon art-button"  value="Cerrar" 
+						onclick="'.$salir.'" />
+					</span>
+				</div>
+		</tr>';
 
  
 ?>
+ <table width="100%" align="center">
+	<tr class="text" id="tr_1_<?php echo $rel;?>">
+     <td width="20%" id="select_1_<?php echo $rel;?>"><select name="linea_<?php echo $rel;?>"
+                     id="linea_<?php echo $rel;?>" style="width:150px;"
+                     onchange="ActivarSubLinea(this.value, '<?php echo $rel;?>', 'select_2_<?php echo $rel;?>')" required="required">
+          <option value="">Seleccione...</option>
+          <?php  	$sql = " SELECT codigo, descripcion FROM prod_lineas WHERE `status` = 'T' ORDER BY 2 ASC ";
+		            $query = $bd->consultar($sql);
+            		while($datos=$bd->obtener_fila($query,0)){
+		  ?>
+          <option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
+          <?php }?>
+        </select></td>
+        <td id="select_2_<?php echo $rel;?>"><select name="sub_linea_<?php echo $rel;?>"
+                     id="sub_linea_<?php echo $rel;?>" style="width:200px;"
+                     onchange="Activar01(this.value, '<?php echo $rel;?>', 'select_3_<?php echo $rel;?>')" required="required">
+          <option value="">Seleccione... </option>
+          <?php   $sql = " SELECT codigo, descripcion FROM prod_lineas WHERE `status` = 'T' ORDER BY 2 ASC ";
+                $query = $bd->consultar($sql);
+                while($datos=$bd->obtener_fila($query,0)){
+      ?>
+          <option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
+          <?php }?>
+        </select></td>
+     <td id="select_3_<?php echo $rel;?>"><select name="producto_<?php echo $rel;?>"
+                     id="producto_<?php echo $rel;?>" style="width:200px;" disabled="disabled" required="required">
+          <option value="">Seleccione... </option>
+        </select></td>
+
+      <td id="select_4_<?php echo $rel;?>"><select name="almacen_<?php echo $rel;?>"
+                     id="almacen_<?php echo $rel;?>" style="width:200px;" disabled="disabled" required="required">
+          <option value="">Seleccione..</option>
+        </select></td>
+    <td id="input04_<?php echo $rel;?>"><input type="number" name="cantidad_<?php echo $rel;?>"
+                                        id="cantidad_<?php echo $rel;?>" required="required"/></td>
+    
+
+	<td width="8%"><input type="hidden" name="relacion_<?php echo $rel;?>"  value="<?php echo $rel;?>"/></td>
+       
+    </tr></table>
+    <div id="Contenedor01_<?php echo $rel;?>"></div>

@@ -147,7 +147,7 @@ function EstadoFiltro(valor) {
 function Salir01(idX) { // CARGAR EL MODULO DE AGREGAR //
     numX=1;
 	if (confirm("�Esta Seguro de Cerrar")) {
-		document.getElementById('tabla'+numX).remove();
+		document.getElementById(idX).remove();
 		document.getElementById('incremento').value = numX -1;
 	}
 }
@@ -168,7 +168,7 @@ function Borrar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
 	}
 }
 function Procesar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
-	 var numX=idX;
+	
      var idean='';
     if (confirm("�Desea Procesar listado EANS")) {
 		var tabla = "vectoreans";
@@ -183,7 +183,14 @@ function Procesar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		ajax.send("codigo=" + idX + "&codigoean=" + idean + "&metodo=agregarean&tabla=" + tabla + "");
-	}
+	} 
+    
+    document.getElementById(idX).remove();
+    document.getElementById('botong').remove();
+    document.getElementById('botons').remove();
+    document.getElementById("clickMe").style.visibility="visible";
+    document.getElementById("incremento").value= numX +1;
+       
 }
 function Clickup(idX, idean) {  // CARGAR EL MODULO DE AGREGAR //
     if (confirm("�Esta Seguro de Seleccionar Este Registro")) {

@@ -1,4 +1,12 @@
 <script type="text/javascript">
+ function BotonVisible()
+{
+  document.getElementById("clickMe").style.visibility="visible";
+}    
+function demoShow()
+{
+  document.getElementById("clickMe").style.visibility="hidden";
+}    
 	var ficha = "";
 	function Validar(){
 
@@ -211,9 +219,11 @@ function validarAlcance(numX) {
 			             var respeans = JSON.parse(response);
                         console.log('Politica:' + respeans.length);
 			            if(respeans.length > 0){
+                            BotonVisible();
 				            prod_dotacion_modal(numX,cod_prod);
                           
                            }else {
+                               demoShow();
                                prod_dotacion_det(numX);
                             }
 		               },
@@ -233,8 +243,7 @@ function validarAlcance(numX) {
                         
 					}else{	
 						if(confirm("Esta sub linea no aplica para el alcance de la ubicación. Desea continuar?")){
-							prod_dotacion_det(numX);
-                            prod_dotacion_modal(numX,cod_prod);
+				          prod_dotacion_modal(numX,cod_prod);
                             
 						}
 					}
@@ -312,7 +321,7 @@ if(input01 == ""){
 
 function prod_dotacion_modal(numX,cod_prod){
 	var num     = numX+1;
-	if(cod_prod != ''){
+	if(numX != ''){
 		var valor = "ajax/Add_prod_dotacion_det_clientes_modal.php";
 		var contenido = "Contenedor01_"+numX+"";
 		ajax=nuevoAjax();
@@ -334,6 +343,7 @@ function prod_dotacion_modal(numX,cod_prod){
 
 function prod_dotacion_det(numX){
 	var num     = numX+1;
+    console.log("cirilo"+num);
 	if(numX != ''){
 		var valor = "ajax/Add_prod_dotacion_det_clientes.php";
 		var contenido = "Contenedor01_"+numX+"";
@@ -567,10 +577,11 @@ $proced      = "p_prod_dotacion_clientes";
 												<option value="">Seleccione... </option>
 											</select></td>
 											<td id="select_4_1"><select name="almacen_1" id="almacen_1" style="width:150px;" disabled="disabled">
-												<option value="">Seleccione... </option>
+												<option value="">Seleccione...</option>
 											</select></td>
 											<td id="input04"><input type="number" name="cantidad_1" id="cantidad_1" min="1" value="0" /></td>
 											<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
+                                            <td id="input05_<?php echo $rel;?>"><input onmouseout="demoShow()" id="clickMe" type="button" value="EANS"/></td>
 										</tr>
 									<?php }else{
 										$sql = " SELECT productos.cod_linea,  prod_lineas.descripcion AS linea,

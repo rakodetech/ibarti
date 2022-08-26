@@ -44,7 +44,7 @@ if($metodo == 'modificar')
       <tr>
         <td width="20%" class="etiqueta">N. Movimiento:</td>
         <td class="etiqueta" >Cod. Referencia: </td>
-        <td width="25%" class="etiqueta">Tipo de Movimientoojo:</td>
+        <td width="25%" class="etiqueta">Tipo de Movimiento:</td>
         <?php if(($metodo == 'modificar') && ($ped['cod_tipo'] == 'COM')){
           echo '<td width="25%%" class="etiqueta" id="etiqueta_proveedor">Proveedor:</td>';
         }else{
