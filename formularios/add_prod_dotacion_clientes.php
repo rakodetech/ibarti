@@ -228,7 +228,8 @@ function validarAlcance(numX) {
                         
 			            if(respeans.length > 0){
                             esans='button';
-				            prod_dotacion_modal(numX,cod_prod,esans);
+                            metodo='agregar'
+				            prod_dotacion_modal(numX,cod_prod,esans,metodo);
                           
                            }else {
                                esans='hidden';
@@ -252,7 +253,8 @@ function validarAlcance(numX) {
 					}else{	
 						if(confirm("Esta sub linea no aplica para el alcance de la ubicación. Desea continuar?")){
                           esans='button';
-				          prod_dotacion_modal(numX,cod_prod,esans);
+                          metodo="agregar"    
+				          prod_dotacion_modal(numX,cod_prod,esans,metodo);
                             
 						}
 					}
@@ -328,7 +330,7 @@ if(input01 == ""){
  }
 }
 
-function prod_dotacion_modal(numX,cod_prod,esans){
+function prod_dotacion_modal(numX,cod_prod,esans,metodo){
 	var num     = numX+1;
 	if(numX != ''){
 		var valor = "ajax/Add_prod_dotacion_det_clientes_modal.php";
@@ -344,7 +346,7 @@ function prod_dotacion_modal(numX,cod_prod,esans){
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo="+cod_prod+"&numero="+num+"&tieneeans="+esans+"");
+		ajax.send("codigo="+cod_prod+"&numero="+num+"&tieneeans="+esans+"&metodo="+metodo+"");
 	}else{
 		alert("Falta Codificacion ");
 	}
@@ -591,6 +593,7 @@ $tieneeans="hidden";
 										</tr>
 									<?php }else{
                                         $tieneeans="button";
+                                        $metodo="modificar";
 										$sql = "SELECT productos.cod_linea, prod_lineas.descripcion AS linea, prod_dotacion_det_clientes.cod_producto, concat(productos.descripcion) AS producto, prod_dotacion_det_clientes.cantidad,productos.cod_sub_linea, prod_sub_lineas.descripcion AS sub_linea FROM prod_dotacion_det_clientes , productos , prod_lineas,prod_sub_lineas WHERE prod_dotacion_det_clientes.cod_dotacion = '$codigo' AND prod_dotacion_det_clientes.cod_producto = productos.item AND productos.cod_linea = prod_lineas.codigo AND productos.cod_sub_linea = prod_sub_lineas.codigo ";
 										$query = $bd->consultar($sql);
                                         $fila=1;
@@ -624,7 +627,7 @@ $tieneeans="hidden";
 													value="<?php echo $cantidad;?>"/></td>
 													<td><input type="hidden" name="relacion_1" value="1" /></td>
 												</tr>
-                                                 <td width="5%"><input type="<?php echo $tieneeans; ?>" id="<?php echo $cod_producto ?>" name="<?php echo $cod_producto?>"  value="EANS" onClick="prod_dotacion_modal('<?php echo $fila ?>', '<?php echo $cod_producto ?>', '<?php echo $tieneeans?>')" /></td>
+                                                 <td width="5%"><input type="<?php echo $tieneeans; ?>" id="<?php echo $cod_producto ?>" name="<?php echo $cod_producto?>"  value="EANS" onClick="prod_dotacion_modal('<?php echo $fila ?>', '<?php echo $cod_producto ?>', '<?php echo $tieneeans?>','<?php echo $metodo?>')" /></td>
                                                 
 											<?php }
                                                $fila=$fila + 1;

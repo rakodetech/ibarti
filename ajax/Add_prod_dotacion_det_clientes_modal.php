@@ -7,17 +7,28 @@ require "../".Leng;
 $bd = new DataBase();
 //require_once('../autentificacion/aut_config.inc.php');
 //include_once('../funciones/mensaje_error.php');
+$metodo=$_POST['metodo'];
 $rel2   = $_POST['codigo'];
 $bloqueEANS=$_POST['numero'];
 $rel=$_POST['numero'];
 $tieneeans=$_POST['tieneeans'];
 $vinculo    = "inicio.php?area=formularios/Add_EANS_clientes.php";
-$where="1=1";
-if ($rel2 <> "") { $where.=" AND prod_ean.cod_producto='$rel2'"; }
+if ($metodo=="agregar"){
+    $where="1=1";
+    if ($rel2 <> "") { $where.=" AND prod_ean.cod_producto='$rel2'"; }
 
-$where.=" ORDER BY prod_ean.cod_ean DESC";
-$query="SELECT count(*) as filas FROM productos,prod_ean WHERE productos.item=prod_ean.cod_producto AND ".$where;
-$sql="SELECT prod_ean.cod_producto as codigo,prod_ean.cod_ean as eans FROM productos,prod_ean WHERE productos.item=prod_ean.cod_producto AND ".$where;
+    $where.=" ORDER BY prod_ean.cod_ean DESC";
+    $query="SELECT count(*) as filas FROM productos,prod_ean WHERE productos.item=prod_ean.cod_producto AND ".$where;
+    $sql="SELECT prod_ean.cod_producto as codigo,prod_ean.cod_ean as eans FROM productos,prod_ean WHERE productos.item=prod_ean.cod_producto AND ".$where;
+} else{
+		 $where="1=1";
+    if ($rel2 <> "") { $where.=" AND prod_dotacion_det_clientes.cod_producto='$rel2'"; }
+
+    $where.=" ORDER BY prod_dotacion_det_clientes.cod_producto DESC";
+    $query="SELECT count(*) as filas FROM prod_dotacion_det_clientes,prod_dotacion_clientes_eans WHERE prod_dotacion_det_clientes.codigo=prod_dotacion_clientes_eans.cod_dotacion_det AND ".$where;
+    $sql="SELECT prod_dotacion_det_clientes.cod_producto as codigo,prod_dotacion_clientes_eans.cod_ean as eans FROM prod_dotacion_det_clientes,prod_dotacion_clientes_eans WHERE prod_dotacion_det_clientes.codigo=prod_dotacion_clientes_eans.cod_dotacion_det AND ".$where;
+    
+		}
 
 $rs_busqueda=$bd->consultar($query);
 $filas=mysql_result($rs_busqueda,0,"filas");
@@ -51,12 +62,14 @@ $salir = "Salir01('".$salida."')";
 			$fondo = 'fondo02';
 			$valor = 0;
 		}
-		echo'<tr class="'.$fondo.'">
-			  <td class="texto">'.$row02["codigo"].'</td>
-			  <td class="texto">'.$row02["eans"].'</td>
+        
+		  echo'<tr class="'.$fondo.'">
+			     <td class="texto">'.$row02["codigo"].'</td>
+                 <td class="texto">'.$row02["eans"].'</td>
 			
-			  <td class="texto"> <td class="aCentro" width="5%"><input type="checkbox" name="checkbox_socio" id="checkbox_socio" value="'.$row02["eans"].'" onclick="'.$clickip.'")</td>
-		     </tr>';
+			     <td class="texto"> <td class="aCentro" width="5%"><input type="checkbox" name="checkbox_socio" id="checkbox_socio" value="'.$row02["eans"].'" onclick="'.$clickip.'")</td>
+                 </tr>';
+        
 		}
 
 echo '</table>'; mysql_free_result($query);
