@@ -24,6 +24,14 @@ function demoShow()
 		$('#pdf').attr('action', "reportes/rp_inv_prod_dotacion.php");
 		$('#pdf').submit();
 	}
+    function VerEANS(numX,cod_prod,esans){
+        var valorX=numX;
+        var valorC=cod_prod;
+        var valorE=esans;
+        $('#cod_prod').attr('action', "reportes/rp_inv_prod_dotacion.php");
+		$('#cod_prod').submit();
+		
+	}
 
 function ActivarSubLinea(codigo, relacion, contenido){  // LINEA //
 	if(codigo!=''){
@@ -395,22 +403,22 @@ include_once('../funciones/funciones.php');
 if($metodo == 'modificar'){
 	$codigo = $_GET['codigo'];
 	$bd = new DataBase();
-
-	$sql = "SELECT DATE_FORMAT(prod_dotacion.fec_dotacion,'%Y-%m-%d')  fec_dotacion , v_ficha.cod_ficha, v_ficha.cedula,
-	v_ficha.nombres AS trabajador, prod_dotacion.descripcion,
-	prod_dotacion.anulado,
-	prod_dotacion.campo01, prod_dotacion.campo02,
-	prod_dotacion.campo03, prod_dotacion.campo04,
-	prod_dotacion.`status`
-	FROM v_ficha , prod_dotacion
-	WHERE prod_dotacion.codigo = '$codigo'
-	AND v_ficha.cod_ficha = prod_dotacion.cod_ficha" ;
+    
+	$sql = "SELECT DATE_FORMAT(prod_dotacion_clientes.fec_dotacion,'%Y-%m-%d')  fec_dotacion , v_cliente_ubic.cod_cliente, v_cliente_ubic.cod_ubicacion,
+	v_cliente_ubic.ubicacion AS trabajador, prod_dotacion_clientes.descripcion,
+	prod_dotacion_clientes.anulado,
+	prod_dotacion_clientes.campo01, prod_dotacion_clientes.campo02,
+	prod_dotacion_clientes.campo03, prod_dotacion_clientes.campo04,
+	prod_dotacion_clientes.`status`
+	FROM v_cliente_ubic , prod_dotacion_clientes
+	WHERE prod_dotacion_clientes.codigo = '$codigo'
+	AND v_cliente_ubic.cod_cliente = prod_dotacion_clientes.cod_cliente" ;
 	$query = $bd->consultar($sql);
 	$result=$bd->obtener_fila($query,0);
 
 	$fec_dotacion  = conversion($result["fec_dotacion"]);
-	$ficha         = $result["cod_ficha"];
-	$cedula        = $result["cedula"];
+	$ficha         = $result["cod_cliente"];
+	$cedula        = $result["cod_ubicacion"];
 	$trabajador    = $result["trabajador"];
 	$descripcion   = $result["descripcion"];
 	$campo01       = $result["campo01"];
@@ -420,31 +428,28 @@ if($metodo == 'modificar'){
 	$anulado       = $result["anulado"];
 	$activo        = $result["status"];
 
-	$sql = "SELECT  CONCAT(prod_sub_lineas.descripcion,' (',prod_sub_lineas.codigo,') ') sub_linea,tallas.descripcion talla,
-	ficha_dotacion.cantidad,
-   IFNULL((SELECT CONCAT(MAX(prod_dotacion.fec_us_mod),'  (',prod_dotacion_det.cantidad,')') FROM prod_dotacion, prod_dotacion_det
-   WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
-   AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
-   AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha) ,'SIN DOTACION') ult_dotacion
-   ,ficha.cod_cliente,ficha.cod_ubicacion,
+	$sql = "SELECT  CONCAT(prod_sub_lineas.descripcion,' (',prod_sub_lineas.codigo,') ') sub_linea,
+	prod_dotacion_det_clientes.cantidad,
+   IFNULL((SELECT CONCAT(MAX(prod_dotacion_clientes.fec_us_mod),'  (',prod_dotacion_det_clientes.cantidad,')') FROM prod_dotacion_clientes, prod_dotacion_det_clientes
+   WHERE prod_dotacion_clientes.codigo = prod_dotacion_det_clientes.cod_dotacion
+   AND prod_dotacion_clientes.cod_ubicacion = v_cliente_ubic.cod_cliente) ,'SIN DOTACION') ult_dotacion
+   ,v_cliente_ubic.cod_cliente,v_cliente_ubic.cod_ubicacion,
 	   (
 		   SELECT
 			   clientes_ub_uniforme.cod_cl_ubicacion
 		   FROM				
 			   clientes_ub_uniforme
 		   WHERE prod_sub_lineas.codigo = clientes_ub_uniforme.cod_sub_linea
-		   AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
-		   AND clientes_ub_uniforme.cod_cargo = ficha.cod_cargo
+		   AND v_cliente_ubic.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
+		   
 	   ) aplica
-   FROM ficha_dotacion LEFT JOIN
+   FROM prod_dotacion_det_clientes LEFT JOIN
    productos ON 
-	ficha_dotacion.cod_sub_linea = productos.cod_sub_linea,prod_sub_lineas,tallas,ficha
+	prod_dotacion_det_clientes.cod_sub_linea = productos.cod_sub_linea,prod_sub_lineas,v_cliente_ubic
    WHERE
-   ficha_dotacion.cod_ficha = '$ficha'
-   AND ficha_dotacion.cod_sub_linea = prod_sub_lineas.codigo
-   AND ficha_dotacion.cod_talla = tallas.codigo
-   AND ficha_dotacion.cod_ficha = ficha.cod_ficha
-   GROUP BY ficha_dotacion.cod_sub_linea";
+   v_cliente_ubic.cod_cliente= '$ficha'
+   AND prod_dotacion_det_clientes.cod_sub_linea = prod_sub_lineas.codigo
+      GROUP BY prod_dotacion_det_clientes.cod_sub_linea";
 	$query_dot         = $bd->consultar($sql);
 
 }else{
@@ -585,18 +590,12 @@ $tieneeans="hidden";
                                             <td width="8%"><input type="<?php echo $tieneeans ?>" id="boton" name="boton"  value="EANS"/></td>
 										</tr>
 									<?php }else{
-										$sql = " SELECT productos.cod_linea,  prod_lineas.descripcion AS linea,
-										prod_dotacion_det_clientes.cod_producto, concat(productos.descripcion,' ',tallas.descripcion) AS producto,
-										prod_dotacion_det_clientes.cantidad,productos.cod_sub_linea,  
-										prod_sub_lineas.descripcion AS sub_linea
-										FROM prod_dotacion_det_clientes , productos , prod_lineas,prod_sub_lineas,tallas
-										WHERE prod_dotacion_det_clientes.cod_dotacion = '$codigo'
-										AND prod_dotacion_det_clientes.cod_producto = productos.item
-										AND productos.cod_linea = prod_lineas.codigo 
-										AND productos.cod_sub_linea = prod_sub_lineas.codigo 
-										AND productos.cod_talla = tallas.codigo";
+                                        $tieneeans="button";
+										$sql = "SELECT productos.cod_linea, prod_lineas.descripcion AS linea, prod_dotacion_det_clientes.cod_producto, concat(productos.descripcion) AS producto, prod_dotacion_det_clientes.cantidad,productos.cod_sub_linea, prod_sub_lineas.descripcion AS sub_linea FROM prod_dotacion_det_clientes , productos , prod_lineas,prod_sub_lineas WHERE prod_dotacion_det_clientes.cod_dotacion = '$codigo' AND prod_dotacion_det_clientes.cod_producto = productos.item AND productos.cod_linea = prod_lineas.codigo AND productos.cod_sub_linea = prod_sub_lineas.codigo ";
 										$query = $bd->consultar($sql);
+                                        $fila=1;
 										while($datos=$bd->obtener_fila($query,0)){
+                                            
 											$cod_linea    = $datos["cod_linea"];
 											$linea        = $datos["linea"];
 											$cod_sub_linea    = $datos["cod_sub_linea"];
@@ -606,7 +605,7 @@ $tieneeans="hidden";
 											$cantidad     = $datos["cantidad"];
 											?>
 											<tr class="text">
-												<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:180px;" disabled="disabled"
+												<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:150px;" disabled="disabled"
 													onchange="Activar01(this.value, '1', 'select_2_1')">
 													<option value="<?php echo $cod_linea;?>"><?php echo $linea;?></option>
 													<?php  	$sql = " SELECT codigo, descripcion FROM prod_lineas WHERE `status` = 'T' ORDER BY 2 ASC ";
@@ -615,18 +614,21 @@ $tieneeans="hidden";
 														?>
 														<option value="<?php echo $datos2[0];?>"><?php echo $datos2[1];?></option>
 													<?php }?>
-												</select></td><td id="select_3_1"><select name="linea_1" id="linea_1" style="width:180px;" disabled="disabled">
+												</select></td><td id="select_3_1"><select name="linea_1" id="linea_1" style="width:100px;" disabled="disabled">
 													<option value="<?php echo $cod_sub_linea;?>"><?php echo $sub_linea;?></option>
 												</select></td>
-												<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:250px;" disabled="disabled">
+												<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:100px;" disabled="disabled">
 													<option value="<?php echo $cod_producto;?>"><?php echo $producto;?></option>
 												</select></td>
-												<td id="input04"><input type="text" name="cantidad_1" id="cantidad_1" maxlength="15" size="15" readonly="readonly"
+												<td id="input04"><input type="text" name="cantidad_1" id="cantidad_1" maxlength="4" size="10" readonly="readonly"
 													value="<?php echo $cantidad;?>"/></td>
-													<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
+													<td><input type="hidden" name="relacion_1" value="1" /></td>
 												</tr>
-
-											<?php }}?>
+                                                 <td width="5%"><input type="<?php echo $tieneeans; ?>" id="<?php echo $cod_producto ?>" name="<?php echo $cod_producto?>"  value="EANS" onClick="prod_dotacion_modal('<?php echo $fila ?>', '<?php echo $cod_producto ?>', '<?php echo $tieneeans?>')" /></td>
+                                                
+											<?php }
+                                               $fila=$fila + 1;
+                                            }?>
 										</table>
 										<div id="Contenedor01_1"></div>
 										<div align="center">
