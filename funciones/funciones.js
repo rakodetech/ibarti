@@ -196,9 +196,41 @@ function Procesar01(cod_prod,idX) {  // CARGAR EL MODULO DE AGREGAR //
     
     
 }
-function Clickup(idX, idean) {  // CARGAR EL MODULO DE AGREGAR //
-    if (confirm("�Esta Seguro de Seleccionar Este Registro")) {
-		var tabla = "vectoreans";
+
+
+function Clickup(idX,idean,cantidad) {
+	
+	var cod_prod=idX;
+    var cantidadaux= Number(cantidad);
+    
+	if (cod_prod != '') {
+		var parametros = { "codigo": cod_prod};
+		$.ajax({
+			data: parametros,
+			url: 'packages/cliente/cl_ubicacion/views/CantidadEANS_clientes.php',
+			type: 'post',
+			success: function (response) {
+				var resp = JSON.parse(response);
+				if(resp.error){
+					toast.danger(resp.mensaje);
+				}else{
+                    
+					if(resp.length < cantidadaux){
+                        ClickupVector(idX,idean,cantidad);                        
+					}else{	
+						  alert("La cantidad no puede ser Menor que EANS");
+						}
+					
+				}
+			}
+		 });
+	
+    }
+}
+
+function ClickupVector(idX,idean,cantidad) {  // CARGAR EL MODULO DE AGREGAR //
+       
+        var tabla = "vectoreans";
 		var valor = "sc_maestros/sc_maestros_auxvector.php";
 		ajax = nuevoAjax();
 		ajax.open("POST", valor, true);
@@ -209,8 +241,9 @@ function Clickup(idX, idean) {  // CARGAR EL MODULO DE AGREGAR //
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo=" + idX + "&codigoean=" + idean + "&metodo=vector&tabla=" + tabla + "");
-	}
+		ajax.send("codigo=" + idX + "&codigoean=" + idean + "&metodo=vector&tabla=" + tabla + "");  
+ 
+
 }
 function Borrar02(codigo, codigo2) {  // CARGAR EL MODULO DE AGREGAR//
 

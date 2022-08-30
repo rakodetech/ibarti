@@ -10,6 +10,7 @@ $bd = new DataBase();
 $metodo=$_POST['metodo'];
 $rel2   = $_POST['codigo'];
 $bloqueEANS=$_POST['numero'];
+$cantidad=$_POST['cantidad'];
 $rel=$_POST['numero'];
 $tieneeans=$_POST['tieneeans'];
 $vinculo    = "inicio.php?area=formularios/Add_EANS_clientes.php";
@@ -40,20 +41,20 @@ $ndx='tabla' + '$bloqueEANS';
 $procesar="Procesar01('".$rel2."','".$rel."')";
 $salida='salir';
 
-$salir = "Salir01('".$salida."')";
+$salir = "Salir01('".$rel2."')";
    $query = $bd->consultar($sql);
 
 		echo '<table width="100%" border="2" class="fondo00" id="'.$rel2.'" name="'.$ndx.'">
 			<tr>
 				<th width="25%" class="etiqueta">Codigo</th>
-				<th width="25%" class="etiqueta">Eans</th>
+				<th width="25%" class="etiqueta">Eans('.$cantidad.')</th>
             	<th width="26%" class="etiqueta">Ok</th>
-				<th width="4%"><a href="'.$vinculo.'&metodo=agregar"><img src="imagenes/nuevo.bmp" alt="Agregar Registro" width="20px" height="20px" title="Agregar Registro" border="null" /></a></th></tr>';
+				</tr>';
 		 $valor = 0;
         
 	    while($row02=$bd->obtener_fila($query,0)){
 
-		   $clickip = "Clickup('".$row02["codigo"]."','".$row02["eans"]."')";  
+		   $clickip = "Clickup('".$row02["codigo"]."','".$row02["eans"]."',$cantidad)";  
            
 		if ($valor == 0){
 			$fondo = 'fondo01';

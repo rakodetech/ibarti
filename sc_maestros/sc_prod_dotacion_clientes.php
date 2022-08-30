@@ -75,7 +75,10 @@ if(isset($_POST['proced'])){
                         $query = $bd->consultar($sql);
                 
                     } 
-                } 
+                }
+               $sql4   = "DELETE FROM vectoreans WHERE activo='1'";
+               $query4 = $bd->consultar($sql4);
+               
             /* 
               Ajuste de Inventario
 			*/
