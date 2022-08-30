@@ -89,7 +89,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 			<select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">
 				<option value="TODOS"> TODOS</option>
 				<option value="codigo"><?php echo $leng['ubicacion'];?></option>
-				<option value="nombres">Nombre de la Ubicacion</option>
+				<option value="nombre">Nombre de la Ubicacion</option>
                
 		</select></td>
 	  <td td width="10%"><?php echo $leng['ubicacion'];?>:</td>

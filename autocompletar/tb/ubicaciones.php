@@ -10,7 +10,7 @@ $bd = new DataBase();
 		case "codigo":
 		   $where  .= " WHERE LOCATE('$typing', v_cliente_ubic.cod_ubicacion) "; 		  
 		break;
-		case "nombres":
+		case "nombre":
 		   $where  .= " WHERE LOCATE('$typing', v_cliente_ubic.ubicacion) "; 		  
 		break;				
 			  		   
