@@ -197,6 +197,36 @@ function Procesar01(cod_prod,idX) {  // CARGAR EL MODULO DE AGREGAR //
     
 }
 
+function showHint(cod_prod){
+	var numX     =1;
+    var  metodo="buscar";
+    var esans="";
+    var producto  = document.getElementById('producto_'+numX+'').value;
+    console.log("policia"+producto);
+    var cantidad= Number(document.getElementById('cantidad_'+numX+'').value);
+	if(numX != ''){
+		var valor = "ajax/Add_prod_dotacion_det_clientes_modal.php";
+		var contenido = "Contenedor01_"+numX+"";
+		ajax=nuevoAjax();
+		ajax.open("POST", valor, true);
+		ajax.onreadystatechange=function()
+		{
+			if (ajax.readyState==4){
+				document.getElementById(contenido).innerHTML = ajax.responseText;
+				document.getElementById('incremento').value = numX;
+				spryN(numX);
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("codigo="+producto+"&numero="+numX+"&tieneeans="+esans+"&metodo="+metodo+"&cantidad="+cantidad+"&comodin="+cod_prod+"");
+	}else{
+		alert("Falta Codificacion ");
+	}
+   document.getElementById(producto).remove();
+    document.getElementById('botong').remove();
+    document.getElementById('botons').remove();
+}
+
 
 function Clickup(idX,idean,cantidad) {
 	

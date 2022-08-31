@@ -229,8 +229,9 @@ function validarAlcance(numX) {
                         
 			            if(respeans.length > 0){
                             esans='button';
-                            metodo='agregar'
-				            prod_dotacion_modal(numX,cod_prod,esans,metodo,cantidad);
+                            metodo='agregar';
+				            comodin="";
+                            prod_dotacion_modal(numX,cod_prod,esans,metodo,cantidad,comodin);
                           
                            }else {
                                esans='hidden';
@@ -254,8 +255,9 @@ function validarAlcance(numX) {
 					}else{	
 						if(confirm("Esta sub linea no aplica para el alcance de la ubicación. Desea continuar?")){
                           esans='button';
-                          metodo="agregar"    
-				          prod_dotacion_modal(numX,cod_prod,esans,metodo,cantidad);
+                          metodo="agregar";
+                          comodin="";    
+				          prod_dotacion_modal(numX,cod_prod,esans,metodo,cantidad,comodin);
                             
 						}
 					}
@@ -331,7 +333,7 @@ if(input01 == ""){
  }
 }
 
-function prod_dotacion_modal(numX,cod_prod,esans,metodo,cantidad){
+function prod_dotacion_modal(numX,cod_prod,esans,metodo,cantidad,comodin){
 	var num     = numX+1;
 	if(numX != ''){
 		var valor = "ajax/Add_prod_dotacion_det_clientes_modal.php";
@@ -347,7 +349,7 @@ function prod_dotacion_modal(numX,cod_prod,esans,metodo,cantidad){
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("codigo="+cod_prod+"&numero="+num+"&tieneeans="+esans+"&metodo="+metodo+"&cantidad="+cantidad+"");
+		ajax.send("codigo="+cod_prod+"&numero="+num+"&tieneeans="+esans+"&metodo="+metodo+"&cantidad="+cantidad+"&comodin="+comodin+"");
 	}else{
 		alert("Falta Codificacion ");
 	}
