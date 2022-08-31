@@ -1,9 +1,7 @@
 <script type="text/javascript">
 
 function filtrar(elem, cod){
-    console.log(elem);
     var ValorBusqueda = new RegExp($(elem).val(), 'i');
-	console.log($(elem).val());
         $('#table'+cod+' .detail tr').hide();
          $('#table'+cod+' .detail tr').filter(function (i) {
 			console.log(elem, i, ValorBusqueda, $('#'+cod+''+i ).text(), ValorBusqueda.test($('#'+cod+''+i ).text()));
