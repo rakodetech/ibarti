@@ -1,4 +1,16 @@
 <script type="text/javascript">
+
+function filtrar(elem, cod){
+    console.log(elem);
+    var ValorBusqueda = new RegExp($(elem).val(), 'i');
+	console.log($(elem).val());
+        $('#table'+cod+' .detail tr').hide();
+         $('#table'+cod+' .detail tr').filter(function (i) {
+			console.log(elem, i, ValorBusqueda, $('#'+cod+''+i ).text())
+            return ValorBusqueda.test($('#'+cod+''+i ).text());
+          }).show();
+    };
+
  function BotonVisible()
 {
   document.getElementById("clickMe").style.visibility="visible";
@@ -590,7 +602,7 @@ $tieneeans="hidden";
 											<td id="select_4_1"><select name="almacen_1" id="almacen_1" style="width:150px;" disabled="disabled">
 												<option value="">Seleccione...</option>
 											</select></td>
-											<td id="input04"><input type="number" name="cantidad_1" id="cantidad_1" min="1" value="0" /></td>
+											<td id="input04"><input type="number" name="cantidad_1" id="cantidad_1" min="1" value="0" style="width: 65px;"/></td>
 											<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
                                             <td width="8%"><input type="<?php echo $tieneeans ?>" id="boton" name="boton"  value="EANS"/></td>
 										</tr>
@@ -626,8 +638,8 @@ $tieneeans="hidden";
 												<td id="select_2_1"><select name="producto_1" id="producto_1" style="width:100px;" disabled="disabled">
 													<option value="<?php echo $cod_producto;?>"><?php echo $producto;?></option>
 												</select></td>
-												<td id="input04"><input type="text" name="cantidad_1" id="cantidad_1" maxlength="4" size="10" readonly="readonly"
-													value="<?php echo $cantidad;?>"/></td>
+												<td id="input04"><input type="text" name="cantidad_1" id="cantidad_1" min="1" size="10" readonly="readonly"
+													value="<?php echo $cantidad;?>" style="width: 65px;"/></td>
 													<td><input type="hidden" name="relacion_1" value="1" /></td>
 												</tr>
                                                  <td width="5%"><input type="<?php echo $tieneeans; ?>" id="<?php echo $cod_producto ?>" name="<?php echo $cod_producto?>"  value="EANS" onClick="prod_dotacion_modal('<?php echo $fila ?>', '<?php echo $cod_producto ?>', '<?php echo $tieneeans?>','<?php echo $metodo?>','<?php echo $cantidad?>')" /></td>

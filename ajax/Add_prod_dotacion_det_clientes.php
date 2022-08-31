@@ -39,7 +39,7 @@ $tieneeans="hidden";
                      id="almacen_<?php echo $rel;?>" style="width:200px;" disabled="disabled" required="required">
           <option value="">Seleccione..</option>
         </select></td>
-    <td id="input04_<?php echo $rel;?>"><input type="number" name="cantidad_<?php echo $rel;?>"
+    <td id="input04_<?php echo $rel;?>"><input type="number" name="cantidad_<?php echo $rel;?>" style="width: 65px;"
                                         id="cantidad_<?php echo $rel;?>" required="required"/></td>
     
     <td width="8%"><input type="<?php echo $tieneeans ?>" id="boton_<?php echo $rel;?>" name="boton_<?php echo $rel;?>"  value="boton1"/></td>

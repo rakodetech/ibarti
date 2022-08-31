@@ -57,19 +57,22 @@ $procesar="Procesar01('".$rel2."','".$rel."')";
 $salida='salir';
 $tieneeans="";
 $salir = "Salir01('".$rel2."')";
+$funcFiltrar = "filtrar(this, '".$rel2."')";
    $query = $bd->consultar($sql);
 
-		echo '<table width="100%" border="2" class="fondo00 BusquedaRapida"  id="'.$rel2.'" name="'.$ndx.'">
-			<tr>
+		echo '<table width="100%" border="2" class="fondo00" id="table'.$rel2.'" name="'.$ndx.'">
+		<thead>	
+        <tr>
 				<th width="10%" class="etiqueta">Codigo</th>
 				<th width="10%" class="etiqueta">Eans('.$cantidad.')</th>
             	<th width="10%" class="etiqueta">Ok</th>
-                <th>Buscador <input type="text" id="FiltrarContenido" class="text" onchange="showHint(this.value)" /></th>
-				</tr>';
+                <th>Buscador <input type="text" class="text" onkeyup="'.$funcFiltrar.'" /></th>
+				</tr>
+                </thead>
+                <tbody class="detail">';
 		 $valor = 0;
-        
+        $i = 0;
 	    while($row02=$bd->obtener_fila($query,0)){
-
 		   $clickip = "Clickup('".$row02["codigo"]."','".$row02["eans"]."',$cantidad)";  
            
 		  if ($valor == 0){
@@ -79,18 +82,16 @@ $salir = "Salir01('".$rel2."')";
 			 $fondo = 'fondo02';
 			 $valor = 0;
 		}
-        
-            
 		  echo'<tr class="'.$fondo.'">
 			     <td class="texto">'.$row02["codigo"].'</td>
-                 <td class="texto">'.$row02["eans"].'</td>
+                 <td class="texto" id="'.$rel2."".$i.'" >'.$row02["eans"].'</td>
 			
 			     <td class="texto"> <td class="aCentro" width="5%"><input type="checkbox" name="checkbox_socio" id="checkbox_socio" value="'.$row02["eans"].'" onclick="'.$clickip.'")</td>
                  </tr>';
-        
+                 $i++;
 		}
  
-echo '</table>'; mysql_free_result($query);
+echo '</tbody></table>'; mysql_free_result($query);
 echo '<tr class="'.$fondo.'">
 			 <div align="center">
 					<span class="art-button-wrapper" id="botong">
@@ -151,18 +152,3 @@ echo '<tr class="'.$fondo.'">
        
     </tr></table>
     <div id="Contenedor01_<?php echo $rel;?>"></div>
-
-<script type="text/javascript">
-$(document).ready(function () {
-   (function($) {
-       $('#FiltrarContenido').keyup(function () {
-            var ValorBusqueda = new RegExp($(this).val(), 'i');
-            $('.BusquedaRapida tr').hide();
-             $('.BusquedaRapida tr').filter(function () {
-                console.log(this);
-                return ValorBusqueda.test($(this).text());
-              }).show();
-                })
-      }(jQuery));
-});
-</script> 
