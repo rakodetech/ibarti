@@ -6,7 +6,7 @@ function filtrar(elem, cod){
 	console.log($(elem).val());
         $('#table'+cod+' .detail tr').hide();
          $('#table'+cod+' .detail tr').filter(function (i) {
-			console.log(elem, i, ValorBusqueda, $('#'+cod+''+i ).text())
+			console.log(elem, i, ValorBusqueda, $('#'+cod+''+i ).text(), ValorBusqueda.test($('#'+cod+''+i ).text()));
             return ValorBusqueda.test($('#'+cod+''+i ).text());
           }).show();
     };
