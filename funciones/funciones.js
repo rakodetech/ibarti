@@ -147,7 +147,7 @@ function EstadoFiltro(valor) {
 function Salir01(idX) { // CARGAR EL MODULO DE AGREGAR //
     numX=1;
 	if (confirm("�Esta Seguro de Cerrar")) {
-		document.getElementById(idX).remove();
+		document.getElementById('table'+idX).remove();
 		document.getElementById('incremento').value = numX -1;
 	}
 }
@@ -185,7 +185,7 @@ function Procesar01(cod_prod,idX) {  // CARGAR EL MODULO DE AGREGAR //
 		ajax.send("codigo=" + cod_prod + "&codigoean=" + idean + "&metodo=agregarean&tabla=" + tabla + "");
 	} 
     
-    document.getElementById(cod_prod).remove();
+    document.getElementById('table'+cod_prod).remove();
     document.getElementById('botong').remove();
     document.getElementById('botons').remove();
     document.getElementById("boton").type="button";

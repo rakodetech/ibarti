@@ -31,7 +31,7 @@ $tieneeans="hidden";
           <?php }?>
         </select></td>
      <td id="select_3_<?php echo $rel;?>"><select name="producto_<?php echo $rel;?>"
-                     id="producto_<?php echo $rel;?>" style="width:200px;" disabled="disabled" required="required">
+                     id="producto_<?php echo $rel;?>"  style="width:200px;" disabled="disabled" onclick="buscarprod(this.value,'producto_<?php echo $rel;?>')" >
           <option value="">Seleccione... </option>
         </select></td>
 

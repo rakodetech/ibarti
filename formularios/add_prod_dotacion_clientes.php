@@ -1,15 +1,23 @@
 <script type="text/javascript">
+var vectorproducto=[];
+function buscarprod(elem,cod){
+ console.log(elem,cod);    
 
+}
+    
 function filtrar(elem, cod){
+    console.log(elem);
     var ValorBusqueda = new RegExp($(elem).val(), 'i');
+    
         $('#table'+cod+' .detail tr').hide();
-         $('#table'+cod+' .detail tr').filter(function (i) {
-			console.log(elem, i, ValorBusqueda, $('#'+cod+''+i ).text(), ValorBusqueda.test($('#'+cod+''+i ).text()));
+        $('#table'+cod+' .detail tr').filter(function (i) {
+			
             return ValorBusqueda.test($('#'+cod+''+i ).text());
-          }).show();
-    };
-
- function BotonVisible()
+          }).show();       
+    
+}
+      
+function BotonVisible()
 {
   document.getElementById("clickMe").style.visibility="visible";
 }    
@@ -285,6 +293,9 @@ function validarAlcance(numX) {
 }
 
 function validarCamp(metodo){
+    var anteriorX;
+    var anterior;
+ 
 	var numX     = parseInt(document.getElementById('incremento').value);
 	if(metodo == 'eliminar'){
 		document.getElementById('tr_1_'+numX).remove();
@@ -298,17 +309,39 @@ mensaje02 = " Debe Seleccionar La SubLinea \n";
 mensaje03 = " Debe Seleccionar Un Productos \n";
 mensaje04 = " Debe Ingresar la Cantidad \n ";
 mensaje04 = " Debe Seleccionar Un Almacen \n ";
-
+mensaje06 = " El producto ya esta en el detalle de la dotacion \n ";
 select01  = document.getElementById('linea_'+numX+'').value;
 select02  = document.getElementById('sub_linea_'+numX+'').value;
 select03  = document.getElementById('producto_'+numX+'').value;
-        
+anteriorX=numX-1; 
+
+if (anteriorX>0){
+    anterior=   document.getElementById('producto_'+anteriorX+'').value;
+    vectorproducto[numX]=anterior;
+    var compara=select03;
+     
+} else{
+    var compara =select03; 
+   vectorproducto[0]=compara;
+    anterior="";  
+}
 select04  = document.getElementById('almacen_'+numX+'').value;
 input01   = Number(document.getElementById('cantidad_'+numX+'').value);
 input01Max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
 
 mensaje05 = input01+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+input01Max;
-
+if(select03 =! "" ){
+     
+    for(var i=1; i<vectorproducto.length; i++) {
+       console.log("Valor vector:"+ i+ vectorproducto[i]);  
+        if (compara == vectorproducto[i]){
+           valido++;
+	       mensaje += mensaje06;
+        }
+          
+     };
+	
+}
 if(select01 == ""){
 	valido++;
 	mensaje += mensaje01;
