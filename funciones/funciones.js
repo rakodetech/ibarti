@@ -184,7 +184,7 @@ function Procesar01(cod_prod,idX) {  // CARGAR EL MODULO DE AGREGAR //
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		ajax.send("codigo=" + cod_prod + "&codigoean=" + idean + "&metodo=agregarean&tabla=" + tabla + "");
 	} 
-    
+
     document.getElementById('table' + cod_prod).remove();
     document.getElementById('botong').remove();
     document.getElementById('botons').remove();

@@ -29,10 +29,11 @@ $metodo   = $_POST['metodo'];
 $nro_ajuste_c = "";
 
 if(isset($_POST['proced'])){
+    // buscar si la dotacion existe por codigo y fecha
 	$sql    = "$SELECT $proced('$metodo', '$codigo', '$fecha','$cliente','$ubicacion', '$trabajador','$descripcion','$campo01', '$campo02', '$campo03', '$campo04', '$usuario', '$activo')";
 	$query = $bd->consultar($sql);
-// procedimiento debe retonrar un valor pediente.. OJO ///
-// y eliminar el SELECT MAX
+     // procedimiento debe retonrar un valor pediente.. OJO ///
+     // y eliminar el SELECT MAX
 
 	if($metodo == "agregar"){
 		$sql    = "SELECT MAX(prod_dotacion_clientes.codigo) codigo FROM prod_dotacion_clientes

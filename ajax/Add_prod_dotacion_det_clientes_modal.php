@@ -60,13 +60,13 @@ $salir = "Salir01('".$rel2."')";
 $funcFiltrar = "filtrar(this, '".$rel2."')";
    $query = $bd->consultar($sql);
 
-		echo '<table width="100%" border="2" class="fondo00" id="table'.$rel2.'" name="'.$ndx.'">
+		echo '<table width="100%" border="2" id="table'.$rel2.'" name="'.$ndx.'">
 		<thead>	
         <tr>
 				<th width="10%" class="etiqueta">Codigo</th>
 				<th width="10%" class="etiqueta">Eans('.$cantidad.')</th>
             	<th width="10%" class="etiqueta">Ok</th>
-                <th>Buscador <input type="text" class="text" onkeyup="'.$funcFiltrar.'" /></th>
+                <th>Buscador <input type="text" class="text" onchange="'.$funcFiltrar.'" /></th>
 				</tr>
                 </thead>
                 <tbody class="detail">';
