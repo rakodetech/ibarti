@@ -64,7 +64,18 @@
         if ($metodo == "agregar") {
           echo '<td><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp"  id="update_renglon" onclick="Modificar_renglon(' . $datos["reng_num"] . ')" title="Modificar Registro />&nbsp; <img class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp" id="canc_renglon" onclick="Borrar_renglon(' . $datos["reng_num"] . ')" title="Borrar Registro" /></td></tr>';
         } else {
-          echo "<td></td></tr>";
+          if($metodo == "modificar"){
+            if($datos["ean"] == 'T'){
+              echo '<td><span class="art-button-wrapper">
+              <span class="art-button-l"> </span>
+              <span class="art-button-r"> </span>
+              <input type="button"  title="Ver Eans" onclick = verEans('.$datos["reng_num"].') class="readon art-button"  value="EANS" />
+              </span></td>';
+            }else{
+             echo '<td></td>';
+           }
+         }
+          echo "</tr>";
         }
       } ?>
    </tbody>

@@ -116,6 +116,7 @@ function Form_stock_ubic_alcance(cod, metodo, anulado) {
                     //$("#borrar_stock_ubic_alcance").removeClass("d-none"); 
                     $("#add_renglon_etiqueta").hide();
                     $("#add_renglon").hide();
+                    Reng_ped(cod);
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -698,7 +699,7 @@ function Reng_ped(codigo) {
             jQuery.each(Ped_detalle, function (i) {
                 //console.log(Ped_detalle[i]);
                 getIfEAN(Ped_detalle[i]['cod_producto'], null, false, () => {
-                    Reng_ped_ean(Ped_detalle[i]['cod_stock_ubic_alcance'], Ped_detalle[i]['reng_num'], i)
+                    Reng_ped_ean(Ped_detalle[i]['cod_ajuste'], Ped_detalle[i]['reng_num'], i)
                 });
                 reng_num = Ped_detalle[i]["reng_num"];
                 //reng_num++;
@@ -954,6 +955,7 @@ function verEans(index) {
     //console.log(Ped_detalle[index-1]['eans']);
     var reng_num_ean = 0;
     $('#listar_eans').html('');
+    console.log(Ped_detalle, index);
     var resp = Ped_detalle[index - 1]['eans'];
     jQuery.each(resp, function (i) {
         reng_num_ean++;
@@ -997,4 +999,15 @@ function imprimir() {
     var codigo_ajuste = $("#ped_codigo").val();
     $("#codigo").val(codigo_ajuste);
     $("#procesar").click();
+}
+
+
+function filtrarEANS(elem){
+    var ValorBusqueda = new RegExp($(elem).val(), 'i');
+    $('#listar_eans tr').hide();
+    $('#listar_eans tr').filter(function (i) {
+        i++;
+        console.log(ValorBusqueda, $('#reng_num_ean_'+i).val(), '#reng_num_ean_'+i);
+        return ValorBusqueda.test($('#reng_num_ean_'+i ).val());
+    }).show();
 }

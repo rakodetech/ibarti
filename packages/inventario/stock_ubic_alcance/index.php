@@ -53,8 +53,9 @@ if (isset($_SESSION['usuario_cod'])) {
 				<br>
 				<div align="center" class="etiqueta_title">Listado de Eans <span id="span_cant_ing">(<span id="cant_ing"></span>)</span></div>
 				<br>
+				<th>Buscador <input type="text" class="text" onkeyup="filtrarEANS(this)" /><br>
 				<hr />
-				<table id="listar_eans">
+				<table>
 					<thead>
 						<tr class="fondo00">
 							<th>Codigo EAN</th>

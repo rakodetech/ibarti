@@ -147,7 +147,7 @@ class stock_ubic_alcance
     FROM
     ajuste_alcance a,
     clientes_ubicacion b,
-    ajuste_reng c
+    ajuste_alcance_reng c
     " . $WHERE . "   
     GROUP BY 1
     ORDER BY a.codigo";
@@ -220,7 +220,7 @@ class stock_ubic_alcance
   public function get_aj_reng_eans($ajuste_alcance, $renglon)
   {
     $this->datos   = array();
-    $sql = " SELECT cod_ean FROM ajuste_alcance_reng_eans WHERE cod_ajuste_alcance = '$ajuste_alcance' AND reng_num = '$renglon';";
+    $sql = " SELECT cod_ean FROM ajuste_alcance_reng_eans WHERE cod_ajuste = '$ajuste_alcance' AND reng_num = '$renglon';";
     $query = $this->bd->consultar($sql);
 
     while ($datos = $this->bd->obtener_fila($query)) {
@@ -233,8 +233,11 @@ class stock_ubic_alcance
   {
     $this->datos   = array();
     if ($salida) {
-      $sql = " SELECT cod_ean FROM prod_ean WHERE inStock = 'T' AND cod_producto = '$cod' AND cod_almacen = '$almacen'
-    ORDER BY 1 DESC";
+      $where  = " inStock = 'T' AND cod_producto = '$cod'";
+      if ($almacen != "" && $almacen != "undefined"){
+        $where .= " AND cod_almacen = '$almacen' ";
+      }
+      $sql = " SELECT cod_ean FROM prod_ean WHERE $where ORDER BY 1 DESC";
     } else {
       $sql = " SELECT a.cod_producto, a.cod_ean
     FROM prod_ean a
