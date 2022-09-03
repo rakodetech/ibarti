@@ -147,7 +147,7 @@ function EstadoFiltro(valor) {
 function Salir01(idX) { // CARGAR EL MODULO DE AGREGAR //
     numX=1;
 	if (confirm("�Esta Seguro de Cerrar")) {
-		document.getElementById(idX).remove();
+		document.getElementById('table'+idX).remove();
 		document.getElementById('incremento').value = numX -1;
 	}
 }
@@ -160,7 +160,7 @@ function Borrar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
 		ajax.onreadystatechange = function () {
 			if (ajax.readyState == 4) {
 				document.getElementById("Contenedor01").innerHTML = ajax.responseText;
-				setTimeout(alert("" + document.getElementById("mensaje_aj").value + ""), Reload(), 1000);
+				setTimeout(alert("" + document.getElementById("mensaje_aj")?.value + ""), Reload(), 1000);
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -178,14 +178,14 @@ function Procesar01(cod_prod,idX) {  // CARGAR EL MODULO DE AGREGAR //
 		ajax.onreadystatechange = function () {
 			if (ajax.readyState == 4) {
 				document.getElementById("Contenedor01").innerHTML = ajax.responseText;
-				setTimeout(alert("" + document.getElementById("mensaje_aj").value + ""), Reload(), 1000);
+				// setTimeout(alert("" + document.getElementById("mensaje_aj").value + ""), Reload(), 1000);
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		ajax.send("codigo=" + cod_prod + "&codigoean=" + idean + "&metodo=agregarean&tabla=" + tabla + "");
 	} 
     
-    document.getElementById(cod_prod).remove();
+    document.getElementById('table' + cod_prod).remove();
     document.getElementById('botong').remove();
     document.getElementById('botons').remove();
     document.getElementById("boton").type="button";
@@ -267,7 +267,7 @@ function ClickupVector(idX,idean,cantidad) {  // CARGAR EL MODULO DE AGREGAR //
 		ajax.onreadystatechange = function () {
 			if (ajax.readyState == 4) {
 				document.getElementById("Contenedor01").innerHTML = ajax.responseText;
-				setTimeout(alert("" + document.getElementById("mensaje_aj").value + ""), Reload(), 1000);
+				// setTimeout(alert("" + document.getElementById("mensaje_aj").value + ""), Reload(), 1000);
 			}
 		}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");

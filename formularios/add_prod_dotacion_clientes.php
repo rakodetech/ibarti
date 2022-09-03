@@ -7,7 +7,7 @@ function filtrar(elem, cod){
 			console.log(elem, i, ValorBusqueda, $('#'+cod+''+i ).text(), ValorBusqueda.test($('#'+cod+''+i ).text()));
             return ValorBusqueda.test($('#'+cod+''+i ).text());
           }).show();
-    };
+    }
 
  function BotonVisible()
 {
@@ -175,17 +175,14 @@ function mostrar_dotacion_ficha(cod_ficha){
 					$("#cliente_ficha").val("");
 				} else {
 					resp.forEach((d,i)=>{
-						var aplica = d.aplica == null ? 'NO' : 'SI';
 						if(i==0){
 							$("#cliente_ficha").val(d.cod_cliente);
 							$("#ubicacion_ficha").val(d.cod_ubicacion);
 						}
 						nuevafila= "<tr><td>" +
 						d.sub_linea + "</td><td>" +
-						d.talla + "</td><td>" +
 						d.cantidad  + "</td><td>" +
-						d.ult_dotacion  + "</td><td>" +
-						aplica + "</td></tr>";
+						d.ult_dotacion  + "</td></tr>";
 
 						$("#datos_dotacion_detalle").append(nuevafila);
 					});
@@ -448,16 +445,7 @@ if($metodo == 'modificar'){
    IFNULL((SELECT CONCAT(MAX(prod_dotacion_clientes.fec_us_mod),'  (',prod_dotacion_det_clientes.cantidad,')') FROM prod_dotacion_clientes, prod_dotacion_det_clientes
    WHERE prod_dotacion_clientes.codigo = prod_dotacion_det_clientes.cod_dotacion
    AND prod_dotacion_clientes.cod_ubicacion = v_cliente_ubic.cod_cliente) ,'SIN DOTACION') ult_dotacion
-   ,v_cliente_ubic.cod_cliente,v_cliente_ubic.cod_ubicacion,
-	   (
-		   SELECT
-			   clientes_ub_uniforme.cod_cl_ubicacion
-		   FROM				
-			   clientes_ub_uniforme
-		   WHERE prod_sub_lineas.codigo = clientes_ub_uniforme.cod_sub_linea
-		   AND v_cliente_ubic.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
-		   
-	   ) aplica
+   ,v_cliente_ubic.cod_cliente,v_cliente_ubic.cod_ubicacion
    FROM prod_dotacion_det_clientes LEFT JOIN
    productos ON 
 	prod_dotacion_det_clientes.cod_sub_linea = productos.cod_sub_linea,prod_sub_lineas,v_cliente_ubic
@@ -536,21 +524,15 @@ $tieneeans="hidden";
 								<thead>
 									<tr>
 										<th>SubLinea</th>
-										<th>Talla</th>
 										<th>Cantidad</th>
 										<th>Ultima Dotación</th>
-										<th>Aplica</th>
 									</tr>
 								</thead>
 								<tbody id="datos_dotacion_detalle">
 									<?php 
 									if($metodo == "modificar"){
 										while ($datos= $bd->obtener_fila($query_dot,0)) {
-											$aplica = 'NO';
-											if($datos[3] != null){
-												$aplica = 'SI';
-											}
-											echo "<tr><td>" .$datos[0]."</td><td>"  .$datos[1]."</td><td>"  .$datos[2]. "</td><td>"  .$datos[3]. "</td><td>"  .$aplica. "</td></tr>";
+											echo "<tr><td>" .$datos[0]."</td><td>"  .$datos[2]. "</td><td>"  .$datos[3]. "</td></tr>";
 										}	
 									}
 									?>
@@ -568,7 +550,7 @@ $tieneeans="hidden";
 										<td class="etiqueta" width="25">Almacen</td>
 									<?php }?>
 									<td class="etiqueta" width="17%">Cantidad:</td>
-									<td class="etiqueta" width="25%"><?php if($metodo == "agregar"){ ?>
+									<td class="etiqueta" width="10%"><?php if($metodo == "agregar"){ ?>
 										<span style="float: right;" align="center" ><img src="imagenes/ico_agregar.ico" class="imgLink" title="Agregar Item" onclick="validarCamp('Agregar')" />
 											<img  border="null" width="20px" height="20px" src="imagenes/borrar.bmp" title="Borrar Registro" id="borrar_dot" onclick="validarCamp('eliminar')" /></span><?php } ?>
 										</td>
