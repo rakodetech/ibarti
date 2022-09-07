@@ -554,8 +554,8 @@ function Agregar_renglon() {
                     var td02 = ('<td>' + producto_des + '</td>');
                     var td03 = ('<td>' + almacen_des + '</td>');
                     var td04 = ('<td><input type="text" id="cant_' + reng_num + '" value="' + cantidad + '" readonly style="width:100px"></td>');
-                    var td05 = ('<td><input type="text" id="costo_' + reng_num + '" value="' + costo + '" readonly style="width:100px"></td>');
-                    var td06 = ('<td><input type="text" id="neto_' + reng_num + '" value="' + neto + '" readonly style="width:150px"></td>');
+                    // var td05 = ('<td><input type="text" id="costo_' + reng_num + '" value="' + costo + '" readonly style="width:100px"></td>');
+                    // var td06 = ('<td><input type="text" id="neto_' + reng_num + '" value="' + neto + '" readonly style="width:150px"></td>');
                     var td07 = ('<td><img class="imgLink" border="null" width="20px" height="20px" src="imagenes/actualizar.bmp" onclick="Modificar_renglon(' + reng_num + ')" title="Modificar Registro" />&nbsp;<img  class="imgLink" border="null" width="20px" height="20px" src="imagenes/borrar.bmp"onclick="Borrar_renglon(' + reng_num + ')" title="Borrar Registro"/> </td>');
 
                     $('#listar_stock_ubic_alcance').append(tr);
@@ -563,8 +563,8 @@ function Agregar_renglon() {
                     $('#tr_' + reng_num + '').append(td02);
                     $('#tr_' + reng_num + '').append(td03);
                     $('#tr_' + reng_num + '').append(td04);
-                    $('#tr_' + reng_num + '').append(td05);
-                    $('#tr_' + reng_num + '').append(td06);
+                    // $('#tr_' + reng_num + '').append(td05);
+                    // $('#tr_' + reng_num + '').append(td06);
                     $('#tr_' + reng_num + '').append(td07);
 
                     Limpiar_producto();
