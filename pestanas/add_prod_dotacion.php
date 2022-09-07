@@ -24,6 +24,7 @@ if(isset($_GET['pagina'])){
 	  </div>
  </div>
 </form>
+</form>
 <form id="pdf" name="pdf" action="" method="post" target="_blank">
 		<input type="hidden" name="codigo" value="<?php echo $_GET["codigo"]?>">
 </form>
