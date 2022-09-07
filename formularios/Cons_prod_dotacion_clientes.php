@@ -20,19 +20,9 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 	var periodo     = $("#periodo").val();
 	var filtro      = $("#paciFiltro").val();
 	var ficha       = $("#stdID").val();
-    var fecha_desde = $( "#fecha_desde").val();
-	var fecha_hasta = $( "#fecha_hasta").val();
 	var error = 0;
     var errorMessage = ' Debe Seleccionar Un Campo ';
-     
-    if( fechaValida(fecha_desde) !=  true && fecha_desde != ""){ 
-		var errorMessage = ' Campos De Fecha Inicial Incorrecta ';
-		var error = error+1;
-	}
-	if( fechaValida(fecha_hasta) != true && fecha_hasta != ""){
-		var errorMessage = ' Campos De Fecha Final Incorrectas ';
-		var error = error+1;
-	}
+
 	if( rol == ""){
     var errorMessage = ' \n Debe seleccionar el Rol ';
 	var error      = error+1;
@@ -51,8 +41,8 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 				}
 			}
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		ajax.send("Nmenu="+Nmenu+"&mod="+mod+"&archivo="+archivo+"&rol="+rol+"&periodo="+periodo+"&filtro="+filtro+"&ficha="+ficha+"&fecha_desde="+fecha_desde+"&fecha_hasta="+fecha_hasta+"");
-	}else{ 
+		ajax.send("Nmenu="+Nmenu+"&mod="+mod+"&archivo="+archivo+"&rol="+rol+"&periodo="+periodo+"&filtro="+filtro+"&ficha="+ficha+"");
+	}else{
 		 	alert(errorMessage);
 	}
 }</script>
@@ -62,7 +52,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 <fieldset>
 <legend>Filtros:</legend>
 	<table width="100%">
-		    <tr><td width="10%">Periodo:</td>
+		<tr><td width="10%">Periodo: </td>
 			<td width="14%"><select  name="periodo" id="periodo" style="width:120px;">
 					<?php
 			  $sql01   = "SELECT DISTINCT prod_dotacion_clientes.periodo
@@ -72,11 +62,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 		 		while($row01=$bd->obtener_fila($query01,0)){
 					 echo '<option value="'.$row01[0].'">'.$row01[0].'</option>';
 			   }?><option value="TODOS">TODOS</option></select></td>
-               <tr><td width="10%">Fecha Desde:</td>
-			<td width="14%" id="fecha01"><input type="text" name="fecha_desde" id="fecha_desde" size="9" onclick="javascript:muestraCalendario('form_reportes', 'fecha_desde');">&nbsp;<img src="imagenes/icono-calendario.gif" onclick="javascript:muestraCalendario('form_reportes', 'fecha_desde');" border="0" width="17px"></td>
-			<td width="10%">Fecha Hasta:</td>
-			<td width="14%" id="fecha02"><input type="text" name="fecha_hasta" id="fecha_hasta" size="9" onclick="javascript:muestraCalendario('form_reportes', 'fecha_hasta');">&nbsp;<img src="imagenes/icono-calendario.gif" onclick="javascript:muestraCalendario('form_reportes', 'fecha_hasta');" border="0" width="17px"></td>
-			<td width="10%"><?php echo $leng['cliente'];?>: </td>
+			<td width="10%"><?php echo $leng['rol'];?>: </td>
 			<td width="14%"><select  name="rol" id="rol" style="width:120px;" required>
 					<?php
 					echo $select_cl;

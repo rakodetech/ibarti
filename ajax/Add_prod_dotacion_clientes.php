@@ -17,8 +17,6 @@ $periodo    = $_POST['periodo'];
 $rol        = $_POST['rol'];
 $filtro     = $_POST['filtro'];
 $ficha      = $_POST['ficha'];
-$fecha1= $_POST['fecha_desde'];
-$fecha2 = $_POST['fecha_hasta'];
 
 	$where = "WHERE  clientes.codigo=clientes_ubicacion.cod_cliente and clientes.codigo=prod_dotacion_clientes.cod_cliente";
 
@@ -29,15 +27,10 @@ $fecha2 = $_POST['fecha_hasta'];
 	if($rol != "TODOS"){
 		$where .= " AND clientes.codigo = '$rol' ";
 	}
-   if($_POST['fecha_desde'] != ""){
-	   $fecha_D         = conversion($_POST['fecha_desde']);
-	   $where .= " AND prod_dotacion_clientes.fec_dotacion >= \"$fecha_D\" ";
-   }
 
-if($_POST['fecha_hasta'] != ""){
-	$fecha_H         = conversion($_POST['fecha_hasta']);
-	$where .= " AND  prod_dotacion_clientes.fec_dotacion <= \"$fecha_H\" ";
-}
+	if(($filtro != "TODOS") and ($ficha) != ""){
+		$where .= "  AND prod_dotacion_clientes.cod_ubicacion = '$ficha' ";
+	}
 
  $sql = "SELECT prod_dotacion_clientes.codigo, prod_dotacion_clientes.fec_dotacion, clientes.codigo as cliente,clientes.nombre AS trabajador,
 					clientes_ubicacion.descripcion as nomubi,prod_dotacion_clientes.descripcion
