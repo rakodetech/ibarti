@@ -25,7 +25,7 @@ $codigo        = $_POST['codigo'];
            ORDER BY 1 DESC ";
     ?>	
     <fieldset class="fieldset">
-  <legend>Ultima Dotacion Trabajador Policia: </legend>
+  <legend>Ultima Dotacion Trabajador: </legend>
 <table width="100%" border="0" align="center">
 		<tr class="fondo00">
 			<th width="12%" class="etiqueta">Fecha Ultima <br /> Dotacion</th>
