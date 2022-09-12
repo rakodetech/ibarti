@@ -41,11 +41,16 @@ $listar  =  $ajuste->get();
           </select>
         </td>
         <td width="12%">Ubicación:</td>
-        <td width="14%" id="contenido_ubic">
-          <select name="ubicacion" id="ubicacion" style="width:150px;">
+        <td width="14%" >
+          <select name="ubicacion" id="ubicacion" style="width:150px;" onchange="Add_Cl_Alcance(this.value, 'contenido_ubic', 'F', '150')">
             <option value="TODOS">TODOS</option>
+               <?php $query02 = $bd->consultar($sql_cliente);
+            while ($row02 = $bd->obtener_fila($query02, 0)) {
+              echo '<option value="' . $row02[0] . '">' . $row02[1] . '</option>';
+            } ?>
           </select>
         </td>
+        
         <td>Producto:</td>
         <td colspan="4"><input id="stdName" type="text" style="width:200px" />
           <input type="hidden" name="producto" id="stdID" value="" /></td>
