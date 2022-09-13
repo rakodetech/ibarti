@@ -21,7 +21,7 @@ class stock_ubic_alcance
     IF(a.anulado = 'T', 'SI', 'NO') anulado_des
     FROM ajuste_alcance a, clientes_ubicacion b
 		WHERE a.cod_ubicacion = b.codigo
-    ORDER BY a.codigo LIMIT 100;";
+    ORDER BY a.codigo DESC LIMIT 100;";
     $query = $this->bd->consultar($sql);
 
     while ($datos = $this->bd->obtener_fila($query)) {
@@ -150,7 +150,7 @@ class stock_ubic_alcance
     ajuste_alcance_reng c
     " . $WHERE . "   
     GROUP BY 1
-    ORDER BY a.codigo";
+    ORDER BY a.codigo DESC";
 
     $query = $this->bd->consultar($sql);
     while ($datos = $this->bd->obtener_fila($query)) {
