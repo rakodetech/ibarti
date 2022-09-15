@@ -372,6 +372,7 @@ function Filtrar_select(idX, name, archivo, contenedor, px, evento) {
 function Add_Cl_Ubic(valor, contenido, activar, tamano) {  // CARGAR  UBICACION DE CLIENTE  Y tama�o  //
 	var error = 0;
 	var errorMessage = ' ';
+    
 	if (valor == '') {
 		var error = error + 1;
 		errorMessage = errorMessage + ' \n Debe Seleccionar Un Cliente ';
@@ -392,7 +393,30 @@ function Add_Cl_Ubic(valor, contenido, activar, tamano) {  // CARGAR  UBICACION 
 		alert(errorMessage);
 	}
 }
-
+function Add_Cl_Alcance(valor, contenido, activar, tamano) {  
+	var error = 0;
+	var errorMessage = ' ';
+  
+	if (valor == '') {
+		var error = error + 1;
+		errorMessage = errorMessage + ' \n Debe Seleccionar Una Ubicacion ';
+	}
+	if (error == 0) {
+		ajax = nuevoAjax();
+		ajax.open("POST", "ajax/Add_cl_ubic3.php", true);
+		ajax.onreadystatechange = function () {
+			if (ajax.readyState == 4) {
+				document.getElementById(contenido).innerHTML = ajax.responseText;
+				if (activar == "T") {
+				}
+			}
+		}
+		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		ajax.send("codigo=" + valor + "&tamano=" + tamano + "&activar=" + activar + "");
+	} else {
+		alert(errorMessage);
+	}
+}
 function Add_Ub_puesto(valor, contenido, tamano) {  // CARGAR  UBICACION DE CLIENTE  Y tama�o  //
 	var error = 0;
 	var errorMessage = ' ';

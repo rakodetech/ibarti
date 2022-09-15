@@ -13,7 +13,30 @@
   $reng       = $stock_ubic_alcance->get_aj_reng($codigo);
   if ($metodo == "agregar") {
   ?>
-   <table width="95%" align="center">
+    
+          <fieldset class="fieldset" id="datos_dotacion">
+							<legend>Configuracion Alcance: </legend>
+							<table width="100%" align="center" class="tabla_sistema">
+								<thead>
+									<tr>
+										<th>SubLinea</th>
+										<th>Cantidad</th>
+										<th>Ultima Dotación</th>
+									</tr>
+								</thead>
+								<tbody id="datos_dotacion_detalle">
+									<?php 
+									if($metodo == "agregar"){
+										while ($datos= $row02) {
+											echo "<tr><td>" .$datos[0]."</td><td>"  .$datos[0]. "</td><td>"  .$datos[0]. "</td></tr>";
+										}	
+									}
+									?>
+								</tbody>
+							</table>
+						</fieldset>
+       
+    <table width="95%" align="center">
      <tr>
        <td width="30%" class="etiqueta"><?php echo $leng['producto']; ?>
          <input type="hidden" name="producto" id="stdID" value="" /></td>
