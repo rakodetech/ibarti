@@ -15,8 +15,35 @@ if ($activar == "T") {
 	$change =  'onchange="Validar01(this.value)"';
 }
 
-$sql = "SELECT CONCAT(productos.descripcion,' (',productos.codigo,') ') sub_linea, clientes_ub_alcance.cantidad, IFNULL((SELECT CONCAT(MAX(ajuste_alcance.fecha),' (',ajuste_alcance_reng.cantidad,')') FROM ajuste_alcance, ajuste_alcance_reng WHERE ajuste_alcance.codigo = ajuste_alcance_reng.cod_ajuste AND ajuste_alcance_reng.cod_producto = clientes_ub_alcance.cod_producto AND ajuste_alcance.cod_ubicacion = clientes_ub_alcance.cod_cl_ubicacion) ,'SIN DOTACION') ult_dotacion ,clientes_ubicacion.cod_cliente,clientes_ubicacion.codigo FROM clientes_ub_alcance LEFT JOIN productos ON clientes_ub_alcance.cod_producto = productos.item,clientes_ubicacion WHERE clientes_ub_alcance.cod_cl_ubicacion='$codigo' AND clientes_ub_alcance.cod_cl_ubicacion = clientes_ubicacion.codigo GROUP BY clientes_ub_alcance.cod_producto";
-
+$sql = "SELECT
+		CONCAT( productos.descripcion, ' (', productos.codigo, ') ' ) sub_linea,
+		clientes_ub_alcance.cantidad,
+		IFNULL(
+			(
+			SELECT
+				CONCAT( MAX( ajuste_alcance.fecha ), ' (', ajuste_alcance_reng.cantidad, ')' ) 
+			FROM
+				ajuste_alcance,
+				ajuste_alcance_reng 
+			WHERE
+				ajuste_alcance.codigo = ajuste_alcance_reng.cod_ajuste 
+				AND ajuste_alcance_reng.cod_producto = clientes_ub_alcance.cod_producto 
+				AND ajuste_alcance.cod_ubicacion = clientes_ub_alcance.cod_cl_ubicacion 
+			),
+			'SIN DOTACION' 
+		) ult_dotacion,
+		clientes_ubicacion.cod_cliente,
+		clientes_ubicacion.codigo 
+	FROM
+		clientes_ub_alcance
+		INNER JOIN productos ON clientes_ub_alcance.cod_producto = productos.item,
+		clientes_ubicacion 
+	WHERE
+		clientes_ub_alcance.cod_cl_ubicacion = '$codigo' 
+		AND clientes_ub_alcance.cod_cl_ubicacion = clientes_ubicacion.codigo 
+	GROUP BY
+		clientes_ub_alcance.cod_producto";
+		
 $query = $bd->consultar($sql);
 echo '<fieldset class="fieldset" id="datos_dotacion">';
 echo '<legend>Configuracion Alcance: </legend>';
