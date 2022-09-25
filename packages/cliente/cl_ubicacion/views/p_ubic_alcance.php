@@ -1,5 +1,5 @@
 <?php
-$sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea, prod_sub_lineas.descripcion producto, clientes_ub_alcance.cantidad,
+$sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea cod_producto, prod_sub_lineas.descripcion producto, clientes_ub_alcance.cantidad,
 				 clientes_ub_alcance.dias,  clientes_ub_alcance.vencimiento
                    FROM clientes_ub_alcance, prod_sub_lineas
                   WHERE clientes_ub_alcance.cod_sub_linea = prod_sub_lineas.codigo
@@ -75,14 +75,17 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea, prod_sub_lineas.descripcion 
 	}
 
 	function BorrarAlcance(auto, metodo) {
-		if (confirm("� Esta Seguro Eliminar Este Registro")) {
+		if (confirm("� Esta Seguro Eliminar Este Registro ")) {
 			var cod_ubic = document.getElementById("codigo_ubic").value;
-            var cod_producto = document.getElementById("stdID" + auto + "").value;
+            var cod_producto = document.getElementById("codigo_producto" + auto + "").value;
+            
 			var cantidad = document.getElementById("cantidad" + auto + "").value;
 			var dias = document.getElementById("dias" + auto + "").value;
 			var vencimiento = Status($('input:checkbox[id=vencimiento'+auto+']:checked').val());
 			var ususario = "";
-
+            if (confirm("� policia " +cod_producto)) {
+              alert("polciia") ;   
+            }
 			var valor = "scripts/sc_cl_ubic_alcance.php";
 			var proced = "p_cl_ubic_alcance";
 
@@ -103,12 +106,12 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea, prod_sub_lineas.descripcion 
 	}
 
 	function ActualizarDet(codigo) {
-		var valor = "ajax/Add_cl_ubic_alcance.php";
+        var valor = "ajax/Add_cl_ubic_alcance.php";
 		ajax = nuevoAjax();
 		ajax.open("POST", valor, true);
 		ajax.onreadystatechange = function() {
 			if (ajax.readyState == 4) {
-				toastr.success('Actualizado con exito.ojo');
+				toastr.success('Actualizado con exito'+codigo);
 				document.getElementById("Contenedor03").innerHTML = ajax.responseText;
 			}
 		}
@@ -116,7 +119,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea, prod_sub_lineas.descripcion 
 		ajax.send("codigo=" + codigo + "");
 	}
 </script>
-<div align="center" class="etiqueta_title"> ALCANCE Ojo </div>
+<div align="center" class="etiqueta_title"> ALCANCE</div>
 <hr />
 <div id="Cont_mensaje" class="mensaje"></div>
 <div>
@@ -172,7 +175,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea, prod_sub_lineas.descripcion 
 			echo '<tr class="' . $fondo . '">
 				  <td>     
                   <input type="text" id="codigo_producto'.$i.'" value="'.$datos['producto'].'" disabled  style="width:450px"/>
-                  <input type="hidden" name="trabajador" id="stdID'.$i.'" value="'.$datos['cod_producto'].'"/>
+                  <input type="hidden" name="producto" id="stdID'.$i.'" value="'.$datos['cod_producto'].'"/>
                 </td>
                 <td>
                  <input type="number" id="cantidad'.$i.'" style="width:100px"  value="'.$datos['cantidad'].'" min="1">
