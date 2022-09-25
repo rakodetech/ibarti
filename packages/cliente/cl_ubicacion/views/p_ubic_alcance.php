@@ -1,8 +1,8 @@
 <?php
-$sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion producto, clientes_ub_alcance.cantidad,
+$sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea, prod_sub_lineas.descripcion producto, clientes_ub_alcance.cantidad,
 				 clientes_ub_alcance.dias,  clientes_ub_alcance.vencimiento
-                   FROM clientes_ub_alcance, productos
-                  WHERE clientes_ub_alcance.cod_producto = productos.item
+                   FROM clientes_ub_alcance, prod_sub_lineas
+                  WHERE clientes_ub_alcance.cod_sub_linea = prod_sub_lineas.codigo
 				  AND clientes_ub_alcance.cod_cl_ubicacion = '$codigo'";
 ?>
 <script language="javascript">
@@ -12,6 +12,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 		var cantidad = document.getElementById("cantidad").value;
         var errorMessage = 'Debe Ingresar minimo 1 producto ';
         var campo01 = 0;
+       
         if (!cod_producto) {
             campo01++;
 		}
@@ -44,7 +45,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 	function ValidarAlcance(auto, metodo) {
 		var cod_ubic = document.getElementById("codigo_ubic").value;
 		var usuario = document.getElementById("usuario").value;
-		var cod_producto = document.getElementById("stdID" + auto + "").value;
+        var cod_producto = document.getElementById("stdID" + auto + "").value;
 		var cantidad = document.getElementById("cantidad" + auto + "").value;
 		var dias = document.getElementById("dias" + auto + "").value;
 		var vencimiento = Status($('input:checkbox[id=vencimiento'+auto+']:checked').val());
@@ -64,7 +65,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 						$("#cantidad").val(0)
 					}
 				}else{
-					toastr.success('Actualizado con exito.');
+					toastr.success('Actualizado con exito');
 				}
 				//window.location.href=""+href+"";
 			}
@@ -107,7 +108,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 		ajax.open("POST", valor, true);
 		ajax.onreadystatechange = function() {
 			if (ajax.readyState == 4) {
-				toastr.success('Actualizado con exito.');
+				toastr.success('Actualizado con exito.ojo');
 				document.getElementById("Contenedor03").innerHTML = ajax.responseText;
 			}
 		}
@@ -115,7 +116,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_producto, productos.descripcion product
 		ajax.send("codigo=" + codigo + "");
 	}
 </script>
-<div align="center" class="etiqueta_title"> ALCANCE </div>
+<div align="center" class="etiqueta_title"> ALCANCE Ojo </div>
 <hr />
 <div id="Cont_mensaje" class="mensaje"></div>
 <div>
@@ -264,7 +265,7 @@ const autoCompletejs = new autoComplete({
     document.querySelector("#codigo_producto").value = "";
     // Change placeholder with the selected value
     document.querySelector("#codigo_producto").setAttribute("placeholder", selection);
-	$("#stdID").val(feedback.selection.value.item);
+	$("#stdID").val(feedback.selection.value.codigo);
   },
 }); 
 
