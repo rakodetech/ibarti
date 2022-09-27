@@ -21,14 +21,18 @@ $sql = "SELECT
 		IFNULL(
 			(
 			SELECT
-				CONCAT( MAX( ajuste_alcance.fecha ), ' (', ajuste_alcance_reng.cantidad, ')' ) 
+				CONCAT(ajuste_alcance.fecha, ' (', ajuste_alcance_reng.cantidad, ')' ) 
 			FROM
 				ajuste_alcance,
-				ajuste_alcance_reng 
+				ajuste_alcance_reng,
+				productos
 			WHERE
 				ajuste_alcance.codigo = ajuste_alcance_reng.cod_ajuste 
-				AND ajuste_alcance_reng.cod_producto = clientes_ub_alcance.cod_producto 
+				AND ajuste_alcance_reng.cod_producto = productos.item
+				AND clientes_ub_alcance.cod_sub_linea = productos.cod_sub_linea
 				AND ajuste_alcance.cod_ubicacion = clientes_ub_alcance.cod_cl_ubicacion 
+				ORDER BY ajuste_alcance.codigo DESC
+				LIMIT 1
 			),
 			'SIN DOTACION' 
 		) ult_dotacion,
@@ -36,13 +40,13 @@ $sql = "SELECT
 		clientes_ubicacion.codigo 
 	FROM
 		clientes_ub_alcance
-		INNER JOIN productos ON clientes_ub_alcance.cod_producto = productos.item,
+		INNER JOIN productos ON clientes_ub_alcance.cod_sub_linea = productos.cod_sub_linea,
 		clientes_ubicacion 
 	WHERE
 		clientes_ub_alcance.cod_cl_ubicacion = '$codigo' 
 		AND clientes_ub_alcance.cod_cl_ubicacion = clientes_ubicacion.codigo 
 	GROUP BY
-		clientes_ub_alcance.cod_producto";
+		clientes_ub_alcance.cod_sub_linea";
 		
 $query = $bd->consultar($sql);
 echo '<fieldset class="fieldset" id="datos_dotacion">';
@@ -50,7 +54,7 @@ echo '<legend>Configuracion Alcance: </legend>';
 echo '<table width="100%" align="center" class="tabla_sistema">
 								<thead>
 									<tr>
-										<th>SubLinea</th>
+										<th>Sub Linea</th>
 										<th>Cantidad</th>
 										<th>Ultima Dotación</th>
 									</tr>

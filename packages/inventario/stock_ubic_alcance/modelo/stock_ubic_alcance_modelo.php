@@ -84,7 +84,9 @@ class stock_ubic_alcance
   {
     $this->datos   = array();
     $sql = " SELECT FORMAT(cantidad,0) alcance
-    FROM clientes_ub_alcance WHERE cod_producto = '$producto' AND cod_cl_ubicacion = '$ubicacion'";
+    FROM clientes_ub_alcance, productos 
+    WHERE productos.item = '$producto' AND clientes_ub_alcance.cod_cl_ubicacion = '$ubicacion'
+    AND productos.cod_sub_linea = clientes_ub_alcance.cod_sub_linea";
     $query = $this->bd->consultar($sql);
     return  $this->datos = $this->bd->obtener_fila($query);
   }
