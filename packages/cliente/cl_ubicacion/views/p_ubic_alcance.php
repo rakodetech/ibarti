@@ -135,7 +135,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea cod_producto, prod_sub_lineas
 		</tr>
 		<tr class="fondo02">
         <td>       
-        <input type="text" id="codigo_producto" tabindex="1" value="" placeholder="Ingrese Dato del <?php echo $leng['producto'];?>" required style="width:450px"/>
+        <input type="text" id="codigo_producto" tabindex="1" value="" placeholder="Ingrese dato de la sublinea" required style="width:450px"/>
 	</td>
       <td>
        <input type="number" id="cantidad" style="width:100px" value="1" min="0"  required placeholder="">
