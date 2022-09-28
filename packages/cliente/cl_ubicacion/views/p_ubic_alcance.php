@@ -126,7 +126,7 @@ $sql01 =	"SELECT clientes_ub_alcance.cod_sub_linea cod_producto, prod_sub_lineas
      <table width="80%" border="0" align="center">
 		<tr class="fondo01">
 			<!-- <th width="20%" style="display:none" class="etiqueta">Codigo Ubicacion</th> -->
-			<th width="60%" class="etiqueta"><?php echo $leng['producto'];?>
+			<th width="60%" class="etiqueta">Sub Linea
             <input type="hidden" name="producto" id="stdID" value=""/></th>
             <th width="14%" class="etiqueta">Cantidad</th>
 			<th width="14%" class="etiqueta">Dias para Reponer</th>
