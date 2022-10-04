@@ -90,19 +90,16 @@ ORDER BY 2 ASC";
 
 		$query01  = $bd->consultar($sql);
 		 echo "<table border=1>";
- 	 echo "<tr><th> Código </th><th> Fecha </th><th> Fecha Ingreso</th><th> ".$leng['cliente']." </th><th> ".$leng['ubicacion']." </th><th> ".$leng['rol']." </th>
-	           <th> ".$leng['ficha']." </th><th> ".$leng['ci']." </th><th> ".$leng['trabajador']." </th><th> Descripción </th>
-			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Serial </th><th> Cantidad </th>";
+ 	 echo "<tr><th> Código </th><th> Fecha </th><th>".$leng['ubicacion']."
+			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Cantidad </th>";
 			   echo ($restri=="F")?'<th class="etiqueta">Importe</th>':'';
 		echo "<th> Anulado</th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
-		 echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[13]."</td><td>".$row01[14]."</td><td>".$row01[3]."</td>
-		           <td>".$row01[4]."</td><td>".$row01[5]."</td><td>".$row01[6]."</td><td>".$row01[7]."</td>
-				   <td>".$row01[8]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td><td>".$row01[11]."</td>
-				   <td>".$row01[12]."</td>";
-				   echo ($restri=="F")?'<td class="texto">'.$row01[15].'</td>':''; 
-				 echo "  <td>".$row01[16]."</td></tr>";
+		 echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[4]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td>
+		           <td>".$row01[9]."</td><td>".$row01[5]."";
+				   echo ($restri=="F")?'<td class="texto">'.$row01[6].'</td>':''; 
+				   
 		}
 		 echo "</table>";
 	}
