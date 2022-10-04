@@ -17,21 +17,14 @@ $restri	    = $_SESSION['r_cliente'];
 $fecha_D    = conversion($_POST['fecha_desde']);
 $fecha_H    = conversion($_POST['fecha_hasta']);
 
-	$where = "  WHERE DATE_FORMAT(prod_dotacion.fec_dotacion, '%Y-%m-%d') BETWEEN  \"$fecha_D\" AND \"$fecha_H\"
-   	              AND prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
-   	              AND prod_dotacion.cod_cliente = clientes.codigo
-   	              AND prod_dotacion.cod_ubicacion = clientes_ubicacion.codigo
-			      AND prod_dotacion_det.cod_producto = productos.item
+	$where = "  WHERE DATE_FORMAT(ajuste_alcance.fecha, '%Y-%m-%d') BETWEEN  \"$fecha_D\" AND \"$fecha_H\"
+   	              AND ajuste_alcance.codigo = ajuste_alcance_reng.cod_ajuste
+   	              AND ajuste_alcance.cod_ubicacion = clientes_ubicacion.codigo
+                  AND ajuste_alcance_reng.cod_producto = productos.item
 			      AND productos.cod_linea = prod_lineas.codigo
-			      AND productos.cod_talla = tallas.codigo
-			      AND productos.cod_sub_linea = prod_sub_lineas.codigo
-				  AND v_ficha.cod_ficha = prod_dotacion.cod_ficha 
-			      AND ajuste.referencia = prod_dotacion.codigo
-				AND ajuste_reng.cod_ajuste = ajuste.codigo
-				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
-				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto
-				AND (ajuste.cod_tipo = 'DOT' OR ajuste.cod_tipo = 'ANU_DOT') ";
-
+                  AND productos.cod_sub_linea = prod_sub_lineas.codigo
+                  AND clientes_ubicacion.cod_cliente=clientes.codigo";
+                  
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
 	}
@@ -64,19 +57,18 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
 	}
 
- $sql = " SELECT DISTINCT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
-                 v_ficha.rol, v_ficha.cod_ficha,
-                 v_ficha.cedula, v_ficha.nombres AS trabajador,
-                 prod_dotacion.descripcion, prod_lineas.descripcion AS linea,
-                 prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',tallas.descripcion,') ') AS producto,
-                 prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto,
-                 Valores(prod_dotacion.anulado) anulado
-            FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
-                 prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng,tallas
-          $where
-        GROUP BY prod_dotacion.codigo,ajuste.codigo,prod_dotacion_det.cod_producto
-HAVING MAX(ajuste.codigo)
-ORDER BY 2 ASC ";
+ $sql = "SELECT DISTINCT ajuste_alcance.codigo, ajuste_alcance.fecha,
+                 ajuste_alcance_reng.cod_producto as descripcion,
+                 clientes.nombre cliente,
+                 clientes_ubicacion.descripcion ubicacion,
+                 ajuste_alcance_reng.aplicar as neto,
+                 ajuste_alcance_reng.cod_anulado anulado,
+                 prod_lineas.descripcion AS linea,
+                 prod_sub_lineas.descripcion AS sub_linea, productos.descripcion AS producto,ajuste_alcance_reng.cantidad
+            FROM ajuste_alcance , ajuste_alcance_reng,clientes,clientes_ubicacion,productos , prod_lineas ,prod_sub_lineas 
+        $where GROUP BY ajuste_alcance.codigo,ajuste_alcance_reng.cod_producto
+HAVING MAX(ajuste_alcance.codigo)
+ORDER BY 2 ASC";
 
 ?>
 
@@ -84,11 +76,9 @@ ORDER BY 2 ASC ";
 		<tr class="fondo00">
   			<th width="9%" class="etiqueta">Codigo</th>
             <th width="8%" class="etiqueta">Fecha</th>
-            <th width="10%" class="etiqueta"><?php echo $leng['cliente']?></th>
             <th width="10%" class="etiqueta"><?php echo $leng['ubicacion']?></th>
-            <th width="10%" class="etiqueta"><?php echo $leng['ficha']?></th>
-            <th width="20%" class="etiqueta"><?php echo $leng['rol']?></th>
-            <th width="24%" class="etiqueta">Sub Linea</th>
+             <th width="10%" class="etiqueta">Linea</th>
+            <th width="10%" class="etiqueta">Sub Linea</th>
             <th width="24%" class="etiqueta">Producto </th>
             <th width="5%" class="etiqueta">Cantidad</th>
             <?php echo ($restri=="F")?'<th width="5%" class="etiqueta">Importe</th>':'';?>
@@ -108,14 +98,12 @@ ORDER BY 2 ASC ";
 		}
         echo '<tr class="'.$fondo.'">
 			      <td class="texto">'.$datos["codigo"].'</td>
-			      <td class="texto">'.$datos["fec_dotacion"].'</td>
-				  <td class="texto">'.$datos["cliente"].'</td>
-				  <td class="texto">'.$datos["ubicacion"].'</td>
-				  <td class="texto">'.$datos["cod_ficha"].'</td>
-				  <td class="texto">'.longitud($datos["rol"]).'</td>
-				  <td class="texto">'.longitud($datos["sub_linea"]).'</td>
-				  <td class="texto">'.$datos["producto"].'</td>
-				  <td class="texto">'.$datos["cantidad"].'</td>
+			      <td class="texto">'.$datos["fecha"].'</td>
+                  <td class="texto">'.$datos["ubicacion"].'</td>
+				 <td class="texto">'.$datos["linea"].'</td>
+                  <td class="texto">'.$datos["sub_linea"].'</td>
+                  <td class="texto">'.$datos["producto"].'</td>
+                  <td class="texto">'.$datos["cantidad"].'</td>
 				  ';
 				  echo ($restri=="F")?'<td class="texto">'.$datos["neto"].'</td>':'';
            echo '<td class="texto">'.$datos["anulado"].'</td></tr>';
