@@ -81,8 +81,7 @@ ORDER BY 2 ASC";
             <th width="10%" class="etiqueta">Sub Linea</th>
             <th width="24%" class="etiqueta">Producto </th>
             <th width="5%" class="etiqueta">Cantidad</th>
-            <?php echo ($restri=="F")?'<th width="5%" class="etiqueta">Importe</th>':'';?>
-             <th width="5%" class="etiqueta">Anulado</th>
+            <?php echo ($restri=="F")?'<th width="5%" class="etiqueta">Tipo</th>':'';?>
 	</tr>
     <?php
 	$valor = 0;
@@ -106,6 +105,5 @@ ORDER BY 2 ASC";
                   <td class="texto">'.$datos["cantidad"].'</td>
 				  ';
 				  echo ($restri=="F")?'<td class="texto">'.$datos["neto"].'</td>':'';
-           echo '<td class="texto">'.$datos["anulado"].'</td></tr>';
         };?>
     </table>
