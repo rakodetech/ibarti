@@ -73,7 +73,7 @@ if(isset($reporte)){
                  prod_lineas.descripcion AS linea,
                 
                  ajuste_alcance_reng.aplicar as neto,
-                 ajuste_alcance_reng.cod_anulado anulado,
+                 ajuste_alcance.anulado,
                  
                  prod_sub_lineas.descripcion AS sub_linea, productos.descripcion AS producto,ajuste_alcance_reng.cantidad
             FROM ajuste_alcance , ajuste_alcance_reng,clientes,clientes_ubicacion,productos , prod_lineas ,prod_sub_lineas 
