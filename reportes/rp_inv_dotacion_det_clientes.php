@@ -92,7 +92,7 @@ ORDER BY 2 ASC";
 		 echo "<table border=1>";
  	 echo "<tr><th> Código </th><th> Fecha </th><th>".$leng['ubicacion']."
 			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Cantidad </th>";
-			   echo ($restri=="F")?'<th class="etiqueta">Importe</th>':'';
+			   echo ($restri=="F")?'<th class="etiqueta">Tipo</th>':'';
 		echo "<th> Anulado</th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
@@ -126,7 +126,7 @@ ORDER BY 2 ASC";
             <th width='15%'>Sub Linea</th>
             <th width='15%'>Producto</th>
             <th width='10%'  style='text-align:center;'>Cantidad</th>
-            <th width='10%'  style='text-align:center;'>Anulado</th>
+            <th width='10%'  style='text-align:center;'>Tipo</th>
             </tr>";
 
             $f=0;

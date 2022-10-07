@@ -151,14 +151,7 @@ $titulo  = "DOTACION CLIENTES";
 					<option value="F">NO</option>
 
 				</select></td>
-			<td>Filtro <?php echo $leng['trab'] ?>.:</td>
-			<td><select id="paciFiltro" onchange="EstadoFiltro(this.value)" style="width:120px">
-					<option value="TODOS"> TODOS</option>
-					<option value="codigo"> Codigo </option>
-					<option value="cedula"> C&eacute;dula </option>
-					<option value="nombre"> Nombre </option>
-				</select></td>
-			<td><?php echo $leng['trabajador'] ?>:</td>
+			
 			<td colspan="3"><input id="stdName" type="text" size="35" disabled="disabled" />
 				<input type="hidden" name="trabajador" id="stdID" value="" /></td>
 
