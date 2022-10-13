@@ -41,7 +41,7 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 	}
 
 	if($anulado != "TODOS"){
-		$where  .= " AND  prod_dotacion.anulado  = '$anulado' ";
+		$where  .= " AND  ajuste_alcance.anulado  = '$anulado' ";
 	}
 
 	if($trabajador != NULL){
