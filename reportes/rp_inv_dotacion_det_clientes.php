@@ -68,8 +68,8 @@ if(isset($reporte)){
 	}
 
  $sql = "SELECT DISTINCT ajuste_alcance.codigo, ajuste_alcance.fecha,
-                  clientes_ubicacion.descripcion ubicacion,
-                 ajuste_alcance_reng.cod_producto as descripcion,
+                  clientes.nombre empresa ,clientes_ubicacion.descripcion ubicacion,
+                 ajuste_alcance_reng.cod_producto,
                  prod_lineas.descripcion AS linea,
                 
                  ajuste_alcance_reng.aplicar as neto,
@@ -90,16 +90,16 @@ ORDER BY 2 ASC";
 
 		$query01  = $bd->consultar($sql);
 		 echo "<table border=1>";
- 	 echo "<tr><th> Código </th><th> Fecha </th><th>".$leng['ubicacion']."
-			   <th> Linea </th><th> Sub Linea </th><th> Producto </th><th> Cantidad </th>";
+ 	 echo "<tr><th> Código </th><th> Fecha </th><th>Cliente</th><th>".$leng['ubicacion']."
+			   <th> Linea </th><th> Sub Linea </th><th> Cod. Producto </th><th> Producto </th><th> Cantidad </th>";
 			   echo ($restri=="F")?'<th class="etiqueta">Tipo</th>':'';
 		echo "<th> Anulado</th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)){
-		 echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[4]."</td><td>".$row01[7]."</td><td>".$row01[8]."</td>
-		           <td>".$row01[9]."</td><td>".$row01[5]."";
-				   echo ($restri=="F")?'<td class="texto">'.$row01[6].'</td>':''; 
-				   
+		 echo "<tr><td> ".$row01[0]." </td><td>".$row01[1]."</td><td>".$row01[2]."</td><td>".$row01[3]."</td><td>".$row01[5]."</td><td>".$row01[9]."</td>
+		 <td>".$row01[4]."</td><td>".$row01[9]."</td><td>".$row01[10]."</td <td>".$row01[6]."";
+				   echo ($restri=="F")?'<td class="texto">'.$row01[7].'</td>':''; 
+				    
 		}
 		 echo "</table>";
 	}
