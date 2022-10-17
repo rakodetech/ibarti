@@ -70,7 +70,16 @@ class stock_ubic_alcance
     $query = $this->bd->consultar($sql);
     return  $this->datos = $this->bd->obtener_fila($query);
   }
-
+  public function cliente_ubica($cod)
+  {
+    $this->datos   = array();
+    $sql = "SELECT clientes_ubicacion.descripcion ubicacion
+    FROM clientes_ubicacion 
+    WHERE clientes_ubicacion.cod_cliente = '$cod'
+    ORDER BY clientes_ubicacion.codigo DESC";
+    $query = $this->bd->consultar($sql);
+    return  $this->datos = $this->bd->obtener_fila($query);
+  }
   public function get_stock_actual($producto, $almacen)
   {
     $this->datos   = array();
