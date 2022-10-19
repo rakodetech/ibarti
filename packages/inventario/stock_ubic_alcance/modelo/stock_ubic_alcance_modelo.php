@@ -146,7 +146,7 @@ class stock_ubic_alcance
       $WHERE .= "  AND a.cod_ubicacion =" . $ubicacion . "";
     }
     if ($producto != '') {
-      $WHERE .= "  AND c.cod_producto = " . $producto . "";
+      $WHERE .= "  AND c.cod_producto = '" . $producto . "'";
     }
 
     $sql = "SELECT
