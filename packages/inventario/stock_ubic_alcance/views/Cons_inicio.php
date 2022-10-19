@@ -40,17 +40,10 @@ $listar  =  $ajuste->get();
             } ?>
           </select>
         </td>
-        <td width="12%" >Ubicación:
-        
-<<<<<<< HEAD
-          <td id="contenido_ubic" onchange="Add_Cl_Alcance(cliente.value, 'datos_dotacion', 'F', '150')">
-          <select name="ubicacion" id="ubicacion" style="width:150px;" >
-             <option value="<?php echo $ped['cod_ubicacion']; ?>"><?php echo $ped['ubicacion']; ?></option>
-=======
+        <td width="12%" >Ubicación:</td>
           <td id="contenido_ubic">
           <select name="ubicacion" id="ubicacion" style="width:150px;" >
             <option value="<?php echo $ped['cod_ubicacion']; ?>"><?php echo $ped['ubicacion']; ?></option>
->>>>>>> b1b5333d3a229159c7c76dc866a6d3532e152004
           </select>
          </td>
                 
