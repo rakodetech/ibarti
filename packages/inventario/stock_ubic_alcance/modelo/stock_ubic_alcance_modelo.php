@@ -128,7 +128,7 @@ class stock_ubic_alcance
     return $this->datos;
   }
 
-  public function buscar($fecha_desde, $fecha_hasta, $codigo, $ubicacion, $producto)
+  public function buscar($fecha_desde, $fecha_hasta, $codigo, $ubicacion, $producto,$cliente)
   {
     $WHERE = " WHERE a.cod_ubicacion = b.codigo
       AND a.codigo = c.cod_ajuste
@@ -139,6 +139,9 @@ class stock_ubic_alcance
     if ($codigo != '') {
       $WHERE .= " AND a.codigo = " . $codigo . "";
     }
+    if ($cliente != '' && $cliente != 'TODOS') {
+      $WHERE .= "  AND b.cod_cliente =" . $cliente . "";
+    }  
     if ($ubicacion != '' && $ubicacion != 'TODOS') {
       $WHERE .= "  AND a.cod_ubicacion =" . $ubicacion . "";
     }

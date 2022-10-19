@@ -46,14 +46,16 @@ function buscarMovimiento() {  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO//
     var ubicacion = $("#ubicacion").val();
     var codigo = $("#codigo").val();
     var producto = $("#stdID").val();
+    var cliente = $("#cliente").val();
 
+     
     if ((fechaValida(fecha_desde) != true || fechaValida(fecha_hasta) != true) && (fecha_desde != "" || fecha_hasta != "")) {
         var errorMessage = ' Campos De Fecha Incorrectas ';
         var error = error + 1;
     }
     //console.log(fecha_desde,fecha_hasta);
     if (error == 0) {
-        var parametros = { fecha_desde, fecha_hasta, ubicacion, codigo, producto };
+        var parametros = { fecha_desde, fecha_hasta, ubicacion, codigo, producto,cliente};
         $.ajax({
             data: parametros,
             url: 'packages/inventario/stock_ubic_alcance/views/Buscar_movimiento.php',
