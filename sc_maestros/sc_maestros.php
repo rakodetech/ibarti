@@ -41,9 +41,23 @@ $activo = 'F';
 if (isset($_POST['activo'])) {
 	$activo      = statusbd($_POST['activo']);
 }
+$kanban = 'F';
+if (isset($_POST['kanban'])) {
+	$kanban      = statusbd($_POST['kanban']);
+}
 $planificable = null;
 if (isset($_POST['planificable'])) {
 	$planificable = statusbd($_POST['planificable']);
+}
+
+$color = '';
+if (isset($_POST['color'])) {
+	$color      = $_POST['color'];
+}
+
+$inicial = 'F';
+if (isset($_POST['inicial'])) {
+	$inicial = statusbd($_POST['inicial']);
 }
 
 $href     = $_POST['href'];
@@ -89,6 +103,18 @@ if (isset($_POST['metodo'])) {
 					VALUES ('$codigo', '$descripcion', '$motivo',
 							'$campo01', '$campo02', '$campo03', '$campo04', 
 							'$usuario', '$date', '$usuario','$date' , '$activo')";
+				} else if ($tabla == 'nov_tipo') {
+					$sql = "INSERT INTO $tabla (codigo, descripcion, kanban, campo01, campo02, campo03, campo04,
+					cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
+					VALUES ('$codigo', '$descripcion', '$kanban',
+							'$campo01', '$campo02', '$campo03', '$campo04', 
+							'$usuario', '$date', '$usuario','$date' , '$activo')";
+				} else if ($tabla == 'nov_status_kanban') {
+					$sql = "INSERT INTO $tabla (codigo, descripcion, color, campo01, campo02, campo03, campo04,
+					cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status, inicial) 
+					VALUES ('$codigo', '$descripcion', '$color',
+							'$campo01', '$campo02', '$campo03', '$campo04', 
+							'$usuario', '$date', '$usuario','$date' , '$activo', '$inicial')";
 				} else {
 					$sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
                                             cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
@@ -109,6 +135,7 @@ if (isset($_POST['metodo'])) {
 					$query = $bd->consultar($sql_concepto);
 				}
 			}
+			echo $sql;
 			break;
 		case 'modificar':
 			$sql = "UPDATE $tabla SET   
@@ -126,8 +153,21 @@ if (isset($_POST['metodo'])) {
 			if ($tabla == 'ficha_egreso_motivo') {
 				$sql .= " ,motivo = '$motivo' ";
 			}
+			if ($tabla == 'nov_tipo') {
+				$sql .= " , kanban = '$kanban' ";
+			}
+			if ($tabla == 'nov_status_kanban') {
+				$sql .= " , color = '$color', inicial = '$inicial' ";
+			}
+
 			$sql .= " WHERE codigo = '$codigo'";
 			$query = $bd->consultar($sql);
+
+			if ($tabla == 'nov_status_kanban' && $inicial = 'T') {
+				$sql = " UPDATE nov_status_kanban SET inicial = 'F' WHERE codigo != '$codigo'";
+				$query = $bd->consultar($sql);
+			}
+
 			if ($tabla == 'asistencia_clasif') {
 				$sql = "DELETE FROM asistencia_clasif_concepto WHERE cod_asistencia_clasif = '$codigo'";
 				$query = $bd->consultar($sql);

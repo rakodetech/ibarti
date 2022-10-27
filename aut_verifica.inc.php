@@ -171,7 +171,7 @@ $tb_perfil  = "men_perfil_menu";
 	 $sql     = "$SELECT $proced('conexion', '$cod', '', '',
 							'', '','', '',
 							'', '','', '',
-							'$ip', '$captcha', '', '')";
+							'$ip', '$captcha', '', '', '')";
 		 $query = $bd->consultar($sql);
 
 

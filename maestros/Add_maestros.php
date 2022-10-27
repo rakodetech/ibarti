@@ -27,6 +27,14 @@ if ($metodo == 'modificar') {
       $sql = " SELECT $tabla.codigo, $tabla.motivo, $tabla.descripcion,
 	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	$tabla.status
              FROM $tabla WHERE codigo = '$codigo' ";
+    } else if ($tabla == 'nov_tipo') {
+      $sql = " SELECT $tabla.codigo, $tabla.kanban, $tabla.descripcion,
+                  $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	$tabla.status
+              FROM $tabla WHERE codigo = '$codigo' ";
+    } else if ($tabla == 'nov_status_kanban') {
+      $sql = " SELECT $tabla.codigo, $tabla.color, $tabla.descripcion,
+          $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	$tabla.status, $tabla.inicial
+          FROM $tabla WHERE codigo = '$codigo' ";
     } else {
       $sql = " SELECT $tabla.codigo, $tabla.descripcion,
 	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
@@ -45,6 +53,10 @@ if ($metodo == 'modificar') {
   $campo03     = $result['campo03'];
   $campo04     = $result['campo04'];
   $status      = $result['status'];
+  $kanban = 'F';
+  if ($tabla == 'nov_tipo') {
+    $kanban      = $result['kanban'];
+  }
   if ($tabla == 'cargos') {
     $planificable      = $result['planificable'];
   }
@@ -53,6 +65,10 @@ if ($metodo == 'modificar') {
   }
   if ($tabla == 'ficha_egreso_motivo') {
     $motivo      = $result['motivo'];
+  }
+  if ($tabla == 'nov_status_kanban') {
+    $color      = $result['color'];
+    $inicial = $result['inicial'];
   }
   $readonly = 'readonly="readonly"';
 } else {
@@ -65,6 +81,9 @@ if ($metodo == 'modificar') {
   $codigo_onblur = "Add_ajax_maestros(this.value, 'ajax/validar_maestros.php', 'Contenedor', '$tabla')";
   $descripcion = '';
   $orden = '';
+  $kanban = 'F';
+  $color = '';
+  $inicial = 'F';
   $campo01     = '';
   $campo02     = '';
   $campo03     = '';
@@ -80,10 +99,16 @@ if ($metodo == 'modificar') {
     <tr>
       <td class="etiqueta">C&oacute;digo:</td>
       <td id="input01"><input type="text" name="codigo" maxlength="11" style="width:120px" value="<?php echo $codigo; ?>" onblur="<?php echo $codigo_onblur; ?>" <?php echo $readonly; ?> />
-        Activo: <input name="activo" type="checkbox" <?php echo statusCheck("$status"); ?> value="T" />
+        Activo: <input name="activo" type="checkbox" <?php echo statusCheck("$status"); ?> value="T" /> 
         <?php
         if ($tabla == 'cargos') {
           echo 'Planificable: <input name="planificable" type="checkbox" ' . statusCheck("$planificable") . ' value="T"/>';
+        }
+        if ($tabla == 'nov_tipo') {
+          echo 'Kanban: <input name="kanban" type="checkbox" '. statusCheck("$kanban") .' value="T" />';
+        }
+        if ($tabla == 'nov_status_kanban') {
+          echo 'Inicial por defecto: <input name="inicial" type="checkbox" '. statusCheck("$inicial") .' value="T" />';
         }
         ?>
         <br />
@@ -128,6 +153,14 @@ if ($metodo == 'modificar') {
             <td>
             <input type="number" name="orden" style="width:50px" value="' . $orden . '" /><br />
             <span class="textfieldRequiredMsg">El Campo es Requerido...</span>
+            </td>    
+          </tr>';
+    }
+    if ($tabla == 'nov_status_kanban') {
+      echo '<tr>
+            <td class="etiqueta">Color:</td> 
+            <td>
+              <input name="color"  type="color" value="'.$color.'" >
             </td>    
           </tr>';
     }
