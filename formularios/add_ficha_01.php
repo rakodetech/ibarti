@@ -742,7 +742,7 @@ AND codigo <> '$cod_ciudad' ORDER BY descripcion ASC ";
 					$filename = "imagenes/fotos/$cedula.jpg";
 
 					if (file_exists($filename)) {
-						echo '<img id="foto" src="' . $filename . '" width="110px" height="130px" />';
+						echo '<img id="foto" src="' . $filename . '?nocache='.time().'" width="110px" height="130px" />';
 					} else {
 						echo '<img id="foto" src="imagenes/img_no_disp.png" width="110px" height="130px"/>';
 					} ?>
