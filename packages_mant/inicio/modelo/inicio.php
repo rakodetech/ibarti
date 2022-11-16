@@ -24,7 +24,7 @@ $proced      = "p_usuario";
 					           a.email, DATEDIFF(NOW(), a.fec_mod_pass) dias_caduca,
                		   a.r_cliente, a.r_rol, a.status, c.abrev, c.nombre cl_nombre,
 					           b.ficha_preingreso, b.administrador, b.cod_pais, b.ficha_activo cod_ficha_activo,
-                     b.oesvica AS cl_principal
+                     b.oesvica AS cl_principal, a.admin_kanban
 		            FROM men_usuarios a, control b, clientes c
                WHERE a.login = '$l'
                  AND a.pass = '$password'
@@ -44,6 +44,7 @@ $proced      = "p_usuario";
  	}elseif($datos['existe'] == 1){
     $result['error'] = False;
     $result['codigo'] = $datos['codigo'];
+    $result['admin_kanban'] = $datos['admin_kanban'];
     //session_name($usuarios_sesion);
      // incia sessiones
     session_start();
