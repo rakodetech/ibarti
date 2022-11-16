@@ -43,7 +43,7 @@ $proced      = "p_usuario";
     $result['mensaje'] = "Información Incorrecta";
  	}elseif($datos['existe'] == 1){
     $result['error'] = False;
-
+    $result['codigo'] = $datos['codigo'];
     //session_name($usuarios_sesion);
      // incia sessiones
     session_start();
