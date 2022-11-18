@@ -33,7 +33,7 @@ if ($metodo == 'modificar') {
               FROM $tabla WHERE codigo = '$codigo' ";
     } else if ($tabla == 'nov_status_kanban') {
       $sql = " SELECT $tabla.codigo, $tabla.color, $tabla.descripcion,
-          $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	$tabla.status, $tabla.inicial
+          $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	$tabla.status, $tabla.inicial, $tabla.anula_vencimiento
           FROM $tabla WHERE codigo = '$codigo' ";
     } else {
       $sql = " SELECT $tabla.codigo, $tabla.descripcion,
@@ -69,6 +69,7 @@ if ($metodo == 'modificar') {
   if ($tabla == 'nov_status_kanban') {
     $color      = $result['color'];
     $inicial = $result['inicial'];
+    $anula_vencimiento = $result['anula_vencimiento'];
   }
   $readonly = 'readonly="readonly"';
 } else {
@@ -84,6 +85,7 @@ if ($metodo == 'modificar') {
   $kanban = 'F';
   $color = '';
   $inicial = 'F';
+  $anula_vencimiento = 'F';
   $campo01     = '';
   $campo02     = '';
   $campo03     = '';
@@ -109,6 +111,7 @@ if ($metodo == 'modificar') {
         }
         if ($tabla == 'nov_status_kanban') {
           echo 'Inicial por defecto: <input name="inicial" type="checkbox" '. statusCheck("$inicial") .' value="T" />';
+          echo 'Anula vencimiento: <input name="anula_vencimiento" type="checkbox" '. statusCheck("$anula_vencimiento") .' value="T" />';
         }
         ?>
         <br />

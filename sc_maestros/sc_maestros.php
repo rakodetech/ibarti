@@ -60,6 +60,11 @@ if (isset($_POST['inicial'])) {
 	$inicial = statusbd($_POST['inicial']);
 }
 
+$anula_vencimiento = 'F';
+if (isset($_POST['anula_vencimiento'])) {
+	$anula_vencimiento = statusbd($_POST['anula_vencimiento']);
+}
+
 $href     = $_POST['href'];
 $usuario  = $_POST['usuario'];
 
@@ -111,10 +116,10 @@ if (isset($_POST['metodo'])) {
 							'$usuario', '$date', '$usuario','$date' , '$activo')";
 				} else if ($tabla == 'nov_status_kanban') {
 					$sql = "INSERT INTO $tabla (codigo, descripcion, color, campo01, campo02, campo03, campo04,
-					cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status, inicial) 
+					cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status, inicial, anula_vencimiento) 
 					VALUES ('$codigo', '$descripcion', '$color',
 							'$campo01', '$campo02', '$campo03', '$campo04', 
-							'$usuario', '$date', '$usuario','$date' , '$activo', '$inicial')";
+							'$usuario', '$date', '$usuario','$date' , '$activo', '$inicial', '$anula_vencimiento')";
 				} else {
 					$sql = "INSERT INTO $tabla (codigo, descripcion, campo01, campo02, campo03, campo04,
                                             cod_us_ing, fec_us_ing, cod_us_mod, fec_us_mod, status) 
@@ -157,7 +162,7 @@ if (isset($_POST['metodo'])) {
 				$sql .= " , kanban = '$kanban' ";
 			}
 			if ($tabla == 'nov_status_kanban') {
-				$sql .= " , color = '$color', inicial = '$inicial' ";
+				$sql .= " , color = '$color', inicial = '$inicial', anula_vencimiento = '$anula_vencimiento' ";
 			}
 
 			$sql .= " WHERE codigo = '$codigo'";
