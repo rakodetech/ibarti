@@ -13,7 +13,12 @@ $Nmenu      = $_POST['Nmenu'];
 $mod        = $_POST['mod'];
 $archivo    = $_POST['archivo']."&Nmenu=$Nmenu&mod=$mod";
 $vinculo    = "inicio.php?area=formularios/Add_$archivo";
-$ficha 		= $_POST['ficha'];
+$ficha 		= "";
+
+if(isset($_POST['ficha'])){
+	$ficha = $_POST['ficha'];
+}
+
 $novedad    = $_POST['novedad'];
 $clasif     = $_POST['clasif'];
 $cliente    = $_POST['cliente'];

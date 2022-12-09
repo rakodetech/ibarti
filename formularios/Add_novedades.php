@@ -181,6 +181,10 @@ if($metodo == "agregar2"){
   }
 
   if($kanban == true){
+    $menuNov   = $_GET['menuNov'];
+    $modNov = $_GET['modNov'];
+    $checkList  = $_GET['checkList'];
+    $href = "../inicio.php?area=formularios/Add_novedades_check_list_resp&Nmenu=".$menuNov."&mod=".$modNov."&codigo=".$checkList."&metodo=modificar";
     $sql_nov_novedad_ing = "SELECT novedades.codigo, novedades.descripcion
                        FROM novedades , nov_perfiles, nov_clasif, nov_tipo
                               WHERE novedades.`status` = 'T'
@@ -211,7 +215,7 @@ if($metodo == "agregar2"){
 
 }
 
-  if($metodo == "agregar3"){  // telefono movil
+if($metodo == "agregar3"){   
    $cod_ficha    = $_GET['codigo'];
    $cod_novedad  = $_GET['novedad'];
    $observacion  = $_GET['observ'];
