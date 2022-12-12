@@ -162,7 +162,7 @@ $dst_h  = "280";
 <form action="scripts/sc_ficha.php" method="post" name="add" id="add" enctype="multipart/form-data"> 
 <table width="100%" align="center">
     <tr><td width="100%"><div id="contenedorImagen">
-                    <img id="fotografia" class="fotografia" src="<?php echo $img_src.'?nocache='.time().?>"></div>
+                    <img id="fotografia" class="fotografia" src="<?php echo $img_src.'?nocache='.time();?>"></div>
                <div align="center"><span class="art-button-wrapper">
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span> 
