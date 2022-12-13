@@ -1,6 +1,6 @@
 <?php 	   
-	$foto     = "imagenes/fotos/$cedula.jpg"."?nocache=".time();
-	$cedu     = "imagenes/cedula/$cedula.jpg"."?nocache=".time();	
+	$foto     = "imagenes/fotos/$cedula.jpg";
+	$cedu     = "imagenes/cedula/$cedula.jpg";	
  
 	  if (file_exists($foto)) {
  		   $foto01 = '<img src="'.$foto.'" />';
