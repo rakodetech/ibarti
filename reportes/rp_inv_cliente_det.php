@@ -71,23 +71,14 @@ if (isset($reporte)) {
 	clientes_ubicacion.longitud longitud_ubicacion,
 	(
 	SELECT
-		asistencia_apertura.fec_diaria 
+		MAX( asistencia_apertura.fec_diaria )
 	FROM
 		asistencia,
 		asistencia_apertura 
 	WHERE
 		asistencia.cod_as_apertura = asistencia_apertura.codigo 
-		AND asistencia.cod_ubicacion = clientes_ubicacion.codigo 
-	ORDER BY
-		asistencia.cod_as_apertura DESC 
-		LIMIT 1 
-	) utl_fec_asistencia,
-	( 
-		SELECT planif_clientes_trab_det.fecha 
-		FROM planif_clientes_trab_det 
-		WHERE planif_clientes_trab_det.cod_ubicacion = clientes_ubicacion.codigo  
-		ORDER BY planif_clientes_trab_det.codigo DESC LIMIT 1 
-	) utl_fecha_planif
+		AND asistencia.cod_ubicacion = clientes_ub_puesto.cod_cl_ubicacion 
+	) utl_fec_asistencia
 	FROM clientes_ubicacion, clientes, clientes_tipos ,
 	regiones , estados , ciudades, clientes_ub_puesto
 	$where
@@ -143,8 +134,7 @@ if (isset($reporte)) {
 			<td>" . $row01[18] . "</td>
 			<td>" . floatval($row01[19]) . "</td>
 			<td>" . floatval($row01[20]) . "</td>
-			<td>" . $row01[21] . "</td>
-			<td>" . $row01[22] . "</td></tr>";
+			<td>" . $row01[21] . "</td></tr>";
 		}
 		echo "</table>";
 	}
