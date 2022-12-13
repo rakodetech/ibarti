@@ -68,7 +68,26 @@ if (isset($reporte)) {
 	clientes_ub_puesto.observ as cliente_puesto_observacion,
 	IF(clientes_ubicacion.latitud, 'SI', 'NO') geolocalizacion_ubicacion,
 	clientes_ubicacion.latitud latitud_ubicacion,
-	clientes_ubicacion.longitud longitud_ubicacion
+	clientes_ubicacion.longitud longitud_ubicacion,
+	(
+	SELECT
+		asistencia_apertura.fec_diaria 
+	FROM
+		asistencia,
+		asistencia_apertura 
+	WHERE
+		asistencia.cod_as_apertura = asistencia_apertura.codigo 
+		AND asistencia.cod_ubicacion = clientes_ubicacion.codigo 
+	ORDER BY
+		asistencia.cod_as_apertura DESC 
+		LIMIT 1 
+	) utl_fec_asistencia,
+	( 
+		SELECT planif_clientes_trab_det.fecha 
+		FROM planif_clientes_trab_det 
+		WHERE planif_clientes_trab_det.cod_ubicacion = clientes_ubicacion.codigo  
+		ORDER BY planif_clientes_trab_det.codigo DESC LIMIT 1 
+	) utl_fecha_planif
 	FROM clientes_ubicacion, clientes, clientes_tipos ,
 	regiones , estados , ciudades, clientes_ub_puesto
 	$where
@@ -98,7 +117,9 @@ if (isset($reporte)) {
 		<th> Dirección</th><th>Status </th>
 		<th> Geolicalización Ubicación </th>
 		<th> Latitud Ubicación </th>
-		<th> Longitud Ubicación </th></tr>";
+		<th> Longitud Ubicación </th>
+		<th> Última fecha de asistencia </th>
+		<th> Última fecha de planificaión </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)) {
 			echo "<tr><td > " . $row01[0] . " </td>
@@ -121,7 +142,9 @@ if (isset($reporte)) {
 			<td>" . statuscal($row01[14]) . "</td>
 			<td>" . $row01[18] . "</td>
 			<td>" . floatval($row01[19]) . "</td>
-			<td>" . floatval($row01[20]) . "</td></tr>";
+			<td>" . floatval($row01[20]) . "</td>
+			<td>" . $row01[21] . "</td>
+			<td>" . $row01[22] . "</td></tr>";
 		}
 		echo "</table>";
 	}
