@@ -1,8 +1,9 @@
 <?php 	   
-	$foto     = "imagenes/fotos/$cedula.jpg?nochache=".time();
-	$cedu     = "imagenes/cedula/$cedula.jpg?nochache=".time();
+	$foto     = "imagenes/fotos/$cedula.jpg";
+	$cedu     = "imagenes/cedula/$cedula.jpg";	
  
 	  if (file_exists($foto)) {
+		$foto     = "imagenes/fotos/$cedula.jpg?nochache=".time();
  		   $foto01 = '<img src="'.$foto.'" />';
 		   $foto_Mens = 'Cambiar Foto';
 		   
@@ -12,6 +13,8 @@
 		}
 		
 		if (file_exists($cedu)) {
+			
+			$cedu     = "imagenes/cedula/$cedula.jpg?nochache=".time();
 			$cedula_Mens = 'Cambiar Cedula';
  		    $cedula01 = '<img src="'.$cedu.'"/>';
 		} else {
