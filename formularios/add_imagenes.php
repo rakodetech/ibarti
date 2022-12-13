@@ -81,7 +81,7 @@ $dst_h  = "280";
 <div id="Contenedor01" class="mensaje"></div>
 <table width="100%">
     <tr><td width="100%"><div id="contenedorImagen">
-                    <img id="fotografia" class="fotografia" src="<?php echo $img_src?>"></div>
+                    <img id="fotografia" class="fotografia" src="<?php echo $img_src;?>"></div>
                 <span class="art-button-wrapper">
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span> 
