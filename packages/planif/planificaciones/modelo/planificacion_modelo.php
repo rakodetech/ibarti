@@ -186,7 +186,7 @@ class Planificacion
 		IFNULL(c.fecha_inicio, a.fecha_inicio) fecha_inicio, IFNULL(c.fecha_fin, a.fecha_fin) fecha_fin, IFNULL(d.cod_ficha,'NO') vetado
 		FROM planif_clientes a, ficha b LEFT JOIN planif_clientes_trab c ON  b.cod_ficha = c.cod_ficha AND c.cod_planif_cl = '$apertura' LEFT JOIN clientes_vetados d ON  (c.cod_ficha = d.cod_ficha AND c.cod_ubicacion = d.cod_ubicacion) OR (b.cod_ficha = d.cod_ficha AND b.cod_ubicacion = d.cod_ubicacion) ,control
 		WHERE a.codigo = '$apertura'
-		AND b.cod_ubicacion = '$ubic'
+		AND c.cod_ubicacion = '$ubic'
 		AND b.cod_ficha_status= control.ficha_activo
 		UNION ALL
 		SELECT b.codigo,  a.fecha_inicio ap_fecha_inicio,  a.fecha_fin ap_fecha_fin,
