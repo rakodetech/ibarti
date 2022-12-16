@@ -26,7 +26,7 @@ $cliente  =  $plan->get_cliente();
     </tr>
     <tr>
       <td width="15%" class="etiqueta"><span id="ubicacion_texto"><?php echo $leng['ubicacion'] ?>:</span> </td>
-      <td width="35%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onclick="verificar_cont($('#planf_contratacion').val())" style="width:200px">
+      <td width="35%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onchange="cargar_planif($('#planf_apertura').val())" style="width:200px">
             <option value="">Seleccione</option>
           </select></span></td>
       <td width="15%" class="etiqueta"><span id="apertura_texto">Apertura De Planificacion:</span></td>
