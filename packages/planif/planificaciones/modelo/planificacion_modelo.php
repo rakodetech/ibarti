@@ -444,11 +444,11 @@ class Planificacion
 		WHERE v_ficha.cod_ficha_status = control.ficha_activo 
 		AND clientes.codigo = clientes_ubicacion.cod_cliente 
 		AND clientes_ubicacion.codigo = v_ficha.cod_ubicacion
-		AND v_ficha.cod_cliente = $cliente AND v_ficha.cod_ubicacion = $ubic
+		AND v_ficha.cod_cliente = '$cliente' AND v_ficha.cod_ubicacion = $ubic
 		AND v_ficha.cod_ficha NOT IN (SELECT planif_clientes_trab_det.cod_ficha FROM planif_clientes_trab_det
-		WHERE planif_clientes_trab_det.cod_planif_cl = '$apertura' AND  planif_clientes_trab_det.cod_cliente = $cliente AND planif_clientes_trab_det.cod_ubicacion = $ubic)
+		WHERE planif_clientes_trab_det.cod_planif_cl = '$apertura' AND  planif_clientes_trab_det.cod_cliente = '$cliente' AND planif_clientes_trab_det.cod_ubicacion = $ubic)
 		AND v_ficha.cod_ficha NOT IN (SELECT clientes_vetados.cod_ficha FROM clientes_vetados
-		WHERE clientes_vetados.cod_cliente = $cliente AND clientes_vetados.cod_ubicacion = $ubic)";
+		WHERE clientes_vetados.cod_cliente = '$cliente' AND clientes_vetados.cod_ubicacion = $ubic)";
 
 		$query = $this->bd->consultar($sql);
 		while ($datos = $this->bd->obtener_fila($query, 0)) {
