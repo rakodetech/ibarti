@@ -106,12 +106,12 @@ function verificar_cl(cl) {
 	}
 }
 
-function verificar_cont() {
+function verificar_cont(cont) {
 	usuario = $("#usuario").val();
 	if (cont == '') {
 		Ocultar_ubicacion();
 		Ocultar_apertura();
-		contratacion = $("#planf_contratacion").val();;
+		contratacion = cont;
 	} else {
 		// Actualizar contrato
 		contratacion = cont;
