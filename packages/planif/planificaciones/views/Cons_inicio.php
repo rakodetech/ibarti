@@ -20,13 +20,13 @@ $cliente  =  $plan->get_cliente();
           } ?>
         </select></td>
       <td width="15%" class="etiqueta"><span id="contratacion_texto"><?php echo $leng['contratacion'] ?>:</span></td>
-      <td width="35%"><span id="contratacion_cont"><select id="planf_contratacion" required onchange="verificar_cont(this.value)" style="width:200px">
+      <td width="35%"><span id="contratacion_cont"><select id="planf_contratacion" required onchange="verificar_cont()" style="width:200px">
             <option value="">Seleccione</option>
           </select><img class="imgLink" src="imagenes\ico_agregar.ico" alt="Agregar Contratacion" title="Agregar Contratacion" onclick="B_contratacion()" width="15px" height="15px"></span></td>
     </tr>
     <tr>
       <td width="15%" class="etiqueta"><span id="ubicacion_texto"><?php echo $leng['ubicacion'] ?>:</span> </td>
-      <td width="35%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onclick="cargar_planif($('#planf_apertura').val())" style="width:200px">
+      <td width="35%"><span id="ubicacion_cont"><select id="planf_ubicacion" required onclick="verificar_cont()" style="width:200px">
             <option value="">Seleccione</option>
           </select></span></td>
       <td width="15%" class="etiqueta"><span id="apertura_texto">Apertura De Planificacion:</span></td>
