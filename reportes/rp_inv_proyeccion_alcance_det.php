@@ -113,8 +113,9 @@ INNER JOIN `productos` ON `productos`.`item` = `ajuste_alcance_reng`.`cod_produc
 AND productos.cod_sub_linea = clientes_ub_alcance.cod_sub_linea
 LEFT JOIN `tallas` ON `productos`.`cod_talla` = `tallas`.`codigo`
 INNER JOIN clientes_ubicacion ON clientes_ub_alcance.cod_cl_ubicacion = clientes_ubicacion.codigo 
+AND clientes_ubicacion.status = 'T'
 INNER JOIN estados ON clientes_ubicacion.cod_estado = estados.codigo
-INNER JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente 
+INNER JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente AND clientes.status = 'T'
 INNER JOIN regiones ON clientes.cod_region = regiones.codigo
 WHERE
 control.oesvica = control.oesvica 
@@ -152,8 +153,9 @@ FROM
 	INNER JOIN prod_sub_lineas ON clientes_ub_alcance.cod_sub_linea = prod_sub_lineas.codigo
 	INNER JOIN prod_lineas ON prod_lineas.codigo = prod_sub_lineas.cod_linea
 	INNER JOIN clientes_ubicacion ON clientes_ub_alcance.cod_cl_ubicacion = clientes_ubicacion.codigo 
+	AND clientes_ubicacion.status = 'T'
 	INNER JOIN estados ON clientes_ubicacion.cod_estado = estados.codigo
-	INNER JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente 
+	INNER JOIN clientes ON clientes.codigo = clientes_ubicacion.cod_cliente AND clientes.status = 'T'
 	INNER JOIN regiones ON clientes.cod_region = regiones.codigo
 WHERE
 	clientes_ub_alcance.cod_sub_linea NOT IN (
