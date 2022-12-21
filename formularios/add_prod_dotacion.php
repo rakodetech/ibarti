@@ -222,55 +222,55 @@ function validarCamp(metodo){
 		document.getElementById('incremento').value = numX -1;
 	}else{
 		var valido     = 1;
-//	alert(metodo);
-var mensaje   = " ";
-mensaje01 = " Debe Seleccionar La Linea \n";
-mensaje02 = " Debe Seleccionar La SubLinea \n";
-mensaje03 = " Debe Seleccionar Un Productos \n";
-mensaje04 = " Debe Ingresar la Cantidad \n ";
-mensaje04 = " Debe Seleccionar Un Almacen \n ";
+		//	alert(metodo);
+		var mensaje   = " ";
+		mensaje01 = " Debe Seleccionar La Linea \n";
+		mensaje02 = " Debe Seleccionar La SubLinea \n";
+		mensaje03 = " Debe Seleccionar Un Productos \n";
+		mensaje04 = " Debe Ingresar la Cantidad \n ";
+		mensaje04 = " Debe Seleccionar Un Almacen \n ";
 
-select01  = document.getElementById('linea_'+numX+'').value;
-select02  = document.getElementById('sub_linea_'+numX+'').value;
-select03  = document.getElementById('producto_'+numX+'').value;
-select04  = document.getElementById('almacen_'+numX+'').value;
-input01   = Number(document.getElementById('cantidad_'+numX+'').value);
-input01Max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
+		select01  = document.getElementById('linea_'+numX+'').value;
+		select02  = document.getElementById('sub_linea_'+numX+'').value;
+		select03  = document.getElementById('producto_'+numX+'').value;
+		select04  = document.getElementById('almacen_'+numX+'').value;
+		input01   = Number(document.getElementById('cantidad_'+numX+'').value);
+		input01Max   = Number(document.getElementById('cantidad_'+numX+'').getAttribute("max"));
 
-mensaje05 = input01+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+input01Max;
+		mensaje05 = input01+ " La Cantidad Supera el Stock Actual \n Stock Actual = "+input01Max;
 
-if(select01 == ""){
-	valido++;
-	mensaje += mensaje01;
-}
-if(select02 == ""){
-	valido++;
-	mensaje += mensaje02;
-}
-if(select03 == ""){
-	valido++;
-	mensaje += mensaje03;
-}
-if(select04 == ""){
-	valido++;
-	mensaje += mensaje05;
-}
-if(input01 == ""){
-	valido++;
-	mensaje += mensaje04;
-}
+		if(select01 == ""){
+			valido++;
+			mensaje += mensaje01;
+		}
+		if(select02 == ""){
+			valido++;
+			mensaje += mensaje02;
+		}
+		if(select03 == ""){
+			valido++;
+			mensaje += mensaje03;
+		}
+		if(select04 == ""){
+			valido++;
+			mensaje += mensaje05;
+		}
+		if(input01 == ""){
+			valido++;
+			mensaje += mensaje04;
+		}
 
-/* if(input01 > input01Max){
-	valido++;
-	mensaje += mensaje05;
-} */
-     /////  validar ///
-     if(valido ==  1){
-		validarAlcance(numX);
-     }else{
-     	toastr.error(mensaje);
-     }
- }
+		/* if(input01 > input01Max){
+			valido++;
+			mensaje += mensaje05;
+		} */
+			/////  validar ///
+			if(valido ==  1){
+				validarAlcance(numX);
+			}else{
+				toastr.error(mensaje);
+			}
+		}
 }
 
 
