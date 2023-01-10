@@ -25,9 +25,7 @@ if (isset($reporte)) {
 	AND clientes.cod_cl_tipo = clientes_tipos.codigo
 	AND clientes_ubicacion.cod_region = regiones.codigo
 	AND clientes_ubicacion.cod_estado = estados.codigo
-	AND clientes_ubicacion.cod_ciudad = ciudades.codigo
-	AND clientes_ub_puesto.cod_cl_ubicacion = clientes_ubicacion.codigo
-	AND clientes_ub_puesto.cod_cliente = clientes.codigo";
+	AND clientes_ubicacion.cod_ciudad = ciudades.codigo";
 
 
 	if ($cliente != "TODOS") {
@@ -69,8 +67,9 @@ if (isset($reporte)) {
 	IF(clientes_ubicacion.latitud, 'SI', 'NO') geolocalizacion_ubicacion,
 	clientes_ubicacion.latitud latitud_ubicacion,
 	clientes_ubicacion.longitud longitud_ubicacion
-	FROM clientes_ubicacion, clientes, clientes_tipos ,
-	regiones , estados , ciudades, clientes_ub_puesto
+	FROM clientes_ubicacion 
+	LEFT JOIN clientes_ub_puesto ON clientes_ub_puesto.cod_cl_ubicacion = clientes_ubicacion.codigo, 
+	clientes, clientes_tipos, regiones , estados , ciudades
 	$where
 	ORDER BY 1 ASC";
 
