@@ -120,8 +120,7 @@ if (isset($reporte)) {
 			<td>" . statuscal($row01[14]) . "</td>
 			<td>" . $row01[18] . "</td>
 			<td>" . floatval($row01[19]) . "</td>
-			<td>" . floatval($row01[20]) . "</td>
-			<td>" . $row01[21] . "</td></tr>";
+			<td>" . floatval($row01[20]) . "</td></tr>";
 		}
 		echo "</table>";
 	}
