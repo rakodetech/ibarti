@@ -97,8 +97,7 @@ if (isset($reporte)) {
 		<th> Dirección</th><th>Status </th>
 		<th> Geolicalización Ubicación </th>
 		<th> Latitud Ubicación </th>
-		<th> Longitud Ubicación </th>
-		<th> Última fecha de planificaión </th></tr>";
+		<th> Longitud Ubicación </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)) {
 			echo "<tr><td > " . $row01[0] . " </td>
