@@ -68,7 +68,7 @@ if (isset($reporte)) {
 	clientes_ub_puesto.observ as cliente_puesto_observacion,
 	IF(clientes_ubicacion.latitud, 'SI', 'NO') geolocalizacion_ubicacion,
 	clientes_ubicacion.latitud latitud_ubicacion,
-	clientes_ubicacion.longitud longitud_ubicacion,
+	clientes_ubicacion.longitud longitud_ubicacion
 	FROM clientes_ubicacion, clientes, clientes_tipos ,
 	regiones , estados , ciudades, clientes_ub_puesto
 	$where
