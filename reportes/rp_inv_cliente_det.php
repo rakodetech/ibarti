@@ -69,16 +69,6 @@ if (isset($reporte)) {
 	IF(clientes_ubicacion.latitud, 'SI', 'NO') geolocalizacion_ubicacion,
 	clientes_ubicacion.latitud latitud_ubicacion,
 	clientes_ubicacion.longitud longitud_ubicacion,
-	(
-	SELECT
-		MAX( asistencia_apertura.fec_diaria )
-	FROM
-		asistencia,
-		asistencia_apertura 
-	WHERE
-		asistencia.cod_as_apertura = asistencia_apertura.codigo 
-		AND asistencia.cod_ubicacion = clientes_ub_puesto.cod_cl_ubicacion 
-	) utl_fec_asistencia
 	FROM clientes_ubicacion, clientes, clientes_tipos ,
 	regiones , estados , ciudades, clientes_ub_puesto
 	$where
@@ -109,7 +99,6 @@ if (isset($reporte)) {
 		<th> Geolicalización Ubicación </th>
 		<th> Latitud Ubicación </th>
 		<th> Longitud Ubicación </th>
-		<th> Última fecha de asistencia </th>
 		<th> Última fecha de planificaión </th></tr>";
 
 		while ($row01 = $bd->obtener_num($query01)) {
@@ -133,7 +122,6 @@ if (isset($reporte)) {
 			<td>" . statuscal($row01[14]) . "</td>
 			<td>" . $row01[18] . "</td>
 			<td>" . floatval($row01[19]) . "</td>
-			<td>" . floatval($row01[20]) . "</td>
 			<td>" . $row01[21] . "</td></tr>";
 		}
 		echo "</table>";
