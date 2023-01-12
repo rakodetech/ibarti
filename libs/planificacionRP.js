@@ -1279,15 +1279,17 @@ function rp_planif_contratacion_vs_trab_cubrir(data, id_contenedor, cliente, ubi
 		d3.select('#t_reporte').append('thead').attr('id', 'thead');
 		d3.select('#t_reporte').append('tbody').attr('id', 'tbody');
 		d3.select('#thead').append('tr').attr('class', 'fondo00')
-			.html('<th width="25%" class="etiqueta">Region</th>' +
-				'<th width="25%" class="etiqueta">Estado</th>' +
-				'<th width="25%" class="etiqueta">Empresa</th>' +
-				'<th width="25%" class="etiqueta">ubicacion</th>' +
-				'<th width="10%" class="etiqueta">Pl. Cantidad </th>' +
-				'<th width="10%" class="etiqueta">Trab. Necs.</th>' +
-				'<th width="10%" class="etiqueta">Hombres Activos</th>' +
-				'<th width="10%" class="etiqueta">Pl. Excepcion</th>' +
-				'<th width="10%" class="etiqueta">Diferencia</th>');
+			.html('<th width="15%" class="etiqueta">Region</th>' +
+				'<th width="15%" class="etiqueta">Estado</th>' +
+				'<th width="10%" class="etiqueta">Cod. Empresa</th>' +
+				'<th width="15%" class="etiqueta">Empresa</th>' +
+				'<th width="10%" class="etiqueta">Cod. ubicación</th>' +
+				'<th width="15%" class="etiqueta">Ubicación</th>' +
+				'<th width="5%" class="etiqueta">Pl. Cantidad </th>' +
+				'<th width="5%" class="etiqueta">Trab. Necs.</th>' +
+				'<th width="5%" class="etiqueta">Hombres Activos</th>' +
+				'<th width="5%" class="etiqueta">Pl. Excepcion</th>' +
+				'<th width="5%" class="etiqueta">Diferencia</th>');
 		d3.select('#t_reporte').selectAll('.tbody2').data(res_contratacion).enter().append('tbody').attr('class', 'tbody2')
 			.attr('id', (d) => {
 				return 'body_' + d.key;
@@ -1336,8 +1338,12 @@ function rp_planif_contratacion_vs_trab_cubrir(data, id_contenedor, cliente, ubi
 					});
 					factor = Math.floor((trab_activos - excepcion) - trab_neces);
 					if (factor == 0) factor = 'OK';
-					return '<td class="texto" id="center" >' + e.values[0].region + '</td><td class="texto" id="center" >' + e.values[0].estado + '</td><td class="texto" id="center" >' + e.values[0].cliente + '</td><td class="texto" id="center" >' + e.values[0].ubicacion + '</td><td class="texto" id="center" >' + cantidad
-						+ '</td><td class="texto" id="center" >' + trab_neces + '</td><td class="texto" id="center" >' + trab_activos + '</td><td class="texto" id="center" >' + excepcion + '</td><td class="texto" id="center" >' + factor + '</td>';
+					return '<td class="texto" id="center" >' + e.values[0].region + '</td><td class="texto" id="center" >' + e.values[0].estado
+					 + '</td><td class="texto" id="center" >' + e.values[0].cod_cliente + '</td><td class="texto" id="center" >' + e.values[0].cliente 
+					 + '</td><td class="texto" id="center" >' + e.values[0].cod_ubicacion + '</td><td class="texto" id="center" >' + e.values[0].ubicacion 
+					 + '</td><td class="texto" id="center" >' + cantidad + '</td><td class="texto" id="center" >' + trab_neces 
+					 + '</td><td class="texto" id="center" >' + trab_activos + '</td><td class="texto" id="center" >' + excepcion 
+					 + '</td><td class="texto" id="center" >' + factor + '</td>';
 				});
 		});
 		if (typeof (callback) == 'function') callback();
