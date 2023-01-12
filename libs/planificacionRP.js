@@ -1283,8 +1283,8 @@ function rp_planif_contratacion_vs_trab_cubrir(data, id_contenedor, cliente, ubi
 				'<th width="15%" class="etiqueta">Estado</th>' +
 				'<th width="10%" class="etiqueta">Cod. Empresa</th>' +
 				'<th width="15%" class="etiqueta">Empresa</th>' +
-				'<th width="10%" class="etiqueta">Cod. ubicación</th>' +
-				'<th width="15%" class="etiqueta">Ubicación</th>' +
+				'<th width="10%" class="etiqueta">Cod. ubicacion</th>' +
+				'<th width="15%" class="etiqueta">Ubicacion</th>' +
 				'<th width="5%" class="etiqueta">Pl. Cantidad </th>' +
 				'<th width="5%" class="etiqueta">Trab. Necs.</th>' +
 				'<th width="5%" class="etiqueta">Hombres Activos</th>' +
