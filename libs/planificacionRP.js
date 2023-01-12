@@ -1338,7 +1338,7 @@ function rp_planif_contratacion_vs_trab_cubrir(data, id_contenedor, cliente, ubi
 					});
 					factor = Math.floor((trab_activos - excepcion) - trab_neces);
 					if (factor == 0) factor = 'OK';
-					console.log(e.values[0].ubicacion);
+					
 					return '<td class="texto" id="center" >' + e.values[0].region + '</td><td class="texto" id="center" >' + e.values[0].estado
 					 + '</td><td class="texto" id="center" >' + e.values[0].cod_cliente + '</td><td class="texto" id="center" >' + e.values[0].cliente 
 					 + '</td><td class="texto" id="center" >' + e.values[0].cod_ubicacion + '</td><td class="texto" id="center" >' + e.values[0].ubicacion 
