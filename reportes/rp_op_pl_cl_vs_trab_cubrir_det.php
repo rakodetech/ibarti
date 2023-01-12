@@ -12,7 +12,7 @@ $titulo 	= " PLANIFICACION DE CLIENTES A CUBRIR VS TRABAJADORES ACTIVOS ";
 
 if($reporte== 'excel'){
 
-		header("Content-type: application/vnd.ms-excel; charset=utf-8");
+		header("Content-type: application/vnd.ms-excel");
 		 header("Content-Disposition:  filename=\"rp_$archivo.xls\";");
 		 echo "<table border=1>";
 		echo $body;
