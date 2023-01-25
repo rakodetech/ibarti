@@ -16,6 +16,7 @@ $vencimiento      = $_POST['vencimiento'];
 $where = " 	WHERE clientes_ub_alcance.cod_producto = productos.item
 AND clientes_ub_alcance.cod_cl_ubicacion = clientes_ubicacion.codigo
 AND clientes_ubicacion.cod_cliente = clientes.codigo
+AND clientes.status = 'T'
 AND clientes.cod_region = regiones.codigo
 AND clientes_ubicacion.cod_estado = estados.codigo
 AND clientes_ubicacion.cod_ciudad = ciudades.codigo ";
