@@ -137,7 +137,7 @@ function Add_filtroX(){  // CARGAR  ARCHIVO DE AJAX CON UN PARAMETRO //
 					<td width="5%" id="cont_img"><img class="imgLink" id="img_actualizar" src="imagenes/actualizar.png" border="0"
 						onclick=" Add_filtroX()" ></td>
 					</tr>   
-				</table><hr /><div id="listar"></div>
+				</table><hr /><div id="listar" class="listar"></div>
 				<div align="center"><br/>
 					<span class="art-button-wrapper">
 						<span class="art-button-l"> </span>
