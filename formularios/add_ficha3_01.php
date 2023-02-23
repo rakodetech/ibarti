@@ -59,9 +59,8 @@ if ($metodo == 'modificar') {
 				   v_preingreso.refl01_apto, v_preingreso.refl02_empresa,
 				   v_preingreso.refl02_telf, v_preingreso.refl02_contacto,
 				   v_preingreso.refl02_observacion, v_preingreso.refl02_apto
-              FROM v_ficha , v_preingreso
-             WHERE v_ficha.cod_ficha = '$codigo'
-               AND v_ficha.cedula = v_preingreso.cedula ";
+              FROM v_ficha LEFT JOIN v_preingreso ON v_ficha.cedula = v_preingreso.cedula
+				WHERE v_ficha.cod_ficha = '$codigo'";
 
 	$query  = $bd->consultar($sql);
 	$result = $bd->obtener_fila($query, 0);
