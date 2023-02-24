@@ -465,9 +465,9 @@ $proced      = "p_prod_dotacion";
 								</tr>
 						<tr id="tr_cliente_ficha" style="display: none;">
 							<td class="etiqueta" width="13%" >Cliente:</td>
-							<td colspan="2"><input type="text" size="40" id="cliente_ficha_nombre" name="codigo" value="" readonly="readonly"/>
+							<td colspan="2"><input type="text" size="40" id="cliente_ficha_nombre" name="cliente_ficha_nombre" value="" readonly="readonly"/>
 							<td class="etiqueta">Ubicación:</td>
-							<td colspan="2"><input id="ubicacion_ficha_nombre" type="text" size="40" name="codigo" value="" readonly="readonly"/>
+							<td colspan="2"><input type="text" size="40" id="ubicacion_ficha_nombre" name="ubicacion_ficha_nombre" value="" readonly="readonly"/>
 						</tr>
 							</table>
 						</fieldset>
