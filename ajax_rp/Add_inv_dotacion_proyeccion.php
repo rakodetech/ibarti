@@ -67,8 +67,8 @@ prod_lineas.codigo cod_linea,
 prod_lineas.descripcion AS linea,
 clientes_ub_uniforme.cod_sub_linea,
 prod_sub_lineas.descripcion AS sub_linea,
-IFNULL( productos.item, prod_sub_lineas.codigo )  cod_producto,
-CONCAT( productos.descripcion, ' ', IFNULL( tallas.descripcion, '' ) ) producto,
+IFNULL( MAX(productos.item), prod_sub_lineas.codigo ) cod_producto,
+CONCAT( MAX(productos.descripcion), ' ', IFNULL( MAX(tallas.descripcion), '' ) ) producto,
 SUM(
 	IFNULL(
 		(
