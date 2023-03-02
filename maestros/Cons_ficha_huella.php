@@ -172,10 +172,10 @@ function Borrar(metodo, valor ){
               style="width:150px" /><input type="hidden" id="cedula_old" name="cedula_old"/></td>
             <td width="5%" class="etiqueta"><img src="imagenes/buscar.bmp" onclick="BuscarDatos('cedula')" width="22px" height="22px"  class="imgLink"/></td>
 
-            <td width="25%" class="etiqueta" id="input02_3"> Huella:<br /><input type="text" id="huella" name="huella"
+            <td width="20%" class="etiqueta" id="input02_3"> Huella:<br /><input type="text" id="huella" name="huella"
                           style="width:300px" maxlength="64"/><input type="hidden" id="huella_old" name="huella_old"/></td>
 			      <td width="5%" class="etiqueta"><img src="imagenes/buscar.bmp" onclick="BuscarDatos('huella')" width="22px" height="22px" class="imgLink" /></td>
-              <td width="25%" class="etiqueta">Huellas Nuevas: <br /><select name="huella_new" id="huella_new" style="width:180px;" onchange="huellaX(this.value)"><option value="TODOS">TODOS</option><?php
+              <td width="20%" class="etiqueta">Huellas Nuevas: <br /><select name="huella_new" id="huella_new" style="width:180px;" onchange="huellaX(this.value)"><option value="TODOS">TODOS</option><?php
 
 		$sql_ch = "	SELECT v_ch_huella.huella, v_ch_huella.fecha FROM v_ch_huella ORDER BY fecha DESC ";
 
