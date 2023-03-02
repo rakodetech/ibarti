@@ -167,7 +167,7 @@ function Borrar(metodo, valor ){
 <form action="sc_maestros/sc_<?php echo $archivo;?>.php" method="post" name="add" id="add">
 <div align="center" class="etiqueta_title"> Huella <?php echo $leng['trabajador']?> </div>
 <hr /><div id="Cont_mensaje"  class="mensaje"></div>
-<div id="listar"><table width="99%" border="0" align="center"><tr class="fondo02">
+<div id="listar" class="listar"><table width="99%" border="0" align="center"><tr class="fondo02">
 			<td width="20%" id="input01_3"><span class="etiqueta"><?php echo $leng['ci']?>:</span><br /><input type="text" id="cedula" name="cedula"
               style="width:150px" /><input type="hidden" id="cedula_old" name="cedula_old"/></td>
             <td width="5%" class="etiqueta"><img src="imagenes/buscar.bmp" onclick="BuscarDatos('cedula')" width="22px" height="22px"  class="imgLink"/></td>
