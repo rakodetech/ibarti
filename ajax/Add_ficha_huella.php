@@ -37,7 +37,7 @@ $bd2  = new DataBase2();
 						}
 			   }?></select></td>     
                  
-            <td width="25%"><span class="art-button-wrapper">
+            <td width="10%"><span class="art-button-wrapper">
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span>
                     <input type="button"  name="submit" id="submit" value="Ingresar"  class="readon art-button" 
