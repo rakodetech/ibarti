@@ -194,7 +194,7 @@ function Borrar(metodo, valor ){
 			   }?></select></td>
 
 
-            <td width="10%"><span class="art-button-wrapper">
+            <td width="25%"><span class="art-button-wrapper">
                     <span class="art-button-l"> </span>
                     <span class="art-button-r"> </span>
                     <input type="button"  name="submit" id="submit" value="Ingresar"  class="readon art-button"
