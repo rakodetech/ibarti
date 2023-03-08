@@ -54,6 +54,9 @@ if (isset($reporte)) {
 
 	if ($estatu != "TODOS"){
 		$where .= " AND clientes.status = '$estatu'";
+		if($estatu == 'T'){
+			$where .= " AND clientes_ubicacion.status = 'T'";
+		}
 	}
 	
 	// QUERY A MOSTRAR //
