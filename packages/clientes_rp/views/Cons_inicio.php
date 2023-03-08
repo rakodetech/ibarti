@@ -9,7 +9,7 @@
     <tr><td class="etiqueta">ubicacion:</td><td><select name="ubicacion" id="ubicacion"style="width:220px" onchange="rellenar(this.selectedIndex,this.value)" /></td></tr>
     <tr><td class="etiqueta">Puesto:</td><td><select name="puesto" id="puesto" style="width:220px" onchange="" /></td></tr>
     <tr>
-		<td class="etiqueta">Estatu:</td>	
+		<td class="etiqueta">Estatus:</td>	
 		<td >
 			<select id="estatu" name="estatu"  style="width:220px" onchange="">
 				<option value="TODOS">TODOS</option>

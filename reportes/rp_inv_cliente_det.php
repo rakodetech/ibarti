@@ -49,12 +49,13 @@ if (isset($reporte)) {
 	}
 
 	if ($puesto != "TODOS") {
-		$where .= "AND clientes_ub_puesto.codigo = '$puesto'";
+		$where .= " AND clientes_ub_puesto.codigo = '$puesto'";
 	}
+
 	if ($estatu != "TODOS"){
-		
-		$where .= "AND clientes.status = '$estatu'";
+		$where .= " AND clientes.status = '$estatu'";
 	}
+	
 	// QUERY A MOSTRAR //
 	$sql = " SELECT regiones.descripcion AS region, estados.descripcion AS estado,
 	ciudades.descripcion AS ciudad, clientes.nombre AS cliente,clientes.status,
