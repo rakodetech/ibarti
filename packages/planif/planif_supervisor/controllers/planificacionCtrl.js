@@ -969,6 +969,7 @@ function saveActividad() {
 			validarIngreso(apertura, cliente, ubicacion, actividades, fechaQuery, hora_inicio, hora_fin, props.cod_ficha, (valid) => {
 				if (valid.error) {
 					toastr.error(valid.msg);
+					$("#guardar_actividad").attr("disabled", false);
 				} else {
 					var parametros = {
 						"codigo": props.codigo, "fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin,
@@ -989,10 +990,12 @@ function saveActividad() {
 								typeCalendar = calendar.view.type;
 								cargar_planif_superv_det(apertura);
 							}
+							$("#guardar_actividad").attr("disabled", false);
 						},
 						error: function (xhr, ajaxOptions, thrownError) {
 							alert(xhr.status);
 							alert(thrownError);
+							$("#guardar_actividad").attr("disabled", false);
 						}
 					});
 				}
@@ -1019,17 +1022,19 @@ function saveActividad() {
 						typeCalendar = calendar.view.type;
 						cargar_planif_superv_det(apertura);
 					}
+					$("#guardar_actividad").attr("disabled", false);
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
 					alert(thrownError);
+					$("#guardar_actividad").attr("disabled", false);
 				}
 			});
 		}
 	} else {
 		toastr.warning(errorMessage);
+		$("#guardar_actividad").attr("disabled", false);
 	}
-	$("#guardar_actividad").attr("disabled", false);
 }
 
 function mostrar_icono_apertura(valor) {
