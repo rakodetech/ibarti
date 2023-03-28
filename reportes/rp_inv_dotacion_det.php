@@ -43,7 +43,7 @@ if(isset($reporte)){
 				AND ajuste_reng.cod_almacen = prod_dotacion_det.cod_almacen
 				AND ajuste_reng.cod_producto = prod_dotacion_det.cod_producto 
 				AND (ajuste.cod_tipo = 'DOT' OR ajuste.cod_tipo = 'ANU_DOT')
-				AND prod_dotacion_det.cod_almacen = almacenes.codigo";
+				AND ajuste_reng.cod_almacen = almacenes.codigo";
 
 	if($rol != "TODOS"){
 		$where .= " AND v_ficha.cod_rol = '$rol' ";
@@ -76,7 +76,7 @@ if(isset($reporte)){
 		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
 	}
 	if($almacen != "TODOS" && $almacen != ""){
-		$where  .= " AND prod_dotacion_det.cod_almacen = '$almacen' ";
+		$where  .= " AND ajuste_reng.cod_almacen = '$almacen' ";
 	}
 	
  $sql = " SELECT DISTINCT prod_dotacion.codigo, prod_dotacion.fec_dotacion, prod_dotacion.fec_us_ing, v_ficha.rol, v_ficha.cod_ficha,
