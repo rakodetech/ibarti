@@ -16,6 +16,7 @@ $ubicacion	= $_POST['ubicacion'];
 $restri	    = $_SESSION['r_cliente'];
 $fecha_D    = conversion($_POST['fecha_desde']);
 $fecha_H    = conversion($_POST['fecha_hasta']);
+$almacen    = $_POST['almacen'];
 
 	$where = "  WHERE DATE_FORMAT(prod_dotacion.fec_dotacion, '%Y-%m-%d') BETWEEN  \"$fecha_D\" AND \"$fecha_H\"
    	              AND prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
@@ -63,7 +64,9 @@ $fecha_H    = conversion($_POST['fecha_hasta']);
 	if($ubicacion != "TODOS" && $ubicacion != ""){
 		$where  .= " AND clientes_ubicacion.codigo = '$ubicacion' ";
 	}
-
+	if($almacen != "TODOS" && $almacen != ""){
+		$where  .= " AND productos.cod_almacen = '$almacen' ";
+	}
  $sql = " SELECT DISTINCT prod_dotacion.codigo, prod_dotacion.fec_dotacion,
                  v_ficha.rol, v_ficha.cod_ficha,
                  v_ficha.cedula, v_ficha.nombres AS trabajador,
@@ -93,6 +96,7 @@ ORDER BY 2 ASC ";
             <th width="5%" class="etiqueta">Cantidad</th>
             <?php echo ($restri=="F")?'<th width="5%" class="etiqueta">Importe</th>':'';?>
              <th width="5%" class="etiqueta">Anulado</th>
+			 <th width="5%" class="etiqueta">Almacen</th>
 	</tr>
     <?php
 	$valor = 0;
@@ -119,5 +123,6 @@ ORDER BY 2 ASC ";
 				  ';
 				  echo ($restri=="F")?'<td class="texto">'.$datos["neto"].'</td>':'';
            echo '<td class="texto">'.$datos["anulado"].'</td></tr>';
+		   echo '<td class="texto">'.$datos["cod_almacen"].'</td></tr>';
         };?>
     </table>
