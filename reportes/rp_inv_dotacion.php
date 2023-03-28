@@ -150,6 +150,18 @@ $titulo  = " DOTACION TRABAJADOR ";
 				</select></td>
 		</tr>
 		<tr>
+			<td>Almacen:</td>
+			<td>
+				<select name="almacen" id="almacen"  style="width:120px;">
+						<?php
+						echo $select_cl ;
+						$query01 = $bd->consultar($sql_almacen);
+						while ($row01 = $bd->obtener_fila($query01, 0)) {
+							echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
+						} ?>
+
+				</select>
+			</td>
 			<td>Anulado:</td>
 			<td><select name="anulado" id="anulado" style="width:120px;">
 					<option value="TODOS">TODOS</option>
@@ -167,16 +179,6 @@ $titulo  = " DOTACION TRABAJADOR ";
 			<td><?php echo $leng['trabajador'] ?>:</td>
 			<td colspan="3"><input id="stdName" type="text" size="35" disabled="disabled" />
 				<input type="hidden" name="trabajador" id="stdID" value="" /></td>
-			<td>Almacen:</td>
-			<td><select name="almacen" id="almacen"  style="width:120px;">
-					<?php
-					echo $select_cl ;
-					$query01 = $bd->consultar($sql_almacen);
-					while ($row01 = $bd->obtener_fila($query01, 0)) {
-						echo '<option value="' . $row01[0] . '">' . $row01[1] . '</option>';
-					} ?>
-
-				</select></td>
            
 			<td>&nbsp;
 				<input type="hidden" name="Nmenu" id="Nmenu" value="<?php echo $Nmenu; ?>" />
