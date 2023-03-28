@@ -76,7 +76,7 @@ $almacen    = $_POST['almacen'];
                  prod_sub_lineas.descripcion AS sub_linea, CONCAT(productos.descripcion,' (',tallas.descripcion,') ') AS producto,
                  prod_dotacion_det.cantidad,clientes.nombre cliente, clientes_ubicacion.descripcion ubicacion, ajuste_reng.neto,
                  Valores(prod_dotacion.anulado) anulado,
-				prod_dotacion_det.cod_almacen,
+				 ajuste_reng.cod_almacen,
 				almacenes.descripcion almacen
             FROM prod_dotacion , prod_dotacion_det , productos , prod_lineas ,
                  prod_sub_lineas, v_ficha,clientes,clientes_ubicacion, ajuste,ajuste_reng,tallas,almacenes
