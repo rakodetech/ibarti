@@ -273,12 +273,11 @@ if (count($result) == 0) {
         </td>
       </tr>
       <tr>
-        <td height="20" class="etiqueta">Status:</td>
+        <td height="20" class="etiqueta">Statu:</td>
         <td id="select10_5">
           <select name="status" style="width:200px;">
             <option value="<?php echo $cod_status; ?>"><?php echo $status; ?></option>
-            <?php $sql = " SELECT codigo, descripcion FROM ficha_status
-                                         WHERE status = 'T' AND ficha_status.codigo <> '$cod_status' ORDER BY 2 ASC ";
+            <?php $sql = "SELECT codigo, descripcion FROM ficha_status WHERE status = 'T' and ficha_status.codigo <> '$cod_status' ORDER BY 2 ASC";
             $query = $bd->consultar($sql);
             while ($datos = $bd->obtener_fila($query, 0)) {
             ?>
