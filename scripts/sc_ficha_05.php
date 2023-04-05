@@ -74,15 +74,24 @@ if ($row > 0 )  {
 	$row1 = $bd->num_fila($query1);
 	
     if ($row1 > 0)  {
-		$sql    = "$SELECT $proced('$metodo', '$codigo', '$fec_egreso', '$motivo',
+		// Validar si la fecha de egreso esta en blanco
+		if ($fec_egreso == '0000-00-00') {
+				$sql    = "$SELECT $proced('$metodo', '$codigo', '$fec_egreso', '$motivo',
                             '$color', '$preaviso','$p_fec_inicio','$p_fec_culminacion',
 							'$d_p_laboral', '$d_p_cumplido','$calculo', '$calculo_status',
 							'$fec_calculo', '$fec_posible_pago', '$fec_pago', '$cheque',
 							'$banco','$importe','$entrega_uniforme', '$observacion',
 							'$observacion2', '$usuario', '$status', '$cod_motivo_egreso')";
-			$query = $bd->consultar($sql);
+				$query = $bd->consultar($sql);
+		} else {
+			$mensaje = "Error , no puede actualizar el estatus de egreso a activo del trabajador";
+					echo '<script language="javascript">
+					alert("'.$mensaje.'");
+						</script>';
+		}
+
 	} else {
-				//obtener el codigo del status de la ficha
+				//obtener el codigo del status de la ficha para ver sis esta bloqueado
 				$campo_id="blanco";
 				$sql1 = "SELECT ficha.cod_ficha_status
 				FROM ficha
@@ -114,13 +123,13 @@ if ($row > 0 )  {
 						$bloquear=0;
 						break;
 					case 2:
-						$bloquear=0;
+						$bloquear=1;
 						break;
 					case 3:
 						$bloquear=1;
 						break;
 					case 4:
-						$bloquear=0;
+						$bloquear=1;
 						break;	
 				}
 		    		
@@ -130,7 +139,7 @@ if ($row > 0 )  {
 		  // 3 Por liquidar desactiva ficha y nomina pero puede pasar a liquidado
 		  // 4 liquidado desactiva ficha y nomina , no pasa a los inferiores
 		    if ($bloquear == 1) {
-					$mensaje = "Error , el trabajador ya esta egresado... verificar con administraccion";
+					$mensaje = "Error , No es posible activar a este trabajador debido a que tiene registrada una fecha de egreso...";
 					echo '<script language="javascript">
 					alert("'.$mensaje.'");
 						</script>';
@@ -153,15 +162,69 @@ if ($row > 0 )  {
 	}
 
 } else {
-			
 	
-	      $mensaje = "Esta seguro de registrar el egreso del trabajador";
-			echo '<script language="javascript">
-			 var valor = confirm("'.$mensaje.'");
-			</script>';
-			$opcion= '<script>document.write(valor) </script>';
-			if ($opcion) {
-				
+		 
+	  	if ($fec_egreso == '0000-00-00') {
+
+           // comparar el status si activo
+		  		 $sqlegreso = "SELECT cod_ficha,cod_ficha_status from ficha ,control             
+       			WHERE ficha.cod_ficha = '$codigo'
+        		AND ficha.cod_ficha_status = control.ficha_activo";
+				$query1 = $bd->consultar($sqlegreso);
+				$row1 = $bd->num_fila($query1);
+	         	if ($row1 > 0)  {
+					$mensaje = "Datos Registrados con exitos...";
+						echo '<script language="javascript">
+						alert("'.$mensaje.'");
+						</script>';
+					$sql  = "$SELECT $proced('$metodo', '$codigo', '$fec_egreso', '$motivo',
+					'$color', '$preaviso','$p_fec_inicio','$p_fec_culminacion',
+					'$d_p_laboral', '$d_p_cumplido','$calculo', '$calculo_status',
+					'$fec_calculo', '$fec_posible_pago', '$fec_pago', '$cheque',
+					'$banco','$importe','$entrega_uniforme', '$observacion',
+					'$observacion2', '$usuario', '$status', '$cod_motivo_egreso')";
+					$query = $bd->consultar($sql);
+			
+
+				} else {
+					$mensaje = "Error ,la fecha no debe ser Blanco para el estatus de egreso";
+						echo '<script language="javascript">
+						alert("'.$mensaje.'");
+						</script>';
+				}
+
+		} else {
+			$sqlegreso = "SELECT cod_ficha,cod_ficha_status from ficha ,control             
+			WHERE ficha.cod_ficha = '$codigo'
+		    AND ficha.cod_ficha_status <> control.ficha_activo";
+            $query1 = $bd->consultar($sqlegreso);
+			$row1 = $bd->num_fila($query1);
+			
+			 if ($row1 > 0)  {
+				if ($fec_egreso == '0000-00-00') {
+						$mensaje = "Datos Registrados con exitos...";
+						echo '<script language="javascript">
+						alert("'.$mensaje.'");
+						</script>';
+					$sql  = "$SELECT $proced('$metodo', '$codigo', '$fec_egreso', '$motivo',
+					'$color', '$preaviso','$p_fec_inicio','$p_fec_culminacion',
+					'$d_p_laboral', '$d_p_cumplido','$calculo', '$calculo_status',
+					'$fec_calculo', '$fec_posible_pago', '$fec_pago', '$cheque',
+					'$banco','$importe','$entrega_uniforme', '$observacion',
+					'$observacion2', '$usuario', '$status', '$cod_motivo_egreso')";
+					$query = $bd->consultar($sql);
+				} else {
+					$mensaje = "Error, el trabajador esta en proceso de liquidacion... ";
+						echo '<script language="javascript">
+						alert("'.$mensaje.'");
+						</script>';
+				}
+			
+			 } else {
+				$mensaje = "Datos del Egreso actualizado con exito...";
+				echo '<script language="javascript">
+				alert("'.$mensaje.'");
+				</script>';
 				$sql  = "$SELECT $proced('$metodo', '$codigo', '$fec_egreso', '$motivo',
 				'$color', '$preaviso','$p_fec_inicio','$p_fec_culminacion',
 				'$d_p_laboral', '$d_p_cumplido','$calculo', '$calculo_status',
@@ -169,13 +232,10 @@ if ($row > 0 )  {
 				'$banco','$importe','$entrega_uniforme', '$observacion',
 				'$observacion2', '$usuario', '$status', '$cod_motivo_egreso')";
 				$query = $bd->consultar($sql);
-			} else {
-				echo '<script language="javascript">
-					alert("'.$opcion.'");
-						</script>';
-			}
-				
-			
+			 }
+
+		}	
+	
 		
 		
 }
