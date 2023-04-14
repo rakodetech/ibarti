@@ -23,6 +23,7 @@ if(isset($_GET['pagina'])){
     	<li class="TabbedPanelsTab">MENSAJERIA</li>
     	<li class="TabbedPanelsTab">SERVIDOR DE CORREO SALIENTE (SMTP)</li>
     	<li class="TabbedPanelsTab">NOTIFICACIONES</li>
+		<li class="TabbedPanelsTab">CONTROL RFDI</li>
 		<li class="TabbedPanelsTab">OTROS</li>		
 	 </ul>				
 	  <div class="TabbedPanelsContentGroup">
@@ -31,6 +32,7 @@ if(isset($_GET['pagina'])){
          <div class="TabbedPanelsContent"><?php include("cont_mensajeria.php");?></div>
          <div class="TabbedPanelsContent"><?php include("cont_smtp.php");?></div>
 	     <div class="TabbedPanelsContent"><?php include("cont_notificaciones.php");?></div>
+		 <div class="TabbedPanelsContent"><?php include("control_rdif.php");?></div>
 		 <div class="TabbedPanelsContent"><?php include("cont_otros.php");?></div>
 	  </div>	 
  </div> 
