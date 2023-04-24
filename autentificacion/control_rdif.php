@@ -26,13 +26,13 @@
 	var cod_producto = "";
 function grabar(metodo){
 		var numX     = parseInt(document.getElementById('incremento').value);
-		alert(metodo);
+		
 		for (let i = 1; i < numX; i++) {
     		select01  = document.getElementById('linea_'+i+'').value;
 			select02  = document.getElementById('sub_linea_'+i+'').value;
 			select03  = document.getElementById('producto_'+i+'').value;
 			select04  = document.getElementById('almacen_'+i+'').value;
-			agregarfilacontrolrfdi(select01,select02,select03,select04)
+			existecontrolrdif(select01,select02,select03,select04);
 		}
 }		
 function agregarfilacontrolrfdi(fila1,fila2,fila3,fila4){  // LINEA //
@@ -103,10 +103,31 @@ function Activar01(codigo, relacion, contenido){  // LINEA //
 		ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		ajax.send("codigo="+codigo+"&relacion="+relacion+"");
 	}else{
-		alert("Debe de Seleccionar Un Producto ojo ");
+		alert("Debe de Seleccionar Un Producto  ");
 	}
 }
+function existecontrolrdif(fila1,fila2,fila3,fila4) {
+	$.ajax({
+		data: {'fila1': fila1, 'fila2':fila2, 'fila3':fila3,'fila4':fila4},
+		url: 'ajax/buscarcontrolrfid.php',
+		type: 'post',
+		success: function(response) {
+			var resp = JSON.parse(response);
+			if(resp[0]){
+				alert(resp);
+			}else if(fila1 != ""){
+				 agregarfilacontrolrfdi(fila1,fila2,fila3,fila4);
+				 toastr.warning("Registros Guaradados con exitos...");
+	
+			}
 
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(xhr.status);
+			alert(thrownError);
+		}
+	});
+}
 function cantidad_maxima(cod_almacen,relacion) {
 	$.ajax({
 		data: { 'producto': cod_producto, 'almacen':cod_almacen, 'cod_ficha': ficha},
@@ -359,77 +380,24 @@ function Anular(){  // CARGAR EL MODULO DE AGREGAR//
 
 </script>
 <?php
-$metodo='agregar';
+$metodo='modificar';
 if($metodo == 'modificar'){
 	$codigo = $_GET['codigo'];
 	$bd = new DataBase();
 
-	$sql = "SELECT DATE_FORMAT(prod_dotacion.fec_dotacion,'%Y-%m-%d')  fec_dotacion , v_ficha.cod_ficha, v_ficha.cedula,
-	v_ficha.nombres AS trabajador, prod_dotacion.descripcion,
-	prod_dotacion.anulado,
-	prod_dotacion.campo01, prod_dotacion.campo02,
-	prod_dotacion.campo03, prod_dotacion.campo04,
-	prod_dotacion.`status`
-	FROM v_ficha , prod_dotacion
-	WHERE prod_dotacion.codigo = '$codigo'
-	AND v_ficha.cod_ficha = prod_dotacion.cod_ficha" ;
-	$query = $bd->consultar($sql);
-	$result=$bd->obtener_fila($query,0);
-
-	$fec_dotacion  = conversion($result["fec_dotacion"]);
-	$ficha         = $result["cod_ficha"];
-	$cedula        = $result["cedula"];
-	$trabajador    = $result["trabajador"];
-	$descripcion   = $result["descripcion"];
-	$campo01       = $result["campo01"];
-	$campo02       = $result["campo02"];
-	$campo03       = $result["campo03"];
-	$campo04       = $result["campo04"];
-	$anulado       = $result["anulado"];
-	$activo        = $result["status"];
-
-	$sql = "SELECT  CONCAT(prod_sub_lineas.descripcion,' (',prod_sub_lineas.codigo,') ') sub_linea,tallas.descripcion talla,
-	ficha_dotacion.cantidad,
-   IFNULL((SELECT CONCAT(MAX(prod_dotacion.fec_us_mod),'  (',prod_dotacion_det.cantidad,')') FROM prod_dotacion, prod_dotacion_det
-   WHERE prod_dotacion.codigo = prod_dotacion_det.cod_dotacion
-   AND prod_dotacion_det.cod_sub_linea = ficha_dotacion.cod_sub_linea
-   AND prod_dotacion.cod_ficha = ficha_dotacion.cod_ficha) ,'SIN DOTACION') ult_dotacion
-   ,ficha.cod_cliente,ficha.cod_ubicacion,
-	   (
-		   SELECT
-			   clientes_ub_uniforme.cod_cl_ubicacion
-		   FROM				
-			   clientes_ub_uniforme
-		   WHERE prod_sub_lineas.codigo = clientes_ub_uniforme.cod_sub_linea
-		   AND ficha.cod_ubicacion = clientes_ub_uniforme.cod_cl_ubicacion
-		   AND clientes_ub_uniforme.cod_cargo = ficha.cod_cargo
-	   ) aplica
-   FROM ficha_dotacion LEFT JOIN
-   productos ON 
-	ficha_dotacion.cod_sub_linea = productos.cod_sub_linea,prod_sub_lineas,tallas,ficha
-   WHERE
-   ficha_dotacion.cod_ficha = '$ficha'
-   AND ficha_dotacion.cod_sub_linea = prod_sub_lineas.codigo
-   AND ficha_dotacion.cod_talla = tallas.codigo
-   AND ficha_dotacion.cod_ficha = ficha.cod_ficha
-   GROUP BY ficha_dotacion.cod_sub_linea";
+	$sql = "SELECT DISTINCT T2.descripcion vienen, T3.descripcion planificacion,T1.feriado Feriado, t4.descripcion registro FROM control_rfid T1 INNER JOIN conceptos T2 ON T1.cod_concepto_viene = T2.codigo INNER JOIN conceptos t3 on T1.cod_concepto_planif=T3.codigo INNER JOIN conceptos T4 ON T1.cod_concepto_registro = T4.codigo where T1.codigo='$codigo' GROUP by T1.codigo  " ;
+	
 	$query_dot         = $bd->consultar($sql);
+	
 
 }else{
 	$codigo        = "";
-	$fec_dotacion  = conversion($date);
-	$ficha         = "";
-	$cedula        = "";
-	$trabajador    = "";
-	$descripcion   = "";
-	$campo01       = "";
-	$campo02       = "";
-	$campo03       = "";
-	$campo04       = "";
-	$anulado       = "F";
-	$activo        = "T";
+	$vienen        ="";
+	$planificacion="";
+    $feriado ="";
+	$registro="";
 }
-$proced      = "p_prod_dotacion";
+
 ?>
 
 <link rel="stylesheet" type="text/css" href="latest/stylesheets/autocomplete.css" />
@@ -497,25 +465,14 @@ $proced      = "p_prod_dotacion";
 											<td>&nbsp;<input type="hidden" name="relacion_1" value="1" /></td>
 										</tr>
 									<?php }else{
-										$sql = " SELECT productos.cod_linea,  prod_lineas.descripcion AS linea,
-										prod_dotacion_det.cod_producto, concat(productos.descripcion,' ',tallas.descripcion) AS producto,
-										prod_dotacion_det.cantidad,productos.cod_sub_linea,  
-										prod_sub_lineas.descripcion AS sub_linea
-										FROM prod_dotacion_det , productos , prod_lineas,prod_sub_lineas,tallas
-										WHERE prod_dotacion_det.cod_dotacion = '$codigo'
-										AND prod_dotacion_det.cod_producto = productos.item
-										AND productos.cod_linea = prod_lineas.codigo 
-										AND productos.cod_sub_linea = prod_sub_lineas.codigo 
-										AND productos.cod_talla = tallas.codigo";
+										$sql = "SELECT DISTINCT T2.descripcion vienen, T3.descripcion planificacion,T1.feriado feriado, t4.descripcion registro FROM control_rfid T1 INNER JOIN conceptos T2 ON T1.cod_concepto_viene = T2.codigo INNER JOIN conceptos t3 on T1.cod_concepto_planif=T3.codigo INNER JOIN conceptos T4 ON T1.cod_concepto_registro = T4.codigo where T1.codigo='$codigo' GROUP by T1.codigo  ";
 										$query = $bd->consultar($sql);
 										while($datos=$bd->obtener_fila($query,0)){
-											$cod_linea    = $datos["cod_linea"];
-											$linea        = $datos["linea"];
-											$cod_sub_linea    = $datos["cod_sub_linea"];
-											$sub_linea        = $datos["sub_linea"];
-											$cod_producto = $datos["cod_producto"];
-											$producto     = $datos["producto"];
-											$cantidad     = $datos["cantidad"];
+											$cod_linea    = $datos["vienen"];
+											$linea        = $datos["planificacion"];
+											$cod_sub_linea    = $datos["feriado"];
+											$sub_linea        = $datos["registro"];
+											
 											?>
 											<tr class="text">
 												<td id="select_1_1"><select name="linea_1" id="linea_1" style="width:180px;" disabled="disabled"

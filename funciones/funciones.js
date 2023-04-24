@@ -152,7 +152,7 @@ function Salir01(idX) { // CARGAR EL MODULO DE AGREGAR //
 	}
 }
 function Borrar01(idX) {  // CARGAR EL MODULO DE AGREGAR //
-	if (confirm("�Esta Seguro De Borrar Este Registro")) {
+	if (confirm("�Esta Seguro De Borrar Este Registro ")) {
 		var tabla = document.getElementById("tabla").value;
 		var valor = "sc_maestros/sc_maestros.php";
 		ajax = nuevoAjax();

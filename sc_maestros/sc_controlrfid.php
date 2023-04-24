@@ -1,20 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Documento sin t&iacute;tulo</title>
+</head>
 <?php
 include_once('../funciones/funciones.php');
 require("../autentificacion/aut_config.inc.php");
 require_once("../".class_bd);
 $bd = new DataBase();
+$tabla    = $_POST['tabla'];
+$tabla_id = 'codigo';
 
-$fila1  = $_POST['fila1'];
-$fila2  = $_POST['fila2'];
-$fila3  = $_POST['fila3'];
-$fila4  = $_POST['fila4'];
 
-if(isset($_POST['fila1'])){
-   $sql = "INSERT INTO control_rfid (cod_concepto_viene,cod_concepto_planif,feriado,cod_concepto_registro) 
-					   VALUES ('$fila1','$fila2','$fila3','$fila4')";
-    $query = $bd->consultar($sql);
-                
-}
+$cod_vienen    = $_POST["cod_vienen"];
+$cod_planificacion = $_POST["cod_planificacion"];		
+$cod_feriado =	$_POST["cod_feriado"];		
+$cod_registro= $_POST["cod_registro"];
+$codigo =$_POST["codigo"];
 
-require_once('../funciones/sc_direccionar.php');
+$href     = $_POST['href'];
+$usuario  = $_POST['usuario']; 
+$proced   = $_POST['proced'];
+$metodo   = $_POST['metodo'];
+
+ $sql    = "$SELECT $proced('$metodo', '$cod_vienen', '$cod_planificacion',  '$cod_feriado', '$cod_registro','$codigo')";						  
+$query = $bd->consultar($sql);	  			   	
+
+require_once('../funciones/sc_direccionar.php');  
 ?>
+<body>
+</body>
+</html>
