@@ -10,7 +10,7 @@ $archivo2 = "../inicio.php?area=maestros/Cons_$archivo&Nmenu=".$_GET['Nmenu']."&
 if($metodo == 'modificar'){
 	
 	$bd = new DataBase();
-	$sql = " SELECT DISTINCT T1.codigo codigo ,T2.codigo as codigo1, T2.descripcion vienen,t3.codigo as codigo2, T3.descripcion planificacion,T1.codigo as codigo3,T1.feriado feriado, t4.codigo as codigo4,t4.descripcion registro FROM control_rfid T1 INNER JOIN conceptos T2 ON T1.cod_concepto_viene = T2.codigo INNER JOIN conceptos t3 on T1.cod_concepto_planif=T3.codigo INNER JOIN conceptos T4 ON T1.cod_concepto_registro = T4.codigo where T1.codigo='$codigo' GROUP by T1.codigo";
+	$sql = " SELECT DISTINCT T1.codigo as codigo ,T2.codigo as codigo1, T2.descripcion vienen,t3.codigo as codigo2, T3.descripcion planificacion,T1.codigo as codigo3,T1.feriado feriado, t4.codigo as codigo4,t4.descripcion registro FROM control_rfid T1 INNER JOIN conceptos T2 ON T1.cod_concepto_viene = T2.codigo INNER JOIN conceptos t3 on T1.cod_concepto_planif=T3.codigo INNER JOIN conceptos T4 ON T1.cod_concepto_registro = T4.codigo where T1.codigo='$codigo' GROUP by T1.codigo";
 	$query = $bd->consultar($sql);
 	$result=$bd->obtener_fila($query,0);
 
@@ -46,7 +46,7 @@ if($metodo == 'modificar'){
      <table width="80%" align="center">
      <tr>
       <td class="etiqueta">Codigo:</td>
-      	<td id="codigo"><input name="codigo" style="width:250px" value ="<?php echo $codigo;?>" disabled>
+      	<td id="codigo"><input id="codigo"name="codigo" style="width:250px" value ="<?php echo $codigo;?>" disabled>
       </td>
     <tr>
     <tr>
@@ -121,10 +121,11 @@ if($metodo == 'modificar'){
                     <span class="art-button-r"> </span>
                 <input type="button" id="volver" value="Volver" onClick="history.back(-1);" class="readon art-button" />
                 </span>
+          <input name="codigo" id="codigo" type="hidden"  value="<?php echo $codigo;?>" />
   		    <input name="metodo" id="metodo" type="hidden"  value="<?php echo $metodo;?>" />
   		    <input name="proced" id="proced" type="hidden"  value="<?php echo $proced;?>" />
-            <input name="tabla" id="tabla" type="hidden"  value="<?php echo $tabla;?>" />
-            <input name="usuario" id="usuario" type="hidden"  value="<?php echo $usuario;?>" />
+          <input name="tabla" id="tabla" type="hidden"  value="<?php echo $tabla;?>" />
+          <input name="usuario" id="usuario" type="hidden"  value="<?php echo $usuario;?>" />
 	        <input name="href" type="hidden" value="<?php echo $archivo2;?>"/>
 </div>
   </fieldset>

@@ -9,11 +9,12 @@
 ?>
 <div align="center" class="etiqueta_title">Consulta <?php echo $titulo;?> </div> <hr />
 <div id="Contenedor01"></div>
-<div id="listar"><table width="95%" border="0" align="center">
+<div id="listar"><table width="100%" border="0" align="center">
 		<tr class="fondo00">
+			<th width="10%" class="etiqueta">Codigo</th>
 			<th width="15%" class="etiqueta">Vienen</th>
 			<th width="30%" class="etiqueta">Planificacion</th>
-			<th width="30%" class="etiqueta">Feriado></th>
+			<th width="30%" class="etiqueta">Feriado</th>
             <th width="15%" class="etiqueta">Registro</th>
 		    <th width="10%" align="center"><a href="<?php echo $vinculo."&codigo=''&metodo=agregar";?>"><img src="imagenes/nuevo.bmp" alt="Agregar" title="Agregar Registro" width="30px" height="30px" border="null"/></a></th>
 		</tr>
@@ -39,7 +40,8 @@
                   <td class="texto">'.$datos["codigo"].'</td>
                   <td class="texto">'.$datos["vienen"].'</td>
                   <td class="texto">'.$datos["planificacion"].'</td>
-				  <td class="texto">'.$datos["Feriado"].'</td>
+				  <td class="texto">'.statusrfid($datos["Feriado"]).'</td>
+				  <td class="texto">'.$datos["registro"].'</td>
 				  <td align="center"><a href="'.$vinculo.'&codigo='.$datos[0].'&metodo=modificar"><img src="imagenes/actualizar.bmp" alt="Modificar" title="Modificar Registro" width="20" height="20" border="null"/></a>&nbsp;<img src="imagenes/borrar.bmp"  width="20px" height="20px" title="Borrar Registro" border="null" onclick="'.$Borrar.'" class="imgLink"/></td>
             </tr>';
         }
