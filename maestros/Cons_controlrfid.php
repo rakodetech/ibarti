@@ -33,7 +33,7 @@
 			$valor = 0;
 		}
 
-	  $Modificar = "Add_Mod01('".$datos[0]."', 'modificar')";
+	   //$Modificar = "Add_Mod01('".$datos[0]."', 'modificar')";
 	   $Borrar = "Borrar01('".$datos[0]."')";
         echo '<tr class="'.$fondo.'">
                   <td class="texto">'.$datos["codigo"].'</td>

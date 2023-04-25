@@ -1,5 +1,6 @@
 <?php
 $metodo = $_GET['metodo'];
+$codigo =  $_GET['codigo'];
 $titulo = $_GET['titulo'];
 $tabla   = $_GET['tb'];
 $archivo = $_GET['archivo'];
@@ -7,13 +8,14 @@ $proced      = "p_controlrifd";
 $archivo2 = "../inicio.php?area=maestros/Cons_$archivo&Nmenu=".$_GET['Nmenu']."&mod=".$_GET['mod']."";
 
 if($metodo == 'modificar'){
-	$codigo = $_GET['codigo'];
+	
 	$bd = new DataBase();
-	$sql = " SELECT DISTINCT T2.codigo as codigo1, T2.descripcion vienen,t3.codigo as codigo2, T3.descripcion planificacion,T1.codigo as codigo3,T1.feriado feriado, t4.codigo as codigo4,t4.descripcion registro FROM control_rfid T1 INNER JOIN conceptos T2 ON T1.cod_concepto_viene = T2.codigo INNER JOIN conceptos t3 on T1.cod_concepto_planif=T3.codigo INNER JOIN conceptos T4 ON T1.cod_concepto_registro = T4.codigo where T1.codigo='$codigo' GROUP by T1.codigo";
+	$sql = " SELECT DISTINCT T1.codigo codigo ,T2.codigo as codigo1, T2.descripcion vienen,t3.codigo as codigo2, T3.descripcion planificacion,T1.codigo as codigo3,T1.feriado feriado, t4.codigo as codigo4,t4.descripcion registro FROM control_rfid T1 INNER JOIN conceptos T2 ON T1.cod_concepto_viene = T2.codigo INNER JOIN conceptos t3 on T1.cod_concepto_planif=T3.codigo INNER JOIN conceptos T4 ON T1.cod_concepto_registro = T4.codigo where T1.codigo='$codigo' GROUP by T1.codigo";
 	$query = $bd->consultar($sql);
 	$result=$bd->obtener_fila($query,0);
 
 	$titulo       = "Modificar  $titulo";
+  
 	$cod_vienen   = $result["codigo1"];
   $vienen       =  $result["vienen"];
 	$cod_planificacion      = $result["codigo2"];
@@ -42,7 +44,11 @@ if($metodo == 'modificar'){
   <fieldset class="fieldset">
   <legend> <?php echo $titulo;?> </legend>
      <table width="80%" align="center">
-    
+     <tr>
+      <td class="etiqueta">Codigo:</td>
+      	<td id="codigo"><input name="codigo" style="width:250px" value ="<?php echo $codigo;?>" disabled>
+      </td>
+    <tr>
     <tr>
       <td class="etiqueta">Vienen:</td>
       	<td id="select01"><select name="cod_vienen" style="width:250px">

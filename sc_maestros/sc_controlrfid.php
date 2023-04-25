@@ -10,15 +10,12 @@ require("../autentificacion/aut_config.inc.php");
 require_once("../".class_bd);
 $bd = new DataBase();
 $tabla    = $_POST['tabla'];
-$tabla_id = 'codigo';
 
-
+$codigo =  $_POST["codigo"];
 $cod_vienen    = $_POST["cod_vienen"];
 $cod_planificacion = $_POST["cod_planificacion"];		
 $cod_feriado =	$_POST["cod_feriado"];		
 $cod_registro= $_POST["cod_registro"];
-$codigo =$_POST["codigo"];
-
 $href     = $_POST['href'];
 $usuario  = $_POST['usuario']; 
 $proced   = $_POST['proced'];
