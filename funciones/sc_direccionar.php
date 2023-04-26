@@ -1,6 +1,6 @@
 <?php
 	$mensaje = "";
-	echo $href;
+	
 	 echo '<input type="hidden" id="mensaje_aj" value="'.$mensaje.'"/>';						   
      echo '<script language="javascript">
 	       location.href="'.$href.'";
