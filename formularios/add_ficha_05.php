@@ -273,7 +273,7 @@ if (count($result) == 0) {
         </td>
       </tr>
       <tr>
-        <td height="20" class="etiqueta">Status:</td>
+        <td height="20" class="etiqueta">Estatus:</td>
         <td id="select10_5">
           <select name="status" style="width:200px;">
             <option value="<?php echo $cod_status; ?>"><?php echo $status; ?></option>
