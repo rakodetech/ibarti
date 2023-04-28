@@ -60,7 +60,8 @@ if($pasaImgSize == true)
 {
 
 	// Verificamos Tamaño y extensiones
-	if(in_array($tipo, $fileType) && $tamanio>0 && $tamanio<=maxUpload && ($extension[$num]=='jpg' || $extension[$num]=='png'))
+	// $extension[$num]=='jpg' || $extension[$num]=='png')
+	if(in_array($tipo, $fileType) && $tamanio>0 && $tamanio<=maxUpload && $extension[$num]=='jpg')
 	{
 		// Intentamos copiar el archivo
 		if(is_uploaded_file($_FILES['userfile']['tmp_name']))
@@ -81,7 +82,7 @@ if($pasaImgSize == true)
 	}
 	else
 		// Error en el tamaño y tipo de imagen
-		$mensajeFile = 'Verifique el tamaño y tipo de imagen';
+		$mensajeFile = 'Verifique el tamaño y tipo de imagen (debe ser tipo .jpg)';
 					
 }
 else
