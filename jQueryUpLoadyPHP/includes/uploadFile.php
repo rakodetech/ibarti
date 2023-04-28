@@ -65,10 +65,6 @@ if($pasaImgSize == true)
 		// Intentamos copiar el archivo
 		if(is_uploaded_file($_FILES['userfile']['tmp_name']))
 		{
-			if(file_exists($_FILES['userfile']['tmp_name'])) {
-				chmod($_FILES['userfile']['tmp_name'],0755); //Change the file permissions if allowed
-				unlink($_FILES['userfile']['tmp_name']); //remove the file
-			}
 			if(move_uploaded_file($_FILES['userfile']['tmp_name'], uploadURL.$imgFile))
 			{
 				$respuestaFile = 'done';
