@@ -12,9 +12,9 @@
 <div id="Contenedor01"></div>
 <div id="listar"><table width="100%" border="0" align="center">
 		<tr class="fondo00">
-		    <th width="5%" class="etiqueta">Codigo</th>
+		    <th width="5%" class="etiqueta">Código</th>
 			<th width="15%" class="etiqueta">Vienen</th>
-			<th width="40%" class="etiqueta">Planificacion</th>
+			<th width="40%" class="etiqueta">Planificación</th>
 			<th width="5%" class="etiqueta">Feriado</th>
             <th width="30%" class="etiqueta">Registro</th>
 		    <th width="30%" align="center"><a href="<?php echo $vinculo."&codigo=''&metodo=agregar";?>"><img src="imagenes/nuevo.bmp" alt="Agregar" title="Agregar Registro" width="30px" height="30px" border="null"/></a></th>
