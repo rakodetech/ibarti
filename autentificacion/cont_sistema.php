@@ -33,9 +33,12 @@ control.cod_turno_dl, turno.descripcion AS turno_dl ,
 control.control_arma_linea AS cod_ar_linea, prod_lineas.descripcion AS ar_linea,
 control.control_uniforme_linea AS cod_uniforme_linea, pl.descripcion AS uniforme_linea,
 control.url_doc, control.rop_meses,control.dias_nov_notif,control.min_nov_notif, control.porc_min_aprob_encuesta_preing
-FROM control, paises, clientes, ficha_status,
+FROM control
+LEFT JOIN prod_lineas ON control.control_arma_linea = prod_lineas.codigo
+LEFT JOIN prod_lineas pl ON control.control_uniforme_linea = pl.codigo, 
+paises, clientes, ficha_status,
 conceptos, conceptos AS r, conceptos AS cest, conceptos AS hora_ex_d, conceptos AS hora_ex_n,
-roles, cargos, turno, prod_lineas, prod_lineas pl, nov_clasif
+roles, cargos, turno, nov_clasif
 WHERE control.cod_pais = paises.codigo
 AND control.oesvica = clientes.codigo
 AND control.ficha_activo = ficha_status.codigo
@@ -46,9 +49,7 @@ AND control.cod_hora_extras = hora_ex_d.codigo
 AND control.cod_hora_extras_n = hora_ex_n.codigo
 AND control.cod_rol = roles.codigo
 AND control.cod_superv_cargo = cargos.codigo
-AND control.cod_turno_dl = turno.codigo
-AND control.control_arma_linea = prod_lineas.codigo
-AND control.control_uniforme_linea = pl.codigo ";
+AND control.cod_turno_dl = turno.codigo";
 
 $query = $bd->consultar($sql);
 $result = $bd->obtener_fila($query, 0);

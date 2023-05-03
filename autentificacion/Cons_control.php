@@ -23,6 +23,7 @@ if(isset($_GET['pagina'])){
     	<li class="TabbedPanelsTab">MENSAJERIA</li>
     	<li class="TabbedPanelsTab">SERVIDOR DE CORREO SALIENTE (SMTP)</li>
     	<li class="TabbedPanelsTab">NOTIFICACIONES</li>
+		<li class="TabbedPanelsTab">CONTROL RFDI</li>
 		<li class="TabbedPanelsTab">OTROS</li>		
 	 </ul>				
 	  <div class="TabbedPanelsContentGroup">
@@ -31,6 +32,7 @@ if(isset($_GET['pagina'])){
          <div class="TabbedPanelsContent"><?php include("cont_mensajeria.php");?></div>
          <div class="TabbedPanelsContent"><?php include("cont_smtp.php");?></div>
 	     <div class="TabbedPanelsContent"><?php include("cont_notificaciones.php");?></div>
+		 <div class="TabbedPanelsContent"><?php include("Cons_RFID.php");?></div>
 		 <div class="TabbedPanelsContent"><?php include("cont_otros.php");?></div>
 	  </div>	 
  </div> 
@@ -38,4 +40,5 @@ if(isset($_GET['pagina'])){
 <script language="JavaScript" type="text/javascript">
 var tp1 = new Spry.Widget.TabbedPanels("tp1", { defaultTab:<?php echo $pag;?>});
 var TabbedPanels = new Spry.Widget.TabbedPanels("TabbedPanels");
+
 </script>
