@@ -51,7 +51,7 @@ if($metodo == 'modificar'){
 	}else{
 
 	$titulo      = "Agregar  $titulo";
-	$codigo      = "";
+	$codigo      = 0;
 	$cod_viene    = "";
   $viene ="";
 	$cod_planificacion        = " Seleccione... ";
