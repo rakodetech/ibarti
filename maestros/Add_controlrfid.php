@@ -40,7 +40,7 @@ if($metodo == 'modificar'){
 	$cod_registro           = $result["codigo4"];
   $registro               =$result["registro"];
 
-  $sql = "SELECT conceptos.codigo, conceptos.abrev
+  $sql_conceptos_horarios = "SELECT conceptos.codigo, conceptos.abrev
   FROM conceptos, horarios 
   WHERE horarios.cod_concepto = conceptos.codigo 	
     AND conceptos.`status` = 'T' 
@@ -61,7 +61,7 @@ if($metodo == 'modificar'){
 	$cod_registro     = "";
   $registro = "";
 
-  $sql = "SELECT conceptos.codigo, conceptos.abrev
+  $sql_conceptos_horarios = "SELECT conceptos.codigo, conceptos.abrev
   FROM conceptos, horarios 
   WHERE horarios.cod_concepto = conceptos.codigo 	
     AND conceptos.`status` = 'T' 
@@ -69,9 +69,7 @@ if($metodo == 'modificar'){
   GROUP BY conceptos.codigo;";
 
 	}
-	
 
-  $query_conceptos_horarios = $bd->consultar($sql);
 ?>
 <form action="sc_maestros/sc_<?php echo $archivo;?>.php" method="post" name="add" id="add">
   <fieldset class="fieldset">
@@ -87,7 +85,8 @@ if($metodo == 'modificar'){
       	<td id="select01"><select name="cod_viene" style="width:250px">
 							<option value="<?php echo $cod_viene;?>"><?php echo $viene;?></option>
           <?php  	
-            while($datos=$bd->obtener_fila($query_conceptos_horarios,0)){
+            $query_vienen = $bd->consultar($sql_conceptos_horarios);
+            while($datos=$bd->obtener_fila($query_vienen,0)){
 		      ?>
             <option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
           <?php } ?>
@@ -100,7 +99,8 @@ if($metodo == 'modificar'){
       	<td id="select02"><select name="cod_planificacion"  style="width:250px">
 							<option value="<?php echo $cod_planificacion;?>"><?php echo $planificacion;?></option>
           <?php 
-            		while($datos=$bd->obtener_fila($query_conceptos_horarios,0)){
+                $query_planificacion = $bd->consultar($sql_conceptos_horarios);
+            		while($datos=$bd->obtener_fila($query_planificacion,0)){
 		  ?>
           <option value="<?php echo $datos[0];?>"><?php echo $datos[1];?></option>
           <?php }?>
