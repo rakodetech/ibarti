@@ -13,7 +13,7 @@
 		<tr class="fondo00">
 			<th width="10%" class="etiqueta">Codigo</th>
 			<th width="15%" class="etiqueta">Vienen</th>
-			<th width="30%" class="etiqueta">Planificacion</th>
+			<th width="30%" class="etiqueta">Planificación</th>
 			<th width="30%" class="etiqueta">Feriado</th>
             <th width="15%" class="etiqueta">Registro</th>
 		    <th width="10%" align="center"><a href="<?php echo $vinculo."&codigo=''&metodo=agregar";?>"><img src="imagenes/nuevo.bmp" alt="Agregar" title="Agregar Registro" width="30px" height="30px" border="null"/></a></th>
