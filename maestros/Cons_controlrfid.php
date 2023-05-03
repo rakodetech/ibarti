@@ -21,7 +21,17 @@
     <?php
 	$usuario = $_SESSION['usuario_cod'];
 	$valor = 0;
-	$sql ="SELECT DISTINCT T1.codigo,T2.descripcion vienen, T3.descripcion planificacion,T1.feriado Feriado, T4.descripcion registro FROM control_rfid T1 INNER JOIN conceptos T2 ON T1.cod_concepto_viene = T2.codigo INNER JOIN conceptos T3 on T1.cod_concepto_planif=T3.codigo INNER JOIN conceptos T4 ON T1.cod_concepto_registro = T4.codigo where T1.codigo>0 GROUP by T1.codigo ";
+	$sql ="SELECT
+				T1.codigo,
+				T2.descripcion vienen,
+				T3.descripcion planificacion,
+				T1.feriado Feriado,
+				T4.descripcion registro 
+			FROM
+				control_rfid T1
+				INNER JOIN conceptos T2 ON T1.cod_concepto_viene = T2.codigo
+				INNER JOIN conceptos T3 ON T1.cod_concepto_planif = T3.codigo
+				INNER JOIN conceptos T4 ON T1.cod_concepto_registro = T4.codigo";
 
    $query = $bd->consultar($sql);
 
