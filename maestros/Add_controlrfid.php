@@ -75,7 +75,7 @@ if($metodo == 'modificar'){
   <fieldset class="fieldset">
   <legend> <?php echo $titulo;?> </legend>
      <table width="80%" align="center">
-     <tr>
+     <tr hidden="<?php echo $metodo != 'modificar';?>">
       <td class="etiqueta">Código:</td>
       	<td id="codigo"><input id="codigo"name="codigo" style="width:250px" value ="<?php echo $codigo;?>" disabled>
       </td>
