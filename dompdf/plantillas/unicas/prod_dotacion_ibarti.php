@@ -62,6 +62,7 @@ table {
             <td width='20%'><span class='etiqueta'>Sub Linea</span></td>
             <td width='40%'><span class='etiqueta'>Producto</span></td>
             <td width='10%'><span class='etiqueta'>Cantidad</span></td>
+            <td width='10%'><span class='etiqueta'>ok</span></td>
             <td width='10%'><span class='etiqueta'>Firma</span></td>
             </tr>";  
             $i=0;
@@ -83,9 +84,12 @@ table {
             </td>
              <td>
              <span class="texto"><?php echo $producto['cantidad'];?></span>
+                       
             </td>
-            <!-- text-align: center; -->
-              <td style="font-size: 9px;">
+            <td>
+            <span class="texto"><?php echo (chr(91) . " ".chr(93));?></span>
+            </td>
+            <td style="font-size: 9px;">
                 ___________________
             </td>
              </tr>
@@ -98,17 +102,23 @@ table {
         <tbody>
             <tr >
             <td style="text-align: center;font-size: 9px;">
-                _________________________<br>
-                <span class="firma">Revisado Por</span><br><br>
-                _____________________<br>
-                <span class="firma"><?php echo $leng['ci'];?></span><br><br>
+                <br>
+                <span class="firma">Revisado Por:</span><br><br>
+                <?php echo $row['nombreusuario'];?><br>
+                <br>
+                <?php echo $row['cedulausuario'];?><br>
+                <span class="firma"><?php echo $leng['ci'];?></span><br>
+                <br>
                 _____________________<br>
                 <span class="firma">Firma</span>
+              
             </td>
             <td style="text-align: center;font-size: 9px;">
-                _________________________<br>
-                <span class="firma">Recibido Por</span><br><br>
-                _____________________<br>
+            <br>
+                
+                <span class="firma">Recibido Por:</span><br><br>
+                <span class="firma"><?php echo $row['trabajador'];?></span><br><br>
+                <?php echo $row['cedula'];?><br>
                 <span class="firma"><?php echo $leng['ci'];?></span><br><br>
                 _____________________<br>
                 <span class="firma">Firma</span>
