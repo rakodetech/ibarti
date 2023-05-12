@@ -100,9 +100,9 @@ table {
             <td style="text-align: center;font-size: 9px;">
                 <br>
                 <span class="firma">Revisado Por:</span><br><br>
-                <?php echo $row['nombreusuario'];?><br>
+                <span class="firma"><?php echo $row['nombreusuario'];?></span><br><br>
                 <br>
-                <?php echo $row['cedulausuario'];?><br>
+                <span class="firma"><?php echo $row['cedulausuario'];?></span><br><br>
                 <span class="firma"><?php echo $leng['ci'];?></span><br>
                 <br>
                 _____________________<br>
