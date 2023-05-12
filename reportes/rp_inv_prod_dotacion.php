@@ -17,7 +17,7 @@ v_ficha.cedula, v_ficha.ap_nombre AS trabajador,men_usuarios.cedula AS cedulausu
 prod_dotacion.descripcion,  control.nota_unif
 FROM v_ficha , prod_dotacion, control,men_usuarios 
 WHERE v_ficha.cod_ficha = prod_dotacion.cod_ficha
-AND prod_dotacion.codigo = '".$codigo."' and prod_dotacion.cod_us_ing=men_usuarios.cod_perfil" ;
+AND prod_dotacion.codigo = '".$codigo."' and prod_dotacion.cod_us_ing=men_usuarios.codigo" ;
 //query Cliente
 $queryc = $bd->consultar($sql);
 
