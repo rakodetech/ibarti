@@ -99,10 +99,9 @@ table {
             <tr >
             <td style="text-align: center;font-size: 9px;">
                 <br>
-                <span class="firma">Revisado Por:</span><br><br>
-                <span class="firma"><?php echo $row['nombreusuario'];?></span><br><br>
-                <br>
-                <span class="firma"><?php echo $row['cedulausuario'];?></span><br><br>
+                <span class="firma"><?php echo $row['nombreusuario'];?></span><br>
+                <span class="firma">Revisado Por</span><br><br>
+                <span class="firma"><?php echo $row['cedulausuario'];?></span><br>
                 <span class="firma"><?php echo $leng['ci'];?></span><br>
                 <br>
                 _____________________<br>
@@ -111,10 +110,9 @@ table {
             </td>
             <td style="text-align: center;font-size: 9px;">
             <br>
-                
-                <span class="firma">Recibido Por:</span><br><br>
-                <span class="firma"><?php echo $row['trabajador'];?></span><br><br>
-                <?php echo $row['cedula'];?><br>
+                <span class="firma"><?php echo $row['trabajador'];?></span><br>
+                <span class="firma">Recibido Por</span><br><br>
+                <span class="firma"><?php echo $row['cedula'];?></span><br>
                 <span class="firma"><?php echo $leng['ci'];?></span><br><br>
                 _____________________<br>
                 <span class="firma">Firma</span>
