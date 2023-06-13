@@ -171,9 +171,15 @@ if($reporte == 'pdf'){
 	$sql = "SELECT a.codigo,b.codigo, b.descripcion clasif, c.codigo, c.descripcion tipo, a.codigo, a.descripcion pregunta from novedades a, nov_clasif b,nov_tipo c
 	where a.cod_nov_tipo = c.codigo
 	and a.cod_nov_clasif = b.codigo
-	and b.codigo = '".$clasif."'
-	and c.codigo = '".$tipo."'
 	and a.`status` = 'T'";
+
+	if($clasif != "TODOS"){
+		$sql .= " and b.codigo = '".$clasif."' ";
+	}
+	
+	if($tipo != "TODOS"){
+		$sql .= " and c.codigo = '".$tipo."' ";
+	}
 	
 	$query=$bd->consultar($sql);
 	while($row = $bd->obtener_num($query)){
