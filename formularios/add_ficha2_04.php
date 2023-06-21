@@ -18,57 +18,61 @@ $archivo = "$area&Nmenu=$Nmenu&codigo=$codigo&mod=$mod&pagina=3&metodo=modificar
 			</tr>
 			<?php
 
-			$sql = "SELECT count(ficha_documentos.cod_documento) as cantidad
-               FROM documentos, ficha_documentos, control
-              WHERE ficha_documentos.cod_ficha = '$codigo'
-		            AND ficha_documentos.cod_documento = documentos.codigo
-                AND documentos.`status` = 'T'
-				ORDER BY documentos.orden ASC ";
-			$query = $bd->consultar($sql);
-			$existe = $bd->obtener_fila($query, 0);
-			if (intval($existe['cantidad']) > 0) {
-				$metodo       = "modificar";
-				echo $existe['cantidad'];
-				$sql = " SELECT ficha_documentos.cod_documento, ficha_documentos.`checks`,
-								ficha_documentos.`link`, ficha_documentos.observacion,
-												ficha_documentos.vencimiento, ficha_documentos.venc_fecha,
-										ficha_documentos.fec_us_mod,
-							documentos.descripcion, control.url_doc
-						FROM documentos, ficha_documentos, control
-						WHERE ficha_documentos.cod_ficha = '$codigo'
-							AND ficha_documentos.cod_documento = documentos.codigo
-						AND documentos.`status` = 'T'
-						ORDER BY documentos.orden ASC ";
-			} else {
-				$metodo       = "agregar";
-
-				$sql = "SELECT
-					documentos.codigo as cod_documento,
-					'N' as `checks`,
-					'' as `link`,
-					'' as observacion,
-					'N' as vencimiento,
-				''  as venc_fecha,
-				''	as fec_us_mod,
+				$sql = " SELECT
+					ficha_documentos.cod_documento,
+					ficha_documentos.`checks`,
+					ficha_documentos.`link`,
+					ficha_documentos.observacion,
+					ficha_documentos.vencimiento,
+					ficha_documentos.venc_fecha,
+					ficha_documentos.fec_us_mod,
 					documentos.descripcion,
-					control.url_doc
+					control.url_doc,
+					documentos.orden 
 				FROM
 					documentos,
-					control
+					ficha_documentos,
+					control 
 				WHERE
-					documentos.`status` = 'T'
+					ficha_documentos.cod_ficha = '$codigo' 
+					AND ficha_documentos.cod_documento = documentos.codigo 
+					AND documentos.`status` = 'T' UNION
+				SELECT
+					documentos.codigo AS cod_documento,
+					'N' AS `checks`,
+					'' AS `link`,
+					'' AS observacion,
+					'N' AS vencimiento,
+					'' AS venc_fecha,
+					'' AS fec_us_mod,
+					documentos.descripcion,
+					control.url_doc,
+					documentos.orden 
+				FROM
+					documentos,
+					control 
+				WHERE
+					documentos.`status` = 'T' 
+					AND documentos.codigo NOT IN (
+					SELECT
+						ficha_documentos.cod_documento 
+					FROM
+						documentos,
+						ficha_documentos 
+					WHERE
+						ficha_documentos.cod_ficha = '$codigo' 
+						AND ficha_documentos.cod_documento = documentos.codigo 
+						AND documentos.`status` = 'T' 
+					) 
 				ORDER BY
-					documentos.orden ASC";
-			}
-
-
+					orden ASC";
 
 			$query = $bd->consultar($sql);
 
 			while ($datos = $bd->obtener_fila($query, 0)) {
 				extract($datos);
-				$img_src = $url_doc . "" . $link;
-				if (file_exists($link)) {
+				$img_src = $link;
+				if ($img_src) {
 					$img_ext =  imgExtension($img_src);
 					$img_src = 	'<a target="_blank" href="' . $img_src . '"><img class="imgLink" src="' . $img_ext . '" width="22px" height="22px" /></a>';
 				} else {
@@ -112,7 +116,6 @@ $archivo = "$area&Nmenu=$Nmenu&codigo=$codigo&mod=$mod&pagina=3&metodo=modificar
 				<span class="art-button-r"> </span>
 				<input type="button" id="volver04" value="Volver" onClick="history.back(-1);" class="readon art-button" />
 			</span>
-			<input name="metodo" type="hidden" value="<?php echo $metodo; ?>" />
 			<input name="proced" type="hidden" value="<?php echo $proced; ?>" />
 			<input name="codigo" type="hidden" value="<?php echo $codigo; ?>" />
 			<input name="usuario" type="hidden" value="<?php echo $usuario; ?>" />
