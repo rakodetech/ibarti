@@ -1,6 +1,6 @@
 <?php
 //	require_once('autentificacion/aut_verifica_menu.php');
-$metodo = '';
+$metodo = 'agregar';
 $proced      = "p_fichas_04";
 $archivo = "$area&Nmenu=$Nmenu&codigo=$codigo&mod=$mod&pagina=3&metodo=modificar";
 ?>
@@ -116,6 +116,7 @@ $archivo = "$area&Nmenu=$Nmenu&codigo=$codigo&mod=$mod&pagina=3&metodo=modificar
 				<span class="art-button-r"> </span>
 				<input type="button" id="volver04" value="Volver" onClick="history.back(-1);" class="readon art-button" />
 			</span>
+			<input name="metodo" type="hidden" value="<?php echo $metodo; ?>" />
 			<input name="proced" type="hidden" value="<?php echo $proced; ?>" />
 			<input name="codigo" type="hidden" value="<?php echo $codigo; ?>" />
 			<input name="usuario" type="hidden" value="<?php echo $usuario; ?>" />
