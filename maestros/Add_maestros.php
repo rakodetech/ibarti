@@ -37,8 +37,7 @@ if ($metodo == 'modificar') {
           FROM $tabla WHERE codigo = '$codigo' ";
     } else {
       $sql = " SELECT $tabla.codigo, $tabla.descripcion,
-	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,	               
-				    $tabla.status
+	                $tabla.campo01, $tabla.campo02, $tabla.campo03, $tabla.campo04,$tabla.status
              FROM $tabla WHERE codigo = '$codigo' ";
     }
   }
