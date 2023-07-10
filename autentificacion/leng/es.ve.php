@@ -53,5 +53,5 @@ $leng =  array("rif" =>"Rif" ,
                "planificacion" => " Planificaci&oacute;n ",
                "producto" =>"Producto",
                "Servicio" => "Servicios Cliente",
-
+               "criticidad" => "Criticidad"
              );
