@@ -15,6 +15,7 @@ $usuario     = $_POST['usuario'];
 $orden       = $_POST['orden'];
 $status      = statusbd($_POST['status']);
 $cod_criticidad= $_POST['cod_criticidad'];
+// codcriticidad
 
 	if (isset($_POST['metodo'])) {
 	$i=$_POST['metodo'];
